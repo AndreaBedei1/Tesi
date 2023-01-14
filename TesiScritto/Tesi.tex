@@ -1,0 +1,504 @@
+\documentclass[a4paper,final,12pt]{report}
+\newcommand\tab[1][13mm]{\hspace*{#1}}
+\usepackage[italian]{babel}
+\usepackage[left=4cm,right=4cm]{geometry}
+\usepackage{geometry} % Deve esserci!
+\usepackage{graphicx} % permette di inserire immagini
+\usepackage[table,xcdraw]{xcolor}
+
+% Comandi per impaginare secondo le regole Unibo, da mettere dopo gli usepackage
+\renewcommand{\baselinestretch}{1.25}
+\newlength{\alphabet}
+\settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
+\newgeometry{textwidth=2.5\alphabet,lines=35}
+
+\begin{document}
+\newenvironment{dedication}
+{\clearpage           % we want a new page
+  \pagenumbering{gobble}
+  \thispagestyle{empty}% no header and footer
+  \vspace*{\stretch{1}}% some space at the top 
+  \itshape             % the text is in italics
+  \raggedleft          % flush to the right margin
+}
+{\par % end the paragraph
+  \vspace{\stretch{3}} % space at bottom is three times that at the top
+  \clearpage           % finish off the page
+  \pagenumbering{arabic}
+}
+
+% Frontespizio
+\newgeometry{hmarginratio=1:1}
+\begin{titlepage}
+  \begin{center}
+  {{\Large{\textsc{Alma Mater Studiorum - Università di
+  Bologna}}}}\\
+  {\small{CAMPUS DI CESENA\\}}
+  \vspace{5mm}
+  {\small Dipartimento di Informatica - Scienza e Ingegneria \\
+  Corso di Laurea in Ingegneria e Scienze Informatiche}
+  \end{center}
+  
+  \vspace{15mm}
+  \vspace{40mm}
+  \par
+  \noindent
+  
+  \begin{center}
+    \large{Elaborato in \\
+    Basi di Dati}
+  \end{center}
+  \vspace{20mm}
+  \par
+  \noindent
+  
+  \begin{minipage}[t]{0.47\textwidth}
+  {\large{\bf Relatore:\\
+  Annalisa Franco\\}}
+  {\large{\bf Correlatore:\\
+  Annalisa Zaccheroni}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}\raggedleft
+  {\large{\bf Presentata da:\\
+  Andrea Bedei}}
+  \end{minipage}
+  \vspace{20mm}
+  \begin{center}
+  {\large{\bf Anno Accademico 2022/2023}}
+  \end{center}
+\end{titlepage}
+
+\restoregeometry
+
+
+
+\tableofcontents
+\setlength{\parindent}{0pt}
+\chapter{Introduzione}
+Durante il percorso accademico mi è stata proposta la creazione di una piattaforma per la gestione degli avvistamenti di particolari specie marine. Tale proposta è stata presa in considerazione al fine di aiutare il dipartimento di acquacoltura e igiene delle produzioni ittiche per il tracciamento degli avvistamenti delle diverse specie marine.\\
+Ho intrapreso questo progetto al fine di mettere alla prova le conoscenze apprese durante il corso universitario con lo scopo di creare un'intera infrastruttura centralizzata.\\
+Il sistema si suddivide in diverse parti, tra cui:
+\begin{itemize}
+\item Creazione di un database centralizzato che permetta di salvare tutte le informazioni ricavate da un avvistamento e di poterle modificare in un secondo momento.
+\item Creazione di applicazione smartphone che permetta di inserire i nuovi avvistamenti.
+\item Creazione di una applicazione web che permetta di gestire, modificare e visualizzare gli avvistamenti e i relativi dati.
+\item Utilizzo di script di riconoscimento che attraverso la visione artificiale e diversi algoritmi noti permetta di individuare la specie precisa di determinati esemplari acquatici.
+\end{itemize}
+
+\chapter{Documentazione Base di dati}
+\section{Analisi dei requisiti}
+In questa sezione analizzeremo tutte le specifiche che il committente richiede per la piattaforma.
+
+\subsection{Intervista}
+Di seguito si riporta la prima intervista col committente:
+"La facoltà di Acquacoltura e Igiene delle produzioni ittiche richiede un sistema informativo per la gestione di una banca dati al fine di permettere la registrazione di determinati avvistamenti durante le uscite a largo dalla costa.\\
+Ogni utente, il quale ha a disposizione uno smartphone, una volta effettuato l'accesso con login e password, ha la possibilità di inserire un nuovo avvistamento, per il quale gli elementi da memorizzare sono la data e ora corrente(inserite in autonomia dal sistema), il numero di esemplari che sono stati avvistati e opzionalmente anche il vento in km/h, le condizioni del mare, eventuali ferite visibili. In particolare si ponga attenzione alla descrizione della ferita, la sua posizione e la relativa gravità. Deve anche essere possibile scrivere note che possano aiutare ad individuare la specie e/o elementi che aggiungano informazioni all'avvistamento. 
+\\
+Un avvistamento può far riferimento ad un particolare animale, a una specie specifica o anche a nessuna delle due: il terzo caso viene preso in considerazione quando chi sta eseguendo la rilevazione non ha la possibilità di riconoscere la specie esatta, inseribile comunque in un secondo momento.
+\\
+Oltre all'applicazione smartphone deve essere realizzato un applicativo web il quale, una volta effettuato l'accesso, deve poter visualizzare tutti gli avvistamenti che sono stati effettuati dagli utenti e poter modificare i parametri. La modifica deve essere permessa per tutti i dati, eccetto gli elementi che riguardo l'utente e la data della rilevazione.
+\\ 
+Ad ogni avvistamento il personale addetto può associare anche una o più immagini. Esse serviranno in seguito per il riconoscimento della specie di appartenenza. Dato che in un avvistamento possono essere presenti anche più animali, comunque tutti della stessa specie, la foto può essere suddivisa in più parti in modo tale da isolare ogni singolo individuo.
+\\
+La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, attraverso le sottoimmagini se si avvista più volte lo stesso esemplare si deve avere la possibilità di associargli entrambe le immagini riferite a lui, in modo tale da vedere la sua evoluzione nel tempo.
+\\
+Per aiutare l'utente nella decisione della specie da assegnare a un particolare animale, il sistema deve memorizzare una descrizione, in cui vengono fornite le informazioni base su ciascuna specie analizzabile.
+\\
+Infine l'applicativo web, attraverso l'uso di visione artificiale ed in particolare per l'animale denominato delfino, deve poter essere in grado in autonomia di identificare la relativa specie attraverso la foto scattata durante il rilevamento. Nello specifico deve cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie che ha presenti in database.
+\\
+Un aspetto importante da tenere in considerazione è il fatto che il sistema in autonomia, siccome se ci si trova a largo della costa non è presente connessione, deve poter lo stesso mantenere i dati in memoria e caricali una volta che ha la possibilità di farlo".
+
+\subsection{Rilevamento delle ambiguità e correzioni proposte}
+Il testo dell'intervista presenta molte ambiguità. Le principali sono:
+\begin{itemize}
+\item Utilizzo di sinonimi.
+\item Elenchi di attributi incompleti.
+\item Cardinalità non specificate.
+\end{itemize}
+
+Per quanto riguarda gli attributi parziali e le cardinalità, questi aspetti saranno corretti mediante l'uso della logica in fase di creazione dello schema concettuale. Invece per quanto concerne i sinonimi, è necessario costruire un glossario dei termini, i quali saranno considerati al fine della progettazione concettuale:
+
+\begin{table}[hbtp]
+\centering
+\resizebox{11.4cm}{!}{%
+\begin{tabular}{|c|c|c|c|}
+\hline
+\cellcolor[HTML]{C0C0C0} Termine & \cellcolor[HTML]{C0C0C0}  Descrizione & \cellcolor[HTML]{C0C0C0} Sinonimi & \cellcolor[HTML]{C0C0C0} Collegamenti \\ \hline
+Utente & \begin{tabular}[c]{@{}c@{}}Persona che accede\\  al portale al fine \\ di inserire un\\  nuovo avvistamento\\  oppure per modificare\\  avvistamenti\\  già presenti \\ nella banca dati\end{tabular} & Persona & Avvistamento \\ \hline
+Avvistamento & \begin{tabular}[c]{@{}c@{}}Avvistamento di\\ un esemplare, al\\ fine di memorizzare\\ informazioni\end{tabular} & Rilevazione & \begin{tabular}[c]{@{}c@{}}Utente\\ Animale\\ Specie\\ Immagine\end{tabular} \\ \hline
+Animale & \begin{tabular}[c]{@{}c@{}}Tipologia di \\ animale\\ avvistato\end{tabular} & Specie marina & \begin{tabular}[c]{@{}c@{}}Avvistamento\\ Specie\end{tabular} \\ \hline
+Specie & \begin{tabular}[c]{@{}c@{}}Specie dell'animale\\ avvistato\end{tabular} &  & \begin{tabular}[c]{@{}c@{}}Animale\\ Avvistamento\\ Descrizione\end{tabular} \\ \hline
+Descrizione & \begin{tabular}[c]{@{}c@{}}Descrizione specifica\\ al fine di una migliore\\ selezione della specie\end{tabular} &  & Specie \\ \hline
+Immagine & \begin{tabular}[c]{@{}c@{}}Immagine \\ che rappresenta\\ l'avvistamento\end{tabular} & Foto & \begin{tabular}[c]{@{}c@{}}Avvistamento\\ Sottoimmagine\end{tabular} \\ \hline
+Sottoimmagine & \begin{tabular}[c]{@{}c@{}}Sezioni di immagini\\ dei singoli individui\end{tabular} &  & \begin{tabular}[c]{@{}c@{}}Immagine\\ Ferita\\ Esemplare\end{tabular} \\ \hline
+Ferita & \begin{tabular}[c]{@{}c@{}}Ferita sul corpo di \\ un animale, con una \\ gravità\end{tabular} &  & Sottoimmagine \\ \hline
+Esemplare & \begin{tabular}[c]{@{}c@{}}Singolo animale\\ che si monitora\end{tabular} &  & Sottoimmagine \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\newpage
+
+\subsection{Estrazione dei concetti principali}
+Dall'intervista si ricavano anche le operazioni principali richieste:
+\begin{itemize}
+\item Creazione di un nuovo utente.
+\item Registrazione di un nuovo avvistamento attraverso l'applicazione mobile.
+\item Inserimento di ferite riconducibili al singolo animale con specifica della gravità.
+\item Possibilità di inserimento di una o più immagini dell'avvistamento.
+\item Possibilità di visualizzare, modificare ed eliminare un avvistamento.
+\item Possibilità di suddividere immagini in più parti, e ciascuna delle quali a seconda dell'animale analizzarla attraverso un sistema di riconoscimento della specie.
+\item Monitorare gli avvistamenti di particolari individui al fine di determinate verifiche.
+\item Possibilità di consultazione di informazioni relative alla specie che si vuole attribuire a un determinato animale, al fine di una selezione più accurata.
+\item Caricamento del nuovo avvistamento, compreso di dati e immagini anche in un secondo momento, nel caso non sia presente connessione.
+\end{itemize}
+
+\section{Progettazione Concettuale}
+La fase di progettazione concettuale consiste parzialmente nella formalizzazione dei requisiti, in particolare sui termini e sulle transazioni, i quali sono stati raccolti e analizzati nella fase precedente.
+
+\subsection{Schema scheletro}
+Per maggiore chiarezza, di seguito riportiamo i primi esempi di schemi concettuali divisi per ambiti.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.7]{img_concettuale/avvistamento1.png}
+\caption{Schema concettuale per la modellazione degli avvistamenti e delle proprietà dell'utente.}
+\end{figure}
+
+Come mostrato in figura sono presenti uno o più utenti, ognuno dei quali accedono alla piattaforma attraverso la propria email e password. Di tale utente possiamo tenere anche in considerazione il proprio nome e cognome.
+Ogni utente aggiunge degli avvistamenti, ognuno dei quali contiene tutti i dati richiesti del committente tra cui la data di avvistamento, il numero di esemplari presenti e opzionalmente anche il vento espresso in km/h, lo stato del mare ed eventuali note informative al fine di ricerca e in particolare per riuscire ad identificare meglio la specie.\\
+In aggiunta per ogni avvistamento è associata una coordinata geografica la quale tiene in considerazione la longitudine e la latitudine al momento dell'inserimento.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.7]{img_concettuale/avvistamento2.png}
+\caption{Modellazione dell'attribuzione dell'animale e della specie all' avvistamento.}
+\end{figure}
+
+Dalla figura si può notare che un avvistamento può far riferimento a un animale, direttamente alla specie o anche a nessuno dei due, in quest'ultimo caso tali dati verranno inseriti in un secondo momento. Al fine di individuare al meglio la specie ad ognuna può essere attribuita una descrizione in cui vengono elencate le caratteristiche fondamentali. Ogni specie è identificata dal nome dell'animale e dal suo nome specifico. Come si nota dalla figura, l'avvistamento può essere direttamente associato all'animale oppure alla specie, in questo caso nasce il vincolo che se dichiaro una determinata specie essa deve fare  riferimento al giusto animale. Un ulteriore vincolo da rispettare è il fatto che in un avvistamento, anche se esso include più esemplari, questi devono far riferimento allo stesso animale ed eventualmente alla relativa specie.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.8]{img_concettuale/avvistamento3.jpg}
+\caption{Schema concettuale raffigurante le immagini con relative sottoimmagini e la gestione delle ferite.}
+\end{figure}
+
+Navigando lo schema partendo dall'entità Avvistamento, si nota che per ogni avvistamento si possono includere una o più immagini le quali possono essere suddivise in ulteriori sottoimmagini, per fare questo si è pensato di utilizzare le coordinate cartesiane al fine di risparmiare memoria e tempo di elaborazione. Visto che ogni sottoimmagine rappresenta un elemento singolo, se esso presenta delle ferite queste possono essere inserite e ad ognuna attribuita una gravità. In aggiunta il singolo individuo viene catalogato, con un id e opzionalmente anche con un nome, in modo tale che se viene rincontrato in altri avvistamenti si abbia la possibilità di indicare che si tratta dello stesso esemplare.
+
+\subsection{Raffinamenti attuati}
+Elenchiamo in questa sezione i raffinamenti che sono stati attuati nei precedenti schemi al fine di modellare meglio entità indipendenti. In particolare:
+\begin{itemize}
+\item L'entità Descrizione è stata creata al fine di non appesantire troppo l'entità Specie con attributi opzionali, i quali come si vede dallo schema rappresentano alla fine una sezione a parte del dominio.
+\item Un discorso simile viene fatto per l'entità Coordinata\_Geografica, la quale per motivi di gestione (mantenimento e controllo delle varie aree geografiche), si è deciso di mantenerla separata dall'entità avvistamento.   
+\end{itemize}
+
+\subsection{Schema concettuale finale}
+Di seguito si riporta lo schema concettuale finale, ottenuto unendo opportunamente gli schemi scheletro presentati in precedenza.
+\newpage
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.7]{img_concettuale/ER.jpg}
+\caption{Schema concettuale finale}
+\end{figure}
+
+\section{Progettazione Logica}
+La progettazione logica consiste nella traduzione dello schema concettuale finale in uno schema logico che rispecchi il modello relazionale. Lo schema logico progettato è indipendente dallo specifico Database management system, che verrà scelto al termine della progettazione logica. Inoltre verranno definiti anche i vincoli di integrità sui dati.
+
+\subsection{Stima del volume dei dati}
+Nella tabella di seguito è riportato il volume atteso per ciascun costrutto presente nello schema concettuale.
+Inoltre, per garantire maggiore compattezza, sono state omesse le stime dei volumi delle associazioni 1-N, in quanto equivalenti ai volumi delle entità che partecipano alle associazioni stesse con cardinalità 1.
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Concetto} & {\color[HTML]{000000} Costrutto} & {\color[HTML]{000000} Volume} \\ \hline
+Avvistamento           & E & 100 \\ \hline
+Utente                 & E & 10  \\ \hline
+Immagine               & E & 200 \\ \hline
+Coordinata\_Geografica & E & 100 \\ \hline
+Sottoimmagine          & E & 400 \\ \hline
+Ferita                 & E & 50  \\ \hline
+Gravita                & E & 3   \\ \hline
+Esemplare              & E & 300 \\ \hline
+Animale                & E & z   \\ \hline
+Specie                 & E & x   \\ \hline
+Descrizione            & E & x-y \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Descrizione delle operazioni principali e stima della loro frequenza}
+Di seguito si riporta una tabella contenente la frequenza prevista e una descrizione delle principali operazioni, individuate già in fase di analisi.
+\begin{table}[hbtp]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Codice Operazione} & {\color[HTML]{000000} Descrizione Operazione} & {\color[HTML]{000000} Frequenza} \\ \hline
+{\color[HTML]{000000} 1} & {\color[HTML]{000000} Creazione di un nuovo utente} & {\color[HTML]{000000} 1/settimana} \\ \hline
+{\color[HTML]{000000} 2} & {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Monitoraggio di specifici individui\end{tabular}} & {\color[HTML]{000000} 5/giorno} \\ \hline
+{\color[HTML]{000000} 3} & {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Registrazione di un nuovo avvistamento\\ compreso di operazioni opzionali\end{tabular}} & {\color[HTML]{000000} 10/giorno} \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Schemi di navigazione e tabelle degli accessi}
+Dopo aver stimato i volumi dei principali costrutti presenti nella base di dati e la 
+frequenza delle principali operazioni, si può procedere a disegnare i relativi schemi 
+di navigazione e scrivere le tabelle degli accessi.
+
+\begin{enumerate}
+\item Creazione di un nuovo utente:\\
+Per quanto riguarda l'aggiunta dell'utente, omettiamo il corrispondente schema di navigazione in quanto coincide con l'entità stessa:
+
+\begin{table}[hbtp]
+\centering
+\resizebox{9cm}{!}{%
+\begin{tabular}{|c|ccl|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Concetto} &
+  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Costrutto}} &
+  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Accessi}} &
+  Tipo \\ \hline
+Utente &
+  \multicolumn{1}{c|}{E} &
+  \multicolumn{1}{c|}{1} &
+  S \\ \hline
+ &
+  \multicolumn{3}{c|}{Totale = 1S} \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\newpage
+
+\item Monitoraggio di specifici individui al fine di determinate verifiche:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=1]{img_concettuale/individuo.png}
+%\caption{Schema concettuale raffigurante gli accessi alle tabelle per il monitoraggio di specifici individui.}
+\end{figure}
+\\Per svolgere questa operazione occorre effettuare un totale di letture su Sottoimmagine pari al numero medio di foto a cui ogni esemplare è associato. In aggiunta, in base al numero di sottoimmagini a cui l'esemplare è associato si dovranno selezionare lo stesso numero di immagini, visto che uno stesso esemplare non può comparire più volte nella stessa immagine.
+\begin{table}[hbtp]
+\centering
+\resizebox{11cm}{!}{%
+\begin{tabular}{|c|ccc|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Concetto} &
+  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Costrutto}} &
+  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Accessi}} &
+  {\color[HTML]{000000} Tipo} \\ \hline
+{\color[HTML]{000000} Esemplare}     & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 1}}         & {\color[HTML]{000000} L} \\ \hline
+{\color[HTML]{000000} Sottoimmagine} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 400$\div$200=2}} & {\color[HTML]{000000} L} \\ \hline
+Immagine                             & \multicolumn{1}{c|}{E}                        & \multicolumn{1}{c|}{2}                                & L                        \\ \hline
+                                     & \multicolumn{3}{c|}{Totale = 5L}                                                                                                 \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\newpage
+\item Registrazione di un nuovo avvistamento compreso di operazioni opzionali:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.7]{img_concettuale/Avvistamento_accessi.png}
+% \caption{Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}
+\end{figure}\\
+Lo schema di navigazione prevede di partire da Avvistamento, il quale legge l'utente, poi inserisce una nuova coordinata geografica, aggiunge più immagini le quali verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In aggiunta, ad ogni sottoimmagine si possono aggiungere delle possibili ferite, visibili in quella parte dell'immagine, ad ogni ferita è obbligatorio associargli una gravità. Nella tabella degli accessi sottostante consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
+\begin{table}[hbtp]
+\centering
+\resizebox{11cm}{!}{%
+\begin{tabular}{|c|ccc|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Concetto} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Costrutto}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Accessi}} & {\color[HTML]{000000} Tipo} \\ \hline
+{\color[HTML]{000000} Avvistamento} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 1}} & {\color[HTML]{000000} S} \\ \hline
+{\color[HTML]{000000} Utente} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 1}} & {\color[HTML]{000000} L} \\ \hline
+Coordinata\_Geografica & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & S \\ \hline
+Animale & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
+Specie & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
+Descrizione & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
+Immagine & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{200$\div$100=2} & S \\ \hline
+Sottoimmagine & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{(400$\div$200)$\times$2=4} & S \\ \hline
+Ferita & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{(50$\div$400)$\times$4=0.5} & S \\ \hline
+Gravita & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
+Esemplare & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{4} & S \\ \hline
+ & \multicolumn{3}{c|}{Totale = 12.5S + 5L} \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\end{enumerate}
+
+\subsubsection{Accessi totali}
+Si riporta di seguito la tabella degli accessi totali per ogni operazione, considerando doppi gli accessi in scrittura:
+\begin{table}[hbtp]
+\centering
+\resizebox{13cm}{!}{%
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Codice Operazione} & {\color[HTML]{000000} Accessi} & {\color[HTML]{000000} Frequenza} & Totale \\ \hline
+{\color[HTML]{000000} 1} & {\color[HTML]{000000} 1S = 2} & {\color[HTML]{000000} 1/settimana} & 2/settimana \\ \hline
+{\color[HTML]{000000} 2} & {\color[HTML]{000000} 5L = 5} & {\color[HTML]{000000} 5/giorno} & 25/giorno \\ \hline
+{\color[HTML]{000000} 3} & {\color[HTML]{000000} 12.5S + 5L = 30} & {\color[HTML]{000000} 10/giorno} & 300/giorno \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Raffinamento dello schema}
+In questa sezione ci occuperemo del raffinamento dello schema concettuale in vista della realizzazione dello schema logico. In particolare, bisognerà concentrarsi sulla seguente operazione.
+
+\begin{itemize}
+\item \textbf{Modifica degli attributi multipli e composti:}\\
+Una volta individuate le entità che contengono attributi multipli o composti, si provvede a modificarli. In particolare: \\ 
+nell'entità sottoimmagine gli attributi top\_left e bottom\_right formati da x e y vengono trasformati in singoli attributi.
+\end{itemize}
+
+\subsection{Traduzione di entità e associazioni in relazioni}
+La traduzione delle entità in relazioni è automatica e non richiede particolari passaggi.\\
+Per quanto riguarda invece le associazioni, bisogna effettuare diversi passaggi in base alla cardinalità:
+\begin{itemize}
+\item  Le associazioni 1-N vengono tradotte importando nell'entità che partecipa con cardinalità 1 la chiave dell'entità che partecipa con cardinalità N.
+\item Le associazioni 1-1 vengono tradotte importando nell'entità ritenuta più corretta, in base ad opzionalità e operatività, la chiave dell'altra entità.
+\end{itemize}
+
+L'operazione di traduzione porta alla creazione dello schema logico:\\
+\textbf{Gravita}(\underline{Nome})\\
+\textbf{Ferite}(\underline{ID}, Descrizione\_Ferita, Posizione, Gravi\_Nome:Gravita, \\ \tab Sottoi\_ID:Sottoimmagini)\\
+\textbf{Sottoimmagini}(\underline{ID}, tl\_x, tl\_y, br\_x, br\_y, Immag\_ID:Immagini,\\ \tab Esemp\_ID:Esemplari)\\
+\textbf{Esemplari}(\underline{ID}, Nome*)\\
+\textbf{Immagini}(\underline{ID}, Img, Avvis\_ID:Avvistamenti)\\
+\textbf{Coordinate\_Geografiche}((\underline{Latitudine, Longitudine}))\\
+\textbf{Utenti}(\underline{ID}, Nome*, Cognome*, Email, Password)\\
+\textbf{Animali}(\underline{Nome})\\
+\textbf{Specie}((\underline{Nome, Anima\_Nome:Animali}),\\ \tab Nomenclatura\_Binomiale*:Descrizioni)\\
+\textbf{Descrizioni}(\underline{Nomenclatura\_Binomiale}, Descrizione, Dimensione*,\\ \tab Curiosita*)\\
+\textbf{Avvistamenti}(\underline{ID}, Data, Numero\_Esemplari, Vento*, Mare*, Note*,\\ \tab Latid:Coordinate\_Geografiche, Long:Coordinate\_Geografiche,\\ \tab Utente\_ID:Utenti, Anima\_Nome*:Animali,\\ \tab (Specie\_anima\_Nome, Specie\_Nome)*:Specie)\\
+
+\newpage
+\subsection{Schema relazionale finale}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.73]{img_concettuale/Logico.jpg}
+\caption{Schema logico finale.}
+\end{figure}
+
+\chapter{Documentazione Applicazione Mobile}
+
+\chapter{Documentazione Interfaccia Web}
+
+\chapter{Documentazione Algoritmo Di Riconoscimento}
+
+\chapter{Documentazione Test}
+
+
+
+
+\section{Test con l'utente}
+Al fine di effettuare operazioni di test direttamente con l'utente di è deciso di creare un prototipo per far interagire direttamente l'utente sull'intero sistema in beta-release.
+Gli aspetti testati sono:
+\begin{itemize}
+\item Il modello concettuale è sufficientemente rappresentato.
+\item Rispetto al progetto l'interfaccia è adatta e sono stati rispettati tutti gli standard.
+\item Possibilità di uso alternativo tra mouse e tastiera.
+\item Livello di interazione tra l'utente e l'interfaccia.
+\item Adeguato bilanciamento tra flusso predefinito e flessibilità.
+\end{itemize}
+\chapter{Conclusioni}
+
+\chapter{Utilità}
+Capitolo di elementi da inserire nei capitoli precedenti.
+
+\section{Cookies}
+Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire, attraverso esse, un profilo dell'utente. Una di queste tecniche prevede l'utilizzo di cookies, essi sono considerati delle stringhe di testo che il browser crea all'apertura di una pagina web sul computer dell'utente e che salvano dati dell'utente durante la navigazione di un sito web agevolandone l'utilizzo. Dei possibili esempi possono essere:
+\begin{itemize}
+\item Memorizzare le preferenze linguistiche.
+\item I dati di login.
+\end{itemize}
+
+I dati vengono memorizzati per essere poi ritrasmessi ai medesimi siti alla visita successiva dello stesso utente. Mediante i cookies è anche possibile monitorare la navigazione e raccogliere dati inerenti alle abitudini e le scelte personali degli utenti, consentendo così la creazione di profili dettagliati degli utenti. Un esempio è la personalizzazione delle inserzioni pubblicitarie sul browser. Generalmente un cookie contiene un attributo che indica la durata di vita e un numero
+generato in modo casuale che consente il riconoscimento dell'utente. Di solito, la memorizzazione dei dati dei cookies avviene in modo anonimo.\\
+Nonostante questo esiste una specifica normativa, di derivazione europea, che disciplina l'utilizzo
+dei cookies al fine di tutelare le persone da forme di profilazione definite occulte e di consentirgli
+un minimo controllo sulla circolazione dei dati inerenti alla propria navigazione online.\\
+Esistono tre tipologie di cookies:
+\begin{enumerate}
+\item \textbf{Cookies tecnici:} necessari per motivi tecnici e comportano una forma indispensabile (e molte volte temporanea) di memorizzazione di dati. Essi consentono la normale navigazione di un sito o la implementazione di un servizio, salvando solo le preferenze ed i criteri di navigazione di ogni utente.
+\item \textbf{Cookies di profilazione:} elementi che non sono tecnicamente necessari per il funzionamento del sito. Alcuni esempi sono i cookies di tracciamento, oppure ai cookies che creano profili dell'utente per finalità pubblicitarie e vengono utilizzati per finalità di marketing.
+\item \textbf{Cookies analitici:} consentono il monitoraggio dell'uso del sito da parte degli utenti e consentono il miglioramento del sito stesso. Talvolta anche i cookies analitici possono essere di terze parti.
+\end{enumerate}
+
+Nel nostro applicativo sono stati utilizzati solo cookies tecnici, al fine di memorizzare le preferenze linguistiche e al fine di memorizzare i dati di login. Quindi secondo la normativa, i cookies tecnici possono essere usati anche senza chiedere il consenso dell'utente. Al fine dell'applicazione si è deciso di non utilizzare cookies di profilazione e nemmeno quelli analitici.
+
+\section{Ingegneria del software}
+
+\subsection{GUI}
+Nella progettazione sia dell'applicativo web che mobile si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
+\begin{itemize}
+\item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: Tridimensionalità, ombreggiatura e puntamento.
+\item \textbf{Metafora:} una parola, una frase o una figura la quale dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è: un bottone rappresenta un comando.
+\item \textbf{Layout:} 
+la posizione degli elementi all'interno della pagina è uno strumento importante di comunicazione.
+\item \textbf{Colori:} utili per focalizzare l'attenzione o suscitare emozioni.
+\item \textbf{Font:} leggibilità in relazione al tipo e alle caratteristiche del carattere.
+\end{itemize}
+
+\subsection{Usabilità}
+Col termine usabilità si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
+Più nello specifico in questo applicativo tali termini rappresentano:
+\begin{itemize}
+\item \textbf{Efficacia:} tutti i compiti richiesti in fasi di analisi possono essere eseguiti senza problematiche.
+\item \textbf{Efficienza:} si è cercato di usare al meglio le risorse disponibili per svolgere i compiti richiesti.
+\item \textbf{Soddisfazione:} si è avuta prova dell'accettabilità del funzionamento da parte dell'utente.
+\end{itemize}
+
+\subsection{Verifica del software}
+Questa fase ha lo scopo di verificare che il sistema contenga le specifiche di progetto. Tale operazione non viene eseguita solo sul prodotto finale ma segue il progetto ad ogni suo passo.\\
+Le tecniche di verifica che sono stato utilizzate sono:
+\begin{itemize}
+\item \textbf{Di testing:} che attraverso delle prove sperimentali, su un insieme rappresentativo di situazioni, verificano il corretto funzionamento del sistema. 
+\item \textbf{Di analisi:} attraverso l'analisi della struttura dei moduli e del codice che li realizza viene verificato il corretto funzionamento. 
+\end{itemize}
+
+\subsubsection{Testing}
+"Le operazioni di testing possono individuare la presenza di errori nel software ma non possono dimostrarne la correttezza."\cite{1}\\
+Come primo passo si sono individuati i casi significativi in cui applicare tale processo.\\
+Le operazioni di testing si suddividono in:
+\begin{enumerate}
+\item \textbf{Testing in the small:} Riguardano porzioni specifiche di codice a cui è stata attribuita una particolare importanza.
+\item \textbf{Testing in the large:} riguardano tutto il sistema.
+\end{enumerate}
+
+Nel primo caso si è cercato di seguire il seguente criterio di copertura:\\
+\textbf{Criterio di copertura delle decisioni e delle condizioni:} selezionare un insieme di test T tali che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.\cite{2}
+\\
+Nel secondo caso il sistema viene considerato come una black-box. L'insieme di test che verranno usati vengono selezionati sulla base delle specifiche di progetto, e grazie ad esse definiti i valori di input a cui corrisponderanno determinati valori di output.\\
+I casi di testing in the large presi in considerazione sono:
+\begin{itemize}
+\item \textbf{Test di modulo:} controlla se l'implementazione di un modulo è corretta in base al comportamento esterno.
+\item \textbf{Test d'integrazione:} sottoparti del sistema vengono verificate sulla base del loro comportamento esterno.
+\item \textbf{Test di sistema:} controllo il comportamento dell'intero sistema sulla  base del suo comportamento esterno. 
+\end{itemize}
+
+\subsection{Analisi}
+Analizzare il software consiste nel capire le caratteristiche e le funzionalità.
+
+L'approccio per l'analisi del software è stato il Code Inspection.\\
+In particolare si è posta molta attenzione all'analisi di flusso dei dati.
+Infatti, l'evoluzione del valore associato alle variabili durante l'esecuzione del programma è estremamente dinamica. Quindi si è usata la tecnica di associare ad ogni comando staticamente il tipo di operazioni eseguite sulle variabili. In questo modo avremo delle sequenze di comandi corrispondenti a possibili esecuzioni, le quali sono riconducibili staticamente a sequenze di tali operazioni. Quest'ultime verranno analizzate al fine di individuare delle possibili anomalie nel programma.
+
+\section{Tecnologie web}
+
+
+
+\begin{thebibliography}{100}
+\bibitem{1} Khan, K. \& Yadav, S. 2022, A Literature Review on Software Testing Techniques.
+\end{thebibliography}
+
+
+\end{document} 

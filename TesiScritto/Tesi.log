@@ -1,0 +1,432 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  28 NOV 2022 13:25
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./Tesi.tex
+(Tesi.tex
+LaTeX2e <2022-06-01> patch level 5
+L3 programming layer <2022-08-23>
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+Document Class: report 2021/10/04 v1.4n Standard LaTeX document class
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count185
+\c@chapter=\count186
+\c@section=\count187
+\c@subsection=\count188
+\c@subsubsection=\count189
+\c@paragraph=\count190
+\c@subparagraph=\count191
+\c@figure=\count192
+\c@table=\count193
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+Package: babel 2022/07/20 3.78 The Babel package
+\babel@savecnt=\count194
+\U@D=\dimen139
+\l@unhyphenated=\language79
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+\bbl@readstream=\read2
+\bbl@dirlevel=\count195
+
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/babel-italian\italian.l
+df
+Language: italian 2022/03/27 v.1.4.07 Italian support for the babel system
+\it@lettering=\count196
+\it@doublequoteactive=\count197
+\it@ISOcompliance=\count198
+))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/it\babel
+-italian.tex
+Package babel Info: Importing font and identification data for italian
+(babel)             from babel-it.ini. Reported on input line 11.
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count199
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count266
+\Gm@cntv=\count267
+\c@Gm@tempcnt=\count268
+\Gm@bindingoffset=\dimen140
+\Gm@wd@mp=\dimen141
+\Gm@odd@mp=\dimen142
+\Gm@even@mp=\dimen143
+\Gm@layoutwidth=\dimen144
+\Gm@layoutheight=\dimen145
+\Gm@layouthoffset=\dimen146
+\Gm@layoutvoffset=\dimen147
+\Gm@dimlist=\toks17
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen148
+\Gin@req@width=\dimen149
+) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
+\col@sep=\dimen150
+\ar@mcellbox=\box51
+\extrarowheight=\dimen151
+\NC@list=\toks18
+\extratabsurround=\skip49
+\backup@length=\skip50
+\ar@cellbox=\box52
+)
+\everycr=\toks19
+\minrowclearance=\skip51
+\rownum=\count269
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex-dev/graphics\mathcolor.
+ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+)
+\alphabet=\skip52
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: 
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* lines: 35
+* modes: 
+* h-part:(L,W,R)=(111.40866pt, 374.69055pt, 111.40866pt)
+* v-part:(T,H,B)=(136.01874pt, 505.0pt, 204.0281pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=374.69055pt
+* \textheight=505.0pt
+* \oddsidemargin=39.13867pt
+* \evensidemargin=39.13867pt
+* \topmargin=26.74875pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2022-08-23 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count270
+\l__pdf_internal_box=\box53
+) (Tesi.aux)
+\openout1 = `Tesi.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Info: Redefining \it@ocap on input line 15.
+LaTeX Info: Redefining \it@ccap on input line 15.
+
+
+File italian.ldf warning: 
+italian.ldf    With OT1 encoding guillemets are poorly faked
+italian.ldf    Use T1 encoding
+italian.ldf    or specify a font with command \CaporaliFrom
+italian.ldf    See the documentation concerning the babel-italian typesetting 
+italian.ldf    on input line 15.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* lines: 35
+* modes: 
+* h-part:(L,W,R)=(111.40866pt, 374.69055pt, 111.40866pt)
+* v-part:(T,H,B)=(136.01874pt, 505.0pt, 204.0281pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=374.69055pt
+* \textheight=505.0pt
+* \oddsidemargin=39.13867pt
+* \evensidemargin=39.13867pt
+* \topmargin=26.74875pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count271
+\scratchdimen=\dimen152
+\scratchbox=\box54
+\nofMPsegments=\count272
+\nofMParguments=\count273
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count274
+\MPscratchDim=\dimen153
+\MPnumerator=\count275
+\makeMPintoPDFobject=\count276
+\everyMPtoPDFconversion=\toks21
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* hratio: 1:1
+* modes: 
+* h-part:(L,W,R)=(89.62709pt, 418.25368pt, 89.6271pt)
+* v-part:(T,H,B)=(101.40665pt, 591.5302pt, 152.11pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=418.25368pt
+* \textheight=591.5302pt
+* \oddsidemargin=17.3571pt
+* \evensidemargin=17.3571pt
+* \topmargin=-7.86334pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+ [1
+
+
+
+{C:/Users/andre/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+(Tesi.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 5.
+ [1
+
+
+])
+\tf@toc=\write3
+\openout3 = `Tesi.toc'.
+
+ [2]
+Capitolo 1.
+[3
+
+] [4]
+Capitolo 2.
+[5
+
+] [6] [7] [8] [9]
+<img_concettuale/avvistamento1.png, id=38, 496.7358pt x 118.041pt>
+File: img_concettuale/avvistamento1.png Graphic file (type png)
+<use img_concettuale/avvistamento1.png>
+Package pdftex.def Info: img_concettuale/avvistamento1.png  used on input line 
+165.
+(pdftex.def)             Requested size: 347.71268pt x 82.62811pt.
+<img_concettuale/avvistamento2.png, id=39, 343.0416pt x 297.7524pt>
+File: img_concettuale/avvistamento2.png Graphic file (type png)
+<use img_concettuale/avvistamento2.png>
+Package pdftex.def Info: img_concettuale/avvistamento2.png  used on input line 
+175.
+(pdftex.def)             Requested size: 240.12746pt x 208.42525pt.
+ [10 <./img_concettuale/avvistamento1.png>]
+<img_concettuale/avvistamento3.jpg, id=43, 416.757pt x 379.1766pt>
+File: img_concettuale/avvistamento3.jpg Graphic file (type jpg)
+<use img_concettuale/avvistamento3.jpg>
+Package pdftex.def Info: img_concettuale/avvistamento3.jpg  used on input line 
+183.
+(pdftex.def)             Requested size: 333.40605pt x 303.34169pt.
+ [11 <./img_concettuale/avvistamento2.png>] [12 <./img_concettuale/avvistamento
+3.jpg>] [13]
+<img_concettuale/ER.jpg, id=54, 514.5624pt x 501.072pt>
+File: img_concettuale/ER.jpg Graphic file (type jpg)
+<use img_concettuale/ER.jpg>
+Package pdftex.def Info: img_concettuale/ER.jpg  used on input line 201.
+(pdftex.def)             Requested size: 360.19122pt x 350.74802pt.
+
+[14 <./img_concettuale/ER.jpg>] [15] [16]
+<img_concettuale/individuo.png, id=64, 282.3348pt x 164.7756pt>
+File: img_concettuale/individuo.png Graphic file (type png)
+<use img_concettuale/individuo.png>
+Package pdftex.def Info: img_concettuale/individuo.png  used on input line 282.
+
+(pdftex.def)             Requested size: 282.33409pt x 164.77518pt.
+ [17 <./img_concettuale/individuo.png>]
+<img_concettuale/Avvistamento_accessi.png, id=70, 518.6577pt x 505.89pt>
+File: img_concettuale/Avvistamento_accessi.png Graphic file (type png)
+<use img_concettuale/Avvistamento_accessi.png>
+Package pdftex.def Info: img_concettuale/Avvistamento_accessi.png  used on inpu
+t line 308.
+(pdftex.def)             Requested size: 363.0579pt x 354.12057pt.
+ [18 <./img_concettuale/Avvistamento_accessi.png>] [19] [20]
+Underfull \hbox (badness 10000) in paragraph at lines 370--382
+
+ []
+
+[21]
+<img_concettuale/Logico.jpg, id=86, 502.9992pt x 402.7848pt>
+File: img_concettuale/Logico.jpg Graphic file (type jpg)
+<use img_concettuale/Logico.jpg>
+Package pdftex.def Info: img_concettuale/Logico.jpg  used on input line 387.
+(pdftex.def)             Requested size: 367.18636pt x 294.03046pt.
+ [22 <./img_concettuale/Logico.jpg>]
+Capitolo 3.
+[23
+
+]
+Capitolo 4.
+[24
+
+]
+Capitolo 5.
+[25
+
+]
+Capitolo 6.
+[26
+
+]
+Capitolo 7.
+[27
+
+]
+Capitolo 8.
+[28
+
+] [29] [30] [31] [32] [33] [34
+
+] (Tesi.aux) ) 
+Here is how much of TeX's memory you used:
+ 3989 strings out of 477843
+ 65066 string characters out of 2823599
+ 404262 words of memory out of 3000000
+ 22879 multiletter control sequences out of 15000+600000
+ 475057 words of font info for 47 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 55i,18n,62p,922b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ <C:\Users\andre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\tcrm1200.pk><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/andre/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/andre/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/andre/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on Tesi.pdf (35 pages, 1535644 bytes).
+PDF statistics:
+ 154 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+
