@@ -1,4 +1,4 @@
-const fileint = "templates/main_signup/signup_api.php";
+const fileint = "../templates/main_signup/signup_api.php";
 $(document).ready(function() {
     $("form").submit(function(event) {
         event.preventDefault();
@@ -12,7 +12,7 @@ $(document).ready(function() {
                 datas.delete("pwd");
                 $.ajax({
                     type: "POST",
-                    url: "templates/main_signup/signup_api.php",
+                    url: fileint,
                     data:  datas,
                     processData: false,
                     contentType: false
@@ -27,6 +27,8 @@ $(document).ready(function() {
                 .fail(function(response) {
                     console.log(response);
                 });
+            } else {
+                addAlert("alert","alert-danger", "Le due password non corrispondono.","");
             }
         }
     });

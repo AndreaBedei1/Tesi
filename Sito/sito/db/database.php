@@ -10,10 +10,10 @@
         }
 
         #Aggiungere funzone che cripta la password
-        public function addUser($username, $nome, $cognome, $sesso, $dataNascita){
-            $query = "INSERT INTO Utente (Username, Nome, Cognome, Sesso, DataNascita) VALUES (?,?,?,?,?)"; 
+        public function addUser($nome, $cognome, $pwd, $email, $key){
+            $query = 'INSERT INTO `utenti`(`Nome`, `Cognome`, `Email`, `Password`, `Key`) VALUES (?,?,?,?,?)'; 
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sssss', $username, $nome, $cognome, $sesso, $dataNascita);
+            $stmt->bind_param('sssss', $nome, $cognome, $email, $pwd, $key);
             return $stmt->execute();          
         }
 
@@ -25,16 +25,8 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function checkUserAbsent($username){
-            $query = "SELECT * FROM Utente WHERE Username=?"; 
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $username);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
-
         public function checkMailAbsent($mail){
-            $query = "SELECT Mail, Chiave FROM Credenziali WHERE Mail=?"; 
+            $query = "SELECT Email FROM Utenti WHERE Email=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $mail);
             $stmt->execute();

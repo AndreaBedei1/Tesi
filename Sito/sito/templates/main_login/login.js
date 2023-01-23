@@ -11,7 +11,7 @@ $(document).ready(function() {
         datas.delete("pwd");
         $.ajax({
             type: "POST",
-            url: "templates/main_login/login_api.php",
+            url: "../templates/main_login/login_api.php",
             data:  datas,
             processData: false,
             contentType: false
