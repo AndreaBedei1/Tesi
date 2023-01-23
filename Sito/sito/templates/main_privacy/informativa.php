@@ -16,16 +16,16 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>In questa sezione sono contenute le informazioni relative alle modalità di gestione di U-niversity, di proprietà di U-niversity, in riferimento al trattamento dei dati degli utenti del sito stesso.</p>
+                                        <p>In questa sezione sono contenute le informazioni relative alle modalità di gestione di SeaDetector, di proprietà di SeaDetector, in riferimento al trattamento dei dati degli utenti del sito stesso.</p>
                                     </li>
                                     <li>
-                                        <p>La presente informativa ha valore anche ai fini dell'articolo 13 del Regolamento (UE) n. 2016/679, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali nonché alla libera circolazione di tali dati, per i soggetti che interagiscono con U-niversity.</p>
+                                        <p>La presente informativa ha valore anche ai fini dell'articolo 13 del Regolamento (UE) n. 2016/679, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali nonché alla libera circolazione di tali dati, per i soggetti che interagiscono con SeaDetector.</p>
                                     </li>
                                     <li>
-                                        <p>L'informativa è resa solo per U-niversity e non anche per altri siti web eventualmente consultati dall'utente tramite link in esso contenuti.</p>
+                                        <p>L'informativa è resa solo per SeaDetector e non anche per altri siti web eventualmente consultati dall'utente tramite link in esso contenuti.</p>
                                     </li>
                                     <li>
-                                        <p>Scopo del presente documento è fornire indicazioni circa le modalità, i tempi e la natura delle informazioni che i titolari del trattamento devono fornire agli utenti al momento della connessione alle pagine web di U-niversity, indipendentemente dagli scopi del collegamento stesso, secondo la legislazione Italiana ed Europea.</p>
+                                        <p>Scopo del presente documento è fornire indicazioni circa le modalità, i tempi e la natura delle informazioni che i titolari del trattamento devono fornire agli utenti al momento della connessione alle pagine web di SeaDetector, indipendentemente dagli scopi del collegamento stesso, secondo la legislazione Italiana ed Europea.</p>
                                     </li>
                                     <li>
                                         <p>L'informativa può subire modifiche a causa dell'introduzione di nuove norme al riguardo, si invita pertanto l'utente a controllare periodicamente la presente pagina.</p>
@@ -46,7 +46,7 @@
                                         <p> Il titolare del trattamento è la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che, singolarmente o insieme ad altri, determina le finalità e i mezzi del trattamento di dati personali. Si occupa anche dei profili sulla sicurezza.</p>    
                                     </li>
                                     <li>
-                                        <p>Relativamente al presente sito web il titolare del trattamento è: U-niversity, e per ogni chiarimento o esercizio dei diritti dell'utente potrà contattarlo al seguente indirizzo mail: u-niversity@libero.it.</p>
+                                        <p>Relativamente al presente sito web il titolare del trattamento è: SeaDetector, e per ogni chiarimento o esercizio dei diritti dell'utente potrà contattarlo al seguente indirizzo mail: SeaDetector@libero.it.</p>
                                     </li>
                                 </ol>
                             </section>
@@ -58,7 +58,7 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>Il trattamento dei dati generato dall'utilizzo di U-niversity avviene presso U-niversity.</p>
+                                        <p>Il trattamento dei dati generato dall'utilizzo di SeaDetector avviene presso SeaDetector.</p>
                                     </li>
                                     <li>
                                         <p>In caso di necessità, i dati connessi al servizio newsletter possono essere trattati dal responsabile del trattamento o soggetti da esso incaricati a tal fine presso la relativa sede.</p>
@@ -73,10 +73,10 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>Il trattamento dei dati personali da parte di U-niversity si basa sul consenso ai sensi dell'art. 6, par. 1, lett. a) del Regolamento UE 2016/679 – espresso dall'utente mediante la navigazione su questo sito web e la sua consultazione, così accettando la presente informativa.</p>
+                                        <p>Il trattamento dei dati personali da parte di SeaDetector si basa sul consenso ai sensi dell'art. 6, par. 1, lett. a) del Regolamento UE 2016/679 – espresso dall'utente mediante la navigazione su questo sito web e la sua consultazione, così accettando la presente informativa.</p>
                                     </li>
                                     <li>
-                                        <p> Il consenso è facoltativo e può essere revocato in qualsiasi momento mediante richiesta inviata a mezzo email a u-niversity@libero.it precisando che, in tal caso, in assenza di consenso non potranno essere erogati alcuni servizi e la navigazione sul sito web potrebbe essere compromessa.</p>
+                                        <p> Il consenso è facoltativo e può essere revocato in qualsiasi momento mediante richiesta inviata a mezzo email a SeaDetector@libero.it precisando che, in tal caso, in assenza di consenso non potranno essere erogati alcuni servizi e la navigazione sul sito web potrebbe essere compromessa.</p>
                                     </li>
                                 </ol>
                             </section>
@@ -103,7 +103,7 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>Il trattamento dei dati personali è necessario per il perseguimento del legittimo interesse del titolare del trattamento per finalità di fornire informazioni circa l'attività di U-niversity ai sensi dell'art. 6, par. 1, lett. f) del Regolamento UE 2016/679, nel rispetto di quanto previsto dal medesimo Regolamento.</p>    
+                                        <p>Il trattamento dei dati personali è necessario per il perseguimento del legittimo interesse del titolare del trattamento per finalità di fornire informazioni circa l'attività di SeaDetector ai sensi dell'art. 6, par. 1, lett. f) del Regolamento UE 2016/679, nel rispetto di quanto previsto dal medesimo Regolamento.</p>    
                                     </li>
                                     <li>
                                         <p> Il presente sito fa uso di Log Files nei quali vengono conservate informazioni raccolte in maniera automatizzata durante le visite degli utenti. Le informazioni raccolte potrebbero essere le seguenti:</p>
@@ -180,7 +180,7 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>Conformemente a quanto prescritto dall'art. 5.1(c) del Regolamento, i sistemi informativi e i programmi informatici utilizzati da U-niversity sono configurati in modo da ridurre al minimo l'uso di dati personali e identificativi; tali dati saranno trattati solo nella misura necessaria per il conseguimento delle finalità indicate nella presente Policy.</p>
+                                        <p>Conformemente a quanto prescritto dall'art. 5.1(c) del Regolamento, i sistemi informativi e i programmi informatici utilizzati da SeaDetector sono configurati in modo da ridurre al minimo l'uso di dati personali e identificativi; tali dati saranno trattati solo nella misura necessaria per il conseguimento delle finalità indicate nella presente Policy.</p>
                                     </li>
                                     <li>
                                         <p> I dati verranno conservati per il periodo di tempo strettamente necessario al conseguimento delle finalità in concreto perseguite e, in ogni caso, il criterio utilizzato per determinare il periodo di conservazione è improntato al rispetto dei termini consentiti dalle leggi applicabili e dai principi di minimizzazione del trattamento e limitazione della conservazione.</p>
@@ -227,10 +227,10 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <p>In qualsiasi momento l'utente può chiedere di esercitare i suddetti diritti a U-niversity rivolgendosi all'indirizzo mail: u-niversity@libero.it.</p>
+                                        <p>In qualsiasi momento l'utente può chiedere di esercitare i suddetti diritti a SeaDetector rivolgendosi all'indirizzo mail: SeaDetector@libero.it.</p>
                                     </li>
                                     <li>
-                                        <p>Inoltre, l'utente ha diritto di proporre reclamo nei confronti dell'Autorità di controllo italiana: "Garante per la Protezione dei Dati Personali" nel caso in cui ritenga che i suoi diritti siano stati violati da U-niversity o nel caso in cui non ritenga soddisfacente la risposta di U-niversity alle sue richieste.</p>
+                                        <p>Inoltre, l'utente ha diritto di proporre reclamo nei confronti dell'Autorità di controllo italiana: "Garante per la Protezione dei Dati Personali" nel caso in cui ritenga che i suoi diritti siano stati violati da SeaDetector o nel caso in cui non ritenga soddisfacente la risposta di SeaDetector alle sue richieste.</p>
                                     </li>
                                 </ol>
                             </section>
@@ -242,7 +242,7 @@
                                 </header>
                                 <ol>
                                     <li>
-                                        <p>Il presente documento, che costituisce la privacy policy di questo sito, è pubblicato all'indirizzo: https://u-niversity.ooguy.com/privacy.php</p>
+                                        <p>Il presente documento, che costituisce la privacy policy di questo sito, è pubblicato all'indirizzo: https://SeaDetector.ooguy.com/privacy.php</p>
                                     </li>
                                     <li>
                                         <p>Esso può essere soggetto a modifiche o aggiornamenti. Si invitano gli utenti a consultare periodicamente la presente pagina per essere sempre aggiornati sulle ultime novità legislative.</p>
@@ -251,7 +251,7 @@
                                         <p>Le versioni precedenti del documento saranno comunque consultabili a questa pagina.</p>
                                     </li>
                                     <li>
-                                        <p>Scopo del presente documento è fornire indicazioni circa le modalità, i tempi e la natura delle informazioni che i titolari del trattamento devono fornire agli utenti al momento della connessione alle pagine web di U-niversity, indipendentemente dagli scopi del collegamento stesso, secondo la legislazione Italiana ed Europea.</p>
+                                        <p>Scopo del presente documento è fornire indicazioni circa le modalità, i tempi e la natura delle informazioni che i titolari del trattamento devono fornire agli utenti al momento della connessione alle pagine web di SeaDetector, indipendentemente dagli scopi del collegamento stesso, secondo la legislazione Italiana ed Europea.</p>
                                     </li>
                                     <li>
                                         <p>Il documento è stato aggiornato in data 29/12/2022 per essere conforme alle disposizioni normative in materia, ed in particolare in conformità al Regolamento (UE) 2016/679.</p>

@@ -18,7 +18,7 @@
         }
 
         public function checkMailAbsent($mail){
-            $query = "SELECT Email, `Key` FROM Utenti WHERE Email=?"; 
+            $query = 'SELECT Email, `Key` FROM utenti WHERE Email=?'; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $mail);
             $stmt->execute();
@@ -26,7 +26,7 @@
         }
 
         public function getKey($user){
-            $query = "SELECT `Key` FROM Utenti WHERE Email=?"; 
+            $query = "SELECT `Key` FROM utenti WHERE Email=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $user);
             $stmt->execute();
@@ -34,7 +34,7 @@
         }
 
         public function login($mail, $password){
-            $query = "SELECT * FROM Utenti WHERE Email=? AND `Password`=?"; 
+            $query = "SELECT * FROM utenti WHERE Email=? AND `Password`=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $mail, $password);
             $stmt->execute();
