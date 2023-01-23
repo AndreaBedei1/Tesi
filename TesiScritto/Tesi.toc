@@ -1,6 +1,7 @@
 \babel@toc {italian}{}\relax 
 \babel@toc {italian}{}\relax 
 \contentsline {chapter}{\numberline {1}Introduzione}{3}{}%
+\contentsline {section}{\numberline {1.1}Diagramma dei casi d'uso}{4}{}%
 \contentsline {chapter}{\numberline {2}Documentazione Base di dati}{5}{}%
 \contentsline {section}{\numberline {2.1}Analisi dei requisiti}{5}{}%
 \contentsline {subsection}{\numberline {2.1.1}Intervista}{5}{}%
@@ -20,16 +21,18 @@
 \contentsline {subsection}{\numberline {2.3.6}Schema relazionale finale}{22}{}%
 \contentsline {chapter}{\numberline {3}Documentazione Applicazione Mobile}{23}{}%
 \contentsline {chapter}{\numberline {4}Documentazione Interfaccia Web}{24}{}%
-\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{25}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{26}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{26}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{27}{}%
-\contentsline {chapter}{\numberline {8}Utilità}{28}{}%
-\contentsline {section}{\numberline {8.1}Cookies}{28}{}%
-\contentsline {section}{\numberline {8.2}Ingegneria del software}{30}{}%
-\contentsline {subsection}{\numberline {8.2.1}GUI}{30}{}%
-\contentsline {subsection}{\numberline {8.2.2}Usabilità}{31}{}%
-\contentsline {subsection}{\numberline {8.2.3}Verifica del software}{31}{}%
-\contentsline {subsubsection}{Testing}{31}{}%
-\contentsline {subsection}{\numberline {8.2.4}Analisi}{33}{}%
-\contentsline {section}{\numberline {8.3}Tecnologie web}{33}{}%
+\contentsline {section}{\numberline {4.1}Progettazione}{24}{}%
+\contentsline {subsection}{\numberline {4.1.1}Usabilità}{25}{}%
+\contentsline {subsection}{\numberline {4.1.2}Prototipo}{25}{}%
+\contentsline {subsubsection}{Personas e scenarios}{25}{}%
+\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{27}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{28}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{28}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{29}{}%
+\contentsline {chapter}{\numberline {8}Utilità}{30}{}%
+\contentsline {section}{\numberline {8.1}Cookies}{30}{}%
+\contentsline {section}{\numberline {8.2}Ingegneria del software}{32}{}%
+\contentsline {subsection}{\numberline {8.2.1}Verifica del software}{32}{}%
+\contentsline {subsubsection}{Testing}{32}{}%
+\contentsline {subsection}{\numberline {8.2.2}Analisi}{33}{}%
+\contentsline {section}{\numberline {8.3}Tecnologie web}{34}{}%

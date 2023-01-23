@@ -1,6 +1,7 @@
 \documentclass[a4paper,final,12pt]{report}
 \newcommand\tab[1][13mm]{\hspace*{#1}}
 \usepackage[italian]{babel}
+\usepackage{times}
 \usepackage[left=4cm,right=4cm]{geometry}
 \usepackage{geometry} % Deve esserci!
 \usepackage{graphicx} % permette di inserire immagini
@@ -86,6 +87,16 @@ Il sistema si suddivide in diverse parti, tra cui:
 \item Utilizzo di script di riconoscimento che attraverso la visione artificiale e diversi algoritmi noti permetta di individuare la specie precisa di determinati esemplari acquatici.
 \end{itemize}
 
+\section{Diagramma dei casi d'uso}
+E' stato riportato un diagramma dei casi d'uso il quale descrive le principali operazioni del sistema:
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.6]{img_concettuale/casi.png}
+\caption{Schema dei casi d'uso per la piattaforma.}
+\end{figure}
+
+
 \chapter{Documentazione Base di dati}
 \section{Analisi dei requisiti}
 In questa sezione analizzeremo tutte le specifiche che il committente richiede per la piattaforma.
@@ -121,7 +132,7 @@ Per quanto riguarda gli attributi parziali e le cardinalità, questi aspetti sar
 
 \begin{table}[hbtp]
 \centering
-\resizebox{11.4cm}{!}{%
+\resizebox{10cm}{!}{%
 \begin{tabular}{|c|c|c|c|}
 \hline
 \cellcolor[HTML]{C0C0C0} Termine & \cellcolor[HTML]{C0C0C0}  Descrizione & \cellcolor[HTML]{C0C0C0} Sinonimi & \cellcolor[HTML]{C0C0C0} Collegamenti \\ \hline
@@ -198,9 +209,11 @@ Di seguito si riporta lo schema concettuale finale, ottenuto unendo opportunamen
 \newpage
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.7]{img_concettuale/ER.jpg}
+\includegraphics[scale=0.65]{img_concettuale/ER.jpg}
 \caption{Schema concettuale finale}
 \end{figure}
+
+
 
 \section{Progettazione Logica}
 La progettazione logica consiste nella traduzione dello schema concettuale finale in uno schema logico che rispecchi il modello relazionale. Lo schema logico progettato è indipendente dallo specifico Database management system, che verrà scelto al termine della progettazione logica. Inoltre verranno definiti anche i vincoli di integrità sui dati.
@@ -305,7 +318,7 @@ Immagine                             & \multicolumn{1}{c|}{E}                   
 \item Registrazione di un nuovo avvistamento compreso di operazioni opzionali:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.7]{img_concettuale/Avvistamento_accessi.png}
+\includegraphics[scale=0.65]{img_concettuale/Avvistamento_accessi.png}
 % \caption{Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}
 \end{figure}\\
 Lo schema di navigazione prevede di partire da Avvistamento, il quale legge l'utente, poi inserisce una nuova coordinata geografica, aggiunge più immagini le quali verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In aggiunta, ad ogni sottoimmagine si possono aggiungere delle possibili ferite, visibili in quella parte dell'immagine, ad ogni ferita è obbligatorio associargli una gravità. Nella tabella degli accessi sottostante consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
@@ -338,7 +351,7 @@ Esemplare & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{4} & S \\ \hline
 Si riporta di seguito la tabella degli accessi totali per ogni operazione, considerando doppi gli accessi in scrittura:
 \begin{table}[hbtp]
 \centering
-\resizebox{13cm}{!}{%
+\resizebox{12cm}{!}{%
 \begin{tabular}{|c|c|c|c|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
@@ -384,13 +397,50 @@ L'operazione di traduzione porta alla creazione dello schema logico:\\
 \subsection{Schema relazionale finale}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.73]{img_concettuale/Logico.jpg}
+\includegraphics[scale=0.70]{img_concettuale/Logico.jpg}
 \caption{Schema logico finale.}
 \end{figure}
 
 \chapter{Documentazione Applicazione Mobile}
 
 \chapter{Documentazione Interfaccia Web}
+
+\section{Progettazione}
+Nella progettazione sia dell'applicativo web che mobile si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
+\begin{itemize}
+\item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: Tridimensionalità, ombreggiatura e puntamento.
+\item \textbf{Metafora:} una parola, una frase o una figura la quale dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è: un bottone rappresenta un comando.
+\item \textbf{Layout:} 
+la posizione degli elementi all'interno della pagina è uno strumento importante di comunicazione.
+\item \textbf{Colori:} utili per focalizzare l'attenzione o suscitare emozioni.
+\item \textbf{Font:} leggibilità in relazione al tipo e alle caratteristiche del carattere.
+\end{itemize}
+
+\subsection{Usabilità}
+Col termine usabilità si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
+Più nello specifico in questo applicativo tali termini rappresentano:
+\begin{itemize}
+\item \textbf{Efficacia:} tutti i compiti richiesti in fasi di analisi possono essere eseguiti senza problematiche.
+\item \textbf{Efficienza:} si è cercato di usare al meglio le risorse disponibili per svolgere i compiti richiesti.
+\item \textbf{Soddisfazione:} si è avuta prova dell'accettabilità del funzionamento da parte dell'utente.
+\end{itemize}
+
+\subsection{Prototipo}
+Durante la progettazione è stato fatto uso di un prototipo, in particolare è stato utilizzato un prototipo di tipo evolutivo al fine di permettere una maggiore conoscenza delle aspettative degli utenti.\\
+In particolare si è cercato di creare dei gruppi di utenti i quali saranno gli utilizzatori del portale.
+
+\subsubsection{Personas e scenarios}
+Sono state definite delle personas, cioè persone che rappresentano dei gruppi di utenti, i quali saranno gli utilizzatori del programma ed a ognuno di loro è stato associato uno scenario, il quale rappresenta le operazioni, il modo di muoversi nel sito e le modalità di utilizzo di ciascuno di loro.
+Le personas che sono state riscontrate:
+\begin{itemize}
+ \item Responsabile avvistamenti: persona addetta alla modifica delle informazioni al fine di modificare, aggiungere o eliminare i dati. 
+\item Ricercatore: persona che carica nuove informazioni, di un nuovo avvistamento direttamente dal portale.
+ \end{itemize} 
+ A ciascuna di esse è associato uno scenarios:
+ \begin{itemize}
+ \item Responsabile avvistamenti: iscrizione al sito con possibilità di modifica degli avvistamenti, aggiunta e cancellazione.
+ \item Ricercatore: Aggiunta di nuovi avvistamenti.
+ \end{itemize}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
 
@@ -437,25 +487,7 @@ Nel nostro applicativo sono stati utilizzati solo cookies tecnici, al fine di me
 
 \section{Ingegneria del software}
 
-\subsection{GUI}
-Nella progettazione sia dell'applicativo web che mobile si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
-\begin{itemize}
-\item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: Tridimensionalità, ombreggiatura e puntamento.
-\item \textbf{Metafora:} una parola, una frase o una figura la quale dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è: un bottone rappresenta un comando.
-\item \textbf{Layout:} 
-la posizione degli elementi all'interno della pagina è uno strumento importante di comunicazione.
-\item \textbf{Colori:} utili per focalizzare l'attenzione o suscitare emozioni.
-\item \textbf{Font:} leggibilità in relazione al tipo e alle caratteristiche del carattere.
-\end{itemize}
 
-\subsection{Usabilità}
-Col termine usabilità si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
-Più nello specifico in questo applicativo tali termini rappresentano:
-\begin{itemize}
-\item \textbf{Efficacia:} tutti i compiti richiesti in fasi di analisi possono essere eseguiti senza problematiche.
-\item \textbf{Efficienza:} si è cercato di usare al meglio le risorse disponibili per svolgere i compiti richiesti.
-\item \textbf{Soddisfazione:} si è avuta prova dell'accettabilità del funzionamento da parte dell'utente.
-\end{itemize}
 
 \subsection{Verifica del software}
 Questa fase ha lo scopo di verificare che il sistema contenga le specifiche di progetto. Tale operazione non viene eseguita solo sul prodotto finale ma segue il progetto ad ogni suo passo.\\
@@ -475,7 +507,7 @@ Le operazioni di testing si suddividono in:
 \end{enumerate}
 
 Nel primo caso si è cercato di seguire il seguente criterio di copertura:\\
-\textbf{Criterio di copertura delle decisioni e delle condizioni:} selezionare un insieme di test T tali che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.\cite{2}
+\textbf{Criterio di copertura delle decisioni e delle condizioni:} selezionare un insieme di test T tali che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.
 \\
 Nel secondo caso il sistema viene considerato come una black-box. L'insieme di test che verranno usati vengono selezionati sulla base delle specifiche di progetto, e grazie ad esse definiti i valori di input a cui corrisponderanno determinati valori di output.\\
 I casi di testing in the large presi in considerazione sono:
