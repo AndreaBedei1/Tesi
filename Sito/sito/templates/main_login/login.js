@@ -1,3 +1,4 @@
+const fileint = "../templates/main_login/login_api.php";
 $(document).ready(function() {
     if($("#login").val()==1){
         addAlert("alert","alert-success","Iscrizione completata! Eseguire l'accesso.","");
@@ -11,7 +12,7 @@ $(document).ready(function() {
         datas.delete("pwd");
         $.ajax({
             type: "POST",
-            url: "../templates/main_login/login_api.php",
+            url: fileint,
             data:  datas,
             processData: false,
             contentType: false
@@ -21,10 +22,10 @@ $(document).ready(function() {
                 addAlert("alert","alert-danger",data["msg"],"");
             } else {
                 datas.set("request", "pwd");
-                datas.append("password", encrypt(pwd, data.key));
+                datas.append("password", encrypt(pwd, data.Key));
                 $.ajax({
                     type: "POST",
-                    url: "templates/main_login/login_api.php",
+                    url: fileint,
                     data:  datas,
                     processData: false,
                     contentType: false
@@ -33,7 +34,7 @@ $(document).ready(function() {
                     if(data["state"]===false){
                         addAlert("alert","alert-danger",data["msg"],"");
                     } else {
-                        window.location.href="homepage.php";
+                        // window.location.href="homepage.php";
                     }
                 })
                 .fail(function(response) {

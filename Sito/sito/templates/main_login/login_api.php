@@ -12,7 +12,7 @@ if(isset($_POST["request"])){
                     $result["msg"]="Errore! Mail inserita non presente!";
                 } else {
                     $result["state"]=true;
-                    $result["key"]=$mailResult[0]["Chiave"];
+                    $result["Key"]=$mailResult[0]["Key"];
                 }
             }
             break;
@@ -20,7 +20,7 @@ if(isset($_POST["request"])){
             $loginResult = $dbh->login($_POST["email"], $_POST["password"]);
             if(count($loginResult)==1){
                 $result["state"]=true;
-                registerLoggedUser($dbh->getUsernameFromMail($_POST["email"])[0]["Utente"]);
+                registerLoggedUser($_POST["email"]);
             }
             else{
                 $result["state"]=false;

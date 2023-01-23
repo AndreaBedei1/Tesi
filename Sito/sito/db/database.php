@@ -17,16 +17,8 @@
             return $stmt->execute();          
         }
 
-        public function getUsernameFromMail($mail){
-            $query = "SELECT Utente FROM Credenziali WHERE Mail=?";
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param("s", $mail);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
-
         public function checkMailAbsent($mail){
-            $query = "SELECT Email FROM Utenti WHERE Email=?"; 
+            $query = "SELECT Email, `Key` FROM Utenti WHERE Email=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $mail);
             $stmt->execute();
@@ -34,27 +26,25 @@
         }
 
         public function getKey($user){
-            $query = "SELECT Chiave FROM Credenziali WHERE Utente=?"; 
+            $query = "SELECT `Key` FROM Utenti WHERE Email=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $user);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function addCredentials($username, $mail, $password, $key){
-            $query = "INSERT INTO Credenziali (Mail, Utente, Password, Chiave) VALUES (?,?,?,?)"; 
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ssss', $mail, $username, $password, $key);
-            return $stmt->execute();          
-        }
-
         public function login($mail, $password){
-            $query = "SELECT * FROM Credenziali WHERE Mail=? AND Password=?"; 
+            $query = "SELECT * FROM Utenti WHERE Email=? AND `Password`=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $mail, $password);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
+
+        // FIno a qui corretto!!!!!!
+
+
+
 
         public function checkPwd($user, $password){
             $query = "SELECT * FROM Credenziali WHERE Utente=? AND Password=?"; 
