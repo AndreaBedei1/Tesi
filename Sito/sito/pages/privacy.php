@@ -1,10 +1,10 @@
 <?php
-    define("SITE_ROOT", "/var/www/html/ElaboratoTW/sito/");
+    define("SITE_ROOT", "../");
 
     require_once(SITE_ROOT.'bootstrap.php');
 
     $templateParams["pageid"] = "privacy";
-    $templateParams["title"] = "Uv-Privacy";
+    $templateParams["title"] = "Privacy";
 
     $templateParams["javascript"] = array("../templates/header/header.js");
 

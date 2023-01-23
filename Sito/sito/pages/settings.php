@@ -1,10 +1,10 @@
 <?php
-    define("SITE_ROOT", "/var/www/html/ElaboratoTW/sito/");
+    define("SITE_ROOT", "../");
 
     require_once(SITE_ROOT.'bootstrap.php');
 
     $templateParams["pageid"] = "settings";
-    $templateParams["title"] = "Uv-Impostazioni";
+    $templateParams["title"] = "Impostazioni";
     $templateParams["javascript"] = array("../templates/main_settings/settings.js", "../templates/header/header.js");
     if(!isUserLoggedIn()){
         header("location: login.php");
