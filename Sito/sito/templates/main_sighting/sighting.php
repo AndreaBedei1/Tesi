@@ -9,17 +9,15 @@
                     <div class="col-12 col-md-6">
                         <div id="map"><div id="my-map"></div></div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 my-3">
                         <div id="divtbl" class="table-wrapper-scroll-y">
                             <table id="tblAvvistamenti" class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th id="utente" scope="col">Utente</th>
                                     <th id="data" scope="col">Data</th>
-                                    <th id="latitudine" scope="col">Latitudine</th>
-                                    <th id="longitudine" scope="col">Longitudine</th>
+                                    <th id="coordinate" scope="col" rowspan='2'>Coordinate</th>
                                     <th id="animale" scope="col">Animale</th>
-                                    <th id="specie" scope="col">Specie</th>
                                     <th id="visualizza" scope="col">Operazioni</th>
                                 </tr>
                                 </thead>

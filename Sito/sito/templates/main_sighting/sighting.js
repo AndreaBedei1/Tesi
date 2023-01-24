@@ -4,17 +4,17 @@ function createMap(data)
 {
     // Calcolare la media latitudine e longitudine e fare le operazioni sia della data, sia del parse a lato server.
     let mapOptions = {
-        center: [averageCoord(data, 'Coord_Lat'), averageCoord(data, 'Coord_Lon')],
+        center: [averageCoord(data, 'Latid'), averageCoord(data, 'Long')],
         zoom: 15
     }
-    let map =  L.map("my-map", mapOptions);
+    var map =  L.map("my-map", mapOptions);
 
     for(let i=0; i<data.length; i++)
     {
-        let marker = L.marker([data[i]['Coord_Lat'], data[i]['Coord_Lon']]).addTo(map);
-        marker.bindPopup("Data: " + data[i]['Data']+"<br> Sogg: " + data[i]['Sottospecie_Nome']);
+        let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
+        marker.bindPopup("Data: " + data[i]['Data']+"<br> Sogg: " + data[i]['Specie_Nome']);
     }
-    let layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+    var layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
 }
 
@@ -45,10 +45,8 @@ $(document).ready(function() {
             row += '<tr>';
             row += '<td header="utente">'+data[i]['Nome']+" "+data[i]['Cognome']+'</td>';
             row += '<td header="data">'+data[i]['Data']+'</td>';
-            row += '<td header="latitudine">'+data[i]['Latid']+'</td>';
-            row += '<td header="longitudine">'+data[i]['Long']+'</td>';
+            row += '<td header="coordinate" rowspan="2">'+data[i]['Latid']+' '+ data[i]['Long'] +'</td>';
             row += '<td header="animale">'+data[i]['Anima_Nome']+'</td>';
-            row += '<td header="specie">'+data[i]['Specie_Nome']+'</td>';
             row += '<td header="visualizza"><button type="button" class="btn btn-primary" data-id="'+data[i]['ID']+'">Visualizza</button></td>';
             row += '</tr>';
         }

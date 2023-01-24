@@ -22,6 +22,30 @@
   --btn-bg-4-h: var(--btn-fg-4);
 }
 
+
+#my-map{
+  width:100%;
+  height: 50vh;
+  text-align: center;
+}
+
+#tblAvvistamenti{
+  border: black 1px solid;
+  background-color: rgb(236, 249, 255);
+  color: black;
+  max-width: 100%;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 80%;
+  text-align: center;
+}
+
+#tblAvvistamenti td{
+  padding: 3px;
+  margin: 0;
+}
+
 html#page-login body, html#page-signup body, html#page-homepage body, html#page-settings body, html#page-notifications body, html#page-profile body, html#page-search body, html#page-privacy body {
   background-color: var(--col-lighter);
 }
@@ -49,17 +73,6 @@ html#page-login main, html#page-settings main, html#page-search main, html#page-
 html#page-signup header, html#page-login header {
   background: -webkit-gradient(linear, left top, left bottom, from(var(--col-mid)), to(var(--transp)));
   background: linear-gradient(to bottom, var(--col-mid) 0%, var(--transp) 100%);
-}
-
-html#page-notifications h2 {
-  font-variant: all-petite-caps;
-  text-transform: uppercase;
-  font-weight: lighter;
-  line-height: 1;
-}
-
-html#page-profile #username::before {
-  content: "- ";
 }
 
 body > header {
@@ -183,36 +196,6 @@ body > header {
 
 .big-margin {
   margin-top: 6rem !important;
-}
-
-.user-stats {
-  font-family: 'Lucida Console', 'Courier New', Courier, monospace;
-}
-
-.user-stats .stats-left {
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
-}
-
-.user-stats .stats-right {
-  border-bottom-right-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
-.post-liked .dislike-button {
-  opacity: 0.5;
-}
-
-.post-liked .dislike-button:hover {
-  opacity: 1;
-}
-
-.post-disliked .like-button {
-  opacity: 0.5;
-}
-
-.post-disliked .like-button:hover {
-  opacity: 1;
 }
 
 .nav.nav-pills .nav-link.nav-1 {
@@ -359,52 +342,6 @@ body > header {
   color: var(--btn-fg-4-h);
 }
 
-.btn.btn-transition-up, .btn.btn-transition-down {
-  background-size: 100% 200%;
-  -webkit-transition: background-position 0.15s ease-in-out, color 0.15s ease-in-out, border 0.15s ease-in-out;
-  transition: background-position 0.15s ease-in-out, color 0.15s ease-in-out, border 0.15s ease-in-out;
-}
-
-.btn.btn-transition-up {
-  background-position: bottom;
-}
-
-@media (pointer: fine) {
-  .btn.btn-transition-up:hover {
-    background-position: top;
-  }
-}
-
-.btn.btn-transition-up.btn-inverted {
-  background-position: top;
-}
-
-@media (pointer: fine) {
-  .btn.btn-transition-up.btn-inverted:hover {
-    background-position: bottom;
-  }
-}
-
-.btn.btn-transition-down {
-  background-position: top;
-}
-
-@media (pointer: fine) {
-  .btn.btn-transition-down:hover {
-    background-position: bottom;
-  }
-}
-
-.btn.btn-transition-down.btn-inverted {
-  background-position: bottom;
-}
-
-@media (pointer: fine) {
-  .btn.btn-transition-down.btn-inverted:hover {
-    background-position: top;
-  }
-}
-
 .btn.btn-1 {
   background-color: var(--btn-bg-1);
   color: var(--btn-fg-1);
@@ -413,357 +350,6 @@ body > header {
 
 .btn.btn-1.btn-background {
   background-color: white;
-}
-
-.btn.btn-1 img.btn-image {
-  -webkit-transition: -webkit-filter 0.15s linear;
-  transition: -webkit-filter 0.15s linear;
-  transition: filter 0.15s linear;
-  transition: filter 0.15s linear, -webkit-filter 0.15s linear;
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-1:hover {
-  background-color: var(--btn-bg-1-h);
-  color: var(--btn-fg-1-h);
-}
-
-.btn.btn-1:hover img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-1.btn-transition-up {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, var(--btn-bg-1)), color-stop(50%, var(--btn-bg-1-h)));
-  background-image: linear-gradient(to top, var(--btn-bg-1) 50%, var(--btn-bg-1-h) 50%);
-}
-
-.btn.btn-1.btn-transition-up.btn-background {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, white), color-stop(50%, var(--btn-bg-1-h)));
-  background-image: linear-gradient(to top, white 50%, var(--btn-bg-1-h) 50%);
-}
-
-.btn.btn-1.btn-transition-down {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--btn-bg-1)), color-stop(50%, var(--btn-bg-1-h)));
-  background-image: linear-gradient(to bottom, var(--btn-bg-1) 50%, var(--btn-bg-1-h) 50%);
-}
-
-.btn.btn-1.btn-transition-down.btn-background {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, white), color-stop(50%, var(--btn-bg-1-h)));
-  background-image: linear-gradient(to bottom, white 50%, var(--btn-bg-1-h) 50%);
-}
-
-.btn.btn-1.btn-inverted {
-  background-color: var(--btn-bg-1-h);
-  color: var(--btn-fg-1-h);
-}
-
-.btn.btn-1.btn-inverted img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-1.btn-inverted:hover {
-  background-color: var(--btn-bg-1);
-  color: var(--btn-fg-1);
-}
-
-.btn.btn-1.btn-inverted:hover.btn-background {
-  background-color: white;
-}
-
-.btn.btn-1.btn-inverted:hover img.btn-image {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-1.btn-transition-up, .btn.btn-1.btn-transition-down {
-  background-color: var(--transp);
-}
-
-@media (pointer: coarse) {
-  .btn.btn-1.btn-transition-up, .btn.btn-1.btn-transition-down {
-    color: var(--btn-fg-1);
-  }
-  .btn.btn-1.btn-transition-up.btn-inverted, .btn.btn-1.btn-transition-down.btn-inverted {
-    color: var(--btn-fg-1-h);
-  }
-}
-
-.btn.btn-2 {
-  background-color: var(--btn-bg-2);
-  color: var(--btn-fg-2);
-  border-color: var(--btn-fg-2);
-}
-
-.btn.btn-2.btn-background {
-  background-color: white;
-}
-
-.btn.btn-2 img.btn-image {
-  -webkit-transition: -webkit-filter 0.15s linear;
-  transition: -webkit-filter 0.15s linear;
-  transition: filter 0.15s linear;
-  transition: filter 0.15s linear, -webkit-filter 0.15s linear;
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-2:hover {
-  background-color: var(--btn-bg-2-h);
-  color: var(--btn-fg-2-h);
-}
-
-.btn.btn-2:hover img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-2.btn-transition-up {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, var(--btn-bg-2)), color-stop(50%, var(--btn-bg-2-h)));
-  background-image: linear-gradient(to top, var(--btn-bg-2) 50%, var(--btn-bg-2-h) 50%);
-}
-
-.btn.btn-2.btn-transition-up.btn-background {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, white), color-stop(50%, var(--btn-bg-2-h)));
-  background-image: linear-gradient(to top, white 50%, var(--btn-bg-2-h) 50%);
-}
-
-.btn.btn-2.btn-transition-down {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--btn-bg-2)), color-stop(50%, var(--btn-bg-2-h)));
-  background-image: linear-gradient(to bottom, var(--btn-bg-2) 50%, var(--btn-bg-2-h) 50%);
-}
-
-.btn.btn-2.btn-transition-down.btn-background {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, white), color-stop(50%, var(--btn-bg-2-h)));
-  background-image: linear-gradient(to bottom, white 50%, var(--btn-bg-2-h) 50%);
-}
-
-.btn.btn-2.btn-inverted {
-  background-color: var(--btn-bg-2-h);
-  color: var(--btn-fg-2-h);
-}
-
-.btn.btn-2.btn-inverted img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-2.btn-inverted:hover {
-  background-color: var(--btn-bg-2);
-  color: var(--btn-fg-2);
-}
-
-.btn.btn-2.btn-inverted:hover.btn-background {
-  background-color: white;
-}
-
-.btn.btn-2.btn-inverted:hover img.btn-image {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-2.btn-transition-up, .btn.btn-2.btn-transition-down {
-  background-color: var(--transp);
-}
-
-@media (pointer: coarse) {
-  .btn.btn-2.btn-transition-up, .btn.btn-2.btn-transition-down {
-    color: var(--btn-fg-2);
-  }
-  .btn.btn-2.btn-transition-up.btn-inverted, .btn.btn-2.btn-transition-down.btn-inverted {
-    color: var(--btn-fg-2-h);
-  }
-}
-
-.btn.btn-3 {
-  background-color: var(--btn-bg-3);
-  color: var(--btn-fg-3);
-  border-color: var(--btn-fg-3);
-}
-
-.btn.btn-3.btn-background {
-  background-color: white;
-}
-
-.btn.btn-3 img.btn-image {
-  -webkit-transition: -webkit-filter 0.15s linear;
-  transition: -webkit-filter 0.15s linear;
-  transition: filter 0.15s linear;
-  transition: filter 0.15s linear, -webkit-filter 0.15s linear;
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-3:hover {
-  background-color: var(--btn-bg-3-h);
-  color: var(--btn-fg-3-h);
-}
-
-.btn.btn-3:hover img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-3.btn-transition-up {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, var(--btn-bg-3)), color-stop(50%, var(--btn-bg-3-h)));
-  background-image: linear-gradient(to top, var(--btn-bg-3) 50%, var(--btn-bg-3-h) 50%);
-}
-
-.btn.btn-3.btn-transition-up.btn-background {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, white), color-stop(50%, var(--btn-bg-3-h)));
-  background-image: linear-gradient(to top, white 50%, var(--btn-bg-3-h) 50%);
-}
-
-.btn.btn-3.btn-transition-down {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--btn-bg-3)), color-stop(50%, var(--btn-bg-3-h)));
-  background-image: linear-gradient(to bottom, var(--btn-bg-3) 50%, var(--btn-bg-3-h) 50%);
-}
-
-.btn.btn-3.btn-transition-down.btn-background {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, white), color-stop(50%, var(--btn-bg-3-h)));
-  background-image: linear-gradient(to bottom, white 50%, var(--btn-bg-3-h) 50%);
-}
-
-.btn.btn-3.btn-inverted {
-  background-color: var(--btn-bg-3-h);
-  color: var(--btn-fg-3-h);
-}
-
-.btn.btn-3.btn-inverted img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-3.btn-inverted:hover {
-  background-color: var(--btn-bg-3);
-  color: var(--btn-fg-3);
-}
-
-.btn.btn-3.btn-inverted:hover.btn-background {
-  background-color: white;
-}
-
-.btn.btn-3.btn-inverted:hover img.btn-image {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-3.btn-transition-up, .btn.btn-3.btn-transition-down {
-  background-color: var(--transp);
-}
-
-@media (pointer: coarse) {
-  .btn.btn-3.btn-transition-up, .btn.btn-3.btn-transition-down {
-    color: var(--btn-fg-3);
-  }
-  .btn.btn-3.btn-transition-up.btn-inverted, .btn.btn-3.btn-transition-down.btn-inverted {
-    color: var(--btn-fg-3-h);
-  }
-}
-
-.btn.btn-4 {
-  background-color: var(--btn-bg-4);
-  color: var(--btn-fg-4);
-  border-color: var(--btn-fg-4);
-}
-
-.btn.btn-4.btn-background {
-  background-color: white;
-}
-
-.btn.btn-4 img.btn-image {
-  -webkit-transition: -webkit-filter 0.15s linear;
-  transition: -webkit-filter 0.15s linear;
-  transition: filter 0.15s linear;
-  transition: filter 0.15s linear, -webkit-filter 0.15s linear;
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-4:hover {
-  background-color: var(--btn-bg-4-h);
-  color: var(--btn-fg-4-h);
-}
-
-.btn.btn-4:hover img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-4.btn-transition-up {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, var(--btn-bg-4)), color-stop(50%, var(--btn-bg-4-h)));
-  background-image: linear-gradient(to top, var(--btn-bg-4) 50%, var(--btn-bg-4-h) 50%);
-}
-
-.btn.btn-4.btn-transition-up.btn-background {
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(50%, white), color-stop(50%, var(--btn-bg-4-h)));
-  background-image: linear-gradient(to top, white 50%, var(--btn-bg-4-h) 50%);
-}
-
-.btn.btn-4.btn-transition-down {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--btn-bg-4)), color-stop(50%, var(--btn-bg-4-h)));
-  background-image: linear-gradient(to bottom, var(--btn-bg-4) 50%, var(--btn-bg-4-h) 50%);
-}
-
-.btn.btn-4.btn-transition-down.btn-background {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, white), color-stop(50%, var(--btn-bg-4-h)));
-  background-image: linear-gradient(to bottom, white 50%, var(--btn-bg-4-h) 50%);
-}
-
-.btn.btn-4.btn-inverted {
-  background-color: var(--btn-bg-4-h);
-  color: var(--btn-fg-4-h);
-}
-
-.btn.btn-4.btn-inverted img.btn-image {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
-}
-
-.btn.btn-4.btn-inverted:hover {
-  background-color: var(--btn-bg-4);
-  color: var(--btn-fg-4);
-}
-
-.btn.btn-4.btn-inverted:hover.btn-background {
-  background-color: white;
-}
-
-.btn.btn-4.btn-inverted:hover img.btn-image {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
-}
-
-.btn.btn-4.btn-transition-up, .btn.btn-4.btn-transition-down {
-  background-color: var(--transp);
-}
-
-@media (pointer: coarse) {
-  .btn.btn-4.btn-transition-up, .btn.btn-4.btn-transition-down {
-    color: var(--btn-fg-4);
-  }
-  .btn.btn-4.btn-transition-up.btn-inverted, .btn.btn-4.btn-transition-down.btn-inverted {
-    color: var(--btn-fg-4-h);
-  }
-}
-
-.nav-link.blink {
-  -webkit-animation: notifications 2.5s ease-in-out infinite;
-          animation: notifications 2.5s ease-in-out infinite;
-}
-
-@-webkit-keyframes notifications {
-  50% {
-    color: gold;
-  }
-}
-
-@keyframes notifications {
-  50% {
-    color: gold;
-  }
 }
 
 header h1 {

@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js" integrity="sha256-8L3yX9qPmvWSDIIHB3WGTH4RZusxVA0DDmuAo4LjnOE=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/tripledes.js" integrity="sha256-jY3gYjXgjzjdyFUHDvjLhtfGmmezpSePjL8q9ktVEi0=" crossorigin="anonymous"></script>
+    <script src="../leaflet/leaflet.js"></script>
     <?php foreach($templateParams["javascript"] as $path):?>
         <script src="<?=$path?>"></script>
     <?php endforeach; ?>
