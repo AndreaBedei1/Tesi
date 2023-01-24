@@ -70,6 +70,13 @@
             $stmt->bind_param('sss', $nome, $cognome, $mail);
             return $stmt->execute();
         }
+
+        public function getSighting(){
+            $query = "SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID ORDER BY Data ";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
         
         // FIno a qui corretto!!!!!!
         public function getPostType(){
