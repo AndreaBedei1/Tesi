@@ -1,10 +1,6 @@
-const fileint = "templates/main_settings/settings_api.php";
+const fileint = "../templates/main_settings/settings_api.php";
 
 $(document).ready(function() {
-    setInterests();
-    checkInterests();
-    insertProfileImage();
-
     $("main nav").on("click",'button',function(){
         const typBtn = $(this).data("type");
         $(".section").hide().removeClass('d-none');
@@ -13,6 +9,26 @@ $(document).ready(function() {
         $('[data-type="'+typBtn+'"]').addClass("active");
         $("#alert").html("");
     });
+
+    const datas = new FormData();
+    datas.append("request", "getUserInfo");
+    $.ajax({
+        type: "POST",
+        url: fileint,
+        data:  datas, 
+        processData: false,
+        contentType: false
+    })
+    .done(function(data,success,response) {
+        console.log(data)
+        $('#nome').val(data[0].Nome);
+        $('#cognome').val(data[0].Cognome);
+        $('#email').val(data[0].Email);
+    })
+    .fail(function(response) {
+        console.log(response);
+    });
+
 
     $("#security").on("click",'button',function(){
         const datas = new FormData();
@@ -25,16 +41,17 @@ $(document).ready(function() {
             contentType: false
         })
         .done(function(data,success,response) {
-            changePWD(data.key)
+            changePWD(data.key);
         })
         .fail(function(response) {
             console.log(response);
         });
     });
 
-    $("#interests").on("click",'button',function(){
-        const datas = getFormData("frmInterests");
-        datas.append("request", "changeIntr");
+    $("#profile").on("click",'button',function(){   
+        const datas = getFormData('frmProfile')
+        datas.append("request", "setUserInfo");
+        datas.delete('email');
         $.ajax({
             type: "POST",
             url: fileint,
@@ -47,34 +64,6 @@ $(document).ready(function() {
                 addAlert("alert","alert-danger", data.msg,"");
             } else {
                 addAlert("alert","alert-success", data.msg,"x");
-            }
-        })
-        .fail(function(response) {
-            console.log(response);
-        });
-
-    });
-
-    $("#profile").on("click",'button',function(){
-        const datas = new FormData();
-        let file = $("#image")[0].files[0];
-        if(file===undefined)
-            file = "";
-        datas.append("file",file);
-        datas.append("request", "changeImg");
-        $.ajax({
-            type: "POST",
-            url: fileint,
-            data:  datas, 
-            processData: false,
-            contentType: false
-        })
-        .done(function(data,success,response) {
-            if(data.stato === false){
-                addAlert("alert","alert-danger", data.msg,"");
-            } else {
-                addAlert("alert","alert-success", data.msg,"x");
-                $("#imgUtente").attr("src", "images/profile_img/"+data.file);
             }
         })
         .fail(function(response) {
@@ -113,41 +102,3 @@ function changePWD(key){
     }
 }
 
-function insertProfileImage(){
-    const datas = new FormData();
-    datas.append("request", "getUserInfo");
-    $.ajax({
-        type: "POST",
-        url: fileint,
-        data:  datas, 
-        processData: false,
-        contentType: false
-    })
-    .done(function(data,success,response) {
-        $("#imgUtente").attr("src", "images/profile_img/"+data);
-    })
-    .fail(function(response) {
-        console.log(response);
-    });
-}
-
-function checkInterests(){
-    const datas = new FormData();
-    datas.append("request", "getInterests");
-
-    $.ajax({
-        type: "POST",
-        url: fileint,
-        data:  datas, 
-        processData: false,
-        contentType: false
-    })
-    .done(function(data,success,response) {
-        data.interests.forEach(element => {
-            $("#"+element.InterNome).prop('checked', true);
-        });
-    })
-    .fail(function(response) {
-        console.log(response);
-    });
-}

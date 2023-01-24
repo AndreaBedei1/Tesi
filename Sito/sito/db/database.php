@@ -40,27 +40,38 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
-
-        // FIno a qui corretto!!!!!!
-
-
-
-
-        public function checkPwd($user, $password){
-            $query = "SELECT * FROM Credenziali WHERE Utente=? AND Password=?"; 
+        
+        public function checkPwd($mail, $password){
+            $query = "SELECT * FROM utenti WHERE Email=? AND `Password`=?"; 
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $user, $password);
+            $stmt->bind_param('ss', $mail, $password);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
         
-        public function changePwd($user, $password){
-            $query = "UPDATE Credenziali SET `Password`=? WHERE Utente=?"; 
+        public function changePwd($mail, $password){
+            $query = "UPDATE utenti SET `Password`=? WHERE Email=?"; 
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $password, $user);
+            $stmt->bind_param('ss', $password, $mail);
             return $stmt->execute();
         }
 
+        public function getUserInfo($mail){
+            $query = 'SELECT `ID`, `Nome`, `Cognome`, `Email` FROM `utenti` WHERE `Email`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $mail);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function setUserInfo($mail, $nome, $cognome){
+            $query = "UPDATE `utenti` SET `Nome`=?, `Cognome`=? WHERE `Email`=?"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('sss', $nome, $cognome, $mail);
+            return $stmt->execute();
+        }
+        
+        // FIno a qui corretto!!!!!!
         public function getPostType(){
             $query = "SELECT Nome AS cod_select, Nome AS descr_select FROM TipologiaPost ";
             $stmt = $this->db->prepare($query);
@@ -144,13 +155,7 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function getUserInfo($username){
-            $query = 'SELECT u.*, p.InterNome FROM Utente u LEFT JOIN Preferenza p ON u.Username = p.Username WHERE u.Username=?';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $username);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
+
 
         public function changeProfile($img, $user)
         {

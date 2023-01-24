@@ -1,10 +1,10 @@
 :root {
   --col-dark: rgb(39, 45, 53);
-  --col-mid: rgb(81, 111, 150);
-  --col-light: rgb(192, 207, 228);
-  --col-lighter: aliceblue;
+  --col-mid: rgb(126, 176, 241);
+  --col-light: rgb(198, 222, 255);
+  --col-lighter: rgb(202, 230, 255);
   --transp: rgba(0,0,0,0);
-  --btn-fg-1: rgb(47, 0, 255);
+  --btn-fg-1: rgb(0, 0, 255);
   --btn-fg-1-h: white;
   --btn-bg-1: var(--transp);
   --btn-bg-1-h: var(--btn-fg-1);
@@ -849,4 +849,3 @@ footer img {
 footer .footer-info {
   background-color: rgba(0, 0, 0, 0.2);
 }
-/*# sourceMappingURL=style.css.map */
