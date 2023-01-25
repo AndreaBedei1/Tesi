@@ -46,13 +46,13 @@
                                 </div>
                                 <div class="row my-4">
                                     <div class="col-lg-12">
-                                        <input type="submit" class="btn btn-1" value="Accedi" />
+                                        <input type="submit" class="btn btn-1 btn-outline-primary" value="Accedi" />
                                     </div>
                                 </div>
                             </form>
                             <div class="row my-4">
                                 <div class="col-lg-12">
-                                    <a class="btn btn-2 btn-sm" href="signup.php">Non ho un account</a>
+                                    <a class="btn btn-2 btn-sm btn-outline-secondary" href="signup.php">Non ho un account</a>
                                 </div>
                             </div>
                             <div class="col-lg-2"></div>

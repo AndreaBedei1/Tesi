@@ -5,19 +5,19 @@
   --col-lighter: rgb(202, 230, 255);
   --transp: rgba(0,0,0,0);
   --btn-fg-1: rgb(0, 0, 255);
-  --btn-fg-1-h: white;
+  --btn-fg-1-h: hsl(180, 100%, 50%);
   --btn-bg-1: var(--transp);
   --btn-bg-1-h: var(--btn-fg-1);
   --btn-fg-2: rgb(133, 133, 133);
-  --btn-fg-2-h: white;
+  --btn-fg-2-h: rgb(185, 185, 185);
   --btn-bg-2: var(--transp);
   --btn-bg-2-h: var(--btn-fg-2);
   --btn-fg-3: rgb(0, 172, 0);
-  --btn-fg-3-h: white;
+  --btn-fg-3-h: rgb(68, 54, 54);
   --btn-bg-3: var(--transp);
   --btn-bg-3-h: var(--btn-fg-3);
   --btn-fg-4: rgb(255, 0, 0);
-  --btn-fg-4-h: white;
+  --btn-fg-4-h: rgb(136, 84, 84);
   --btn-bg-4: var(--transp);
   --btn-bg-4-h: var(--btn-fg-4);
 }
@@ -47,7 +47,6 @@
 
 #tblAvvistamenti{
   color: black;
-  height: 100%;
   width: 100%;
   word-wrap: break-word;
   word-break: break-word;
@@ -66,11 +65,15 @@
   border: 3px solid black;
 }
 
+
 .tableFixHead:hover{
   transition: border 1s;
   border: 3px solid rgb(0, 59, 185);
 }
 
+table tr{
+  max-height: 10vh;
+}
 
 table:hover tr{
   transition: border 1s;
@@ -78,22 +81,26 @@ table:hover tr{
 }
 
 .tableFixHead thead th{
+  vertical-align: middle;
   position: sticky;
   background-color: rgb(236, 249, 255);
-  z-index: 10;
+  z-index: 1;
   top: 0px;
 }
 
 
-html#page-login body, html#page-signup body, html#page-homepage body, html#page-settings body, html#page-notifications body, html#page-profile body, html#page-search body, html#page-privacy body {
+
+
+
+html#page-login body, html#page-signup body, html#page-homepage body, html#page-settings body, html#page-single body, html#page-privacy body {
   background-color: var(--col-lighter);
 }
 
-html#page-login, html#page-login body, html#page-settings, html#page-settings body, html#page-search, html#page-search body, html#page-notifications, html#page-notifications body {
+html#page-login, html#page-login body, html#page-settings, html#page-settings body, html#page-single, html#page-single body {
   height: 100%;
 }
 
-html#page-login body, html#page-settings body, html#page-search body, html#page-notifications body {
+html#page-login body, html#page-settings body, html#page-single body{
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -103,7 +110,7 @@ html#page-login body, html#page-settings body, html#page-search body, html#page-
           flex-direction: column;
 }
 
-html#page-login main, html#page-settings main, html#page-search main, html#page-notifications main {
+html#page-login main, html#page-settings main, html#page-single main{
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -117,7 +124,7 @@ html#page-signup header, html#page-login header {
 body > header {
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 10;
   top: 0;
 }
 
@@ -381,18 +388,7 @@ body > header {
   color: var(--btn-fg-4-h);
 }
 
-.btn.btn-1 {
-  background-color: var(--btn-bg-1);
-  color: var(--btn-fg-1);
-  border-color: var(--btn-fg-1);
-}
-
-.btn.btn-1.btn-background {
-  background-color: white;
-}
-
 header h1 {
-  font-style: italic;
   font-weight: bold;
   font-variant: all-petite-caps;
 }

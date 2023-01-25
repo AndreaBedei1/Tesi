@@ -77,7 +77,15 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
-        
+
+        public function getDates($id){
+            $query = 'SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.ID=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
         // FIno a qui corretto!!!!!!
         public function getPostType(){
             $query = "SELECT Nome AS cod_select, Nome AS descr_select FROM TipologiaPost ";

@@ -16,9 +16,9 @@
                                     <tr>
                                         <th id="utente" scope="col">Utente</th>
                                         <th id="data" scope="col">Data</th>
-                                        <th id="coordinate" scope="col" rowspan='2'>Coordinate</th>
+                                        <th id="coordinate" scope="col">Zona</th>
                                         <th id="animale" scope="col">Animale</th>
-                                        <th id="visualizza" scope="col">Operazioni</th>
+                                        <th id="visualizza" scope="col">Vedi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
