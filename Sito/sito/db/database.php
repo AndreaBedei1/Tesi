@@ -72,7 +72,7 @@
         }
 
         public function getSighting(){
-            $query = "SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID ORDER BY Data ";
+            $query = "SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID ORDER BY Data DESC";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -82,6 +82,21 @@
             $query = 'SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.ID=?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function getTypeS(){
+            $query = "SELECT *, Nome AS cod_select, Nome AS descr_select FROM animali ";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function getTypeSS($sel){
+            $query = "SELECT *, Nome AS cod_select, Nome AS descr_select FROM specie WHERE Anima_Nome=?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $sel);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }

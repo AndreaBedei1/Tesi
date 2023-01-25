@@ -23,20 +23,17 @@ if(isset($_POST["request"])){
 
         case 'slcSpecie':
         {
-            $query = "SELECT *, Nome AS cod_select, Nome AS descr_select FROM specie ";
-            $ristot = DB_query($conn,$query);
-            $rec = DB_fetch($ristot);
-            $return_array = $rec;
+            if(isUserLoggedIn()){
+                $result = $dbh->getTypeS();
+            }
             break;
         }
 
         case 'slcSottospecie':
         {
-            $specie = $_REQUEST['specie'];
-            $query = 'SELECT *, Nome AS cod_select, Nome AS descr_select FROM sottospecie WHERE Specie_Nome="'.$specie.'" ';
-            $ristot = DB_query($conn,$query);
-            $rec = DB_fetch($ristot);
-            $return_array = $rec;
+            if(isUserLoggedIn() && isset($_POST["selector"])){
+                $result = $dbh->getTypeSS($_POST["selector"]);
+            }
             break;
         }
     }

@@ -1,9 +1,5 @@
 const fileint = "../templates/single_sighting/single_api.php";
 $(document).ready(function() {
-    
-// SIstemare il fatto che in php gli elementi possono essere null e sostituire con ""
-    // Prendo l'id della specie.
-
     var id = document.getElementById("idcod").value;
     const datas = new FormData();
     datas.append("id", id);
@@ -21,7 +17,6 @@ $(document).ready(function() {
         createMap(dati);
         $("#utente").val(dati["Cognome"]+" "+dati["Nome"]);
         $("#data").val(dati["Data"]);
-        // Mettere a posto la specie.
         // Mettere a posto la sottospecie.
         $("#latitudine").val(dati["Latid"]);
         $("#longitudine").val(dati["Long"]);
@@ -38,8 +33,13 @@ $(document).ready(function() {
 
 
     $( "#slcSpecie" ).change(function() {
-        var sp = $("#slcSpecie").val(); 
-        // select_file("avvistamento_q.php", "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
+        var sp = $("#slcSpecie").val();
+        if(sp==""){
+            $("#slcSottospecie").prop('disabled', true);
+        }else{
+            $("#slcSottospecie").prop('disabled', false);
+        }
+        select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
     });
 });
     

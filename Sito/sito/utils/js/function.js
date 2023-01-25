@@ -1,45 +1,43 @@
-const fileintPost = "templates/main_posts/posts_api.php";
-const fileProfile = "profile.php";
 function select_file(file, request, dati, id_select, valore, vuoto)
 {
     const formdata = new FormData();
     formdata.append("request",request);
-    formdata.append("selector",dati.specie);
-    console.log(dati.specie);
+    if(dati!=""){
+        formdata.append("selector",dati.specie);
+    }
+    $.ajax({
+        type: "POST",
+        url: file,
+        data: formdata, 
+        processData: false,
+        contentType: false
+    })
+    .done(function(data, success, response) {
+        let rows = '', dati = data;
+        $("#" + id_select).html('');
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: file,
-    //     data: formdata, 
-    //     processData: false,
-    //     contentType: false
-    // })
-    // .done(function(data, success, response) {
-    //     let rows = '', dati = data;
-    //     $("#" + id_select).html('');
+        if(vuoto == 1)
+            $("#" + id_select).append('<option></option>');
+        if(dati != '' && dati != null)
+        {
+            for(let i = 0; i < dati.length; i++)
+            {
+                const dati_s = dati[i];
 
-    //     if(vuoto == 1)
-    //         $("#" + id_select).append('<option></option>');
-    //     if(dati != '' && dati != null)
-    //     {
-    //         for(let i = 0; i < dati.length; i++)
-    //         {
-    //             const dati_s = dati[i];
+                rows += '<option value="' + dati_s.cod_select + '"';
+                if(dati[i].attr_select != '' && dati[i].attr_select!= null && dati[i].attr_select!= undefined)
+                    rows += dati[i].attr_select;
 
-    //             rows += '<option value="' + dati_s.cod_select + '"';
-    //             if(dati[i].attr_select != '' && dati[i].attr_select!= null && dati[i].attr_select!= undefined)
-    //                 rows += dati[i].attr_select;
-
-    //             if(dati_s.cod_select == valore)
-    //                 rows += ' selected';
-    //             rows += '>' + dati_s.descr_select +'</option>';
-    //         }
-    //         $("#" + id_select).append(rows);
-    //     }
-    // })
-    // .fail(function(response) {
-    //     return_fail(response);
-    // });
+                if(dati_s.cod_select == valore)
+                    rows += ' selected';
+                rows += '>' + dati_s.descr_select +'</option>';
+            }
+            $("#" + id_select).append(rows);
+        }
+    })
+    .fail(function(response) {
+        return_fail(response);
+    });
 }
 
 
