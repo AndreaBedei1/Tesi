@@ -13,6 +13,15 @@ function createMap(data)
     {
         let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
         marker.bindPopup("Data: " + data[i]['Data']+"<br> Sogg: " + data[i]['Specie_Nome']);
+        marker.on('mouseover', function (e) {
+        this.openPopup();
+        });
+        marker.on('mouseout', function (e) {
+        this.closePopup();
+        });
+        marker.on('click', function (e) {
+            window.open('single.php?id='+data[i]['ID'], '_blank');
+        });
     }
     var layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
