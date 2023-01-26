@@ -12,7 +12,7 @@ function createMap(data)
     for(let i=0; i<data.length; i++)
     {
         let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
-        marker.bindPopup("Data: " + data[i]['Data']+"<br> Sogg: " + data[i]['Specie_Nome']);
+        marker.bindPopup("Data: " + data[i]['Data']+"<br> Animale: " + data[i]['Anima_Nome']+"<br> Specie: " + data[i]['Specie_Nome']);
         marker.on('mouseover', function (e) {
         this.openPopup();
         });

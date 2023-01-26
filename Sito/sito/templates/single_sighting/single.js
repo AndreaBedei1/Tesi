@@ -31,7 +31,6 @@ $(document).ready(function() {
         console.log(response);
     });
 
-
     $( "#slcSpecie" ).change(function() {
         var sp = $("#slcSpecie").val();
         if(sp==""){
@@ -40,6 +39,10 @@ $(document).ready(function() {
             $("#slcSottospecie").prop('disabled', false);
         }
         select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
+    });
+
+    $("#btn_visual").click(function() {
+        $('#modal').modal('toggle');
     });
 });
     

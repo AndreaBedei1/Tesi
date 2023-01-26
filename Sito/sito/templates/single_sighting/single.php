@@ -4,6 +4,25 @@
             <header>
                 <h1 class="text-center">Dati Avvistamento</h1>
             </header>
+            <div id='modal' class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="Immagini" aria-hidden="true">
+                <div class='modal-dialog modal-lg' role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="modaltitle">Immagini</h2>
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-3 close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php
                 if(isset($_GET["id"])){
                     echo '
@@ -70,6 +89,26 @@
                                             </div>
                                         </div>
                                         <div class="row my-2">
+                                            <div class="col-6">
+                                                <button id="btn_visual" class="btn btn-dark" type="button">Visualizza Immagini</button>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <button class="btn btn-primary" type="button">Salva</button>
+                                            </div>
+                                        <div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                }
+            ?>
+        </section>
+    </div>
+</main>
+
+<!-- <div class="row my-2">
                                             <div class="col-12">
                                                 <label for="img">Immagini: </label>
                                                 <input id="img" class="input-group" type="file" name="file"/>
@@ -80,21 +119,4 @@
                                                 <div id="divimg"></div>
                                                 <p>Mostrare le immagini già presenti<br> Solo per i delfini ci sarà la possibilità di cercare di riconoscere la specie, attraverso un bottone</p>
                                             </div>
-                                        <div>
-                                        <div class="row my-2">
-                                            <div class="col-12 text-end">
-                                                <button class="btn btn-primary btn-lg" type="button">Salva</button>
-                                            </div>
-                                        <div>
-                                    </form>
-                                </div>
-        
-                            </div>
-                        </div>
-                    </div>
-                    ';
-                }
-            ?>
-        </section>
-    </div>
-</main>
+                                        <div> -->
