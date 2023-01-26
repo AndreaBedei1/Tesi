@@ -43,27 +43,49 @@ $(document).ready(function() {
     });
 
     $("#delete").click(function() {
-        const datas = new FormData();
-        datas.append("id", id);
-        datas.append("request", "delete");
-        $.ajax({
-            method: "POST",
-            url: fileint,
-            data:  datas,
-            processData: false,
-            contentType: false
-        })
-        .done(function(data,success,response) {
-            if(data){
-                document.location.href = "homepage.php";
-            } else {
-                addAlert("alert","alert-danger","Non è stato possibile eliminare l'avvistamento","x");
-            }
-        })
-        .fail(function(response) {
-            console.log(response);
+        document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'avvistamento?</p>";
+        document.querySelector("#info .modal-title").innerText="Eliminazione";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-primary">No</button>`;
+
+        document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+            $('#info').modal('toggle');
         });
+        
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            $("#delete").click(function() {
+                const datas = new FormData();
+                datas.append("id", id);
+                datas.append("request", "delete");
+                $.ajax({
+                    method: "POST",
+                    url: fileint,
+                    data:  datas,
+                    processData: false,
+                    contentType: false
+                })
+                .done(function(data,success,response) {
+                    if(data){
+                        document.location.href = "homepage.php";
+                    } else {
+                        addAlert("alert","alert-danger","Non è stato possibile eliminare l'avvistamento","x");
+                    }
+                })
+                .fail(function(response) {
+                    console.log(response);
+                });
+            });
+        });
+
+        $('#info').modal('toggle');
     });
+
+
+    document.querySelectorAll("#info button")[0].addEventListener("click",function() {
+        $('#info').modal('toggle');
+    });
+
 
     $("#save").click(function() {
         const datas = getFormData("avvDates")
@@ -80,9 +102,9 @@ $(document).ready(function() {
         })
         .done(function(data,success,response) {
             if(data){
-                addAlert("alert","alert-success","Dati aggiornati correttamente.","x");
+                addAlert("alert","alert-success","Dati aggiornati.","");
             }else{
-                addAlert("alert","alert-danger","Non è stato possibile aggiornare i dati.","x");
+                addAlert("alert","alert-danger","Errore aggiornamento.","x");
             }
         })
         .fail(function(response) {

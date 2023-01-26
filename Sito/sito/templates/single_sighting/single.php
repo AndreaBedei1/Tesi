@@ -28,14 +28,27 @@
                     </div>
                 </div>
             </div>
+            <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
+                <div class='modal-dialog' role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title"></h2>
+                            <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <input type="hidden" id="idcod" name="id" value="<?php echo $_GET["id"] ?>"/>
-            <div id="alert" role="alert"></div>
             <div class="card-body w-100">
                 <div class="row w-100">
-                    <div class="col-12 col-lg-6 lg-my-3 lg-px-3 px-4 py-0">
+                    <div class="col-12 col-lg-6 lg-my-2 lg-px-3 px-4 py-0 mt-lg-5">
                         <div id="map"><div id="my-map"></div></div>
                     </div>
-                    <div class="col-12 col-lg-6 lg-my-4 lg-px-3 px-4 py-0 my-0">
+                    <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-4 py-0 my-0">
                         <div class="w-100 px-2 py-1 avvstaDiv">
                             <div class="row">
                                 <div class="col-10">
