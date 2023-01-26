@@ -1,6 +1,6 @@
 const fileint = "../templates/single_sighting/single_api.php";
 $(document).ready(function() {
-    var id = document.getElementById("idcod").value;
+    id = document.getElementById("idcod").value;
     const datas = new FormData();
     datas.append("id", id);
     datas.append("request", "tbl_avvistamenti");
@@ -11,13 +11,10 @@ $(document).ready(function() {
         processData: false,
         contentType: false
     })
-    .done(function(data,success,response) {
-        console.log(data);
-        var dati = data[0];
+    .done(function(dati,success,response) {
         createMap(dati);
         $("#utente").val(dati["Cognome"]+" "+dati["Nome"]);
         $("#data").val(dati["Data"]);
-        // Mettere a posto la sottospecie.
         $("#latitudine").val(dati["Latid"]);
         $("#longitudine").val(dati["Long"]);
         $("#nEsemplari").val(dati["Numero_Esemplari"]);
@@ -43,6 +40,50 @@ $(document).ready(function() {
 
     $("#btn_visual").click(function() {
         $('#modal').modal('toggle');
+    });
+
+    $("#delete").click(function() {
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("request", "delete");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            if(data){
+                document.location.href = "homepage.php";
+            } else {
+                addAlert("alert","alert-danger","Non è stato possibile eliminare l'avvistamento","x");
+            }
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+
+    $("#save").click(function() {
+        const datas = getFormData("avvDates")
+        datas.append("id", id);
+        if(!datas.has("sottospecie"))
+            datas.append("sottospecie", "");
+        datas.append("request", "saveDates");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            console.log(data);
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
     });
 });
     

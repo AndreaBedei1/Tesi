@@ -101,6 +101,23 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
+        public function updateDates($id, $specie, $sottospecie, $esemplari, $vento, $mare, $note){
+            if($specie==""){
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=NULL,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL WHERE `ID`=?"; 
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('sssss', $esemplari, $vento, $mare, $note, $id);
+            } else if($specie!="" && $sottospecie==""){
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL WHERE `ID`=?"; 
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('ssssss', $esemplari, $vento, $mare, $note, $specie, $id);
+            } else {
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=?,`Specie_Nome`=? WHERE `ID`=?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('ssssssss', $esemplari, $vento, $mare, $note, $specie, $specie, $sottospecie, $id);
+            }
+            return $stmt->execute();
+        }
+
         // FIno a qui corretto!!!!!!
         public function getPostType(){
             $query = "SELECT Nome AS cod_select, Nome AS descr_select FROM TipologiaPost ";

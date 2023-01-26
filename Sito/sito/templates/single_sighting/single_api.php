@@ -10,13 +10,11 @@ if(isset($_POST["request"])){
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $id = $_POST["id"];
                 $rec = $dbh->getDates($_POST["id"]);
-                for($i=0; $i<count($rec); $i++)
-                {
-                    $rec[$i]["Data"] = dataoraIT($rec[$i]["Data"]);
-                    $rec[$i]["Latid"] = floatval($rec[$i]["Latid"]);
-                    $rec[$i]["Long"] = floatval($rec[$i]["Long"]);
-                }
-                $result = $rec;
+                $data = $rec[0];
+                $data["Data"] = dataoraIT($data["Data"]);
+                $data["Latid"] = floatval($data["Latid"]);
+                $data["Long"] = floatval($data["Long"]);
+                $result = $data;
             }
             break;
         }
@@ -33,6 +31,14 @@ if(isset($_POST["request"])){
         {
             if(isUserLoggedIn() && isset($_POST["selector"])){
                 $result = $dbh->getTypeSS($_POST["selector"]);
+            }
+            break;
+        }
+
+        case 'saveDates':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["specie"]) && isset($_POST["sottospecie"]) && isset($_POST["esemplari"]) && isset($_POST["vento"]) && isset($_POST["mare"]) && isset($_POST["note"])){      
+                $result = $dbh->updateDates($_POST["id"], $_POST["specie"], $_POST["sottospecie"], $_POST["esemplari"], $_POST["vento"], $_POST["mare"], $_POST["note"]);
             }
             break;
         }
