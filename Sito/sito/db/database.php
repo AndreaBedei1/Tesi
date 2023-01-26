@@ -118,6 +118,13 @@
             return $stmt->execute();
         }
 
+        public function deleteAvv($id){
+            $query = "DELETE FROM `avvistamenti` WHERE `ID`=?"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            return $stmt->execute();
+        }
+
         // FIno a qui corretto!!!!!!
         public function getPostType(){
             $query = "SELECT Nome AS cod_select, Nome AS descr_select FROM TipologiaPost ";

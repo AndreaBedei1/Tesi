@@ -79,7 +79,11 @@ $(document).ready(function() {
             contentType: false
         })
         .done(function(data,success,response) {
-            console.log(data);
+            if(data){
+                addAlert("alert","alert-success","Dati aggiornati correttamente.","x");
+            }else{
+                addAlert("alert","alert-danger","Non è stato possibile aggiornare i dati.","x");
+            }
         })
         .fail(function(response) {
             console.log(response);

@@ -42,6 +42,14 @@ if(isset($_POST["request"])){
             }
             break;
         }
+
+        case 'delete':
+            {
+                if(isUserLoggedIn()){      
+                    $result = $dbh->deleteAvv($_POST["id"]);
+                }
+                break;
+            }
     }
 }
 
