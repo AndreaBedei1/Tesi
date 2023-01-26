@@ -54,38 +54,31 @@ $(document).ready(function() {
         });
         
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
-            $("#delete").click(function() {
-                const datas = new FormData();
-                datas.append("id", id);
-                datas.append("request", "delete");
-                $.ajax({
-                    method: "POST",
-                    url: fileint,
-                    data:  datas,
-                    processData: false,
-                    contentType: false
-                })
-                .done(function(data,success,response) {
-                    if(data){
-                        document.location.href = "homepage.php";
-                    } else {
-                        addAlert("alert","alert-danger","Non è stato possibile eliminare l'avvistamento","x");
-                    }
-                })
-                .fail(function(response) {
-                    console.log(response);
-                });
+            const datas = new FormData();
+            datas.append("id", id);
+            datas.append("request", "delete");
+            $.ajax({
+                method: "POST",
+                url: fileint,
+                data:  datas,
+                processData: false,
+                contentType: false
+            })
+            .done(function(data,success,response) {
+                if(data)
+                    document.location.href = "homepage.php";
+            })
+            .fail(function(response) {
+                console.log(response);
             });
         });
 
         $('#info').modal('toggle');
     });
 
-
     document.querySelectorAll("#info button")[0].addEventListener("click",function() {
         $('#info').modal('toggle');
     });
-
 
     $("#save").click(function() {
         const datas = getFormData("avvDates")
