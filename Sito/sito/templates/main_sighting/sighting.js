@@ -1,29 +1,95 @@
 const fileint = "../templates/main_sighting/sighting_api.php";
 
+
+$(document).ready(function() {
+    select_file(fileint, "slcSpecie", "", "slcSpecie", "", 1);
+    createTableMap();
+    
+    $("#tblAvvistamenti tbody").click(function() {
+        let btn = $(this);
+        window.open('single.php?id='+btn.data("id"), '_blank');
+    });
+    
+    document.querySelectorAll("#add button")[0].addEventListener("click",function() {
+        $('#add').modal('toggle');
+    });
+    
+    document.querySelectorAll("#add button")[2].addEventListener("click",function() {
+        $('#add').modal('toggle');
+        $("#frmIns")[0].reset();
+    });
+    
+    document.querySelectorAll("#add button")[1].addEventListener("click",function() {
+        const datas = getFormData("frmIns")
+        if(datas.get("data")!=="" && datas.has("esemplari")!=="" && datas.has("latitudine")!=="" && datas.has("longitudine")!=="" ){
+            if(!datas.has("sottospecie"))
+            datas.append("sottospecie", "");
+            datas.append("request", "saveAvv");
+            $.ajax({
+                method: "POST",
+                url: fileint,
+                data:  datas,
+                processData: false,
+                contentType: false
+            })
+            .done(function(data,success,response) {
+                if(data){
+                    addAlert("alert","alert-success","Inseriemnto avvenuto con successo!","x");
+                    createTableMap();
+                    $("#frmIns")[0].reset();
+                }else{
+                    addAlert("alert","alert-danger","Errore inserimento dati!","x");
+                }
+                $('#info').modal('toggle');
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
+        } else {
+            addAlert("alert","alert-danger","Inserire i campi obbligatori!","x");
+        }
+    });
+    
+    $("#aggiungi").click(function() {
+        $('#add').modal('toggle');
+    });
+    
+    $( "#slcSpecie" ).change(function() {
+        var sp = $("#slcSpecie").val();
+        if(sp==""){
+            $("#slcSottospecie").prop('disabled', true);
+        }else{
+            $("#slcSottospecie").prop('disabled', false);
+        }
+        select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
+    });
+});
+
 function createMap(data)
 {
-    // Calcolare la media latitudine e longitudine e fare le operazioni sia della data, sia del parse a lato server.
     let mapOptions = {
         center: [averageCoord(data, 'Latid'), averageCoord(data, 'Long')],
         zoom: 12
     }
-    var map =  L.map("my-map", mapOptions);
+
+    document.getElementById("map").innerHTML='<div id="my-map"></div>';
+    let map =  L.map("my-map", mapOptions);
 
     for(let i=0; i<data.length; i++)
     {
         let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
         marker.bindPopup("Data: " + data[i]['Data']+"<br> Animale: " + data[i]['Anima_Nome']+"<br> Specie: " + data[i]['Specie_Nome']);
         marker.on('mouseover', function (e) {
-        this.openPopup();
+            this.openPopup();
         });
         marker.on('mouseout', function (e) {
-        this.closePopup();
+            this.closePopup();
         });
         marker.on('click', function (e) {
             window.open('single.php?id='+data[i]['ID'], '_blank');
         });
     }
-    var layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+    layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
 }
 
@@ -35,8 +101,7 @@ function averageCoord(arr, str){
     return average;
 }
 
-$(document).ready(function() {
-    select_file(fileint, "slcSpecie", "", "slcSpecie", "", 1);
+function createTableMap(){
     const datas = new FormData();
     datas.append("request", "tbl_avvistamenti");
     $.ajax({
@@ -69,61 +134,4 @@ $(document).ready(function() {
     .fail(function(response) {
         console.log(response);
     });
-
-    $("#tblAvvistamenti tbody").click(function() {
-        let btn = $(this);
-        window.open('single.php?id='+btn.data("id"), '_blank');
-    });
-
-    document.querySelectorAll("#add button")[0].addEventListener("click",function() {
-        $('#add').modal('toggle');
-    });
-
-    document.querySelectorAll("#add button")[2].addEventListener("click",function() {
-        $('#add').modal('toggle');
-        $("#frmIns")[0].reset();
-    });
-
-    document.querySelectorAll("#add button")[1].addEventListener("click",function() {
-        const datas = getFormData("frmIns")
-        if(datas.get("data")!=="" && datas.has("esemplari")!=="" && datas.has("latitudine")!=="" && datas.has("longitudine")!=="" ){
-            if(!datas.has("sottospecie"))
-                datas.append("sottospecie", "");
-            datas.append("request", "saveAvv");
-            $.ajax({
-                method: "POST",
-                url: fileint,
-                data:  datas,
-                processData: false,
-                contentType: false
-            })
-            .done(function(data,success,response) {
-                if(data){
-                    alert("avvenuto");
-                }else{
-                    alert("Non avvenuto");
-                }
-                $('#info').modal('toggle');
-            })
-            .fail(function(response) {
-                console.log(response);
-            });
-        } else {
-            addAlert("alert","alert-danger","Inserire i campi obbligatori!","x");
-        }
-    });
-
-    $("#aggiungi").click(function() {
-        $('#add').modal('toggle');
-    });
-
-    $( "#slcSpecie" ).change(function() {
-        var sp = $("#slcSpecie").val();
-        if(sp==""){
-            $("#slcSottospecie").prop('disabled', true);
-        }else{
-            $("#slcSottospecie").prop('disabled', false);
-        }
-        select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
-    });
-});
+}
