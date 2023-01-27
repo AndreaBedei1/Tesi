@@ -9,7 +9,6 @@
             }        
         }
 
-        #Aggiungere funzone che cripta la password
         public function addUser($nome, $cognome, $pwd, $email, $key){
             $query = 'INSERT INTO `utenti`(`Nome`, `Cognome`, `Email`, `Password`, `Key`) VALUES (?,?,?,?,?)'; 
             $stmt = $this->db->prepare($query);
@@ -122,6 +121,13 @@
             $query = "DELETE FROM `avvistamenti` WHERE `ID`=?"; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
+            return $stmt->execute();
+        }
+
+        public function addCoord($lat, $lon){
+            $query = "INSERT INTO `coordinate_geografiche`(`Latitudine`, `Longitudine`) VALUES (?,?)"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $lat, $lon);
             return $stmt->execute();
         }
 

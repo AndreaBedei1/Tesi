@@ -70,7 +70,6 @@ $(document).ready(function() {
         console.log(response);
     });
 
-
     $("#tblAvvistamenti tbody").click(function() {
         let btn = $(this);
         window.open('single.php?id='+btn.data("id"), '_blank');
@@ -87,27 +86,31 @@ $(document).ready(function() {
 
     document.querySelectorAll("#add button")[1].addEventListener("click",function() {
         const datas = getFormData("frmIns")
-        if(!datas.has("sottospecie"))
-            datas.append("sottospecie", "");
-        datas.append("request", "saveAvv");
-        $.ajax({
-            method: "POST",
-            url: fileint,
-            data:  datas,
-            processData: false,
-            contentType: false
-        })
-        .done(function(data,success,response) {
-            if(data){
-                alert("avvenuto");
-            }else{
-                alert("Non avvenuto");
-            }
-            $('#info').modal('toggle');
-        })
-        .fail(function(response) {
-            console.log(response);
-        });
+        if(datas.get("data")!=="" && datas.has("esemplari")!=="" && datas.has("latitudine")!=="" && datas.has("longitudine")!=="" ){
+            if(!datas.has("sottospecie"))
+                datas.append("sottospecie", "");
+            datas.append("request", "saveAvv");
+            $.ajax({
+                method: "POST",
+                url: fileint,
+                data:  datas,
+                processData: false,
+                contentType: false
+            })
+            .done(function(data,success,response) {
+                if(data){
+                    alert("avvenuto");
+                }else{
+                    alert("Non avvenuto");
+                }
+                $('#info').modal('toggle');
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
+        } else {
+            addAlert("alert","alert-danger","Inserire i campi obbligatori!","x");
+        }
     });
 
     $("#aggiungi").click(function() {

@@ -8,25 +8,26 @@
                 </div>
                 <div class="modal-body">
                     <div class="w-100 px-2 py-1">
+                        <div id="alert"></div>
                         <form id="frmIns" action="" method="post">
                             <div class="row my-2">
                                 <div class="col-6">
-                                    <label for="data">Data: </label>
-                                    <input id="data" class="input-group" type="datetime-local" name="data"/>
+                                    <label for="data">Data*: </label>
+                                    <input id="data" class="input-group" type="datetime-local" min="2000-01-01T00:00" max="<?php echo date("Y-m-d");?>T23:59" require name="data"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="nEsemplari">Num. esemplari: </label>
-                                    <input id="nEsemplari" class="input-group" type="number" min="0" max="10" name="esemplari"/>
+                                    <label for="nEsemplari">Num. esemplari*: </label>
+                                    <input id="nEsemplari" class="input-group" type="number" min="0" max="10" require name="esemplari"/>
                                 </div>
                             </div>
                             <div class="row my-2">
                                 <div class="col-6">
-                                    <label for="latitudine">Latitudine: </label>
-                                    <input id="latitudine" class="input-group" type="number" step="0.000001" min="0" max="90" name="latitudine"/>
+                                    <label for="latitudine">Latitudine*: </label>
+                                    <input id="latitudine" class="input-group" type="number" step="0.000001" min="0" max="90" require name="latitudine"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="longitudine">Longitudine: </label>
-                                    <input id="longitudine" class="input-group" type="number" step="0.000001" min="0" max="90" name="longitudine"/>
+                                    <label for="longitudine">Longitudine*: </label>
+                                    <input id="longitudine" class="input-group" type="number" step="0.000001" min="0" max="90" require name="longitudine"/>
                                 </div>
                             </div>
                             <div class="row my-2">
