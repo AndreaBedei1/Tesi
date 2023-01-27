@@ -5,11 +5,6 @@ $(document).ready(function() {
     select_file(fileint, "slcSpecie", "", "slcSpecie", "", 1);
     createTableMap();
     
-    $("#tblAvvistamenti tbody").click(function() {
-        let btn = $(this);
-        window.open('single.php?id='+btn.data("id"), '_blank');
-    });
-    
     document.querySelectorAll("#add button")[0].addEventListener("click",function() {
         $('#add').modal('toggle');
     });
@@ -130,6 +125,11 @@ function createTableMap(){
             row += '</tr>';
         }
         tbl_avvist.html(row);
+
+        $("#tblAvvistamenti tbody button").click(function() {
+            let btn = $(this);
+            window.open('single.php?id='+btn.data("id"), '_blank');
+        });
     })
     .fail(function(response) {
         console.log(response);

@@ -11,14 +11,12 @@ if(isset($_POST["request"])){
                 $id = $_POST["id"];
                 $rec = $dbh->getDates($_POST["id"]);
                 $data = $rec[0];
-                $data["Data"] = dataoraIT($data["Data"]);
                 $data["Latid"] = floatval($data["Latid"]);
                 $data["Long"] = floatval($data["Long"]);
                 $result = $data;
             }
             break;
         }
-
         case 'slcSpecie':
         {
             if(isUserLoggedIn()){
@@ -26,7 +24,6 @@ if(isset($_POST["request"])){
             }
             break;
         }
-
         case 'slcSottospecie':
         {
             if(isUserLoggedIn() && isset($_POST["selector"])){
@@ -34,7 +31,6 @@ if(isset($_POST["request"])){
             }
             break;
         }
-
         case 'saveDates':
         {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["specie"]) && isset($_POST["sottospecie"]) && isset($_POST["esemplari"]) && isset($_POST["vento"]) && isset($_POST["mare"]) && isset($_POST["note"])){      
@@ -42,14 +38,39 @@ if(isset($_POST["request"])){
             }
             break;
         }
-
         case 'delete':
-            {
-                if(isUserLoggedIn()){      
-                    $result = $dbh->deleteAvv($_POST["id"]);
+        {
+            if(isUserLoggedIn()){      
+                $result = $dbh->deleteAvv($_POST["id"]);
+            }
+            break;
+        }
+        case 'addImage':
+        {
+            if(isset($_POST["id"])  && isUserLoggedIn()){
+                $rs_file = $rs_file = addFile($_FILES["file"]);
+                if($rs_file["errore"]=="")
+                    $postResult = $dbh->addImage($_POST["id"], $rs_file["file"]);
+                    if($postResult){
+                        $result["state"]=true;
+                    }
+                else {
+                    $result["state"]=false;
+                    $result["msg"]="Errore nel caricamento dell'immagine:  ".$rs_file["errore"];
                 }
                 break;
+            } else {
+                $result["state"]=false;
+                $result["msg"]="Immagine non valida!";
             }
+        }
+        case 'getImages':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"])){
+                $result = $dbh->getImages($_POST["id"]);
+            }
+            break;
+        }
     }
 }
 

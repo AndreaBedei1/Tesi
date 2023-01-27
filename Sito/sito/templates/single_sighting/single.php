@@ -14,20 +14,88 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h2 class="modal-title" id="modaltitle">Immagini</h2>
-                            <button type="button" class="btn btn-outline-secondary btn-sm px-3 close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <div id="alert" role="alert"></div>
+                            <div class="my-2">
+                                <h3>Immagini caricate</h3>
+                                <div id="imgs">
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">    
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                    </div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" class="d-block w-100"
+                                            alt="Wild Landscape" />
+                                        </div>
+                                        <div class="carousel-item">
+                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp" class="d-block w-100" alt="Camera" />
+                                        </div>
+                                        <div class="carousel-item">
+                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp" class="d-block w-100"
+                                            alt="Exotic Fruits" />
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+
+
+
+
+
+                                    <!-- <p>Nessuna immagine presente.</p> -->
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                </div>
+                            </div>
+                            <form id="frmAddImg" action="" method="post">
+                                <div class="form-group">
+                                    <div class="">
+                                        <label for="file">Carica Immagine:</label><br/>
+                                        <input type="file" class="form-control" id="file"/>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button id="addImags" type="button" class="btn btn-primary">Carica</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
             <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
                 <div class='modal-dialog' role="document">
                     <div class="modal-content">

@@ -77,28 +77,28 @@
         $_SESSION["user"] = $user;
     }
 
-    function addFile($file, $folder){
+    function addFile($file){
         try {
             if(!empty($file)){
                 if (!isset($file['error']) || is_array($file['error'])
                 ) {
-                    throw new RuntimeException('Invalid parameters.');
+                    throw new RuntimeException('Parametri non validi.');
                 }
         
                 switch ($file['error']) {
                     case UPLOAD_ERR_OK:
                         break;
                     case UPLOAD_ERR_NO_FILE:
-                        throw new RuntimeException('No file sent.');
+                        throw new RuntimeException('File non inviato.');
                     case UPLOAD_ERR_INI_SIZE:
                     case UPLOAD_ERR_FORM_SIZE:
-                        throw new RuntimeException('Exceeded filesize limit.');
+                        throw new RuntimeException('File troppo grande.');
                     default:
-                        throw new RuntimeException('Unknown errors.');
+                        throw new RuntimeException('Errore sconosciuto.');
                 }
         
                 if ($file['size'] > 10*1024*1024) {
-                    throw new RuntimeException('Exceeded filesize limit.: '.$file['size']);
+                    throw new RuntimeException('Superate le dimensioni massime.: '.$file['size']);
                 }
         
                 $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -111,18 +111,18 @@
                     ),
                     true
                 )) {
-                    throw new RuntimeException('Invalid file format.');
+                    throw new RuntimeException('Formato non valido.');
                 }
         
                 $file_name=uniqid();
                 if (!move_uploaded_file(
                     $file['tmp_name'],
-                    sprintf('../../../img/'.$folder.'/%s.%s',
+                    sprintf('../../../img/avvistamenti/%s.%s',
                         $file_name,
                         $ext
                     )
                 )) {
-                    throw new RuntimeException('Failed to move uploaded file.');
+                    throw new RuntimeException('Fallito il caricamento del file.');
                 }
                 $file_name .= ".".$ext;
             } else {

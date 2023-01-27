@@ -147,5 +147,22 @@
             }
             return $stmt->execute();
         }
+
+        public function addImage($id, $str){
+            $query = "INSERT INTO `immagini`(`Img`, `Avvis_ID`) VALUES (?,?)"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $str, $id);
+            return $stmt->execute();
+        }
+
+        public function getImages($id){
+            $query = 'SELECT `ID`, `Img` FROM `immagini` WHERE `Avvis_ID`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            
+
+        }
     }
 ?>

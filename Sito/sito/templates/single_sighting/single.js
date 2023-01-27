@@ -44,6 +44,67 @@ $(document).ready(function() {
     
     $("#btn_visual").click(function() {
         $('#modal').modal('toggle');
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("request","getImages");
+        $.ajax({
+            type: "POST",
+            url: fileint,
+            data:  datas, 
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            
+
+
+
+
+
+
+
+
+
+
+
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+
+    $(".close").click(function() {
+        $('#modal').modal('toggle');
+    });
+
+    $("#addImags").click(function() {
+        const file = $("#file")[0].files[0];
+        if(file===undefined){
+            addAlert("alert","alert-danger", "Immagine non selezionata","");
+        }else{
+            const datas = new FormData();
+            datas.append("id", id);
+            datas.append("file",file);
+            datas.append("request","addImage");
+            $.ajax({
+                type: "POST",
+                url: fileint,
+                data:  datas, 
+                processData: false,
+                contentType: false
+            })
+            .done(function(data,success,response) {
+                if(data["state"]===false){
+                    addAlert("alert","alert-danger",data["msg"],"");
+                } else {
+                    addAlert("alert","alert-success","Immagine inserita!","x");
+                    $("#frmAddImg")[0].reset();
+                }
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
+        }
     });
 
     $("#delete").click(function() {
