@@ -36,6 +36,7 @@ function averageCoord(arr, str){
 }
 
 $(document).ready(function() {
+    select_file(fileint, "slcSpecie", "", "slcSpecie", "", 1);
     const datas = new FormData();
     datas.append("request", "tbl_avvistamenti");
     $.ajax({
@@ -69,8 +70,57 @@ $(document).ready(function() {
         console.log(response);
     });
 
-    $("#tblAvvistamenti tbody").on('click','button',function() {
+
+    $("#tblAvvistamenti tbody").click(function() {
         let btn = $(this);
         window.open('single.php?id='+btn.data("id"), '_blank');
+    });
+
+    document.querySelectorAll("#add button")[0].addEventListener("click",function() {
+        $('#add').modal('toggle');
+    });
+
+    document.querySelectorAll("#add button")[2].addEventListener("click",function() {
+        $('#add').modal('toggle');
+        $("#frmIns")[0].reset();
+    });
+
+    document.querySelectorAll("#add button")[1].addEventListener("click",function() {
+        const datas = getFormData("frmIns")
+        if(!datas.has("sottospecie"))
+            datas.append("sottospecie", "");
+        datas.append("request", "saveAvv");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            if(data){
+                alert("avvenuto");
+            }else{
+                alert("Non avvenuto");
+            }
+            $('#info').modal('toggle');
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+
+    $("#aggiungi").click(function() {
+        $('#add').modal('toggle');
+    });
+
+    $( "#slcSpecie" ).change(function() {
+        var sp = $("#slcSpecie").val();
+        if(sp==""){
+            $("#slcSottospecie").prop('disabled', true);
+        }else{
+            $("#slcSottospecie").prop('disabled', false);
+        }
+        select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
     });
 });

@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="col-6">
                                         <label for="data">Data: </label>
-                                        <input id="data" class="input-group" type="datetime" disabled name="data"/>
+                                        <input id="data" class="input-group" type="datetime-local" disabled name="data"/>
                                     </div>
                                 </div>
                                 <div class="row my-2">

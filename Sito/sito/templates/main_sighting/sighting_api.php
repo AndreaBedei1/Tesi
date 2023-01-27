@@ -19,6 +19,29 @@ if(isset($_POST["request"])){
                 $result = $rec;
             }
         break;
+        case 'slcSpecie':
+        {
+            if(isUserLoggedIn()){
+                $result = $dbh->getTypeS();
+            }
+            break;
+        }
+        case 'slcSottospecie':
+        {
+            if(isUserLoggedIn() && isset($_POST["selector"])){
+                $result = $dbh->getTypeSS($_POST["selector"]);
+            }
+            break;
+        }
+        case 'saveAvv':
+        {
+            var_dump($_POST);
+            // if(isUserLoggedIn() && isset($_POST["selector"])){
+            //     $result = $dbh->getTypeSS($_POST["selector"]);
+            // }
+            break;
+
+        }
     }
 }
 
