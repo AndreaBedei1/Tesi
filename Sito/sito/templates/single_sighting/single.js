@@ -44,33 +44,7 @@ $(document).ready(function() {
     
     $("#btn_visual").click(function() {
         $('#modal').modal('toggle');
-        const datas = new FormData();
-        datas.append("id", id);
-        datas.append("request","getImages");
-        $.ajax({
-            type: "POST",
-            url: fileint,
-            data:  datas, 
-            processData: false,
-            contentType: false
-        })
-        .done(function(data,success,response) {
-            
-
-
-
-
-
-
-
-
-
-
-
-        })
-        .fail(function(response) {
-            console.log(response);
-        });
+        setImages();
     });
 
     $(".close").click(function() {
@@ -99,6 +73,7 @@ $(document).ready(function() {
                 } else {
                     addAlert("alert","alert-success","Immagine inserita!","x");
                     $("#frmAddImg")[0].reset();
+                    setImages();
                 }
             })
             .fail(function(response) {
@@ -187,5 +162,53 @@ function createMap(data)
     marker.bindPopup("Data: " + data['Data']+"<br> Sogg: " + data['Specie_Nome']);
     var layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
+}
+
+function setImages(){
+    const datas = new FormData();
+    datas.append("id", id);
+    datas.append("request","getImages");
+    $.ajax({
+        type: "POST",
+        url: fileint,
+        data:  datas, 
+        processData: false,
+        contentType: false
+    })
+    .done(function(data,success,response) {
+        if(data.length>0){
+            document.getElementById("imgs").innerHTML=`
+                <div id="carouselImages" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="false">   
+                    <div id="imgCarous" class="carousel-inner">
+                    </div>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide-to="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide-to="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                </div>
+            `;
+            document.getElementById("imgCarous").innerHTML=`
+                <div class="carousel-item active">
+                    <img src="../../img/avvistamenti/${data[0].Img}" class="d-block w-100" alt="Immagine dell'avvistamento" />
+                </div>
+            `;
+            for (let i = 1; i < data.length; i++) {
+                document.getElementById("imgCarous").innerHTML+=`
+                    <div class="carousel-item">
+                        <img src="../../img/avvistamenti/${data[i].Img}" class="d-block w-100" alt="Exotic Fruits" />
+                    </div>
+                `;
+            }
+        } else {
+            document.getElementById("imgs").innerHTML="<p>Nessuna immagine presente.</p>";
+        }
+    })
+    .fail(function(response) {
+        console.log(response);
+    });
 }
     

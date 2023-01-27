@@ -22,6 +22,20 @@
   --btn-bg-4-h: var(--btn-fg-4);
 }
 
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
+
+#imgCarous img{
+  max-width: 50vh;
+  max-height: 60vh;
+}
+
+.carousel-item{
+  text-align: -webkit-center;
+}
+
 .row div:first-child{
   z-index: 0;
 }

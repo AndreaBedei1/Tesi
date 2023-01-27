@@ -9,7 +9,7 @@
             <header>
                 <h1 class="text-center">Dati Avvistamento</h1>
             </header>
-            <div id='modal' class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="Immagini" aria-hidden="true">
+            <div id='modal' class="modal fade modal-xl" tabindex="-1" role="dialog" aria-labelledby="Immagini" aria-hidden="true">
                 <div class='modal-dialog modal-lg' role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -20,53 +20,7 @@
                             <div id="alert" role="alert"></div>
                             <div class="my-2">
                                 <h3>Immagini caricate</h3>
-                                <div id="imgs">
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">    
-                                    <div class="carousel-indicators">
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                    </div>
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" class="d-block w-100"
-                                            alt="Wild Landscape" />
-                                        </div>
-                                        <div class="carousel-item">
-                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp" class="d-block w-100" alt="Camera" />
-                                        </div>
-                                        <div class="carousel-item">
-                                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp" class="d-block w-100"
-                                            alt="Exotic Fruits" />
-                                        </div>
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>
-
-
-
-
-
-                                    <!-- <p>Nessuna immagine presente.</p> -->
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+                                <div id="imgs">                
                                 </div>
                             </div>
                             <form id="frmAddImg" action="" method="post">
@@ -84,18 +38,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
             <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
                 <div class='modal-dialog' role="document">
                     <div class="modal-content">
@@ -195,16 +137,3 @@
         </section>
     </div>
 </main>
-
-<!-- <div class="row my-2">
-                                            <div class="col-12">
-                                                <label for="img">Immagini: </label>
-                                                <input id="img" class="input-group" type="file" name="file"/>
-                                            </div>
-                                        <div>
-                                        <div class="row my-2">
-                                            <div class="col-12">
-                                                <div id="divimg"></div>
-                                                <p>Mostrare le immagini già presenti<br> Solo per i delfini ci sarà la possibilità di cercare di riconoscere la specie, attraverso un bottone</p>
-                                            </div>
-                                        <div> -->
