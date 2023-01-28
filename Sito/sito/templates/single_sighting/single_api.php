@@ -5,7 +5,7 @@ require("../../bootstrap.php");
 $result = array();
 if(isset($_POST["request"])){
     switch ($_POST["request"]) {
-        case 'tbl_avvistamenti':
+        case 'getDates':
         {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $id = $_POST["id"];
@@ -68,6 +68,13 @@ if(isset($_POST["request"])){
         {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $result = $dbh->getImages($_POST["id"]);
+            }
+            break;
+        }
+        case 'infoSpecie':
+        {
+            if(isUserLoggedIn() && isset($_POST["animale"]) && isset($_POST["specie"])){
+                $result = $dbh->infoSpecie($_POST["animale"], $_POST["specie"]);
             }
             break;
         }

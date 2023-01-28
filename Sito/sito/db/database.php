@@ -161,8 +161,14 @@
             $stmt->bind_param('s', $id);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            
+        }
 
+        public function infoSpecie($animale, $specie){
+            $query = 'SELECT * FROM `descrizioni` d INNER JOIN specie s ON d.`Nomenclatura_Binomiale`= s.`Nomenclatura_Binomiale` WHERE s.Anima_Nome=? AND s.Nome=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $animale, $specie);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
     }
 ?>

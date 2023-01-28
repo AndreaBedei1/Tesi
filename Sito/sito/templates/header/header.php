@@ -6,8 +6,8 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid justify-content-end text-end">
-            <div class="bg-light border border-light image-wrapper-small wrapper-fixed-max ms-2 me-auto">
-                <img src="../../img/sean.png" alt="Icona sito">
+            <div class="image-wrapper-small wrapper-fixed-max ms-2 me-auto ">
+                <img class="site_icon" src="../../img/sean.png" alt="Icona sito">
             </div>
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2 ms-md-2">
                 <ul class="navbar-nav <?=$margin?>">

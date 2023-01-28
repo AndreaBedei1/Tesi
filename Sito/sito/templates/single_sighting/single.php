@@ -9,35 +9,6 @@
             <header>
                 <h1 class="text-center">Dati Avvistamento</h1>
             </header>
-            <div id='modal' class="modal fade modal-xl" tabindex="-1" role="dialog" aria-labelledby="Immagini" aria-hidden="true">
-                <div class='modal-dialog modal-lg' role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title" id="modaltitle">Immagini</h2>
-                            <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="alert" role="alert"></div>
-                            <div class="my-2">
-                                <h3>Immagini caricate</h3>
-                                <div id="imgs">                
-                                </div>
-                            </div>
-                            <form id="frmAddImg" action="" method="post">
-                                <div class="form-group">
-                                    <div class="">
-                                        <label for="file">Carica Immagine:</label><br/>
-                                        <input type="file" class="form-control" id="file"/>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="addImags" type="button" class="btn btn-primary">Carica</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
                 <div class='modal-dialog' role="document">
                     <div class="modal-content">
@@ -54,18 +25,18 @@
             </div>
             <input type="hidden" id="idcod" name="id" value="<?php echo $_GET["id"] ?>"/>
             <div class="card-body w-100">
-                <div class="row w-100">
-                    <div class="col-12 col-lg-6 lg-my-2 lg-px-3 px-4 py-0 mt-lg-5">
+                <div class="row w-100 p-0 m-0">
+                    <div class="col-12 col-lg-6 lg-my-2 lg-px-3 px-2 py-0 mt-lg-5">
                         <div id="map"><div id="my-map"></div></div>
                     </div>
-                    <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-4 py-0 my-0">
+                    <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-2 py-0 my-0">
                         <div class="w-100 px-2 py-1 avvstaDiv">
-                            <div class="row">
-                                <div class="col-10">
-                                    <h2>Specifiche</h2>
+                            <div class="row w-100">
+                                <div class="col-9 p-0 m-0">
+                                    <h2 class="w-100">Specifiche</h2>
                                 </div>
-                                <div class="col-2 text-end">
-                                    <button id="delete" class="btn btn-danger" type="button">Elimina</button>
+                                <div class="col-3 text-end p-0 m-0">
+                                    <button id="delete" class="btn btn-danger w-75" type="button">Elimina</button>
                                 </div>
                             </div>
                             <form id="avvDates" action="" method="post">
@@ -91,12 +62,17 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-6">
-                                        <label for="specie">Specie: </label>
+                                        <label for="slcSpecie">Specie: </label>
                                         <select name="specie" id="slcSpecie" class="form-select"></select>
                                     </div>
                                     <div class="col-6">
-                                        <label for="sottospecie">Sottospecie: </label>
-                                        <select name="sottospecie" id="slcSottospecie" class="form-select"></select>
+                                        <label for="slcSottospecie">Sottospecie: </label>
+                                        <div class=" w-100 d-flex">
+                                            <select name="sottospecie" id="slcSottospecie" class="form-select"></select>
+                                            <button id="infoSpecie" class="btnIcon p-1 m-0" type="button">
+                                                <img class="icon" src="../../img/info.png" alt="Info button" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row my-2">
@@ -123,7 +99,7 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-6">
-                                        <button id="btn_visual" class="btn btn-dark" type="button">Visualizza Immagini</button>
+                                        <button id="btn_visual" class="btn btn-dark" type="button">Carica immagine</button>
                                     </div>
                                     <div class="col-6 text-end">
                                         <button id="save" class="btn btn-primary" type="button">Salva</button>
@@ -132,6 +108,10 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card mb-5">
+                <div class="p-3 w-100 h-100" id="imgs">                
                 </div>
             </div>
         </section>

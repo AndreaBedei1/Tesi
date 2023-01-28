@@ -1,9 +1,10 @@
 const fileint = "../templates/single_sighting/single_api.php";
 $(document).ready(function() {
     id = document.getElementById("idcod").value;
+    setImages();
     const datas = new FormData();
     datas.append("id", id);
-    datas.append("request", "tbl_avvistamenti");
+    datas.append("request", "getDates");
     $.ajax({
         method: "POST",
         url: fileint,
@@ -36,45 +37,105 @@ $(document).ready(function() {
         var sp = $("#slcSpecie").val();
         if(sp==""){
             $("#slcSottospecie").prop('disabled', true);
+            $("#infoSpecie").prop('disabled', true);
         }else{
             $("#slcSottospecie").prop('disabled', false);
+            $("#infoSpecie").prop('disabled', false);
         }
         select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
     });
     
     $("#btn_visual").click(function() {
-        $('#modal').modal('toggle');
-        setImages();
+        document.querySelector("#info .modal-body").innerHTML=`
+            <div id="alert" role="alert"></div>
+            <form id="frmAddImg" action="" method="post">
+                <div class="form-group">
+                    <div class="">
+                        <label for="file">Carica Immagine:</label><br/>
+                        <input type="file" class="form-control" id="file"/>
+                    </div>
+                </div>
+            </form>
+        `;
+        document.querySelector("#info .modal-title").innerText="Carica";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button id="addImags" type="button" class="btn btn-primary">Carica</button>
+        `;
+        
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            const file = $("#file")[0].files[0];
+            if(file===undefined){
+                addAlert("alert","alert-danger", "Immagine non selezionata","");
+            }else{
+                const datas = new FormData();
+                datas.append("id", id);
+                datas.append("file",file);
+                datas.append("request","addImage");
+                $.ajax({
+                    type: "POST",
+                    url: fileint,
+                    data:  datas, 
+                    processData: false,
+                    contentType: false
+                })
+                .done(function(data,success,response) {
+                    if(data["state"]===false){
+                        addAlert("alert","alert-danger",data["msg"],"");
+                    } else {
+                        addAlert("alert","alert-success","Immagine inserita!","x");
+                        $("#frmAddImg")[0].reset();
+                        setImages();
+                    }
+                })
+                .fail(function(response) {
+                    console.log(response);
+                });
+            }
+        });
+        $('#info').modal('toggle');
     });
-
-    $(".close").click(function() {
-        $('#modal').modal('toggle');
-    });
-
-    $("#addImags").click(function() {
-        const file = $("#file")[0].files[0];
-        if(file===undefined){
-            addAlert("alert","alert-danger", "Immagine non selezionata","");
-        }else{
+    
+    $("#infoSpecie").click(function() {
+        if($("#slcSottospecie").val()!=""){
+            document.querySelector("#info .modal-title").innerText="Informazioni";
+            document.querySelector("#info .modal-footer").innerHTML=`
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
+                
+            document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                $('#info').modal('toggle');
+            });
+    
             const datas = new FormData();
-            datas.append("id", id);
-            datas.append("file",file);
-            datas.append("request","addImage");
+            datas.append("animale", $("#slcSpecie").val());
+            datas.append("specie", $("#slcSottospecie").val());
+            datas.append("request", "infoSpecie");
             $.ajax({
-                type: "POST",
+                method: "POST",
                 url: fileint,
-                data:  datas, 
+                data:  datas,
                 processData: false,
                 contentType: false
             })
             .done(function(data,success,response) {
-                if(data["state"]===false){
-                    addAlert("alert","alert-danger",data["msg"],"");
+                console.log(data);
+                const dati = data[0];
+                if(data.length!=0){
+                    document.querySelector("#info .modal-body").innerHTML=`
+                        <dl>
+                            <dt>Nomenclatura Binomiale</dt>
+                            <dd>${dati.Nomenclatura_Binomiale}</dd>
+                            <dt>Dimensione</dt>
+                            <dd>${dati.Dimensione}</dd>
+                            <dt>Descrizione</dt>
+                            <dd>${dati.Descrizione}</dd>
+                            <dt>Curiosità</dt>
+                            <dd>${dati.Curiosita}</dd>
+                        </dl>
+                    `;
                 } else {
-                    addAlert("alert","alert-success","Immagine inserita!","x");
-                    $("#frmAddImg")[0].reset();
-                    setImages();
+                    document.querySelector("#info .modal-body").innerHTML="<p>Nessuna informazione aggiuntiva presente.</p>";
                 }
+                $('#info').modal('toggle');
             })
             .fail(function(response) {
                 console.log(response);
@@ -178,8 +239,8 @@ function setImages(){
     .done(function(data,success,response) {
         if(data.length>0){
             document.getElementById("imgs").innerHTML=`
-                <div id="carouselImages" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="false">   
-                    <div id="imgCarous" class="carousel-inner">
+                <div id="carouselImages" class="carousel slide w-100 h-100" data-ride="carousel" data-type="multi" data-interval="false">   
+                    <div id="imgCarous" class="carousel-inner w-100 h-100">
                     </div>
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide-to="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -192,19 +253,21 @@ function setImages(){
                 </div>
             `;
             document.getElementById("imgCarous").innerHTML=`
-                <div class="carousel-item active">
-                    <img src="../../img/avvistamenti/${data[0].Img}" class="d-block w-100" alt="Immagine dell'avvistamento" />
+                <div class="carousel-item active w-100 h-100">
+                    <img src="../../img/avvistamenti/${data[0].Img}" class="d-block w-100 h-100" alt="Immagine dell'avvistamento" />
                 </div>
             `;
             for (let i = 1; i < data.length; i++) {
                 document.getElementById("imgCarous").innerHTML+=`
-                    <div class="carousel-item">
-                        <img src="../../img/avvistamenti/${data[i].Img}" class="d-block w-100" alt="Exotic Fruits" />
+                    <div class="carousel-item w-100 h-100">
+                        <img src="../../img/avvistamenti/${data[i].Img}" class="d-block w-100 h-100" alt="Immagine dell'avvistamento" />
                     </div>
                 `;
             }
         } else {
-            document.getElementById("imgs").innerHTML="<p>Nessuna immagine presente.</p>";
+            document.getElementById("imgs").innerHTML=`
+                <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
+            `;
         }
     })
     .fail(function(response) {
