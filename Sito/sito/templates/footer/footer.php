@@ -1,7 +1,7 @@
 <footer class="bg-dark text-center text-white">
     <div class="container p-4 pb-0">
         <div class="mb-4">
-            <a href="https://github.com/LeoGiaco/ElaboratoTW" target="_blank">
+            <a href="https://github.com/AndreaBedei1/Tesi" target="_blank">
                 <img class="bg-light rounded border" src="../../img/github.svg" alt="GitHub"/>
             </a>
         </div>

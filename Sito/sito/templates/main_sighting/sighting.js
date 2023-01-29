@@ -72,6 +72,12 @@ function createMap(data)
 
     for(let i=0; i<data.length; i++)
     {
+        if(data[i]['Anima_Nome']==null){
+            data[i]['Anima_Nome']="?";
+        }
+        if(data[i]['Specie_Nome']==null){
+            data[i]['Specie_Nome']="?";
+        }
         let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
         marker.bindPopup("Data: " + data[i]['Data']+"<br> Animale: " + data[i]['Anima_Nome']+"<br> Specie: " + data[i]['Specie_Nome']);
         marker.on('mouseover', function (e) {
@@ -81,7 +87,7 @@ function createMap(data)
             this.closePopup();
         });
         marker.on('click', function (e) {
-            window.open('single.php?id='+data[i]['ID'], '_blank');
+            document.location.href='single.php?id='+data[i]['ID'];
         });
     }
     layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
@@ -128,7 +134,7 @@ function createTableMap(){
 
         $("#tblAvvistamenti tbody button").click(function() {
             let btn = $(this);
-            window.open('single.php?id='+btn.data("id"), '_blank');
+            document.location.href='single.php?id='+btn.data("id");
         });
     })
     .fail(function(response) {

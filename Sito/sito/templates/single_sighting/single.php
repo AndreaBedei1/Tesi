@@ -31,15 +31,15 @@
                     </div>
                     <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-2 py-0 my-0">
                         <div class="w-100 px-2 py-1 avvstaDiv">
-                            <div class="row w-100">
+                            <div class="row">
                                 <div class="col-9 p-0 m-0">
-                                    <h2 class="w-100">Specifiche</h2>
+                                    <h2>Specifiche</h2>
                                 </div>
-                                <div class="col-3 text-end p-0 m-0">
-                                    <button id="delete" class="btn btn-danger w-75" type="button">Elimina</button>
+                                <div class="col-3 text-end px-2">
+                                    <button id="delete" class="btn btn-danger" type="button">Elimina</button>
                                 </div>
                             </div>
-                            <form id="avvDates" action="" method="post">
+                            <form id="avvDates" class="m-0 p-0 w-100" action="" method="post">
                                 <div class="row my-2">
                                     <div class="col-6">
                                         <label for="utente">Utente:</label>
@@ -62,11 +62,11 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-6">
-                                        <label for="slcSpecie">Specie: </label>
+                                        <label for="slcSpecie">Animale: </label>
                                         <select name="specie" id="slcSpecie" class="form-select"></select>
                                     </div>
                                     <div class="col-6">
-                                        <label for="slcSottospecie">Sottospecie: </label>
+                                        <label for="slcSottospecie">Specie: </label>
                                         <div class=" w-100 d-flex">
                                             <select name="sottospecie" id="slcSottospecie" class="form-select"></select>
                                             <button id="infoSpecie" class="btnIcon p-1 m-0" type="button">

@@ -2,32 +2,7 @@ const fileint = "../templates/single_sighting/single_api.php";
 $(document).ready(function() {
     id = document.getElementById("idcod").value;
     setImages();
-    const datas = new FormData();
-    datas.append("id", id);
-    datas.append("request", "getDates");
-    $.ajax({
-        method: "POST",
-        url: fileint,
-        data:  datas,
-        processData: false,
-        contentType: false
-    })
-    .done(function(dati,success,response) {
-        createMap(dati);
-        $("#utente").val(dati["Cognome"]+" "+dati["Nome"]);
-        $("#data").val(dati["Data"]);
-        $("#latitudine").val(dati["Latid"]);
-        $("#longitudine").val(dati["Long"]);
-        $("#nEsemplari").val(dati["Numero_Esemplari"]);
-        $("#vento").val(dati["Vento"]);
-        $("#mare").val(dati["Mare"]);
-        $("#note").val(dati["Note"]);
-        select_file(fileint, "slcSpecie", "", "slcSpecie", dati["Specie_Anima_Nome"], 1);
-        select_file(fileint, "slcSottospecie", {specie:dati["Specie_Anima_Nome"]}, "slcSottospecie", dati["Specie_Nome"], 1);
-    })
-    .fail(function(response) {
-        console.log(response);
-    });
+    uploadDates();
     
     document.querySelectorAll("#info button")[0].addEventListener("click",function() {
         $('#info').modal('toggle');
@@ -205,23 +180,77 @@ $(document).ready(function() {
                 document.querySelector("#info .modal-body").innerHTML="<p>Errore nell'aggiornamento.</p>";
             }
             $('#info').modal('toggle');
+            uploadDates();
         })
         .fail(function(response) {
             console.log(response);
         });
     });
 });
+
+function uploadDates(){
+    const datas = new FormData();
+    datas.append("id", id);
+    datas.append("request", "getDates");
+    $.ajax({
+        method: "POST",
+        url: fileint,
+        data:  datas,
+        processData: false,
+        contentType: false
+    })
+    .done(function(dati,success,response) {
+        createMap(dati);
+        $("#utente").val(dati["Cognome"]+" "+dati["Nome"]);
+        $("#data").val(dati["Data"]);
+        $("#latitudine").val(dati["Latid"]);
+        $("#longitudine").val(dati["Long"]);
+        $("#nEsemplari").val(dati["Numero_Esemplari"]);
+        $("#vento").val(dati["Vento"]);
+        $("#mare").val(dati["Mare"]);
+        $("#note").val(dati["Note"]);
+        select_file(fileint, "slcSpecie", "", "slcSpecie", dati["Anima_Nome"], 1);
+        select_file(fileint, "slcSottospecie", {specie:dati["Anima_Nome"]}, "slcSottospecie", dati["Specie_Nome"], 1);
+        console.log(dati["Anima_Nome"]);
+        if(dati["Anima_Nome"]=="?"){
+            $("#slcSottospecie").prop('disabled', true);
+            $("#infoSpecie").prop('disabled', true);
+        }
+    })
+    .fail(function(response) {
+        console.log(response);
+    });
+}
     
 function createMap(data)
 {
-    var mapOptions = {
+    let mapOptions = {
         center: [data['Latid'], data['Long']],
         zoom: 12
     }
-    var map =  L.map("my-map", mapOptions);
-    var marker = L.marker([data['Latid'], data['Long']]).addTo(map);
-    marker.bindPopup("Data: " + data['Data']+"<br> Sogg: " + data['Specie_Nome']);
-    var layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+    document.getElementById("map").innerHTML='<div id="my-map"></div>';
+    let map =  L.map("my-map", mapOptions);
+
+
+    let marker = L.marker([data['Latid'], data['Long']]).addTo(map);
+    if(data['Anima_Nome']==null){
+        data['Anima_Nome']="?";
+    }
+    if(data['Specie_Nome']==null){
+        data['Specie_Nome']="?";
+    }
+    marker.bindPopup("Data: " + data['Data']+"<br> Animale: " + data['Anima_Nome']+"<br> Specie: " + data['Specie_Nome']);
+    marker.on('mouseover', function (e) {
+        this.openPopup();
+    });
+    marker.on('mouseout', function (e) {
+        this.closePopup();
+    });
+    marker.on('click', function (e) {
+        this.openPopup();
+    });
+
+    layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
 }
 
@@ -238,6 +267,7 @@ function setImages(){
     })
     .done(function(data,success,response) {
         if(data.length>0){
+            document.querySelector(".card").removeAttribute("style");
             document.getElementById("imgs").innerHTML=`
                 <div id="carouselImages" class="carousel slide w-100 h-100" data-ride="carousel" data-type="multi" data-interval="false">   
                     <div id="imgCarous" class="carousel-inner w-100 h-100">
@@ -268,10 +298,23 @@ function setImages(){
             document.getElementById("imgs").innerHTML=`
                 <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
             `;
+            document.querySelector(".card").setAttribute("style", "height: 100% !important;");
         }
     })
     .fail(function(response) {
         console.log(response);
     });
 }
-    
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var img = document.getElementById('scream');
+
+context.drawImage(img, 10, 10);
+
+context.beginPath();
+context.rect(188, 50, 200, 100);
+context.fillStyle = 'yellow';
+context.fill();
+context.lineWidth = 7;
+context.strokeStyle = 'black';
+context.stroke();
