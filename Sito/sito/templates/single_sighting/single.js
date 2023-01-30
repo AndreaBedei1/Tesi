@@ -282,18 +282,69 @@ function setImages(){
                     </button>
                 </div>
             `;
-            document.getElementById("imgCarous").innerHTML=`
-                <div class="carousel-item active w-100 h-100">
-                    <img src="../../img/avvistamenti/${data[0].Img}" class="d-block w-100 h-100" alt="Immagine dell'avvistamento" />
+            const contImg = document.getElementById("imgCarous");
+            for (let i = 0; i < data.length; i++) {
+                const div = document.createElement("div");
+                const canvas = document.createElement("canvas");
+                canvas.setAttribute("width","400");
+                canvas.setAttribute("height","350");
+                canvas.setAttribute("id", "c"+data[i].ID);
+                div.setAttribute("class", "carousel-item w-100 h-100");
+                div.appendChild(canvas);
+                contImg.appendChild(div);
+                let ctx = canvas.getContext("2d");
+                ctx.imageSmoothingEnabled = true;
+                let img = new Image();
+                img.src = "../../img/avvistamenti/"+data[i].Img;
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const datas = new FormData();
+                    datas.append("id", data[i].ID);
+                    datas.append("request", "getSottoimmagini");
+                    $.ajax({
+                        method: "POST",
+                        url: fileint,
+                        data:  datas,
+                        processData: false,
+                        contentType: false
+                    })
+                    .done(function(data,success,response) {
+                        const c = document.querySelector(".carousel-item.active canvas");
+                        if(data.dati.length>0){
+                            data.dati.forEach(e => {
+                                const tx = e.tl_x*c.offsetWidth;
+                                const ty = e.tl_y*c.offsetHeight;
+                                const bx = e.br_x*c.offsetWidth;
+                                const by = e.br_y*c.offsetHeight;
+                                ctx.strokeRect(tx, ty, (bx-tx), (by-ty));
+                            });
+                        }
+                    })
+                    .fail(function(response) {
+                        console.log(response);
+                    });
+                };
+
+                canvas.addEventListener("click", function(event) {
+                    var x = event.offsetX / canvas.offsetWidth;
+                    var y = event.offsetY / canvas.offsetHeight;
+                    console.log(x, y);
+                });
+            }
+            $("#addNewInd").click(function() {
+
+            });
+            document.querySelector(".carousel-item").classList.add("active");
+            document.querySelector("#sighting").innerHTML=`
+                <header class="d-flex justify-content-between">
+                    <h2 >Individui</h2>
+                    <button id="addNewInd" class="btn btn-success">Aggiungi</button>
+                </header>
+                <div id="listInd">
+                    <p>Nessun individuo presente.</p>
                 </div>
             `;
-            for (let i = 1; i < data.length; i++) {
-                document.getElementById("imgCarous").innerHTML+=`
-                    <div class="carousel-item w-100 h-100">
-                        <img src="../../img/avvistamenti/${data[i].Img}" class="d-block w-100 h-100" alt="Immagine dell'avvistamento" />
-                    </div>
-                `;
-            }
+            setCreature();
         } else {
             document.getElementById("imgs").innerHTML=`
                 <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
@@ -305,16 +356,40 @@ function setImages(){
         console.log(response);
     });
 }
-var canvas = document.getElementById('myCanvas');
-var context = canvas.getContext('2d');
-var img = document.getElementById('scream');
 
-context.drawImage(img, 10, 10);
 
-context.beginPath();
-context.rect(188, 50, 200, 100);
-context.fillStyle = 'yellow';
-context.fill();
-context.lineWidth = 7;
-context.strokeStyle = 'black';
-context.stroke();
+function setCreature(){
+    const active = document.querySelector(".carousel-item.active canvas");
+    const id = active.getAttribute("id");
+    const datas = new FormData();
+    datas.append("id", id);
+    datas.append("request","getSottoimmagini");
+    $.ajax({
+        type: "POST",
+        url: fileint,
+        data:  datas, 
+        processData: false,
+        contentType: false
+    })
+    .done(function(data,success,response) {
+        $("#listInd").innerHTML="";
+        data.dati.forEach(element => {
+            $("#listInd").innerHTML+=`
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <label>ID<input type="text" name="id" value="${element.ID}" disabled /></label>
+                            <label>Nome<input type="text" name="nome" value="${element.Nome}"/></label>
+                        </form>
+                    </div>
+                </div>
+            `;
+        });
+    })
+    .fail(function(response) {
+        console.log(response);
+    });
+}
+
+
+

@@ -29,8 +29,8 @@
                     <div class="col-12 col-lg-6 lg-my-2 lg-px-3 px-2 py-0 mt-lg-5">
                         <div id="map"><div id="my-map"></div></div>
                     </div>
-                    <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-2 py-0 my-0">
-                        <div class="w-100 px-2 py-1 avvstaDiv">
+                    <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-2 py-0 my-0" style="height:100%;">
+                        <div class="w-100 px-2 py-1">
                             <div class="row">
                                 <div class="col-9 p-0 m-0">
                                     <h2>Specifiche</h2>
@@ -110,8 +110,14 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-5">
-                <div class="p-3 w-100 h-100" id="imgs">                
+            <div class="card mb-5 h-100">
+                <div class="row">
+                    <div class="p-3 w-100 h-100" id="imgs">                
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p-3 w-100 h-100" id="sighting">
+                    </div>
                 </div>
             </div>
         </section>

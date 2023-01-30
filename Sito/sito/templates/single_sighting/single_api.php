@@ -78,6 +78,14 @@ if(isset($_POST["request"])){
             }
             break;
         }
+        case 'getSottoimmagini':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"])){
+                $result["dati"] = $dbh->getSottoimmagini($_POST["id"]);
+                $result["id"] = $_POST["id"];
+            }
+            break;
+        }
     }
 }
 

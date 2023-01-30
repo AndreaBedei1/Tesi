@@ -27,11 +27,6 @@
     filter: invert(100%);
 }
 
-#imgCarous img{
-  max-width: 50vh;
-  max-height: 50vh;
-}
-
 .icon{
   max-width: 20px;
   max-height: 20px;
