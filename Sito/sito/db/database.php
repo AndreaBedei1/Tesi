@@ -178,5 +178,12 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
+
+        public function updateIndv($id, $nome){
+            $query = 'UPDATE `esemplari` SET `Nome`=? WHERE ID=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $nome, $id);
+            return $stmt->execute();
+        }
     }
 ?>

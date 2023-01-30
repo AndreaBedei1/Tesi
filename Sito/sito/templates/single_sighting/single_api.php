@@ -81,8 +81,14 @@ if(isset($_POST["request"])){
         case 'getSottoimmagini':
         {
             if(isUserLoggedIn() && isset($_POST["id"])){
-                $result["dati"] = $dbh->getSottoimmagini($_POST["id"]);
-                $result["id"] = $_POST["id"];
+                $result = $dbh->getSottoimmagini($_POST["id"]);
+            }
+            break;
+        }
+        case 'updateIndv':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["nome"])){
+                $result = $dbh->updateIndv($_POST["id"], $_POST["nome"]);
             }
             break;
         }

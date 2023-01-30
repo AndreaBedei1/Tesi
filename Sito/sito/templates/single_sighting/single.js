@@ -1,4 +1,5 @@
 const fileint = "../templates/single_sighting/single_api.php";
+
 $(document).ready(function() {
     id = document.getElementById("idcod").value;
     setImages();
@@ -72,14 +73,7 @@ $(document).ready(function() {
     
     $("#infoSpecie").click(function() {
         if($("#slcSottospecie").val()!=""){
-            document.querySelector("#info .modal-title").innerText="Informazioni";
-            document.querySelector("#info .modal-footer").innerHTML=`
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
-                
-            document.querySelectorAll("#info button")[1].addEventListener("click",function() {
-                $('#info').modal('toggle');
-            });
-    
+            modalInfo();
             const datas = new FormData();
             datas.append("animale", $("#slcSpecie").val());
             datas.append("specie", $("#slcSottospecie").val());
@@ -92,7 +86,6 @@ $(document).ready(function() {
                 contentType: false
             })
             .done(function(data,success,response) {
-                console.log(data);
                 const dati = data[0];
                 if(data.length!=0){
                     document.querySelector("#info .modal-body").innerHTML=`
@@ -211,7 +204,6 @@ function uploadDates(){
         $("#note").val(dati["Note"]);
         select_file(fileint, "slcSpecie", "", "slcSpecie", dati["Anima_Nome"], 1);
         select_file(fileint, "slcSottospecie", {specie:dati["Anima_Nome"]}, "slcSottospecie", dati["Specie_Nome"], 1);
-        console.log(dati["Anima_Nome"]);
         if(dati["Anima_Nome"]=="?"){
             $("#slcSottospecie").prop('disabled', true);
             $("#infoSpecie").prop('disabled', true);
@@ -272,11 +264,11 @@ function setImages(){
                 <div id="carouselImages" class="carousel slide w-100 h-100" data-ride="carousel" data-type="multi" data-interval="false">   
                     <div id="imgCarous" class="carousel-inner w-100 h-100">
                     </div>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide-to="next">
+                    <button class="caros carousel-control-next" type="button" data-target="#carouselImages">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide-to="prev">
+                    <button class="caros carousel-control-prev" type="button" data-target="#carouselImages" onclick="$('#carouselImages').carousel('prev');">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
@@ -284,11 +276,12 @@ function setImages(){
             `;
             const contImg = document.getElementById("imgCarous");
             for (let i = 0; i < data.length; i++) {
+
                 const div = document.createElement("div");
                 const canvas = document.createElement("canvas");
                 canvas.setAttribute("width","400");
                 canvas.setAttribute("height","350");
-                canvas.setAttribute("id", "c"+data[i].ID);
+                canvas.setAttribute("id", "c_"+data[i].ID);
                 div.setAttribute("class", "carousel-item w-100 h-100");
                 div.appendChild(canvas);
                 contImg.appendChild(div);
@@ -310,13 +303,15 @@ function setImages(){
                     })
                     .done(function(data,success,response) {
                         const c = document.querySelector(".carousel-item.active canvas");
-                        if(data.dati.length>0){
-                            data.dati.forEach(e => {
+                        if(data.length>0){
+                            data.forEach(e => {
                                 const tx = e.tl_x*c.offsetWidth;
                                 const ty = e.tl_y*c.offsetHeight;
                                 const bx = e.br_x*c.offsetWidth;
                                 const by = e.br_y*c.offsetHeight;
                                 ctx.strokeRect(tx, ty, (bx-tx), (by-ty));
+                                ctx.font = "14px Arial";
+                                ctx.fillText("ID:"+e.Esemp_ID,tx+3,ty+14);
                             });
                         }
                     })
@@ -325,15 +320,12 @@ function setImages(){
                     });
                 };
 
-                canvas.addEventListener("click", function(event) {
-                    var x = event.offsetX / canvas.offsetWidth;
-                    var y = event.offsetY / canvas.offsetHeight;
-                    console.log(x, y);
-                });
+                // canvas.addEventListener("click", function(event) {
+                //     var x = event.offsetX / canvas.offsetWidth;
+                //     var y = event.offsetY / canvas.offsetHeight;
+                //     console.log(x, y);
+                // });
             }
-            $("#addNewInd").click(function() {
-
-            });
             document.querySelector(".carousel-item").classList.add("active");
             document.querySelector("#sighting").innerHTML=`
                 <header class="d-flex justify-content-between">
@@ -341,10 +333,21 @@ function setImages(){
                     <button id="addNewInd" class="btn btn-success">Aggiungi</button>
                 </header>
                 <div id="listInd">
-                    <p>Nessun individuo presente.</p>
                 </div>
             `;
             setCreature();
+            $(".caros").click(function() {
+                $('#carouselImages').carousel('pause');
+            });
+            $(".carousel-control-next").click(function() {
+                $('#carouselImages').carousel('next');
+            });
+            $(".carousel-control-prev").click(function() {
+                $('#carouselImages').carousel('prev');
+            });
+            $('#carouselImages').on('slid.bs.carousel', function () {
+                setCreature();
+              });
         } else {
             document.getElementById("imgs").innerHTML=`
                 <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
@@ -360,7 +363,8 @@ function setImages(){
 
 function setCreature(){
     const active = document.querySelector(".carousel-item.active canvas");
-    const id = active.getAttribute("id");
+    let id = active.getAttribute("id");
+    id=id.split("_")[1];
     const datas = new FormData();
     datas.append("id", id);
     datas.append("request","getSottoimmagini");
@@ -372,22 +376,69 @@ function setCreature(){
         contentType: false
     })
     .done(function(data,success,response) {
-        $("#listInd").innerHTML="";
-        data.dati.forEach(element => {
-            $("#listInd").innerHTML+=`
-                <div class="card">
-                    <div class="card-body">
-                        <form action="" method="post">
-                            <label>ID<input type="text" name="id" value="${element.ID}" disabled /></label>
-                            <label>Nome<input type="text" name="nome" value="${element.Nome}"/></label>
-                        </form>
+        const div = document.getElementById("listInd");
+        if(data.length>0){
+            div.innerHTML=`
+                <div class="container">
+                    <div class="row d-flex">
+            `;
+            data.forEach(element => {
+                div.innerHTML+=`
+                <div class="my-1">      
+                    <form id="f_${element.ID}" method="post">
+                        <label class="mx-1">ID<input type="text" class="mx-1" name="id" value="${element.ID}" disabled /></label>
+                        <label class="mx-1">Nome<input class="mx-1" type="text" name="nome" value="${element.Nome}"/></label>
+                        <button class="btn btn-success btn-sm align-baseline salvaElem" type="button" data-id="${element.ID}">Salva</button>
+                    </form>
+                </div>
+                `;
+            });
+            div.innerHTML+=`
                     </div>
                 </div>
             `;
-        });
+
+            $(".salvaElem").click(function() {
+                const datas = getFormData("f_"+$(this).data("id"));
+                datas.append("id", $(this).data("id"));
+                datas.append("request", "updateIndv");
+                $.ajax({
+                    method: "POST",
+                    url: fileint,
+                    data:  datas,
+                    processData: false,
+                    contentType: false
+                })
+                .done(function(data,success,response) {
+                    modalInfo();
+                    if(data){
+                        document.querySelector("#info .modal-body").innerText="Aggiornamentto avvenuto con successo!";
+
+                    } else {
+                        document.querySelector("#info .modal-body").innerText="Errore aggiornamento!";
+                    }
+                    $('#info').modal('toggle');
+                })
+                .fail(function(response) {
+                    console.log(response);
+                });
+            });
+        } else {
+            div.innerHTML="<p>Nessun individuo presente.</p>";
+        }
     })
     .fail(function(response) {
         console.log(response);
+    });
+}
+
+function modalInfo(){
+    document.querySelector("#info .modal-title").innerText="Informazioni";
+    document.querySelector("#info .modal-footer").innerHTML=`
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
+        
+    document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+        $('#info').modal('toggle');
     });
 }
 
