@@ -44,8 +44,17 @@
   border: none;
 }
 
-div, section, main{
-  box-sizing: border-box;
+.fieldset {
+  border: 1px solid black;
+  width: 100%;
+  padding-left: 0.5%;
+  padding-bottom: 0.5%;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  border-bottom: 1px solid grey;
 }
 
 .card{
@@ -55,7 +64,7 @@ div, section, main{
 }
 
 .carousel-item{
-  text-align: -webkit-center;
+  text-align: center;
 }
 
 .row div:first-child{
@@ -73,6 +82,13 @@ div, section, main{
 
 .rig:hover{
   background-color: white;
+}
+
+form dl{
+  border: 1px solid gray;
+  margin: 1% 0.5% 0.5% 0.5%;
+  padding: 0.5%;
+  box-sizing: border-box;
 }
 
 
@@ -123,10 +139,6 @@ table:hover tr{
   z-index: 1;
   top: 0px;
 }
-
-
-
-
 
 html#page-login body, html#page-signup body, html#page-homepage body, html#page-settings body, html#page-single body, html#page-privacy body {
   background-color: var(--col-lighter);

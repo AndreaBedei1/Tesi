@@ -172,11 +172,47 @@
         }
 
         public function getSottoimmagini($id){
-            $query = 'SELECT * FROM `sottoimmagini` s INNER JOIN `esemplari` e ON s.`Esemp_ID`= e.`ID`  WHERE `Immag_ID`=?';
+            $query = 'SELECT s.*, e.`nome` FROM `sottoimmagini` s INNER JOIN `esemplari` e ON s.`Esemp_ID`= e.`ID`  WHERE `Immag_ID`=?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function getFerite($id){
+            $query = 'SELECT `ID` AS ID_Fer, `Descrizione_Ferita`, `Posizione`, `Sottoi_ID`, `Gravi_Nome` FROM `ferite` WHERE Sottoi_ID=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function getGravita(){
+            $query = 'SELECT * FROM `gravita`';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function maxEsemplId(){
+            $query = 'SELECT MAX(ID) AS id FROM `esemplari`';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function addEsempl($id){
+            $query = 'INSERT INTO `esemplari`(`ID`) VALUES (?)';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            return $stmt->execute();
+        }
+
+        public function addSottoimmagine($tx, $ty, $bx, $by, $img, $esem){
+            $query = 'INSERT INTO `sottoimmagini`(`tl_x`, `tl_y`, `br_x`, `br_y`, `Immag_ID`, `Esemp_ID`) VALUES (?,?,?,?,?,?)';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param("ssssss", $tx, $ty, $bx, $by, $img, $esem);
+            return $stmt->execute();
         }
 
         public function updateIndv($id, $nome){

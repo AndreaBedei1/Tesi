@@ -81,7 +81,14 @@ if(isset($_POST["request"])){
         case 'getSottoimmagini':
         {
             if(isUserLoggedIn() && isset($_POST["id"])){
-                $result = $dbh->getSottoimmagini($_POST["id"]);
+                $result["sImmagini"] = $dbh->getSottoimmagini($_POST["id"]);
+                for ($i=0; $i < count($result["sImmagini"]); $i++) {
+                    if(is_null($result["sImmagini"][$i]["nome"])){
+                        $result["sImmagini"][$i]["nome"]="";
+                    }
+                    $result["sImmagini"][$i]["ferite"]=$dbh->getFerite($result["sImmagini"][$i]["ID"]);
+                }
+                $result["gravita"]=$dbh->getGravita();
             }
             break;
         }
@@ -89,6 +96,15 @@ if(isset($_POST["request"])){
         {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["nome"])){
                 $result = $dbh->updateIndv($_POST["id"], $_POST["nome"]);
+            }
+            break;
+        }
+        case 'addSottoimmagine':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["bx"]) && isset($_POST["by"]) && isset($_POST["tx"]) && isset($_POST["ty"])){
+                $esemID = $dbh->maxEsemplId()[0]["id"]+1;
+                $dbh->addEsempl($esemID);
+                $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $esemID);
             }
             break;
         }

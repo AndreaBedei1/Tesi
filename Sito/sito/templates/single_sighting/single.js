@@ -1,8 +1,9 @@
 const fileint = "../templates/single_sighting/single_api.php";
+let selected = "";
 
 $(document).ready(function() {
     id = document.getElementById("idcod").value;
-    setImages();
+    setImages(window.innerWidth, window.innerHeight);
     uploadDates();
     
     document.querySelectorAll("#info button")[0].addEventListener("click",function() {
@@ -60,7 +61,7 @@ $(document).ready(function() {
                     } else {
                         addAlert("alert","alert-success","Immagine inserita!","x");
                         $("#frmAddImg")[0].reset();
-                        setImages();
+                        setImages(window.innerWidth, window.innerHeight);
                     }
                 })
                 .fail(function(response) {
@@ -179,6 +180,15 @@ $(document).ready(function() {
             console.log(response);
         });
     });
+
+    let resizeTimer;
+    window.addEventListener("resize", function(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            selected = document.querySelector(".carousel-item.active canvas").getAttribute("id");
+            setImages(window.innerWidth, window.innerHeight);
+        }, 250);
+    });
 });
 
 function uploadDates(){
@@ -246,7 +256,20 @@ function createMap(data)
     map.addLayer(layer);
 }
 
-function setImages(){
+function setImages(w, h){
+    if(w<347){
+        w=w/1.6;
+    }
+    else if(w>=374 && w<=950){
+        w=w/2;
+    } else {
+        w=w/3.5;
+    }
+    if(h<=800){
+        h=h/2.5;
+    } else {
+        h=h/2.5;
+    }
     const datas = new FormData();
     datas.append("id", id);
     datas.append("request","getImages");
@@ -268,7 +291,7 @@ function setImages(){
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                    <button class="caros carousel-control-prev" type="button" data-target="#carouselImages" onclick="$('#carouselImages').carousel('prev');">
+                    <button class="caros carousel-control-prev" type="button" data-target="#carouselImages">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
@@ -276,11 +299,10 @@ function setImages(){
             `;
             const contImg = document.getElementById("imgCarous");
             for (let i = 0; i < data.length; i++) {
-
                 const div = document.createElement("div");
                 const canvas = document.createElement("canvas");
-                canvas.setAttribute("width","400");
-                canvas.setAttribute("height","350");
+                canvas.setAttribute("width",w);
+                canvas.setAttribute("height",h);
                 canvas.setAttribute("id", "c_"+data[i].ID);
                 div.setAttribute("class", "carousel-item w-100 h-100");
                 div.appendChild(canvas);
@@ -302,9 +324,10 @@ function setImages(){
                         contentType: false
                     })
                     .done(function(data,success,response) {
+                        let dati = data.sImmagini;
                         const c = document.querySelector(".carousel-item.active canvas");
-                        if(data.length>0){
-                            data.forEach(e => {
+                        if(dati.length>0){
+                            dati.forEach(e => {
                                 const tx = e.tl_x*c.offsetWidth;
                                 const ty = e.tl_y*c.offsetHeight;
                                 const bx = e.br_x*c.offsetWidth;
@@ -319,18 +342,17 @@ function setImages(){
                         console.log(response);
                     });
                 };
-
-                // canvas.addEventListener("click", function(event) {
-                //     var x = event.offsetX / canvas.offsetWidth;
-                //     var y = event.offsetY / canvas.offsetHeight;
-                //     console.log(x, y);
-                // });
             }
-            document.querySelector(".carousel-item").classList.add("active");
+            if(selected!=""){
+                console.log(selected);
+                document.getElementById(selected).parentNode.classList.add("active");
+            } else {
+                document.querySelector(".carousel-item").classList.add("active");
+            }
             document.querySelector("#sighting").innerHTML=`
                 <header class="d-flex justify-content-between">
-                    <h2 >Individui</h2>
-                    <button id="addNewInd" class="btn btn-success">Aggiungi</button>
+                    <h2>Esemplari</h2>
+                    <button id="addNewInd" class="btn btn-success">Aggiungi Esemplare</button>
                 </header>
                 <div id="listInd">
                 </div>
@@ -347,7 +369,91 @@ function setImages(){
             });
             $('#carouselImages').on('slid.bs.carousel', function () {
                 setCreature();
-              });
+            });
+
+            $("#addNewInd").click(function() {
+                const canvas = document.createElement("canvas");
+                canvas.setAttribute("width",w);
+                canvas.setAttribute("height",h);
+                document.querySelector("#info .modal-body").innerHTML=`
+                    <p>Seleziona la parte di immagine che rappresenta un esemplare</p>`;
+                document.querySelector("#info .modal-body").classList.add("text-center");
+                document.querySelector("#info .modal-body").appendChild(canvas);
+                document.querySelector("#info .modal-title").innerText="Aggiunta";
+                document.querySelector("#info .modal-footer").innerHTML=`
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Aggiungi</button>`;
+                const canvas2 = document.querySelector(".carousel-item.active canvas");
+                let ctx = canvas.getContext("2d");
+                ctx.drawImage(canvas2, 0, 0);
+                ctx.strokeStyle = "red";
+                ctx.lineWidth = 2;
+                var isDrawing = false;
+                var startX, startY, endX, endY;
+                canvas.addEventListener("mousedown", function (event) {
+                    isDrawing = true;
+                    startX = event.offsetX;
+                    startY = event.offsetY;
+                });
+                  
+                canvas.addEventListener("mouseup", function (event) {
+                    isDrawing = false;
+                    endX = event.offsetX;
+                    endY = event.offsetY;
+                    
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvas2, 0, 0);
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, endX - startX, endY - startY);
+                    ctx.stroke();
+                });
+                  
+                canvas.addEventListener("mousemove", function (event) {
+                    if (!isDrawing) 
+                        return;
+                    endX = event.offsetX;
+                    endY = event.offsetY;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvas2, 0, 0);
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, endX - startX, endY - startY);
+                    ctx.stroke();
+                });
+
+                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                    const datas = new FormData();
+                    const c = document.querySelector(".carousel-item.active canvas");
+                    const id = c.getAttribute("id").split("_")[1];
+                    datas.append("id", id);
+                    if(startY>endY){
+                        datas.append("bx", startX/c.offsetWidth);
+                        datas.append("by", startY/c.offsetHeight);
+                        datas.append("tx", endX/c.offsetWidth);
+                        datas.append("ty", endY/c.offsetHeight);
+                    } else {
+                        datas.append("tx", startX/c.offsetWidth);
+                        datas.append("ty", startY/c.offsetHeight);
+                        datas.append("bx", endX/c.offsetWidth);
+                        datas.append("by", endY/c.offsetHeight);
+                    }
+                    datas.append("request", "addSottoimmagine");
+                    $.ajax({
+                        method: "POST",
+                        url: fileint,
+                        data:  datas,
+                        processData: false,
+                        contentType: false
+                    })
+                    .done(function(data,success,response) {
+                        selected = document.querySelector(".carousel-item.active canvas").getAttribute("id");
+                        setImages(window.innerWidth, window.innerHeight);
+                        $('#info').modal('toggle');
+                    })
+                    .fail(function(response) {
+                        console.log(response);
+                    });
+                });
+                $('#info').modal('toggle');
+            });
         } else {
             document.getElementById("imgs").innerHTML=`
                 <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
@@ -376,22 +482,56 @@ function setCreature(){
         contentType: false
     })
     .done(function(data,success,response) {
+        let dati = data.sImmagini;
+        console.log(data);
         const div = document.getElementById("listInd");
-        if(data.length>0){
+        if(dati.length>0){
             div.innerHTML=`
                 <div class="container">
-                    <div class="row d-flex">
+                    <div class="row">
             `;
-            data.forEach(element => {
-                div.innerHTML+=`
-                <div class="my-1">      
-                    <form id="f_${element.ID}" method="post">
-                        <label class="mx-1">ID<input type="text" class="mx-1" name="id" value="${element.ID}" disabled /></label>
-                        <label class="mx-1">Nome<input class="mx-1" type="text" name="nome" value="${element.Nome}"/></label>
-                        <button class="btn btn-success btn-sm align-baseline salvaElem" type="button" data-id="${element.ID}">Salva</button>
-                    </form>
-                </div>
+            dati.forEach(element => {
+                riga = `
+                    <div class="my-2 fieldset">    
+                        <form id="f_${element.Esemp_ID}" method="post">
+                            <legend>ID: ${element.Esemp_ID}</legend>
+                            <label class="mx-1 d-inline-flex">Nome<input class="input-group mx-1" type="text" name="nome" value="${element.nome}"/></label>
                 `;
+                if(element.ferite.length>0){
+                    riga+="<h3>Ferite:</h3>";
+                }
+                element.ferite.forEach(el2 => {
+                    riga += `
+                        <dl>
+                            <dt>Posizione:</dt>
+                            <dd>${el2.Posizione}</dd>
+                            <dt>Gravità:</dt>
+                            <dd>${el2.Gravi_Nome}</dd>
+                            <dt>Descrizione Ferita:</dt>
+                            <dd>${el2.Descrizione_Ferita}</dd>
+                        </dl>
+                    `;
+                    //     <div class="row">
+                    //         <div class="col-6"
+                    //             <label class="d-inline-flex">Posizione <input class="input-group" type="text" name="posizione" value="${el2.Posizione}"/></label>
+                    //         </div>
+                    //         <div class="col-6"
+                    //             <label for="slcGrav">Gravità </label>
+                    //             <select class="d-inline-flex" name="specie" id="slcGrav" class="form-select">
+                    //                 <option></option>
+                    //             </select>
+                    //         </div>
+                    //     </div>
+                    //         <label class="d-inline-flex">Descrizione <textarea name="descrizioneF" class="input-group"></textarea>${el2.Gravi_Nome}</label>
+                    // `;
+
+                });
+                riga +=`
+                            <button class="btn btn-success btn-sm align-baseline salvaElem" type="button" data-id="${element.Esemp_ID}">Salva</button>
+                        </form>
+                    </div>
+                `;
+                div.innerHTML+=riga;
             });
             div.innerHTML+=`
                     </div>
@@ -413,7 +553,6 @@ function setCreature(){
                     modalInfo();
                     if(data){
                         document.querySelector("#info .modal-body").innerText="Aggiornamentto avvenuto con successo!";
-
                     } else {
                         document.querySelector("#info .modal-body").innerText="Errore aggiornamento!";
                     }
@@ -424,7 +563,7 @@ function setCreature(){
                 });
             });
         } else {
-            div.innerHTML="<p>Nessun individuo presente.</p>";
+            div.innerHTML="<p>Nessun esemplare presente.</p>";
         }
     })
     .fail(function(response) {
