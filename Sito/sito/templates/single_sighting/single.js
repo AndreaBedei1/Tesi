@@ -287,7 +287,7 @@ function setImages(w, h){
             document.getElementById("btnDel").innerHTML=`
                 <div class="col-3 col-md-5"></diV> 
                 <div class="col-6 col-md-2">                
-                    <button id="delete" class="btn btn-danger w-100" type="button" aria-label="Elimina immagine"><i class="fas fa-trash"></i> Immagine</button>
+                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina immagine"><i class="fas fa-trash"></i> Immagine</button>
                 </div>
                 <div class="col-3 col-md-5"></diV>
             `;
@@ -550,26 +550,26 @@ function setCreature(){
                         <div class="card indiv my-2 border-secondary">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-9 p-0 m-0">
+                                    <div class="col-6">
                                         <h3 class="card-title">ID: ${element.ID}</h3>
                                     </div>
-                                    <div class="col-3 text-end px-2">
+                                    <div class="col-6 text-end px-2">
                                         <button class="btn btn-primary btn-sm" data-id="${element.ID}" data-img="${id}" aria-label="Modifica Esemplare"><i class="fas fa-edit"></i></button>
                                         <button class="btn btn-danger deleteIndv btn-sm" type="button" data-id="${element.ID}" data-img="${id}" aria-label="Elimina Esemplare"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </div>
                             <div class="row mx-4 my-2 border-bottom border-secondary"></div>
                             <dl class="row mb-1">
-                                <dt class="col-sm-3">Nome:</dt>
-                                <dd class="col-sm-9">${element.nome}</dd>
+                                <dt class="col-sm-4">Nome:</dt>
+                                <dd class="col-sm-8">${element.nome}</dd>
                             </dl>   
                 `;
                 riga += `
                     <div class="row">
-                        <div class="col-9 p-0 px-2 m-0">
+                        <div class="col-6 p-0 px-2 m-0">
                             <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
                         </div>
-                        <div class="col-3 text-end px-2 align-self-center">
+                        <div class="col-6 text-end px-2 align-self-center">
                             <button class="btn btn-success btn-sm addInjury" data-img="${element.Immag_ID}" data-simg="${element.ID}" type="button" aria-label="Aggiungi ferita"><i class="fas fa-plus"></i> Ferita</button>  
                         </div>
                     </div>
@@ -578,17 +578,17 @@ function setCreature(){
                     element.ferite.forEach(el2 => {
                     riga += `
                         <div class="mx-2 my-2 border border-secondary rounded">
-                            <header class="text-end mt-1">
+                            <header class="text-end mt-1 px-2">
                                 <button class="btn btn-primary btn-sm btnModificaFerita" data-id="${el2.ID_Fer}" aria-label="Modifica"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger mx-1 btn-sm btnEliminaFerita" data-id="${el2.ID_Fer}" aria-label="Elimina"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-danger btn-sm btnEliminaFerita" data-id="${el2.ID_Fer}" aria-label="Elimina"><i class="fas fa-trash"></i></button>
                             </header>
                             <dl class="row mx-1">
-                                <dt class="col-sm-3">Posizione:</dt>
-                                <dd class="col-sm-9">${el2.Posizione}</dd>
-                                <dt class="col-sm-3">Gravità:</dt>
-                                <dd class="col-sm-9">${el2.Gravi_Nome}</dd>
-                                <dt class="col-sm-3">Descrizione:</dt>
-                                <dd class="col-sm-9">${el2.Descrizione_Ferita}</dd>
+                                <dt class="col-sm-4">Posizione:</dt>
+                                <dd class="col-sm-8">${el2.Posizione}</dd>
+                                <dt class="col-sm-4">Gravità:</dt>
+                                <dd class="col-sm-8">${el2.Gravi_Nome}</dd>
+                                <dt class="col-sm-4">Descrizione:</dt>
+                                <dd class="col-sm-8">${el2.Descrizione_Ferita}</dd>
                             </dl>                  
                         </div>
                     `;

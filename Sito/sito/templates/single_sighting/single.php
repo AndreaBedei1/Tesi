@@ -32,11 +32,11 @@
                     <div class="col-12 col-lg-6 lg-mb-2 lg-px-3 px-2 py-0 my-0 h-100">
                         <div class="w-100 px-2 py-1">
                             <div class="row">
-                                <div class="col-9 p-0 px-2 m-0">
+                                <div class="col-6 p-0 px-2 m-0">
                                     <h2>Specifiche</h2>
                                 </div>
-                                <div class="col-3 text-end px-2">
-                                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina"><i class="fas fa-trash"></i></button>
+                                <div class="col-6 text-end px-2">
+                                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina"><i class="fas fa-trash"></i> Avvistamento</button>
                                 </div>
                             </div>
                             <form id="avvDates" class="m-0 p-0 w-100" action="" method="post">
