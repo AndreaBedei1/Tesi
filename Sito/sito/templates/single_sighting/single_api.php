@@ -33,8 +33,8 @@ if(isset($_POST["request"])){
         }
         case 'saveDates':
         {
-            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["specie"]) && isset($_POST["sottospecie"]) && isset($_POST["esemplari"]) && isset($_POST["vento"]) && isset($_POST["mare"]) && isset($_POST["note"])){      
-                $result = $dbh->updateDates($_POST["id"], $_POST["specie"], $_POST["sottospecie"], $_POST["esemplari"], $_POST["vento"], $_POST["mare"], $_POST["note"]);
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["specie"]) && isset($_POST["sottospecie"]) && isset($_POST["esemplari"]) && isset($_POST["vento"]) && isset($_POST["mare"]) && isset($_POST["note"]) && isset($_POST["latitudine"]) && isset($_POST["longitudine"])){      
+                $result = $dbh->updateDates($_POST["id"], $_POST["specie"], $_POST["sottospecie"], $_POST["esemplari"], $_POST["vento"], $_POST["mare"], $_POST["note"], $_POST["latitudine"], $_POST["longitudine"]);
             }
             break;
         }
@@ -101,15 +101,13 @@ if(isset($_POST["request"])){
         }
         case 'addSottoimmagine':
         {
-            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["bx"]) && isset($_POST["by"]) && isset($_POST["tx"]) && isset($_POST["ty"])){
-                $esemID = $dbh->maxEsemplId()[0]["id"]+1;
-                $dbh->addEsempl($esemID);
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["bx"]) && isset($_POST["by"]) && isset($_POST["tx"]) && isset($_POST["ty"]) && isset($_POST["esemID"])){
                 $p=0;
                 do {
                     $p++;
                     $rec = $dbh->checkID($p, $_POST["id"]);
                 } while(count($rec)!=0);
-                $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $esemID, $p);
+                $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $_POST["esemID"], $p);
             }
             break;
         }
@@ -122,6 +120,29 @@ if(isset($_POST["request"])){
                 if(count($res)<2){
                     $dbh->deleteIndiv($res[0]["Esemp_ID"]);
                 }
+            }
+            break;
+        }
+        case 'deleteImmg':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"])){
+                $res = $dbh->getSottoimmagini($_POST["id"]);
+                foreach ($res as $k) {
+                    $res = $dbh->checkID($k["ID"], $_POST["id"]);
+                    $dbh->deleteFerite($k["ID"], $_POST["id"]);
+                    $dbh->deleteSottoimmagini($k["ID"], $_POST["id"]);
+                    if(count($res)<2){
+                        $dbh->deleteIndiv($res[0]["Esemp_ID"]);
+                    }
+                }
+                $dbh->deleteImmagini($_POST["id"]);
+            }
+            break;
+        }
+        case 'deleteFerita':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"])){
+                $dbh->deleteFeritaByID($_POST["id"]);
             }
             break;
         }

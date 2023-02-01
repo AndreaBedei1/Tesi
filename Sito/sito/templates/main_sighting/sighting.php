@@ -69,15 +69,12 @@
     <div class="container-fluid p-0 overflow-hidden">
         <section>
             <header>
-            <div class="d-flex justify-content-between bd-highlight mb-3">
-                <div class="p-2 bd-highlight"></div>
-                <div class="p-2 bd-highlight">
+                <div class="p-1 bd-highlight text-center">
                     <h1>Tabella Avvistamenti</h1>
                 </div>
-                <div class="p-2 bd-highlight align-self-centerm">
-                    <button id="aggiungi" class="btn btn-success btn-lg">+</button>
+                <div class="p-3 pt-0 bd-highlight text-end">
+                    <button id="aggiungi" class="btn btn-success" aria-label="Aggiungi avvistamento"><i class="fas fa-plus"></i> Avvistamento</button>
                 </div>
-            </div>
             </header>
             <div class="card-body">
                 <div class="row">

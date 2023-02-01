@@ -123,11 +123,7 @@ function createTableMap(){
             row += '<td header="data" class="px-1">'+data[i]['Data']+'</td>';
             row += '<td header="coordinate" class="px-1">'+data[i]['Latid']+' '+ data[i]['Long'] +'</td>';
             row += '<td header="animale" class="px-1">'+data[i]['Anima_Nome']+'</td>';
-            row += '<td header="visualizza" class="px-1"><button type="button" class="btn btn-primary btn-sm py-0 my-0 px-lg-4 px-1 mx-1" data-id="'+data[i]['ID']+'">';
-            row += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">';
-            row += '<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>';
-            row += '</svg>';
-            row += '</button></td>';
+            row += '<td header="visualizza" class="px-1"><button type="button" class="btn btn-primary btn-sm py-0 my-0 px-lg-4 px-1 mx-1" aria-label="Vedi avvistamento" data-id="'+data[i]['ID']+'"><i class="fas fa-search"></i></button></td>';
             row += '</tr>';
         }
         tbl_avvist.html(row);

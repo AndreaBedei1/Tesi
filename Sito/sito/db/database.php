@@ -100,19 +100,19 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function updateDates($id, $specie, $sottospecie, $esemplari, $vento, $mare, $note){
+        public function updateDates($id, $specie, $sottospecie, $esemplari, $vento, $mare, $note, $lat, $long){
             if($specie==""){
-                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=NULL,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL WHERE `ID`=?"; 
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=NULL,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL, `Latid`=?, `Long`=?  WHERE `ID`=?"; 
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('sssss', $esemplari, $vento, $mare, $note, $id);
+                $stmt->bind_param('sssssss', $esemplari, $vento, $mare, $note, $lat, $long, $id);
             } else if($specie!="" && $sottospecie==""){
-                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL WHERE `ID`=?"; 
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=NULL,`Specie_Nome`=NULL, `Latid`=?, `Long`=? WHERE `ID`=?"; 
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('ssssss', $esemplari, $vento, $mare, $note, $specie, $id);
+                $stmt->bind_param('ssssssss', $esemplari, $vento, $mare, $note, $specie, $lat, $long, $id);
             } else {
-                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=?,`Specie_Nome`=? WHERE `ID`=?";
+                $query = "UPDATE `avvistamenti` SET `Numero_Esemplari`=?,`Vento`=?,`Mare`=?,`Note`=?, `Anima_Nome`=?,`Specie_Anima_Nome`=?,`Specie_Nome`=?, `Latid`=?, `Long`=? WHERE `ID`=?";
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('ssssssss', $esemplari, $vento, $mare, $note, $specie, $specie, $sottospecie, $id);
+                $stmt->bind_param('ssssssssss', $esemplari, $vento, $mare, $note, $specie, $specie, $sottospecie, $lat, $long, $id);
             }
             return $stmt->execute();
         }
@@ -230,6 +230,13 @@
             $stmt->execute();
         }
 
+        public function deleteFeritaByID($id){
+            $query = 'DELETE FROM `ferite` WHERE `ID`=? ';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+        }
+
         public function deleteSottoimmagini($p, $img){
             $query = 'DELETE FROM `sottoimmagini` WHERE `ID`=? AND `Immag_ID`=?';
             $stmt = $this->db->prepare($query);
@@ -238,10 +245,17 @@
         }
 
         public function deleteIndiv($id){
-            $query = 'DELETE FROM `esemplari` WHERE `ID`=?';
+            $query = 'DELETE FROM `esemplari` WHERE `ID`=? AND `Nome`<>"Sconosciuto" ';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             $stmt->execute();
         }
+
+        public function deleteImmagini($id){
+            $query = 'DELETE FROM `immagini` WHERE `ID`=? ';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+        }        
     }
 ?>

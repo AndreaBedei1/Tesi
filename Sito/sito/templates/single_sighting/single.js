@@ -282,7 +282,18 @@ function setImages(w, h){
     })
     .done(function(data,success,response) {
         if(data.length>0){
+            $(".rSotto").show();
             document.querySelector(".card").removeAttribute("style");
+            document.getElementById("btnDel").innerHTML=`
+                <div class="col-3 col-md-5"></diV> 
+                <div class="col-6 col-md-2">                
+                    <button id="delete" class="btn btn-danger w-100" type="button" aria-label="Elimina immagine"><i class="fas fa-trash"></i> Immagine</button>
+                </div>
+                <div class="col-3 col-md-5"></diV>
+            `;
+            document.getElementById("btnDel").addEventListener("click", function(){
+                deleteImmg();
+            });
             document.getElementById("imgs").innerHTML=`
                 <div id="carouselImages" class="carousel slide w-100 h-100" data-ride="carousel" data-type="multi" data-interval="false">   
                     <div id="imgCarous" class="carousel-inner w-100 h-100">
@@ -297,6 +308,12 @@ function setImages(w, h){
                     </button>
                 </div>
             `;
+            if(data.length==1){
+                $('.carousel-control-next').prop('disabled', true);
+                $('.carousel-control-prev').prop('disabled', true);
+                $('.carousel-control-next').hide();
+                $('.carousel-control-prev').hide();
+            }
             const contImg = document.getElementById("imgCarous");
             for (let i = 0; i < data.length; i++) {
                 const div = document.createElement("div");
@@ -344,7 +361,6 @@ function setImages(w, h){
                 };
             }
             if(selected!=""){
-                console.log(selected);
                 document.getElementById(selected).parentNode.classList.add("active");
             } else {
                 document.querySelector(".carousel-item").classList.add("active");
@@ -352,7 +368,7 @@ function setImages(w, h){
             document.querySelector("#sighting").innerHTML=`
                 <header class="d-flex justify-content-between">
                     <h2>Esemplari</h2>
-                    <button id="addNewInd" class="btn btn-success">Aggiungi Esemplare</button>
+                    <button id="addNewInd" class="btn btn-success"aria-label="Aggiungi esemplare"><i class="fas fa-plus"></i> Esemplare</button>
                 </header>
                 <div id="listInd">
                 </div>
@@ -456,6 +472,7 @@ function setImages(w, h){
                     const c = document.querySelector(".carousel-item.active canvas");
                     const id = c.getAttribute("id").split("_")[1];
                     datas.append("id", id);
+                    datas.append("esemID", "3");
                     if(startY>endY){
                         datas.append("bx", startX/c.offsetWidth);
                         datas.append("by", startY/c.offsetHeight);
@@ -487,6 +504,7 @@ function setImages(w, h){
                 $('#info').modal('toggle');
             });
         } else {
+            $(".rSotto").hide();
             document.getElementById("imgs").innerHTML=`
                 <p class="text-center m-0 p-2">Nessuna immagine presente.</p>
             `;
@@ -517,8 +535,8 @@ function setCreature(){
         const active = document.querySelector(".carousel-item.active canvas");
         let id = active.getAttribute("id").split("_")[1];
         let dati = data.sImmagini;
-        console.log(data);
         const div = document.getElementById("listInd");
+        div.innerHTML="";
         const cont = document.createElement("div");
         cont.setAttribute("class", "container");
         const row = document.createElement("div");
@@ -526,16 +544,23 @@ function setCreature(){
         cont.appendChild(row);
         div.appendChild(cont);
         if(dati.length>0){
+            console.log(dati);
             dati.forEach(element => {
                 let riga = `
                     <div class="col-sm-12">
-                        <div class="card indiv my-2">
+                        <div class="card indiv my-2 border-secondary">
                             <div class="card-body">
-                            <header class="d-flex justify-content-between">
-                                <h3 class="card-title">ID: ${element.ID}</h3>
-                                <button class="btn btn-danger deleteIndv" type="button" data-id="${element.ID}" data-img="${id}">Elimina</button>
-                            </header>
-                            <dl class="row mb-3">
+                                <div class="row">
+                                    <div class="col-9 p-0 m-0">
+                                        <h3 class="card-title">ID: ${element.ID}</h3>
+                                    </div>
+                                    <div class="col-3 text-end px-2">
+                                        <button class="btn btn-primary btn-sm" data-id="${element.ID}" data-img="${id}" aria-label="Modifica Esemplare"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger deleteIndv btn-sm" type="button" data-id="${element.ID}" data-img="${id}" aria-label="Elimina Esemplare"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            <div class="row mx-4 my-2 border-bottom border-secondary"></div>
+                            <dl class="row mb-1">
                                 <dt class="col-sm-3">Nome:</dt>
                                 <dd class="col-sm-9">${element.nome}</dd>
                             </dl>
@@ -543,18 +568,31 @@ function setCreature(){
                 `;
                 if (element.ferite.length > 0) {
                     riga += `
-                    <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
+                    <div class="row">
+                        <div class="col-9 p-0 px-2 m-0">
+                            <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
+                        </div>
+                        <div class="col-3 text-end px-1 align-self-center">
+                            <button class="btn btn-success btn-sm" type="button" aria-label="Aggiungi ferita"><i class="fas fa-plus"></i> Ferita</button>  
+                        </div>
+                    </div>
                     `;
                     element.ferite.forEach(el2 => {
                     riga += `
-                        <dl class="row mb-3">
-                            <dt class="col-sm-3">Posizione:</dt>
-                            <dd class="col-sm-9">${el2.Posizione}</dd>
-                            <dt class="col-sm-3">Gravità:</dt>
-                            <dd class="col-sm-9">${el2.Gravi_Nome}</dd>
-                            <dt class="col-sm-3">Descrizione Ferita:</dt>
-                            <dd class="col-sm-9">${el2.Descrizione_Ferita}</dd>
-                        </dl>
+                        <div class="mx-2 my-2 border border-secondary rounded">
+                            <header class="text-end mt-1">
+                                <button class="btn btn-primary btn-sm btnModificaFerita" data-id="${el2.ID_Fer}" aria-label="Modifica"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger mx-1 btn-sm btnEliminaFerita" data-id="${el2.ID_Fer}" aria-label="Elimina"><i class="fas fa-trash"></i></button>
+                            </header>
+                            <dl class="row mx-1">
+                                <dt class="col-sm-3">Posizione:</dt>
+                                <dd class="col-sm-9">${el2.Posizione}</dd>
+                                <dt class="col-sm-3">Gravità:</dt>
+                                <dd class="col-sm-9">${el2.Gravi_Nome}</dd>
+                                <dt class="col-sm-3">Descrizione:</dt>
+                                <dd class="col-sm-9">${el2.Descrizione_Ferita}</dd>
+                            </dl>                  
+                        </div>
                     `;
                     });
                 }
@@ -565,6 +603,41 @@ function setCreature(){
                 `;
                 row.innerHTML += riga;
             });
+
+            $(".btnEliminaFerita").click(function() {
+                const id = $(this).data("id");
+                document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare la ferita?</p>";
+                document.querySelector("#info .modal-title").innerText="Eliminazione";
+                document.querySelector("#info .modal-footer").innerHTML=`
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>`;
+
+                document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+                    $('#info').modal('toggle');
+                });
+                
+                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                    const datas = new FormData();
+                    datas.append("id", id);
+                    datas.append("request", "deleteFerita");
+                    $.ajax({
+                        method: "POST",
+                        url: fileint,
+                        data:  datas,
+                        processData: false,
+                        contentType: false
+                    })
+                    .done(function(dati,success,response) {
+                        setImages(window.innerWidth, window.innerHeight);
+                        $('#info').modal('toggle'); 
+                    })
+                    .fail(function(response) {
+                        console.log(response);
+                    });
+                });
+                $('#info').modal('toggle');
+            });
+            
 
             $(".deleteIndv").click(function() {
                 let id = $(this).data("id");
@@ -644,6 +717,41 @@ function modalInfo(){
     document.querySelectorAll("#info button")[1].addEventListener("click",function() {
         $('#info').modal('toggle');
     });
+}
+
+function deleteImmg(){
+    document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'immagine e tutto ciò a cui essa è associata?</p>";
+    document.querySelector("#info .modal-title").innerText="Eliminazione";
+    document.querySelector("#info .modal-footer").innerHTML=`
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>`;
+
+    document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+        $('#info').modal('toggle');
+    });
+    
+    document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+        const active = document.querySelector(".carousel-item.active canvas");
+        let id = active.getAttribute("id").split("_")[1];
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("request", "deleteImmg");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(dati,success,response) {
+            setImages(window.innerWidth, window.innerHeight);
+            $('#info').modal('toggle'); 
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+    $('#info').modal('toggle');
 }
 
 
