@@ -334,7 +334,7 @@ function setImages(w, h){
                                 const by = e.br_y*c.offsetHeight;
                                 ctx.strokeRect(tx, ty, (bx-tx), (by-ty));
                                 ctx.font = "14px Arial";
-                                ctx.fillText("ID:"+e.Esemp_ID,tx+3,ty+14);
+                                ctx.fillText("ID:"+e.ID,tx+3,ty+14);
                             });
                         }
                     })
@@ -419,6 +419,38 @@ function setImages(w, h){
                     ctx.stroke();
                 });
 
+                canvas.addEventListener("touchstart", function (event) {
+                    isDrawing = true;
+                    let rect = canvas.getBoundingClientRect();
+                    startX = event.touches[0].clientX - rect.left;
+                    startY = event.touches[0].clientY - rect.top;
+                }, { passive: true });
+                
+                canvas.addEventListener("touchend", function (event) {
+                    isDrawing = false;
+                    let rect = canvas.getBoundingClientRect();
+                    endX = event.changedTouches[0].clientX - rect.left;
+                    endY = event.changedTouches[0].clientY - rect.top;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvas2, 0, 0);
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, endX - startX, endY - startY);
+                    ctx.stroke();
+                }, { passive: true });
+                
+                canvas.addEventListener("touchmove", function (event) {
+                    if (!isDrawing)
+                        return;
+                    let rect = canvas.getBoundingClientRect();
+                    endX = event.touches[0].clientX - rect.left;
+                    endY = event.touches[0].clientY - rect.top;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvas2, 0, 0);
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, endX - startX, endY - startY);
+                    ctx.stroke();
+                }, { passive: true });
+
                 document.querySelectorAll("#info button")[1].addEventListener("click",function() {
                     const datas = new FormData();
                     const c = document.querySelector(".carousel-item.active canvas");
@@ -482,86 +514,119 @@ function setCreature(){
         contentType: false
     })
     .done(function(data,success,response) {
+        const active = document.querySelector(".carousel-item.active canvas");
+        let id = active.getAttribute("id").split("_")[1];
         let dati = data.sImmagini;
         console.log(data);
         const div = document.getElementById("listInd");
+        const cont = document.createElement("div");
+        cont.setAttribute("class", "container");
+        const row = document.createElement("div");
+        row.setAttribute("class", "row");
+        cont.appendChild(row);
+        div.appendChild(cont);
         if(dati.length>0){
-            div.innerHTML=`
-                <div class="container">
-                    <div class="row">
-            `;
             dati.forEach(element => {
-                riga = `
-                    <div class="my-2 fieldset">    
-                        <form id="f_${element.Esemp_ID}" method="post">
-                            <legend>ID: ${element.Esemp_ID}</legend>
-                            <label class="mx-1 d-inline-flex">Nome<input class="input-group mx-1" type="text" name="nome" value="${element.nome}"/></label>
+                let riga = `
+                    <div class="col-sm-12">
+                        <div class="card indiv my-2">
+                            <div class="card-body">
+                            <header class="d-flex justify-content-between">
+                                <h3 class="card-title">ID: ${element.ID}</h3>
+                                <button class="btn btn-danger deleteIndv" type="button" data-id="${element.ID}" data-img="${id}">Elimina</button>
+                            </header>
+                            <dl class="row mb-3">
+                                <dt class="col-sm-3">Nome:</dt>
+                                <dd class="col-sm-9">${element.nome}</dd>
+                            </dl>
+                                
                 `;
-                if(element.ferite.length>0){
-                    riga+="<h3>Ferite:</h3>";
-                }
-                element.ferite.forEach(el2 => {
+                if (element.ferite.length > 0) {
                     riga += `
-                        <dl>
-                            <dt>Posizione:</dt>
-                            <dd>${el2.Posizione}</dd>
-                            <dt>Gravità:</dt>
-                            <dd>${el2.Gravi_Nome}</dd>
-                            <dt>Descrizione Ferita:</dt>
-                            <dd>${el2.Descrizione_Ferita}</dd>
+                    <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
+                    `;
+                    element.ferite.forEach(el2 => {
+                    riga += `
+                        <dl class="row mb-3">
+                            <dt class="col-sm-3">Posizione:</dt>
+                            <dd class="col-sm-9">${el2.Posizione}</dd>
+                            <dt class="col-sm-3">Gravità:</dt>
+                            <dd class="col-sm-9">${el2.Gravi_Nome}</dd>
+                            <dt class="col-sm-3">Descrizione Ferita:</dt>
+                            <dd class="col-sm-9">${el2.Descrizione_Ferita}</dd>
                         </dl>
                     `;
-                    //     <div class="row">
-                    //         <div class="col-6"
-                    //             <label class="d-inline-flex">Posizione <input class="input-group" type="text" name="posizione" value="${el2.Posizione}"/></label>
-                    //         </div>
-                    //         <div class="col-6"
-                    //             <label for="slcGrav">Gravità </label>
-                    //             <select class="d-inline-flex" name="specie" id="slcGrav" class="form-select">
-                    //                 <option></option>
-                    //             </select>
-                    //         </div>
-                    //     </div>
-                    //         <label class="d-inline-flex">Descrizione <textarea name="descrizioneF" class="input-group"></textarea>${el2.Gravi_Nome}</label>
-                    // `;
-
-                });
-                riga +=`
-                            <button class="btn btn-success btn-sm align-baseline salvaElem" type="button" data-id="${element.Esemp_ID}">Salva</button>
-                        </form>
-                    </div>
-                `;
-                div.innerHTML+=riga;
-            });
-            div.innerHTML+=`
+                    });
+                }
+                riga += `
+                        </div>
                     </div>
                 </div>
-            `;
-
-            $(".salvaElem").click(function() {
-                const datas = getFormData("f_"+$(this).data("id"));
-                datas.append("id", $(this).data("id"));
-                datas.append("request", "updateIndv");
-                $.ajax({
-                    method: "POST",
-                    url: fileint,
-                    data:  datas,
-                    processData: false,
-                    contentType: false
-                })
-                .done(function(data,success,response) {
-                    modalInfo();
-                    if(data){
-                        document.querySelector("#info .modal-body").innerText="Aggiornamentto avvenuto con successo!";
-                    } else {
-                        document.querySelector("#info .modal-body").innerText="Errore aggiornamento!";
-                    }
-                    $('#info').modal('toggle');
-                })
-                .fail(function(response) {
-                    console.log(response);
-                });
+                `;
+                row.innerHTML += riga;
             });
+
+            $(".deleteIndv").click(function() {
+                let id = $(this).data("id");
+                let img = $(this).data("img");
+                document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'elemento?</p>";
+                document.querySelector("#info .modal-title").innerText="Eliminazione";
+                document.querySelector("#info .modal-footer").innerHTML=`
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>`;
+
+                document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+                    $('#info').modal('toggle');
+                });
+                
+                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                    const datas = new FormData();
+                    datas.append("id", id);
+                    datas.append("img", img);
+                    datas.append("request", "delateID");
+                    $.ajax({
+                        method: "POST",
+                        url: fileint,
+                        data:  datas,
+                        processData: false,
+                        contentType: false
+                    })
+                    .done(function(dati,success,response) {
+                        setImages(window.innerWidth, window.innerHeight);
+                        $('#info').modal('toggle'); 
+                    })
+                    .fail(function(response) {
+                        console.log(response);
+                    });
+                });
+                $('#info').modal('toggle');
+            });
+           
+            // Ho tolto la form da sopra è da modificare.
+            // $(".salvaElem").click(function() {
+            //     const datas = getFormData("f_"+$(this).data("id"));
+            //     datas.append("id", $(this).data("id"));
+            //     datas.append("request", "updateIndv");
+            //     $.ajax({
+            //         method: "POST",
+            //         url: fileint,
+            //         data:  datas,
+            //         processData: false,
+            //         contentType: false
+            //     })
+            //     .done(function(data,success,response) {
+            //         modalInfo();
+            //         if(data){
+            //             document.querySelector("#info .modal-body").innerText="Aggiornamentto avvenuto con successo!";
+            //         } else {
+            //             document.querySelector("#info .modal-body").innerText="Errore aggiornamento!";
+            //         }
+            //         $('#info').modal('toggle');
+            //     })
+            //     .fail(function(response) {
+            //         console.log(response);
+            //     });
+            // });
         } else {
             div.innerHTML="<p>Nessun esemplare presente.</p>";
         }

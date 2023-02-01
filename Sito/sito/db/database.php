@@ -124,13 +124,6 @@
             return $stmt->execute();
         }
 
-        public function addCoord($lat, $lon){
-            $query = "INSERT INTO `coordinate_geografiche`(`Latitudine`, `Longitudine`) VALUES (?,?)"; 
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $lat, $lon);
-            return $stmt->execute();
-        }
-
         public function saveAvv($userID, $data, $esemplari, $latitudine, $longitudine, $specie, $sottospecie, $mare, $vento, $note){
             if($specie==""){
                 $query = 'INSERT INTO `avvistamenti`(`Data`, `Numero_Esemplari`, `Vento`, `Mare`, `Note`, `Latid`, `Long`, `Utente_ID`, `Anima_Nome`, `Specie_Anima_Nome`, `Specie_Nome`) VALUES (?,?,?,?,?,?,?,?,NULL,NULL,NULL)';
@@ -179,10 +172,10 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function getFerite($id){
-            $query = 'SELECT `ID` AS ID_Fer, `Descrizione_Ferita`, `Posizione`, `Sottoi_ID`, `Gravi_Nome` FROM `ferite` WHERE Sottoi_ID=?';
+        public function getFerite($id, $img){
+            $query = 'SELECT `ID` AS ID_Fer, `Descrizione_Ferita`, `Posizione`, `Sottoi_ID`, `Gravi_Nome` FROM `ferite` WHERE Sottoi_ID=? AND Img_rif=?';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $id);
+            $stmt->bind_param('ss', $id, $img);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
@@ -208,18 +201,47 @@
             return $stmt->execute();
         }
 
-        public function addSottoimmagine($tx, $ty, $bx, $by, $img, $esem){
-            $query = 'INSERT INTO `sottoimmagini`(`tl_x`, `tl_y`, `br_x`, `br_y`, `Immag_ID`, `Esemp_ID`) VALUES (?,?,?,?,?,?)';
+        public function checkID($p, $img){
+            $query = 'SELECT * FROM `sottoimmagini` WHERE `Immag_ID`=? AND `ID`=?';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param("ssssss", $tx, $ty, $bx, $by, $img, $esem);
+            $stmt->bind_param('ss', $img, $p);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function addSottoimmagine($tx, $ty, $bx, $by, $img, $esem, $p){
+            $query = 'INSERT INTO `sottoimmagini`(`tl_x`, `tl_y`, `br_x`, `br_y`, `Immag_ID`, `Esemp_ID`, `ID`) VALUES (?,?,?,?,?,?,?)';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param("sssssss", $tx, $ty, $bx, $by, $img, $esem, $p);
             return $stmt->execute();
         }
 
-        public function updateIndv($id, $nome){
-            $query = 'UPDATE `esemplari` SET `Nome`=? WHERE ID=?';
+        // public function updateIndv($id, $nome){
+        //     $query = 'UPDATE `esemplari` SET `Nome`=? WHERE ID=?';
+        //     $stmt = $this->db->prepare($query);
+        //     $stmt->bind_param('ss', $nome, $id);
+        //     return $stmt->execute();
+        // }
+
+        public function deleteFerite($p, $img){
+            $query = 'DELETE FROM `ferite` WHERE `Sottoi_ID`=? AND `Img_rif`=?';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $nome, $id);
-            return $stmt->execute();
+            $stmt->bind_param('ss', $p, $img);
+            $stmt->execute();
+        }
+
+        public function deleteSottoimmagini($p, $img){
+            $query = 'DELETE FROM `sottoimmagini` WHERE `ID`=? AND `Immag_ID`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $p, $img);
+            $stmt->execute();
+        }
+
+        public function deleteIndiv($id){
+            $query = 'DELETE FROM `esemplari` WHERE `ID`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
         }
     }
 ?>

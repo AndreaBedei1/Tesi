@@ -44,20 +44,8 @@
   border: none;
 }
 
-.fieldset {
-  border: 1px solid black;
-  width: 100%;
-  padding-left: 0.5%;
-  padding-bottom: 0.5%;
-}
 
-legend {
-  padding: 0 10px;
-  font-weight: bold;
-  border-bottom: 1px solid grey;
-}
-
-.card{
+.animals{
   width: 98% !important;
   margin-left: 1%;
   height: 50vh !important;
@@ -82,13 +70,6 @@ legend {
 
 .rig:hover{
   background-color: white;
-}
-
-form dl{
-  border: 1px solid gray;
-  margin: 1% 0.5% 0.5% 0.5%;
-  padding: 0.5%;
-  box-sizing: border-box;
 }
 
 

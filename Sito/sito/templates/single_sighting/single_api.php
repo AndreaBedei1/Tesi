@@ -86,7 +86,7 @@ if(isset($_POST["request"])){
                     if(is_null($result["sImmagini"][$i]["nome"])){
                         $result["sImmagini"][$i]["nome"]="";
                     }
-                    $result["sImmagini"][$i]["ferite"]=$dbh->getFerite($result["sImmagini"][$i]["ID"]);
+                    $result["sImmagini"][$i]["ferite"]=$dbh->getFerite($result["sImmagini"][$i]["ID"], $_POST["id"]);
                 }
                 $result["gravita"]=$dbh->getGravita();
             }
@@ -104,7 +104,24 @@ if(isset($_POST["request"])){
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["bx"]) && isset($_POST["by"]) && isset($_POST["tx"]) && isset($_POST["ty"])){
                 $esemID = $dbh->maxEsemplId()[0]["id"]+1;
                 $dbh->addEsempl($esemID);
-                $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $esemID);
+                $p=0;
+                do {
+                    $p++;
+                    $rec = $dbh->checkID($p, $_POST["id"]);
+                } while(count($rec)!=0);
+                $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $esemID, $p);
+            }
+            break;
+        }
+        case 'delateID':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["img"])){
+                $res = $dbh->checkID($_POST["id"], $_POST["img"]);
+                $dbh->deleteFerite($_POST["id"], $_POST["img"]);
+                $dbh->deleteSottoimmagini($_POST["id"], $_POST["img"]);
+                if(count($res)<2){
+                    $dbh->deleteIndiv($res[0]["Esemp_ID"]);
+                }
             }
             break;
         }

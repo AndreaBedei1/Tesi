@@ -110,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-5 h-100">
+            <div class="card animals mb-5 h-100">
                 <div class="row">
                     <div class="p-3 w-100 h-100" id="imgs">                
                     </div>
