@@ -272,5 +272,12 @@
             $stmt->bind_param('sssss', $desc, $pos, $img, $sottImg, $grav);
             return $stmt->execute();
         }
+
+        public function getEsem(){
+            $query = 'SELECT CONCAT(`ID`, "-", `Nome`) AS descr_select,  `ID` AS cod_select FROM `esemplari`';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
     }
 ?>

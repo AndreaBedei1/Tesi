@@ -173,6 +173,13 @@ if(isset($_POST["request"])){
             }
             break;
         }
+        case 'getEsem':
+        {
+            if(isUserLoggedIn()){
+                $result=$dbh->getEsem();
+            }
+            break;
+        }
     }
 }
 

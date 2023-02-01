@@ -472,7 +472,7 @@ function setImages(w, h){
                     const c = document.querySelector(".carousel-item.active canvas");
                     const id = c.getAttribute("id").split("_")[1];
                     datas.append("id", id);
-                    datas.append("esemID", "3");
+                    datas.append("esemID", "0");
                     if(startY>endY){
                         datas.append("bx", startX/c.offsetWidth);
                         datas.append("by", startY/c.offsetHeight);
@@ -545,6 +545,7 @@ function setCreature(){
         div.appendChild(cont);
         if(dati.length>0){
             dati.forEach(element => {
+                console.log(dati);
                 let riga = `
                     <div class="col-sm-12">
                         <div class="card indiv my-2 border-secondary">
@@ -554,7 +555,7 @@ function setCreature(){
                                         <h3 class="card-title">ID: ${element.ID}</h3>
                                     </div>
                                     <div class="col-6 text-end px-2">
-                                        <button class="btn btn-primary btn-sm" data-id="${element.ID}" data-img="${id}" aria-label="Modifica Esemplare"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-primary modifyIndv btn-sm" data-id="${element.ID}" data-img="${id}" data-nome="${element.nome}" data-indiv="${element.Esemp_ID}" aria-label="Modifica Esemplare"><i class="fas fa-edit"></i></button>
                                         <button class="btn btn-danger deleteIndv btn-sm" type="button" data-id="${element.ID}" data-img="${id}" aria-label="Elimina Esemplare"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </div>
@@ -645,42 +646,13 @@ function setCreature(){
                 });
                 $('#info').modal('toggle');
             });
-            
 
             $(".deleteIndv").click(function() {
-                let id = $(this).data("id");
-                let img = $(this).data("img");
-                document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'elemento?</p>";
-                document.querySelector("#info .modal-title").innerText="Eliminazione";
-                document.querySelector("#info .modal-footer").innerHTML=`
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>`;
+                delateIndv($(this));       
+            });
 
-                document.querySelectorAll("#info button")[2].addEventListener("click",function() {
-                    $('#info').modal('toggle');
-                });
-                
-                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
-                    const datas = new FormData();
-                    datas.append("id", id);
-                    datas.append("img", img);
-                    datas.append("request", "delateID");
-                    $.ajax({
-                        method: "POST",
-                        url: fileint,
-                        data:  datas,
-                        processData: false,
-                        contentType: false
-                    })
-                    .done(function(dati,success,response) {
-                        setImages(window.innerWidth, window.innerHeight);
-                        $('#info').modal('toggle'); 
-                    })
-                    .fail(function(response) {
-                        console.log(response);
-                    });
-                });
-                $('#info').modal('toggle');
+            $(".modifyIndv").click(function() {
+                modifyIndv($(this));
             });
         } else {
             div.innerHTML="<p>Nessun esemplare presente.</p>";
@@ -689,6 +661,108 @@ function setCreature(){
     .fail(function(response) {
         console.log(response);
     });
+}
+
+function modifyIndv(btn){
+    const id = btn.data("id");
+    const img = btn.data("img");
+    const nome = btn.data("nome");
+    const indv = btn.data("indiv");
+    document.querySelector("#info .modal-body").innerHTML=`
+        <div class="w-100 px-2 py-1">
+            <div class="row mb-1">
+                <div class="col-12">
+                    <p>Nome corrente: ${nome}</p>
+                </div>
+            </div>
+            <form id="frmModifyEsempl" class="form-group" action="" method="post">
+                <div id="newElem">
+                    <label for="newName">Immettere il nuovo nome: </label>
+                    <input type="text" class="form-control" id="newName" name="nome"/>
+                </div>
+                <div id="oldElem">
+                    <label for="slcEsempl">Scegliere l'esemplare: </label>
+                    <select id="slcEsempl" class="form-control">
+                    </select>
+                </div>
+            </form>
+            <div class="text-center">
+                <button id="switch" type="button" class="btn btn-primary mx-1 my-2">Nuovo Esemplare</button>
+            </div>
+        </div>
+    `;
+    $("#newElem").hide();
+    $("#switch").click(function() {
+        $("#newElem").toggle();
+        $("#oldElem").toggle();
+        if(this.innerText=="Nuovo Esemplare")
+            this.innerText="Esemplare Riconosciuto";
+        else
+            this.innerText="Nuovo Esemplare";
+    });
+    select_file(fileint, "getEsem", '', "slcEsempl", indv, "");
+
+    document.querySelector("#info .modal-title").innerText="Modifica";
+    document.querySelector("#info .modal-footer").innerHTML=`
+        <button id="slvInd" type="button" class="btn btn-primary" data-dismiss="modal">Salva</button>`;
+    
+    document.querySelector("#slvInd").addEventListener("click",function() {
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("img", img);
+        datas.append("request", "delateID");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(dati,success,response) {
+            setImages(window.innerWidth, window.innerHeight);
+            $('#info').modal('toggle'); 
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+    $('#info').modal('toggle');
+}
+
+function delateIndv(btn){
+    const id = btn.data("id");
+    const img = btn.data("img");
+    document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'elemento?</p>";
+    document.querySelector("#info .modal-title").innerText="Eliminazione";
+    document.querySelector("#info .modal-footer").innerHTML=`
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Sì</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>`;
+
+    document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+        $('#info').modal('toggle');
+    });
+    
+    document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("img", img);
+        datas.append("request", "delateID");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(dati,success,response) {
+            setImages(window.innerWidth, window.innerHeight);
+            $('#info').modal('toggle'); 
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
+    $('#info').modal('toggle');
 }
 
 function modalInfo(){
