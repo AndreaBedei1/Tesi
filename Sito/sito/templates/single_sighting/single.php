@@ -14,7 +14,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h2 class="modal-title"></h2>
-                            <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
                         </div>
                         <div class="modal-body">
                         </div>

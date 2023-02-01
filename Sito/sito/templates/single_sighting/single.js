@@ -544,7 +544,6 @@ function setCreature(){
         cont.appendChild(row);
         div.appendChild(cont);
         if(dati.length>0){
-            console.log(dati);
             dati.forEach(element => {
                 let riga = `
                     <div class="col-sm-12">
@@ -563,20 +562,19 @@ function setCreature(){
                             <dl class="row mb-1">
                                 <dt class="col-sm-3">Nome:</dt>
                                 <dd class="col-sm-9">${element.nome}</dd>
-                            </dl>
-                                
+                            </dl>   
                 `;
-                if (element.ferite.length > 0) {
-                    riga += `
+                riga += `
                     <div class="row">
                         <div class="col-9 p-0 px-2 m-0">
                             <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
                         </div>
-                        <div class="col-3 text-end px-1 align-self-center">
-                            <button class="btn btn-success btn-sm" type="button" aria-label="Aggiungi ferita"><i class="fas fa-plus"></i> Ferita</button>  
+                        <div class="col-3 text-end px-2 align-self-center">
+                            <button class="btn btn-success btn-sm addInjury" data-img="${element.Immag_ID}" data-simg="${element.ID}" type="button" aria-label="Aggiungi ferita"><i class="fas fa-plus"></i> Ferita</button>  
                         </div>
                     </div>
-                    `;
+                `;
+                if (element.ferite.length > 0) {
                     element.ferite.forEach(el2 => {
                     riga += `
                         <div class="mx-2 my-2 border border-secondary rounded">
@@ -595,6 +593,8 @@ function setCreature(){
                         </div>
                     `;
                     });
+                } else {
+                    riga +="<p>Nessuna ferita presente.</p>"
                 }
                 riga += `
                         </div>
@@ -602,6 +602,14 @@ function setCreature(){
                 </div>
                 `;
                 row.innerHTML += riga;
+            });
+
+            $(".addInjury").click(function() {
+                addInjury($(this));
+            });
+
+            $(".btnModificaFerita").click(function() {
+                modifyInjured($(this));
             });
 
             $(".btnEliminaFerita").click(function() {
@@ -674,32 +682,6 @@ function setCreature(){
                 });
                 $('#info').modal('toggle');
             });
-           
-            // Ho tolto la form da sopra è da modificare.
-            // $(".salvaElem").click(function() {
-            //     const datas = getFormData("f_"+$(this).data("id"));
-            //     datas.append("id", $(this).data("id"));
-            //     datas.append("request", "updateIndv");
-            //     $.ajax({
-            //         method: "POST",
-            //         url: fileint,
-            //         data:  datas,
-            //         processData: false,
-            //         contentType: false
-            //     })
-            //     .done(function(data,success,response) {
-            //         modalInfo();
-            //         if(data){
-            //             document.querySelector("#info .modal-body").innerText="Aggiornamentto avvenuto con successo!";
-            //         } else {
-            //             document.querySelector("#info .modal-body").innerText="Errore aggiornamento!";
-            //         }
-            //         $('#info').modal('toggle');
-            //     })
-            //     .fail(function(response) {
-            //         console.log(response);
-            //     });
-            // });
         } else {
             div.innerHTML="<p>Nessun esemplare presente.</p>";
         }
@@ -754,5 +736,126 @@ function deleteImmg(){
     $('#info').modal('toggle');
 }
 
+function modifyInjured(btn){
+    const id=btn.data("id");
+    const datas = new FormData();
+    datas.append("id", id);
+    datas.append("request", "getInjury");
+    $.ajax({
+        method: "POST",
+        url: fileint,
+        data:  datas,
+        processData: false,
+        contentType: false
+    })
+    .done(function(data,success,response) {
+        const dati = data[0];
+        document.querySelector("#info .modal-body").innerHTML=`
+        <div class="w-100 px-2 py-1">
+            <form id="frmModifyIn" action="" method="post">
+                <div class="row form-group mb-1">
+                    <div class="col-12">
+                        <label class="form-label mb-1" for="posizione">Posizione: </label>
+                        <input id="posizione" class="form-control" type="text" name="posizione" value="${dati.Posizione}"/>
+                    </div>
+                </div>
+                <div class="row form-group mb-1">
+                    <div class="col-6">
+                        <label class="form-label mb-1" for="slcGravita">Gravità: </label>
+                        <select name="gravita" id="slcGravita" class="form-select"></select>
+                    </div>
+                </div>
+                <div class="row form-group mb-1">
+                    <div class="col-12">
+                        <label class="form-label mb-1" for="descrizione">Descrizione: </label>
+                        <textarea name="descrizione" id="descrizione" class="form-control">${dati.Descrizione_Ferita}</textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        `;
+        select_file(fileint, "getGravita", '', "slcGravita", dati.Gravi_Nome, "");
+        document.querySelector("#info .modal-title").innerText="Modifica Ferita";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button type="button" class="btn btn-success" data-dismiss="modal">Modifica</button>`;
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            const datas = getFormData("frmModifyIn");
+            datas.append("id", id);
+            datas.append("request", "updateInjury");
+            $.ajax({
+                method: "POST",
+                url: fileint,
+                data:  datas,
+                processData: false,
+                contentType: false
+            })
+            .done(function(dati,success,response) {
+                setImages(window.innerWidth, window.innerHeight);
+                $('#info').modal('toggle'); 
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
+        });
+        $('#info').modal('toggle');
+    })
+    .fail(function(response) {
+        console.log(response);
+    });
+}
+
+function addInjury(btn){
+    const img=btn.data("img");
+    const sottImg=btn.data("simg");
+    document.querySelector("#info .modal-body").innerHTML=`
+            <div class="w-100 px-2 py-1">
+                <form id="frmAddIn" action="" method="post">
+                    <div class="row form-group mb-1">
+                        <div class="col-12">
+                            <label class="form-label mb-1" for="posizione">Posizione: </label>
+                            <input id="posizione" class="form-control" type="text" name="posizione"/>
+                        </div>
+                    </div>
+                    <div class="row form-group mb-1">
+                        <div class="col-6">
+                            <label class="form-label mb-1" for="slcGravita">Gravità: </label>
+                            <select name="gravita" id="slcGravita" class="form-select"></select>
+                        </div>
+                    </div>
+                    <div class="row form-group mb-1">
+                        <div class="col-12">
+                            <label class="form-label mb-1" for="descrizione">Descrizione: </label>
+                            <textarea name="descrizione" id="descrizione" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `;
+        select_file(fileint, "getGravita", '', "slcGravita", "", "");
+        document.querySelector("#info .modal-title").innerText="Aggiungi Ferita";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button type="button" class="btn btn-success" data-dismiss="modal">Inserisci</button>`;
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            const datas = getFormData("frmAddIn");
+            datas.append("img", img);
+            datas.append("sottImg", sottImg);
+            datas.append("request", "addInjury");
+            $.ajax({
+                method: "POST",
+                url: fileint,
+                data:  datas,
+                processData: false,
+                contentType: false
+            })
+            .done(function(dati,success,response) {
+                setImages(window.innerWidth, window.innerHeight);
+                $('#info').modal('toggle'); 
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
+        });
+        $('#info').modal('toggle');
+}
 
 

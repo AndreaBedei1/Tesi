@@ -181,7 +181,7 @@
         }
 
         public function getGravita(){
-            $query = 'SELECT * FROM `gravita`';
+            $query = 'SELECT Nome AS cod_select,  Nome AS descr_select FROM `gravita` ORDER BY Gravita ';
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -216,13 +216,6 @@
             return $stmt->execute();
         }
 
-        // public function updateIndv($id, $nome){
-        //     $query = 'UPDATE `esemplari` SET `Nome`=? WHERE ID=?';
-        //     $stmt = $this->db->prepare($query);
-        //     $stmt->bind_param('ss', $nome, $id);
-        //     return $stmt->execute();
-        // }
-
         public function deleteFerite($p, $img){
             $query = 'DELETE FROM `ferite` WHERE `Sottoi_ID`=? AND `Img_rif`=?';
             $stmt = $this->db->prepare($query);
@@ -256,6 +249,28 @@
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             $stmt->execute();
-        }        
+        }
+        
+        public function getInjury($id){
+            $query = 'SELECT * FROM `ferite` WHERE `ID`=? ';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function updateInjury($id, $pos, $grav, $desc){
+            $query = "UPDATE `ferite` SET `Descrizione_Ferita`=?, `Posizione`=?, `Gravi_Nome`=? WHERE `ID`=?"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ssss', $desc, $pos, $grav, $id);
+            return $stmt->execute();
+        }
+
+        public function addInjury($img, $sottImg, $pos, $grav, $desc){
+            $query = "INSERT INTO `ferite`(`Descrizione_Ferita`, `Posizione`, `Img_rif`, `Sottoi_ID`, `Gravi_Nome`) VALUES (?,?,?,?,?)"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('sssss', $desc, $pos, $img, $sottImg, $grav);
+            return $stmt->execute();
+        }
     }
 ?>

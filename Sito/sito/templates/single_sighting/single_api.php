@@ -88,7 +88,6 @@ if(isset($_POST["request"])){
                     }
                     $result["sImmagini"][$i]["ferite"]=$dbh->getFerite($result["sImmagini"][$i]["ID"], $_POST["id"]);
                 }
-                $result["gravita"]=$dbh->getGravita();
             }
             break;
         }
@@ -143,6 +142,34 @@ if(isset($_POST["request"])){
         {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $dbh->deleteFeritaByID($_POST["id"]);
+            }
+            break;
+        }
+        case 'getGravita':
+        {
+            if(isUserLoggedIn()){
+                $result=$dbh->getGravita();
+            }
+            break;
+        }
+        case 'getInjury':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"])){
+                $result=$dbh->getInjury($_POST["id"]);
+            }
+            break;
+        }
+        case 'updateInjury':
+        {
+            if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["posizione"])  && isset($_POST["gravita"]) && isset($_POST["descrizione"])){
+                $result=$dbh->updateInjury($_POST["id"], $_POST["posizione"], $_POST["gravita"], $_POST["descrizione"]);
+            }
+            break;
+        }
+        case 'addInjury':
+        {
+            if(isUserLoggedIn() && isset($_POST["img"]) && isset($_POST["sottImg"]) && isset($_POST["posizione"])  && isset($_POST["gravita"]) && isset($_POST["descrizione"])){
+                $result=$dbh->addInjury($_POST["img"], $_POST["sottImg"], $_POST["posizione"], $_POST["gravita"], $_POST["descrizione"]);
             }
             break;
         }
