@@ -47,4 +47,22 @@ $(document).ready(function() {
             console.log(response);
         });
     });
+
+    $("#recpwd").click(function(event) {
+        $('#add').modal('toggle');
+    });
+
+    $("#clsModal").click(function(event) {
+        $('#add').modal('toggle');
+    });
+
+    $("#inviaMail").click(function(event) {
+        alert("invia mail");
+        $('#add').modal('toggle');
+    });
+
+    
+
+    
+    
 });

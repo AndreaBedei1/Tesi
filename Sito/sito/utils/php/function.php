@@ -140,8 +140,7 @@
     function sendEmail($email, $nome, $testo){
         $mail = new PHPMailer(true);
 
-        $handle = fopen("../../../credenziali.txt", "r");
-        var_dump($handle);
+        $handle = fopen("../../credenziali.txt", "r");
         if ($handle) {
             $username = rtrim(fgets($handle));
             $password = rtrim(fgets($handle));
@@ -157,12 +156,12 @@
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('u-niversity@libero.it', 'U-niversity');
+            $mail->setFrom('seaDetector@libero.it', 'seaDetector');
             $mail->addAddress($email, $nome);
 
             //Content
             $mail->isHTML(true);
-            $mail->Subject = 'Comunicazione da U-niversity!';
+            $mail->Subject = 'Reset Password!';
             $mail->Body    = $testo;
             $mail->send();
         } catch (Exception $ignored) {

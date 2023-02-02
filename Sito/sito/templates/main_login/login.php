@@ -1,5 +1,35 @@
 <main>
     <input id="login" type="hidden" name="login" value="<?php if(isset($_GET["iscr"])){echo $_GET["iscr"];} ?>" />
+    <div id="dialog">
+        <div id='add' class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
+            <div class='modal-dialog modal-lg' role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Recupero password</h2>
+                        <button id="clsModal" type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="chiusura">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-100 px-2 py-1">
+                            <p>Inserire la mail per il recupero della password:</p>
+                            <form id="frmIns" action="#" method="post">
+                                <div class="row my-2">
+                                    <div class="col-12">
+                                        <label for="email">Email: </label>
+                                        <input id="email" class="input-group" type="email" required name="mail"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>   
+                    </div>
+                    <div class="modal-footer">
+                        <button id="inviaMail" type="button" class="btn btn-primary" data-dismiss="modal">Invia</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid p-0 overflow-hidden">
         <header>
             <div class="row">
@@ -51,8 +81,11 @@
                                 </div>
                             </form>
                             <div class="row my-4">
-                                <div class="col-lg-12">
-                                    <a class="btn btn-2 btn-sm btn-outline-secondary" href="signup.php">Non ho un account</a>
+                                <div class="col-6">
+                                    <a class="btn btn-2 btn-sm btn-outline-secondary m-1" href="signup.php">Non ho un account</a>
+                                </div>
+                                <div class="col-6">
+                                    <button id="recpwd" class="btn btn-2 btn-sm btn-outline-secondary m-1">Recupera password</button>
                                 </div>
                             </div>
                             <div class="col-lg-2"></div>
