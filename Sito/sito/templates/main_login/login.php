@@ -13,11 +13,11 @@
                     <div class="modal-body">
                         <div class="w-100 px-2 py-1">
                             <p>Inserire la mail per il recupero della password:</p>
-                            <form id="frmIns" action="#" method="post">
+                            <form id="frmRecPwd" action="#" method="post">
                                 <div class="row my-2">
                                     <div class="col-12">
-                                        <label for="email">Email: </label>
-                                        <input id="email" class="input-group" type="email" required name="mail"/>
+                                        <label for="email2">Email: </label>
+                                        <input id="email2" class="input-group" type="email" required name="email"/>
                                     </div>
                                 </div>
                             </form>

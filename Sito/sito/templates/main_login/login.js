@@ -57,12 +57,26 @@ $(document).ready(function() {
     });
 
     $("#inviaMail").click(function(event) {
-        alert("invia mail");
-        $('#add').modal('toggle');
-    });
-
-    
-
-    
-    
+        const datas = getFormData("frmRecPwd");
+        datas.append("request", "resetPwd")
+        $.ajax({
+            type: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            if(data["state"]===false){
+                addAlert("alert","alert-danger",data["msg"],"");
+            } else {
+                addAlert("alert","alert-success", "E' stata inviata una mail all'indirizzo indicato","");
+            }
+            $('#add').modal('toggle');
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    }); 
 });
+  

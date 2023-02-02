@@ -6,7 +6,6 @@ $result = array();
 if(isset($_POST["request"])){
     switch ($_POST["request"]) {
         case 'getDates':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $id = $_POST["id"];
                 $rec = $dbh->getDates($_POST["id"]);
@@ -16,37 +15,27 @@ if(isset($_POST["request"])){
                 $result = $data;
             }
             break;
-        }
         case 'slcSpecie':
-        {
             if(isUserLoggedIn()){
                 $result = $dbh->getTypeS();
             }
             break;
-        }
         case 'slcSottospecie':
-        {
             if(isUserLoggedIn() && isset($_POST["selector"])){
                 $result = $dbh->getTypeSS($_POST["selector"]);
             }
             break;
-        }
         case 'saveDates':
-        {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["specie"]) && isset($_POST["sottospecie"]) && isset($_POST["esemplari"]) && isset($_POST["vento"]) && isset($_POST["mare"]) && isset($_POST["note"]) && isset($_POST["latitudine"]) && isset($_POST["longitudine"])){      
                 $result = $dbh->updateDates($_POST["id"], $_POST["specie"], $_POST["sottospecie"], $_POST["esemplari"], $_POST["vento"], $_POST["mare"], $_POST["note"], $_POST["latitudine"], $_POST["longitudine"]);
             }
             break;
-        }
         case 'delete':
-        {
             if(isUserLoggedIn()){      
                 $result = $dbh->deleteAvv($_POST["id"]);
             }
             break;
-        }
         case 'addImage':
-        {
             if(isset($_POST["id"])  && isUserLoggedIn()){
                 $rs_file = $rs_file = addFile($_FILES["file"]);
                 if($rs_file["errore"]=="")
@@ -63,23 +52,17 @@ if(isset($_POST["request"])){
                 $result["state"]=false;
                 $result["msg"]="Immagine non valida!";
             }
-        }
         case 'getImages':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $result = $dbh->getImages($_POST["id"]);
             }
             break;
-        }
         case 'infoSpecie':
-        {
             if(isUserLoggedIn() && isset($_POST["animale"]) && isset($_POST["specie"])){
                 $result = $dbh->infoSpecie($_POST["animale"], $_POST["specie"]);
             }
             break;
-        }
         case 'getSottoimmagini':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $result["sImmagini"] = $dbh->getSottoimmagini($_POST["id"]);
                 for ($i=0; $i < count($result["sImmagini"]); $i++) {
@@ -90,16 +73,12 @@ if(isset($_POST["request"])){
                 }
             }
             break;
-        }
         case 'updateIndv':
-        {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["nome"])){
                 $result = $dbh->updateIndv($_POST["id"], $_POST["nome"]);
             }
             break;
-        }
         case 'addSottoimmagine':
-        {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["bx"]) && isset($_POST["by"]) && isset($_POST["tx"]) && isset($_POST["ty"]) && isset($_POST["esemID"])){
                 $p=0;
                 do {
@@ -109,9 +88,7 @@ if(isset($_POST["request"])){
                 $result = $dbh->addSottoimmagine($_POST["tx"], $_POST["ty"], $_POST["bx"], $_POST["by"], $_POST["id"], $_POST["esemID"], $p);
             }
             break;
-        }
         case 'delateID':
-        {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["img"])){
                 $res = $dbh->checkID($_POST["id"], $_POST["img"]);
                 $dbh->deleteFerite($_POST["id"], $_POST["img"]);
@@ -121,9 +98,7 @@ if(isset($_POST["request"])){
                 }
             }
             break;
-        }
         case 'deleteImmg':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $res = $dbh->getSottoimmagini($_POST["id"]);
                 foreach ($res as $k) {
@@ -137,58 +112,42 @@ if(isset($_POST["request"])){
                 $dbh->deleteImmagini($_POST["id"]);
             }
             break;
-        }
         case 'deleteFerita':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $dbh->deleteFeritaByID($_POST["id"]);
             }
             break;
-        }
         case 'getGravita':
-        {
             if(isUserLoggedIn()){
                 $result=$dbh->getGravita();
             }
             break;
-        }
         case 'getInjury':
-        {
             if(isUserLoggedIn() && isset($_POST["id"])){
                 $result=$dbh->getInjury($_POST["id"]);
             }
             break;
-        }
         case 'updateInjury':
-        {
             if(isUserLoggedIn() && isset($_POST["id"]) && isset($_POST["posizione"])  && isset($_POST["gravita"]) && isset($_POST["descrizione"])){
                 $result=$dbh->updateInjury($_POST["id"], $_POST["posizione"], $_POST["gravita"], $_POST["descrizione"]);
             }
             break;
-        }
         case 'addInjury':
-        {
             if(isUserLoggedIn() && isset($_POST["img"]) && isset($_POST["sottImg"]) && isset($_POST["posizione"])  && isset($_POST["gravita"]) && isset($_POST["descrizione"])){
                 $result=$dbh->addInjury($_POST["img"], $_POST["sottImg"], $_POST["posizione"], $_POST["gravita"], $_POST["descrizione"]);
             }
             break;
-        }
         case 'getEsem':
-        {
             if(isUserLoggedIn()){
                 $result=$dbh->getEsem();
             }
             break;
-        }
         case 'updateEsempl':
-        {
             if(isUserLoggedIn()  && isset($_POST["nomeSlc"])  && isset($_POST["img"]) && isset($_POST["id"])){
                 $result=$dbh->updateEsempl($_POST["nomeSlc"], $_POST["img"], $_POST["id"]);
             }
             break;
-        }
         case 'createEsempl':
-        {
             if(isUserLoggedIn() && isset($_POST["nome"]) && isset($_POST["img"]) && isset($_POST["id"])){
                 $res = $dbh->checkID($_POST["id"], $_POST["img"]);
                 $p=0;
@@ -207,10 +166,8 @@ if(isset($_POST["request"])){
                 }
             }
             break;
-        }
     }
 }
-
 
 header('Content-Type: application/json');
 echo json_encode($result);

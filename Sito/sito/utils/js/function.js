@@ -70,7 +70,7 @@ function addAlert(id_append,classe,message,time_remove)
     $('#'+id_append).html(alert);
 }
 
-// Funzioni per criptaggio e decriptaggio
+// Funzioni per criptaggio
 function encrypt(password, key) {
     return CryptoJS.HmacSHA512(password, key).toString();
  }

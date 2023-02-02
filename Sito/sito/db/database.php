@@ -287,5 +287,12 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
+
+        public function resetPwd($email, $pwd){
+            $query = 'UPDATE `utenti` SET `Password`=? WHERE `Email`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $pwd, $email);
+            return $stmt->execute();
+        }
     }
 ?>

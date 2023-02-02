@@ -137,10 +137,11 @@
         }
     }
 
-    function sendEmail($email, $nome, $testo){
+    function sendEmail($email, $testo){
+        $codice = '<!DOCTYPE html><html lang="it"><head><title>Reset della password</title><style>.container{width:500px;margin:auto;}h1{text-align:center;}.form{width:100%;padding:20px;border:1px solid #ddd;box-sizing:border-box;text-align:center;}.password-field{width:100%;padding:10px;margin-bottom:20px;box-sizing:border-box;font-size:16px;border:1px solid #ddd;text-align:center;}p{font-size:18px;margin-bottom:20px;}</style></head><body><div class="container"><h1>Reset della password</h1><div class="form"><p>Benvenuto! La tua nuova password e\':</p><div class="password-field"><p>'.$testo.'</p></div></div></div></body></html>';
         $mail = new PHPMailer(true);
 
-        $handle = fopen("../../credenziali.txt", "r");
+        $handle = fopen("../../../credenziali.txt", "r");
         if ($handle) {
             $username = rtrim(fgets($handle));
             $password = rtrim(fgets($handle));
@@ -157,14 +158,18 @@
             $mail->Port       = 465;
 
             $mail->setFrom('seaDetector@libero.it', 'seaDetector');
-            $mail->addAddress($email, $nome);
+            $mail->addAddress($email, "Egregio Ricercatore");
 
             //Content
             $mail->isHTML(true);
             $mail->Subject = 'Reset Password!';
-            $mail->Body    = $testo;
+            $mail->Body    = $codice;
             $mail->send();
         } catch (Exception $ignored) {
         }
+    }
+
+    function HmacSHA512($data, $key) {
+        return hash_hmac('sha512', $data, $key);
     }
 ?>
