@@ -98,7 +98,7 @@
                                 <div class="row form-group mb-1">
                                     <div class="col-12">
                                         <label class="form-label mb-1" for="note">Note: </label>
-                                        <textarea name="note" id="note" class="form-control"></textarea>
+                                        <textarea name="note" id="note" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <div class="row form-group mb-1">

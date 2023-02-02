@@ -71,7 +71,7 @@
         }
 
         public function getSighting(){
-            $query = "SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID ORDER BY Data DESC";
+            $query = 'SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.Eliminato<>"1" ORDER BY Data DESC';
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -118,7 +118,7 @@
         }
 
         public function deleteAvv($id){
-            $query = "DELETE FROM `avvistamenti` WHERE `ID`=?"; 
+            $query = 'UPDATE `avvistamenti` SET `Eliminato`="1" WHERE `ID`=?'; 
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             return $stmt->execute();

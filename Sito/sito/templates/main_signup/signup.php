@@ -29,7 +29,7 @@
                             <form id="form_sign" autocomplete="on">
                                 <div class="row my-2">
                                     <div class="col-md-12 col-lg-4 my-auto">
-                                        <label for="nome">Nome: </label>
+                                        <label for="nome">Nome </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
                                         <input type="text" id="nome" name="nome" placeholder="Nome" required autofocus/>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-md-12 col-lg-4 my-auto">
-                                        <label for="cognome">Cognome: </label>
+                                        <label for="cognome">Cognome </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
                                         <input type="text" id="cognome" name="cognome" placeholder="Cognome" required/>
@@ -46,7 +46,7 @@
                                 <div class="row mx-4 my-3 border-bottom"></div>
                                 <div class="row my-2">
                                     <div class="col-md-12 col-lg-4 my-auto">
-                                        <label for="email">Email: </label>
+                                        <label for="email">Email* </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
                                         <input type="email" id="email" name="email" placeholder="esempio@mail.it" required/>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-md-12 col-lg-4 my-auto">
-                                        <label for="password">Password: </label>
+                                        <label for="password">Password* </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
                                         <input type="password" id="password" name="pwd" autocomplete="off" placeholder="password" required/>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-md-12 col-lg-4 my-auto">
-                                        <label for="password2">Conferma password: </label>
+                                        <label for="password2">Conferma password* </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
                                         <input type="password" id="password2" name="pwd2" autocomplete="off" placeholder="password" required/>

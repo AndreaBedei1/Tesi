@@ -1,8 +1,8 @@
 <?php
-    // use PHPMailer\PHPMailer\PHPMailer;
-    // use PHPMailer\PHPMailer\SMTP;
-    // use PHPMailer\PHPMailer\Exception;
-    // require '/var/www/html/vendor/autoload.php';
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    require '/var/www/html/vendor/autoload.php';
 
     function ora($ore)
     {
@@ -137,34 +137,35 @@
         }
     }
 
-    // function sendEmail($email, $nome, $testo){
-    //     $mail = new PHPMailer(true);
+    function sendEmail($email, $nome, $testo){
+        $mail = new PHPMailer(true);
 
-    //     $handle = fopen("../../../database/credenziali.txt", "r");
-    //     if ($handle) {
-    //         $username = rtrim(fgets($handle));
-    //         $password = rtrim(fgets($handle));
-    //         fclose($handle);
-    //     }
-    //     try {
-    //         //Server settings
-    //         $mail->isSMTP();
-    //         $mail->Host       = 'smtp.libero.it';
-    //         $mail->SMTPAuth   = true;
-    //         $mail->Username   = $username;
-    //         $mail->Password   = $password;
-    //         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    //         $mail->Port       = 465;
+        $handle = fopen("../../../credenziali.txt", "r");
+        var_dump($handle);
+        if ($handle) {
+            $username = rtrim(fgets($handle));
+            $password = rtrim(fgets($handle));
+            fclose($handle);
+        }
+        try {
+            //Server settings
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.libero.it';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $username;
+            $mail->Password   = $password;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
 
-    //         $mail->setFrom('u-niversity@libero.it', 'U-niversity');
-    //         $mail->addAddress($email, $nome);
+            $mail->setFrom('u-niversity@libero.it', 'U-niversity');
+            $mail->addAddress($email, $nome);
 
-    //         //Content
-    //         $mail->isHTML(true);
-    //         $mail->Subject = 'Comunicazione da U-niversity!';
-    //         $mail->Body    = $testo;
-    //         $mail->send();
-    //     } catch (Exception $ignored) {
-    //     }
-    // }
+            //Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Comunicazione da U-niversity!';
+            $mail->Body    = $testo;
+            $mail->send();
+        } catch (Exception $ignored) {
+        }
+    }
 ?>

@@ -29,7 +29,7 @@ $(document).ready(function() {
                 <div class="form-group">
                     <div class="">
                         <label for="file">Carica Immagine:</label><br/>
-                        <input type="file" class="form-control" id="file"/>
+                        <input type="file" class="form-control" id="file" accept="image/*"/>
                     </div>
                 </div>
             </form>
@@ -40,6 +40,7 @@ $(document).ready(function() {
         `;
         
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            addAlert("alert","alert-warning","Caricamento immagine in corso...","");
             const file = $("#file")[0].files[0];
             if(file===undefined){
                 addAlert("alert","alert-danger", "Immagine non selezionata","");
@@ -689,7 +690,7 @@ function modifyIndv(btn){
                 </div>
             </form>
             <div class="text-center">
-                <button id="switch" type="button" class="btn btn-primary mx-1 my-2">Nuovo Esemplare</button>
+                <button id="switch" type="button" class="btn btn-secondary mx-1 my-2">Nuovo Esemplare</button>
             </div>
         </div>
     `;
@@ -841,7 +842,7 @@ function modifyInjured(btn){
                 <div class="row form-group mb-1">
                     <div class="col-12">
                         <label class="form-label mb-1" for="posizione">Posizione: </label>
-                        <input id="posizione" class="form-control" type="text" name="posizione" value="${dati.Posizione}"/>
+                        <input id="posizione" class="form-control" type="text" name="posizione" maxlength="40" value="${dati.Posizione}"/>
                     </div>
                 </div>
                 <div class="row form-group mb-1">

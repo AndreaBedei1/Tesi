@@ -35,11 +35,11 @@
                                 </div>
                                 <div class="row my-2">
                                     <div class="col-6">
-                                        <label for="slcSpecie">Specie: </label>
+                                        <label for="slcSpecie">Animale: </label>
                                         <select name="specie" id="slcSpecie" class="form-select"></select>
                                     </div>
                                     <div class="col-6">
-                                        <label for="slcSottospecie">Sottospecie: </label>
+                                        <label for="slcSottospecie">Specie: </label>
                                         <select name="sottospecie" id="slcSottospecie" class="form-select" disabled></select>
                                     </div>
                                 </div>
