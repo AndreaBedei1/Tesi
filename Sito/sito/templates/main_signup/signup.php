@@ -32,7 +32,7 @@
                                         <label for="nome">Nome: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="text" id="nome" name="nome" required autofocus/>
+                                        <input type="text" id="nome" name="nome" placeholder="Nome" required autofocus/>
                                     </div>
                                 </div>
                                 <div class="row my-2">
@@ -40,7 +40,7 @@
                                         <label for="cognome">Cognome: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="text" id="cognome" name="cognome" required/>
+                                        <input type="text" id="cognome" name="cognome" placeholder="Cognome" required/>
                                     </div>
                                 </div>
                                 <div class="row mx-4 my-3 border-bottom"></div>
@@ -49,7 +49,7 @@
                                         <label for="email">Email: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="email" id="email" name="email" required/>
+                                        <input type="email" id="email" name="email" placeholder="esempio@mail.it" required/>
                                     </div>
                                 </div>
                                 <div class="row my-2">
@@ -57,7 +57,7 @@
                                         <label for="password">Password: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="password" id="password" name="pwd" autocomplete="off" required/>
+                                        <input type="password" id="password" name="pwd" autocomplete="off" placeholder="password" required/>
                                     </div>
                                 </div>
                                 <div class="row my-2">
@@ -65,7 +65,7 @@
                                         <label for="password2">Conferma password: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="password" id="password2" name="pwd2" autocomplete="off" required/>
+                                        <input type="password" id="password2" name="pwd2" autocomplete="off" placeholder="password" required/>
                                     </div>
                                 </div>
                                 <div class="row my-4">

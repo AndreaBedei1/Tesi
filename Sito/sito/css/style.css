@@ -5,7 +5,7 @@
   --col-lighter: rgb(202, 230, 255);
   --transp: rgba(0,0,0,0);
   --btn-fg-1: rgb(0, 0, 255);
-  --btn-fg-1-h: hsl(180, 100%, 50%);
+  --btn-fg-1-h: hsl(0, 0%, 100%);
   --btn-bg-1: var(--transp);
   --btn-bg-1-h: var(--btn-fg-1);
   --btn-fg-2: rgb(133, 133, 133);

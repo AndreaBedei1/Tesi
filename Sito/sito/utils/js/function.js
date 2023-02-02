@@ -17,7 +17,7 @@ function select_file(file, request, dati, id_select, valore, vuoto)
         $("#" + id_select).html('');
 
         if(vuoto == 1)
-            $("#" + id_select).append('<option></option>');
+            $("#" + id_select).append('<option value="">Seleziona un\'opzione</option>');
         if(dati != '' && dati != null)
         {
             for(let i = 0; i < dati.length; i++)

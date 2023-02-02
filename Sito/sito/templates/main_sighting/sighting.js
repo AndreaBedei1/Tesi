@@ -17,8 +17,8 @@ $(document).ready(function() {
     document.querySelectorAll("#add button")[1].addEventListener("click",function() {
         const datas = getFormData("frmIns")
         if(datas.get("data")!=="" && datas.has("esemplari")!=="" && datas.has("latitudine")!=="" && datas.has("longitudine")!=="" ){
-            if(!datas.has("sottospecie"))
-            datas.append("sottospecie", "");
+            if(datas.get("sottospecie")=="")
+                datas.append("sottospecie", "");
             datas.append("request", "saveAvv");
             $.ajax({
                 method: "POST",
@@ -119,11 +119,11 @@ function createTableMap(){
         for(let i = 0; i<data.length; i++)
         {
             row += '<tr class="rig">';
-            row += '<td header="utente" class="px-1">'+data[i]['Nome']+" "+data[i]['Cognome']+'</td>';
-            row += '<td header="data" class="px-1">'+data[i]['Data']+'</td>';
-            row += '<td header="coordinate" class="px-1">'+data[i]['Latid']+' '+ data[i]['Long'] +'</td>';
-            row += '<td header="animale" class="px-1">'+data[i]['Anima_Nome']+'</td>';
-            row += '<td header="visualizza" class="px-1"><button type="button" class="btn btn-primary btn-sm py-0 my-0 px-lg-4 px-1 mx-1" aria-label="Vedi avvistamento" data-id="'+data[i]['ID']+'"><i class="fas fa-search"></i></button></td>';
+            row += '<td headers="utente" class="px-1">'+data[i]['Nome']+" "+data[i]['Cognome']+'</td>';
+            row += '<td headers="data2" class="px-1">'+data[i]['Data']+'</td>';
+            row += '<td headers="coordinate" class="px-1">'+data[i]['Latid']+' '+ data[i]['Long'] +'</td>';
+            row += '<td headers="animale" class="px-1">'+data[i]['Anima_Nome']+'</td>';
+            row += '<td headers="visualizza" class="px-1"><button type="button" class="btn btn-primary btn-sm py-0 my-0 px-lg-4 px-1 mx-1" aria-label="Vedi avvistamento" data-id="'+data[i]['ID']+'"><span class="fas fa-search"></span></button></td>';
             row += '</tr>';
         }
         tbl_avvist.html(row);

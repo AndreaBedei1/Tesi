@@ -25,7 +25,7 @@ $(document).ready(function() {
     $("#btn_visual").click(function() {
         document.querySelector("#info .modal-body").innerHTML=`
             <div id="alert" role="alert"></div>
-            <form id="frmAddImg" action="" method="post">
+            <form id="frmAddImg" action="#" method="post">
                 <div class="form-group">
                     <div class="">
                         <label for="file">Carica Immagine:</label><br/>
@@ -270,6 +270,9 @@ function setImages(w, h){
     } else {
         h=h/2.5;
     }
+    w = Math.round(w);
+    h = Math.round(h);
+
     const datas = new FormData();
     datas.append("id", id);
     datas.append("request","getImages");
@@ -284,14 +287,14 @@ function setImages(w, h){
         if(data.length>0){
             $(".rSotto").show();
             document.querySelector(".card").removeAttribute("style");
-            document.getElementById("btnDel").innerHTML=`
+            document.getElementById("divDel").innerHTML=`
                 <div class="col-3 col-md-5"></diV> 
                 <div class="col-6 col-md-2">                
-                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina immagine"><i class="fas fa-trash"></i> Immagine</button>
+                    <button id="deleteImg" class="btn btn-danger" type="button" aria-label="Elimina immagine"><span class="fas fa-trash"></span> Immagine</button>
                 </div>
                 <div class="col-3 col-md-5"></diV>
             `;
-            document.getElementById("btnDel").addEventListener("click", function(){
+            document.getElementById("deleteImg").addEventListener("click", function(){
                 deleteImmg();
             });
             document.getElementById("imgs").innerHTML=`
@@ -368,7 +371,7 @@ function setImages(w, h){
             document.querySelector("#sighting").innerHTML=`
                 <header class="d-flex justify-content-between">
                     <h2>Esemplari</h2>
-                    <button id="addNewInd" class="btn btn-success"aria-label="Aggiungi esemplare"><i class="fas fa-plus"></i> Esemplare</button>
+                    <button id="addNewInd" class="btn btn-success"aria-label="Aggiungi esemplare"><span class="fas fa-plus"></span> Esemplare</button>
                 </header>
                 <div id="listInd">
                 </div>
@@ -554,8 +557,8 @@ function setCreature(){
                                         <h3 class="card-title">ID: ${element.ID}</h3>
                                     </div>
                                     <div class="col-6 text-end px-2">
-                                        <button class="btn btn-primary modifyIndv btn-sm" data-id="${element.ID}" data-img="${id}" data-nome="${element.nome}" data-indiv="${element.Esemp_ID}" aria-label="Modifica Esemplare"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger deleteIndv btn-sm" type="button" data-id="${element.ID}" data-img="${id}" aria-label="Elimina Esemplare"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-primary modifyIndv btn-sm" data-id="${element.ID}" data-img="${id}" data-nome="${element.nome}" data-indiv="${element.Esemp_ID}" aria-label="Modifica Esemplare"><span class="fas fa-edit"></span></button>
+                                        <button class="btn btn-danger deleteIndv btn-sm" type="button" data-id="${element.ID}" data-img="${id}" aria-label="Elimina Esemplare"><span class="fas fa-trash"></span></button>
                                     </div>
                                 </div>
                             <div class="row mx-4 my-2 border-bottom border-secondary"></div>
@@ -570,7 +573,7 @@ function setCreature(){
                             <h3 class="card-subtitle mb-3 mt-3 text-muted">Ferite:</h3>
                         </div>
                         <div class="col-6 text-end px-2 align-self-center">
-                            <button class="btn btn-success btn-sm addInjury" data-img="${element.Immag_ID}" data-simg="${element.ID}" type="button" aria-label="Aggiungi ferita"><i class="fas fa-plus"></i> Ferita</button>  
+                            <button class="btn btn-success btn-sm addInjury" data-img="${element.Immag_ID}" data-simg="${element.ID}" type="button" aria-label="Aggiungi ferita"><span class="fas fa-plus"></span> Ferita</button>  
                         </div>
                     </div>
                 `;
@@ -579,8 +582,8 @@ function setCreature(){
                     riga += `
                         <div class="mx-2 my-2 border border-secondary rounded">
                             <header class="text-end mt-1 px-2">
-                                <button class="btn btn-primary btn-sm btnModificaFerita" data-id="${el2.ID_Fer}" aria-label="Modifica"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger btn-sm btnEliminaFerita" data-id="${el2.ID_Fer}" aria-label="Elimina"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-primary btn-sm btnModificaFerita" data-id="${el2.ID_Fer}" aria-label="Modifica"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btnEliminaFerita" data-id="${el2.ID_Fer}" aria-label="Elimina"><span class="fas fa-trash"></span></button>
                             </header>
                             <dl class="row mx-1">
                                 <dt class="col-sm-4">Posizione:</dt>
@@ -674,7 +677,7 @@ function modifyIndv(btn){
                     <p>Nome corrente: <strong>${nome}</strong></p>
                 </div>
             </div>
-            <form id="frmModifyEsempl" class="form-group" action="" method="post">
+            <form id="frmModifyEsempl" class="form-group" action="#" method="post">
                 <div id="newElem">
                     <label for="newName">Immettere il nome del nuovo esemplare: </label>
                     <input type="text" class="form-control" id="newName" name="nome"/>
@@ -834,7 +837,7 @@ function modifyInjured(btn){
         const dati = data[0];
         document.querySelector("#info .modal-body").innerHTML=`
         <div class="w-100 px-2 py-1">
-            <form id="frmModifyIn" action="" method="post">
+            <form id="frmModifyIn" action="#" method="post">
                 <div class="row form-group mb-1">
                     <div class="col-12">
                         <label class="form-label mb-1" for="posizione">Posizione: </label>
@@ -891,7 +894,7 @@ function addInjury(btn){
     const sottImg=btn.data("simg");
     document.querySelector("#info .modal-body").innerHTML=`
             <div class="w-100 px-2 py-1">
-                <form id="frmAddIn" action="" method="post">
+                <form id="frmAddIn" action="#" method="post">
                     <div class="row form-group mb-1">
                         <div class="col-12">
                             <label class="form-label mb-1" for="posizione">Posizione: </label>

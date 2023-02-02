@@ -7,8 +7,8 @@
         </div>
     </div>
     <div class="footer-info text-center p-3">
-        © 2022 Copyright:
-        <a class="text-white" href="localhost/Tesi"></a>
+        © 2023 Copyright:
+        <a class="text-white" href="https://www.seadetector.ooguy.com/">seadetector.ooguy.com</a>
         <br/>
         <a class="text-white" href="./privacy.php">Informativa privacy</a>
     </div>

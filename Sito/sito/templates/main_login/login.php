@@ -33,7 +33,7 @@
                                         <label for="email">Email: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="email" id="email" name="email" required autofocus />
+                                        <input type="email" id="email" name="email" placeholder="esempio@mail.it" required autofocus />
                                     </div>
                                 </div>
                                 <div class="row my-2">
@@ -41,7 +41,7 @@
                                         <label for="password">Password: </label>
                                     </div>
                                     <div class="col-md-12 col-lg-8">
-                                        <input type="password" id="password" name="pwd" required autocomplete="off" />
+                                        <input type="password" id="password" placeholder="password" name="pwd" required autocomplete="off" />
                                     </div>
                                 </div>
                                 <div class="row my-4">

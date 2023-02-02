@@ -165,7 +165,7 @@
         }
 
         public function getSottoimmagini($id){
-            $query = 'SELECT s.*, e.`nome` FROM `sottoimmagini` s INNER JOIN `esemplari` e ON s.`Esemp_ID`= e.`ID`  WHERE `Immag_ID`=?';
+            $query = 'SELECT s.*, e.`nome` FROM `sottoimmagini` s INNER JOIN `esemplari` e ON s.`Esemp_ID`= e.`ID`  WHERE `Immag_ID`=? ORDER BY  s.`ID` ';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             $stmt->execute();

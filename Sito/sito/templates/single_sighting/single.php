@@ -4,27 +4,29 @@
     }
 ?>
 <main class="big-margin">
+    <div id="dialog">
+        <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
+            <div class='modal-dialog' role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title"></h2>
+                        <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid p-0 overflow-hidden">
         <section>
             <header>
                 <h1 class="text-center">Dati Avvistamento</h1>
             </header>
-            <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
-                <div class='modal-dialog' role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title"></h2>
-                            <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                    </div>
-                </div>
-            </div>
             <input type="hidden" id="idcod" name="id" value="<?php echo $_GET["id"] ?>"/>
             <div class="card-body w-100">
                 <div class="row w-100 p-0 m-0">
@@ -38,10 +40,10 @@
                                     <h2>Specifiche</h2>
                                 </div>
                                 <div class="col-6 text-end px-2">
-                                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina"><i class="fas fa-trash"></i> Avvistamento</button>
+                                    <button id="delete" class="btn btn-danger" type="button" aria-label="Elimina"><span class="fas fa-trash"></span> Avvistamento</button>
                                 </div>
                             </div>
-                            <form id="avvDates" class="m-0 p-0 w-100" action="" method="post">
+                            <form id="avvDates" class="m-0 p-0 w-100" action="#" method="post">
                                 <div class="row form-group mb-1">
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="utente">Utente:</label>
@@ -72,7 +74,7 @@
                                         <div class=" w-100 d-flex">
                                             <select name="sottospecie" id="slcSottospecie" class="form-select"></select>
                                             <button id="infoSpecie" type="button" aria-label="Info Specie" class="btn btn-outline-dark rounded-circle m-1 btn-sm">
-                                                <i class="fas fa-info"></i>
+                                                <span class="fas fa-info"></span>
                                             </button>
                                         </div>
                                     </div>
@@ -101,10 +103,10 @@
                                 </div>
                                 <div class="row form-group mb-1">
                                     <div class="col-6">
-                                        <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><i class="fas fa-plus"></i> Immagine</button>
+                                        <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><span class="fas fa-plus"></span> Immagine</button>
                                     </div>
                                     <div class="col-6 text-end">
-                                        <button id="save" class="btn btn-primary" type="button"><i class="fas fa-save"></i> Salva</button>
+                                        <button id="save" class="btn btn-primary" type="button"><span class="fas fa-save"></span> Salva</button>
                                     </div>
                                 <div>
                             </form>
@@ -117,7 +119,7 @@
                     <div class="col-12 p-2 h-100" id="imgs">                
                     </div>
                 </div>
-                <div id="btnDel" class="row text-center rSotto">
+                <div id="divDel" class="row text-center rSotto">
                 </div>
                 <div class="row border border-secondary rounded mx-1 my-2 rSotto">
                     <div class="col-12 p-3 w-100 h-100" id="sighting">
