@@ -4,7 +4,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">Aggiungi avvistamento</h2>
-                    <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="Close">x</button>
+                    <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="chiusura">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="w-100 px-2 py-1">

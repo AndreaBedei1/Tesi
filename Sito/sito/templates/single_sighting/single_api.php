@@ -180,6 +180,34 @@ if(isset($_POST["request"])){
             }
             break;
         }
+        case 'updateEsempl':
+        {
+            if(isUserLoggedIn()  && isset($_POST["nomeSlc"])  && isset($_POST["img"]) && isset($_POST["id"])){
+                $result=$dbh->updateEsempl($_POST["nomeSlc"], $_POST["img"], $_POST["id"]);
+            }
+            break;
+        }
+        case 'createEsempl':
+        {
+            if(isUserLoggedIn() && isset($_POST["nome"]) && isset($_POST["img"]) && isset($_POST["id"])){
+                $res = $dbh->checkID($_POST["id"], $_POST["img"]);
+                $p=0;
+                do {
+                    $p++;
+                    $rec = $dbh->checkEsempID($p);
+                } while(count($rec)!=0);
+                $agg = $dbh->addEsempl($p, $_POST["nome"]);
+                if($agg){
+                    $dbh->updateEsempl($p, $_POST["img"], $_POST["id"]);
+                    if(count($res)==1){
+                        $dbh->deleteIndiv($res[0]["Esemp_ID"]);
+                    }
+                } else {
+                    return false;
+                }
+            }
+            break;
+        }
     }
 }
 

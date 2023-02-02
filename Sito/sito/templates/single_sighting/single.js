@@ -545,7 +545,6 @@ function setCreature(){
         div.appendChild(cont);
         if(dati.length>0){
             dati.forEach(element => {
-                console.log(dati);
                 let riga = `
                     <div class="col-sm-12">
                         <div class="card indiv my-2 border-secondary">
@@ -672,17 +671,17 @@ function modifyIndv(btn){
         <div class="w-100 px-2 py-1">
             <div class="row mb-1">
                 <div class="col-12">
-                    <p>Nome corrente: ${nome}</p>
+                    <p>Nome corrente: <strong>${nome}</strong></p>
                 </div>
             </div>
             <form id="frmModifyEsempl" class="form-group" action="" method="post">
                 <div id="newElem">
-                    <label for="newName">Immettere il nuovo nome: </label>
+                    <label for="newName">Immettere il nome del nuovo esemplare: </label>
                     <input type="text" class="form-control" id="newName" name="nome"/>
                 </div>
                 <div id="oldElem">
                     <label for="slcEsempl">Scegliere l'esemplare: </label>
-                    <select id="slcEsempl" class="form-control">
+                    <select id="slcEsempl" class="form-select" name="nomeSlc">
                     </select>
                 </div>
             </form>
@@ -707,10 +706,17 @@ function modifyIndv(btn){
         <button id="slvInd" type="button" class="btn btn-primary" data-dismiss="modal">Salva</button>`;
     
     document.querySelector("#slvInd").addEventListener("click",function() {
-        const datas = new FormData();
-        datas.append("id", id);
-        datas.append("img", img);
-        datas.append("request", "delateID");
+        const datas = getFormData("frmModifyEsempl");
+        if($("#switch").text() != "Esemplare Riconosciuto"){
+            datas.append("id", id);
+            datas.append("img", img);
+            datas.append("request", "updateEsempl");
+        } else {
+            datas.append("id", id);
+            datas.append("img", img);
+            datas.append("request", "createEsempl");
+        }
+
         $.ajax({
             method: "POST",
             url: fileint,
@@ -719,8 +725,10 @@ function modifyIndv(btn){
             contentType: false
         })
         .done(function(dati,success,response) {
-            setImages(window.innerWidth, window.innerHeight);
-            $('#info').modal('toggle'); 
+            if(dati){
+                setImages(window.innerWidth, window.innerHeight);
+                $('#info').modal('toggle'); 
+            }
         })
         .fail(function(response) {
             console.log(response);

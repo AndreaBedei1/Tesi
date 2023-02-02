@@ -187,17 +187,10 @@
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
 
-        public function maxEsemplId(){
-            $query = 'SELECT MAX(ID) AS id FROM `esemplari`';
+        public function addEsempl($id, $nome){
+            $query = 'INSERT INTO `esemplari`(`ID`, `Nome`) VALUES (?,?)';
             $stmt = $this->db->prepare($query);
-            $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        }
-
-        public function addEsempl($id){
-            $query = 'INSERT INTO `esemplari`(`ID`) VALUES (?)';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $id);
+            $stmt->bind_param('ss', $id, $nome);
             return $stmt->execute();
         }
 
@@ -276,6 +269,21 @@
         public function getEsem(){
             $query = 'SELECT CONCAT(`ID`, "-", `Nome`) AS descr_select,  `ID` AS cod_select FROM `esemplari`';
             $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function updateEsempl($nome, $img, $id){
+            $query = "UPDATE `sottoimmagini` SET `Esemp_ID`=? WHERE `Immag_ID`=? AND `ID`=?"; 
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('sss', $nome, $img, $id);
+            return $stmt->execute();
+        }
+
+        public function checkEsempID($id){
+            $query = 'SELECT `ID` FROM `esemplari` WHERE `ID`=?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $id);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
