@@ -355,7 +355,7 @@ Si riporta di seguito la tabella degli accessi totali per ogni operazione, consi
 {\color[HTML]{000000} Codice Operazione} & {\color[HTML]{000000} Accessi} & {\color[HTML]{000000} Frequenza} & Totale \\ \hline
 {\color[HTML]{000000} 1} & {\color[HTML]{000000} 1S = 2} & {\color[HTML]{000000} 1/settimana} & 2/settimana \\ \hline
 {\color[HTML]{000000} 2} & {\color[HTML]{000000} 5L = 5} & {\color[HTML]{000000} 5/giorno} & 25/giorno \\ \hline
-{\color[HTML]{000000} 3} & {\color[HTML]{000000} 12.5S + 5L = 30} & {\color[HTML]{000000} 10/giorno} & 300/giorno \\ \hline
+{\color[HTML]{000000} 3} & {\color[HTML]{000000} 11.5S + 5L = 28} & {\color[HTML]{000000} 10/giorno} & 280/giorno \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -366,7 +366,10 @@ In questa sezione ci occuperemo del raffinamento dello schema concettuale in vis
 \begin{itemize}
 \item \textbf{Modifica degli attributi multipli e composti:}\\
 Una volta individuate le entità che contengono attributi multipli o composti, si provvede a modificarli. In particolare: \\ 
-nell'entità sottoimmagine gli attributi top\_left e bottom\_right formati da x e y vengono trasformati in singoli attributi.
+\begin{itemize}
+\item Nell'entità Sottoimmagine gli attributi top\_left e bottom\_right formati da x e y vengono trasformati in singoli attributi.
+\item Nell'entità Avvistamento l'attributo posizione viene scomposto in due singole attributi denominati Latitudine e Longitudine. 
+\end{itemize}
 \end{itemize}
 
 \subsection{Traduzione di entità e associazioni in relazioni}
@@ -379,22 +382,21 @@ Per quanto riguarda invece le associazioni, bisogna effettuare diversi passaggi 
 
 L'operazione di traduzione porta alla creazione dello schema logico:\\
 \textbf{Gravita}(\underline{Nome})\\
-\textbf{Ferite}(\underline{ID}, Descrizione\_Ferita, Posizione, Gravi\_Nome:Gravita, \\ \tab Sottoi\_ID:Sottoimmagini)\\
+\textbf{Ferite}(\underline{ID}, Descrizione\_Ferita, Posizione, Gravi\_Nome:Gravita, \\ \tab Sottoi\_ID:Sottoimmagini, Img\_rif:Immagini)\\
 \textbf{Sottoimmagini}(\underline{ID}, tl\_x, tl\_y, br\_x, br\_y, Immag\_ID:Immagini,\\ \tab Esemp\_ID:Esemplari)\\
 \textbf{Esemplari}(\underline{ID}, Nome*)\\
 \textbf{Immagini}(\underline{ID}, Img, Avvis\_ID:Avvistamenti)\\
-\textbf{Coordinate\_Geografiche}((\underline{Latitudine, Longitudine}))\\
-\textbf{Utenti}(\underline{ID}, Nome*, Cognome*, Email, Password)\\
+\textbf{Utenti}(\underline{ID}, Nome*, Cognome*, Email, Password, Key)\\
 \textbf{Animali}(\underline{Nome})\\
 \textbf{Specie}((\underline{Nome, Anima\_Nome:Animali}),\\ \tab Nomenclatura\_Binomiale*:Descrizioni)\\
 \textbf{Descrizioni}(\underline{Nomenclatura\_Binomiale}, Descrizione, Dimensione*,\\ \tab Curiosita*)\\
-\textbf{Avvistamenti}(\underline{ID}, Data, Numero\_Esemplari, Vento*, Mare*, Note*,\\ \tab Latid:Coordinate\_Geografiche, Long:Coordinate\_Geografiche,\\ \tab Utente\_ID:Utenti, Anima\_Nome*:Animali,\\ \tab (Specie\_anima\_Nome, Specie\_Nome)*:Specie)\\
+\textbf{Avvistamenti}(\underline{ID}, Data, Numero\_Esemplari, Vento*, Mare*, Note*,\\ \tab Latid, Long, Utente\_ID:Utenti, Anima\_Nome*:Animali,\\ \tab (Specie\_anima\_Nome, Specie\_Nome)*:Specie, Eliminato)\\
 
 \newpage
 \subsection{Schema relazionale finale}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.70]{img_concettuale/Logico.jpg}
+\includegraphics[scale=0.22]{img_concettuale/Logico.png}
 \caption{Schema logico finale.}
 \end{figure}
 
@@ -422,10 +424,6 @@ Più nello specifico in questo applicativo tali termini rappresentano:
 \item \textbf{Soddisfazione:} si è avuta prova dell'accettabilità del funzionamento da parte dell'utente.
 \end{itemize}
 
-\subsection{Prototipo}
-Durante la progettazione è stato fatto uso di un prototipo, in particolare è stato utilizzato un prototipo di tipo evolutivo al fine di permettere una maggiore conoscenza delle aspettative degli utenti.\\
-In particolare si è cercato di creare dei gruppi di utenti i quali saranno gli utilizzatori del portale.
-
 \subsubsection{Personas e scenarios}
 Sono state definite delle personas, cioè persone che rappresentano dei gruppi di utenti, i quali saranno gli utilizzatori del programma ed a ognuno di loro è stato associato uno scenario, il quale rappresenta le operazioni, il modo di muoversi nel sito e le modalità di utilizzo di ciascuno di loro.
 Le personas che sono state riscontrate:
@@ -438,6 +436,67 @@ Le personas che sono state riscontrate:
  \item Responsabile avvistamenti: iscrizione al sito con possibilità di modifica degli avvistamenti, aggiunta e cancellazione.
  \item Ricercatore: Aggiunta di nuovi avvistamenti.
  \end{itemize}
+
+\subsection{Design}
+In questa sezione viene descritto il processo che ha portato alla creazione dell'interfaccia web.
+Al fine di progettare la migliore interfaccia con le rispettive caratteristiche che sono stato elencate in fase di analisi sono stati fatti:
+\begin{itemize}
+\item Focus Group: è stato chiesto agli utilizzatori del sistema come prevedevano la realizzazione di determinate parti di interfaccia, in particolare per le schede dei singoli avvistamenti sono state proposte diverse modalità disposizione dei contenuti e sulla base di un sondaggio è stata scelta la migliore strategia.
+\item Mockup: sulla base delle informazioni sono stati creati degli schemi base in cui danno un'idea della struttura del sistema.
+\item Experience Prototyping: E' stata realizzata un semplice prototipo di tipo usa e getta al fine di verificare alcune parti incerte del programma in particolare la tabella degli avvistamenti e le specifiche di ogni avvistamento.
+\end{itemize}
+Gli obiettivi del design sono principalmente di essere:
+\begin{itemize}
+\item Mobile First
+\item User Centered
+\item Accessibile
+\end{itemize}
+
+\subsubsection{Mockup}
+Prima dell'inizio della realizzazione sono stati creati i mockup principali al fine definire la struttura delle pagine. In particolare sono stati creati i mockup per la pagina principale in cui vengono visualizzati tutti i gli avvistamenti e la pagina del singolo avvistamento in cui si definiscono le operazioni chiave.
+Il primo mockup che viene mostrato è quello della pagina principale in modalità mobile:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.43]{img_concettuale/HomeMob.png}
+\caption{Mockup homepage del sito in versione mobile.}
+\end{figure}
+\\Da come si può vedere dell'immagine, si tratta di un design molto semplice in cui è presente un menù, una mappa e una tabella in cui saranno elencati gli avvistamenti che sono caricati attraverso l'apposito pulsante oppure attraverso l'applicazione mobile.\\
+Nel secondo mockup viene mostrata stessa pagina web in versione desktop: 
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.90]{img_concettuale/Home.png}
+\caption{Mockup homepage del sito in versione desktop.}
+\end{figure}
+\\La pagina web contiene gli stessi elementi descritti nell'immagine precedente ma disposti solo in modo differente al fine di adattare lo spazio.
+Nel terzo mockup invece viene rappresentata la struttura della pagina degli avvistamenti in versione mobile:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/avvistamentoMok.png}
+\caption{Mockup avvistamento del sito in versione mobile.}
+\end{figure}
+\\La pagina web contiene una semplice mappa in cui viene raffigurato il luogo dell'avvistamento, per ogni avvistamento vengono mostrati i dati, i quali sono modificabili al fine di variare le informazioni precedentemente inserite. In aggiunta per ogni avvistamento c'è la possibilità di aggiungere immagini e di cancellarle. Per ogni immagine possono essere aggiunte più sottoimmagini ognuna delle quali rappresenta un individuo al quale possono essere aggiunte o eliminare le ferite.\\
+Nel quarto ed ultimo mockup viene raffigurata la struttura della pagina degli avvistamenti:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.47]{img_concettuale/avvistamentoDesk.png}
+\caption{Mockup avvistamento del sito in versione desktop.}
+\end{figure}
+\\Il contenuto della pagina è lo stesso della versione mobile solo con una disposizione diversa degli elementi.
+
+
+\subsection{Struttura sistema}
+Tecnologie
+
+\subsection{Accessibilità}
+
+\subsection{Prototipi}
+Durante la progettazione è stato fatto uso di un prototipo, in particolare è stato utilizzato un prototipo di tipo usa e getta al fine di permettere una maggiore conoscenza delle aspettative degli utenti.\\
+In particolare si è cercato di creare dei gruppi di utenti i quali saranno gli utilizzatori del portale. Di seguiti si riportano le immagini relative al prototipo.
+
+\section{Funzionalità}
+
+
+
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
 
