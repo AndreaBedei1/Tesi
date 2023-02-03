@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  23 JAN 2023 11:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  3 FEB 2023 09:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -441,7 +441,7 @@ Capitolo 8.
 ] (Tesi.aux) ) 
 Here is how much of TeX's memory you used:
  4084 strings out of 477843
- 66507 string characters out of 2823599
+ 66562 string characters out of 2823599
  404434 words of memory out of 3000000
  22955 multiletter control sequences out of 15000+600000
  487384 words of font info for 57 fonts, out of 8000000 for 9000
@@ -452,7 +452,7 @@ e/8r.enc}<C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmsy10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb>
-Output written on Tesi.pdf (36 pages, 1524606 bytes).
+Output written on Tesi.pdf (36 pages, 1524597 bytes).
 PDF statistics:
  145 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
