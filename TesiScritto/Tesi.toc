@@ -13,9 +13,9 @@
 \contentsline {subsection}{\numberline {2.2.3}Schema concettuale finale}{13}{}%
 \contentsline {section}{\numberline {2.3}Progettazione Logica}{14}{}%
 \contentsline {subsection}{\numberline {2.3.1}Stima del volume dei dati}{15}{}%
-\contentsline {subsection}{\numberline {2.3.2}Descrizione delle operazioni principali e stima della loro frequenza}{16}{}%
+\contentsline {subsection}{\numberline {2.3.2}Descrizione delle operazioni principali e stima della loro frequenza}{15}{}%
 \contentsline {subsection}{\numberline {2.3.3}Schemi di navigazione e tabelle degli accessi}{16}{}%
-\contentsline {subsubsection}{Accessi totali}{19}{}%
+\contentsline {subsubsection}{Accessi totali}{20}{}%
 \contentsline {subsection}{\numberline {2.3.4}Raffinamento dello schema}{20}{}%
 \contentsline {subsection}{\numberline {2.3.5}Traduzione di entità e associazioni in relazioni}{20}{}%
 \contentsline {subsection}{\numberline {2.3.6}Schema relazionale finale}{22}{}%

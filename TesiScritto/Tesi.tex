@@ -173,17 +173,17 @@ Per maggiore chiarezza, di seguito riportiamo i primi esempi di schemi concettua
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.7]{img_concettuale/avvistamento1.png}
+\includegraphics[scale=0.15]{img_concettuale/avvistamento1.png}
 \caption{Schema concettuale per la modellazione degli avvistamenti e delle proprietà dell'utente.}
 \end{figure}
 
-Come mostrato in figura sono presenti uno o più utenti, ognuno dei quali accedono alla piattaforma attraverso la propria email e password. Di tale utente possiamo tenere anche in considerazione il proprio nome e cognome.
+Come mostrato in figura sono presenti uno o più utenti, ognuno dei quali accedono alla piattaforma attraverso la propria email, password e grazie a una chiave personale univoca all'interno del database, la quale viene utilizzata al fine di criptare la password. Di tale utente possiamo tenere anche in considerazione il proprio nome e cognome.
 Ogni utente aggiunge degli avvistamenti, ognuno dei quali contiene tutti i dati richiesti del committente tra cui la data di avvistamento, il numero di esemplari presenti e opzionalmente anche il vento espresso in km/h, lo stato del mare ed eventuali note informative al fine di ricerca e in particolare per riuscire ad identificare meglio la specie.\\
-In aggiunta per ogni avvistamento è associata una coordinata geografica la quale tiene in considerazione la longitudine e la latitudine al momento dell'inserimento.
+In aggiunta per ogni avvistamento è associata una posizione la quale tiene in considerazione la longitudine e la latitudine al momento dell'inserimento.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.7]{img_concettuale/avvistamento2.png}
+\includegraphics[scale=0.10]{img_concettuale/avvistamento2.png}
 \caption{Modellazione dell'attribuzione dell'animale e della specie all' avvistamento.}
 \end{figure}
 
@@ -191,7 +191,7 @@ Dalla figura si può notare che un avvistamento può far riferimento a un animal
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.8]{img_concettuale/avvistamento3.jpg}
+\includegraphics[scale=0.13]{img_concettuale/avvistamento3.png}
 \caption{Schema concettuale raffigurante le immagini con relative sottoimmagini e la gestione delle ferite.}
 \end{figure}
 
@@ -200,8 +200,7 @@ Navigando lo schema partendo dall'entità Avvistamento, si nota che per ogni avv
 \subsection{Raffinamenti attuati}
 Elenchiamo in questa sezione i raffinamenti che sono stati attuati nei precedenti schemi al fine di modellare meglio entità indipendenti. In particolare:
 \begin{itemize}
-\item L'entità Descrizione è stata creata al fine di non appesantire troppo l'entità Specie con attributi opzionali, i quali come si vede dallo schema rappresentano alla fine una sezione a parte del dominio.
-\item Un discorso simile viene fatto per l'entità Coordinata\_Geografica, la quale per motivi di gestione (mantenimento e controllo delle varie aree geografiche), si è deciso di mantenerla separata dall'entità avvistamento.   
+\item L'entità Descrizione è stata creata al fine di non appesantire troppo l'entità Specie con attributi opzionali, i quali come si vede dallo schema rappresentano alla fine una sezione a parte del dominio. 
 \end{itemize}
 
 \subsection{Schema concettuale finale}
@@ -209,7 +208,7 @@ Di seguito si riporta lo schema concettuale finale, ottenuto unendo opportunamen
 \newpage
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.65]{img_concettuale/ER.jpg}
+\includegraphics[scale=0.1]{img_concettuale/ER2.png}
 \caption{Schema concettuale finale}
 \end{figure}
 
@@ -231,7 +230,6 @@ Inoltre, per garantire maggiore compattezza, sono state omesse le stime dei volu
 Avvistamento           & E & 100 \\ \hline
 Utente                 & E & 10  \\ \hline
 Immagine               & E & 200 \\ \hline
-Coordinata\_Geografica & E & 100 \\ \hline
 Sottoimmagine          & E & 400 \\ \hline
 Ferita                 & E & 50  \\ \hline
 Gravita                & E & 3   \\ \hline
@@ -269,7 +267,7 @@ Per quanto riguarda l'aggiunta dell'utente, omettiamo il corrispondente schema d
 
 \begin{table}[hbtp]
 \centering
-\resizebox{9cm}{!}{%
+\resizebox{7cm}{!}{%
 \begin{tabular}{|c|ccl|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
@@ -292,7 +290,7 @@ Utente &
 \item Monitoraggio di specifici individui al fine di determinate verifiche:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=1]{img_concettuale/individuo.png}
+\includegraphics[scale=1.1]{img_concettuale/individuo.png}
 %\caption{Schema concettuale raffigurante gli accessi alle tabelle per il monitoraggio di specifici individui.}
 \end{figure}
 \\Per svolgere questa operazione occorre effettuare un totale di letture su Sottoimmagine pari al numero medio di foto a cui ogni esemplare è associato. In aggiunta, in base al numero di sottoimmagini a cui l'esemplare è associato si dovranno selezionare lo stesso numero di immagini, visto che uno stesso esemplare non può comparire più volte nella stessa immagine.
@@ -318,10 +316,10 @@ Immagine                             & \multicolumn{1}{c|}{E}                   
 \item Registrazione di un nuovo avvistamento compreso di operazioni opzionali:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.65]{img_concettuale/Avvistamento_accessi.png}
-% \caption{Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}
+\includegraphics[scale=0.20]{img_concettuale/Avvistamento_accessi.png}
+\caption{Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}
 \end{figure}\\
-Lo schema di navigazione prevede di partire da Avvistamento, il quale legge l'utente, poi inserisce una nuova coordinata geografica, aggiunge più immagini le quali verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In aggiunta, ad ogni sottoimmagine si possono aggiungere delle possibili ferite, visibili in quella parte dell'immagine, ad ogni ferita è obbligatorio associargli una gravità. Nella tabella degli accessi sottostante consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
+Lo schema di navigazione prevede di partire da Avvistamento, il quale legge l'utente, poi aggiunge più immagini le quali verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In aggiunta, ad ogni sottoimmagine si possono aggiungere delle possibili ferite, visibili in quella parte dell'immagine, ad ogni ferita è obbligatorio associargli una gravità. Nella tabella degli accessi sottostante consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
 \begin{table}[hbtp]
 \centering
 \resizebox{11cm}{!}{%
@@ -331,7 +329,6 @@ Lo schema di navigazione prevede di partire da Avvistamento, il quale legge l'ut
 {\color[HTML]{000000} Concetto} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Costrutto}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Accessi}} & {\color[HTML]{000000} Tipo} \\ \hline
 {\color[HTML]{000000} Avvistamento} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 1}} & {\color[HTML]{000000} S} \\ \hline
 {\color[HTML]{000000} Utente} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 1}} & {\color[HTML]{000000} L} \\ \hline
-Coordinata\_Geografica & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & S \\ \hline
 Animale & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
 Specie & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
 Descrizione & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
@@ -340,7 +337,7 @@ Sottoimmagine & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{(400$\div$200)$\tim
 Ferita & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{(50$\div$400)$\times$4=0.5} & S \\ \hline
 Gravita & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{1} & L \\ \hline
 Esemplare & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{4} & S \\ \hline
- & \multicolumn{3}{c|}{Totale = 12.5S + 5L} \\ \hline
+ & \multicolumn{3}{c|}{Totale = 11.5S + 5L} \\ \hline
 \end{tabular}%
 }
 \end{table}
