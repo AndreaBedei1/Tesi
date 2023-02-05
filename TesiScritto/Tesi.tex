@@ -556,6 +556,9 @@ Il server invierà i dati richiesti dal client in formato JSON.
 Nel sito al fine di recuperare la password nel caso qualcuno se la dimentichi in fase di login è stata implementata una funzione che permetta di inviare email con all'interno la password temporanea dell'account. Per farlo è stata utilizzata la libreria PHP Mailer. Essa è una libreria open-source per PHP che permette di inviare email tramite il protocollo SMTP (Simple Mail Transfer Protocol). Questa libreria è stata sviluppata per semplificare il processo di invio di email da un sito web, e offre molte funzionalità avanzate, come ad esempio la gestione della codifica dei caratteri e l'invio di email con allegati. La libreria PHPMailer è molto semplice da utilizzare e offre un'interfaccia intuitiva per l'invio di email da un sito web.\\
 AL fine di non dover comprare un dominio per le mail e dover gestire il server mail è stato utilizzato il servizio di posta elettronica di Libero.
 
+\subsubsection{LeafLet}
+Leaflet è una libreria open-source per la visualizzazione di mappe interattive sul web. Leaflet consente di visualizzare mappe basate su tiles, marker, pop-up, forme e altri elementi geografici. La libreria supporta una vasta gamma di formati di dati geografici. Leaflet offre la possibilità di creare mappe personalizzate utilizzando fogli di stile. La libreria è supportata da una vasta gamma di dispositivi, tra cui desktop, tablet e smartphone, rendendola una soluzione versatile e scalabile per la visualizzazione di mappe e in particolare punti un cui sono stati effettuati gli avvistamenti sul sito web.
+
 \subsection{Cookies}
 Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire, attraverso esse, un profilo dell'utente. Una di queste tecniche prevede l'utilizzo di cookies, essi sono considerati delle stringhe di testo che il browser crea all'apertura di una pagina web sul computer dell'utente e che salvano dati dell'utente durante la navigazione di un sito web agevolandone l'utilizzo. Dei possibili esempi possono essere:
 \begin{itemize}
@@ -580,12 +583,6 @@ Tutte le form, chiamate ajax inviano i dati in modalità POST. Il metodo "POST" 
 
 \subsubsection{Criptaggio password} 
 Per quanto riguarda la password si è usata una tecnica leggermente complicata:
-\begin{figure}[hbtp]
-\centering
-\includegraphics[scale=0.42]{img_concettuale/sale.png}
-\caption{Struttura alla base della fase di criptaggio}
-\end{figure}
- 
 \begin{enumerate}
 \item In fase di registrazione l'utente inserisce due volte la password in modo da evitare errori di battitura.
 \item Quando conferma i dati inseriti viene creata una chiave univoca basata sul timestamp del momento e criptata utilizzando una funzione hash SHA1 (SALT).
@@ -593,6 +590,11 @@ Per quanto riguarda la password si è usata una tecnica leggermente complicata:
 \item Avendo la password e la chiave entrambe criptate, oltre a tutti gli altri dati, verrà salvato tutto nel database.
 \item Una volta che l'utente esegue l'accesso, il client richiederà al server la chiave al fine di criptare la password e la invierà al server, a questo punto il server confronterà le due password in caso di uguaglianza permetterà l'accesso al servizio.
 \end{enumerate}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/sale.png}
+\caption{Struttura alla base della fase di criptaggio}
+\end{figure}
 In questo modo la password dell'utente per l'accesso al sistema non verrà mai trasmessa in rete permettendo maggiore sicurezza in caso di attacchi di tipo Sniffing, man in the middle, o Spoofing.  
 
 \section{Accessibilità}
@@ -623,7 +625,7 @@ forniscono indicazioni per rendere il contenuto più accessibile. per ciascuna d
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.50]{img_concettuale/wcag.png}
+\includegraphics[scale=0.40]{img_concettuale/wcag.png}
 \caption{Struttura delle linee guide coi rispettivi livelli.}
 \end{figure}
 
@@ -651,13 +653,39 @@ contrasto di almeno 4.5:1.
 In particolare gli screen reader permettono all'utente non vedenti di percorrere la pagine attraverso i tag di heading. Per questo motivo i tag non devono assolutamente avere uno scopo presentazionale ma la loro sequenza deve essere corretta al fine di aiutare gli utenti che utilizzano mezzi assistivi.\\
 Un altro aspetto da tenere in considerazione sono le tabelle che sono presenti nel sito web, queste tabelle per essere accessibili devono utilizzare l'attributo id nei tag di heading(th) e l'attributo headers nei tag td al fine di permettere l'associazione di quella cella con il rispettivo titolo. In aggiunta nei tag di intestazione deve essere utilizzato l'attributo scope, esso permette di identificare lo scopo di quella cella. Per finire, al fine di far capire all'utente quali dati tale tabella rappresenta è utile utilizzare il tag caption dove viene scritta la didascalia della tabella.
 \end{itemize}
+\newpage
 \emph{Principio Percettibile:}
 \begin{itemize}
 \item – Linea guida 3.3 Assistenza nell'inserimento: Aiutare gli utenti ad evitare gli errori ed agevolarli nella loro correzione. In particolare,  Fornire etichette o istruzioni quando il contenuto richiede azioni di input da parte dell'utente.\\
 La soluzione è l'utilizzo di label con attributo for e input con attributo id, oppure inserire il tag input all'interno della label.
 \end{itemize}
 
-\section{Struttura delle pagine}
+\section{Struttura del progetto}
+La struttura del progetto è concepita come un insieme di componenti distinti che vengono realizzati separatamente e successivamente integrati per creare il sistema finale.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.60]{img_concettuale/struttura.png}
+\caption{Struttura del progetto.}
+\end{figure}
+\begin{itemize}
+\item La base della pagina web è un file il quale al suo interno contiene tutti i riferimenti a file di stile esterni, file js comuni a tutte le pagine e riferimenti a librerie.
+\item Ogni pagina è composta da più componenti, ogni componente è composto da un template al cui interno è presente solo codice html con la struttura di quella sezione, un file javascript il quale permette di eseguire chiamate ascincrone a un terzio file php il quale, a seconda dell'operazione richiesta richiede un'interrogazione al database e ritorna i dati richiesti in formato JSON.
+\item Al fine di eseguire le interrogazioni al database, esiste un file boostrap nel quale viene creata una connessione al DB.
+Tutte le funzioni di interrogazione sono racchiuse nel file denominato database, il quale è utilizzato da tutti i file PHP citati prima.
+\item Esistono anche delle funzioni di utilità sia in PHP che in JS, che sono file separati e sono utilizzabili da tutti i file col fine di non avere del codice ridondante o troppo pesante.\\ Un esempio:
+\begin{itemize}
+ \item Per JS le funzioni di criptaggio, riempimento delle select, creazione di alert.
+ \item Per PHP funzioni di invio mail, conversione date, orario, registrazione delle sessioni dell'utente. 
+ \end{itemize} 
+\end{itemize}
+
+\subsection{Pagina di login}
+\subsection{Pagina di sign Up}
+\subsection{Pagina principale}
+\subsection{Pagina delle impostazioni}
+\subsection{Pagina degli avvistamenti}
+\subsection{Pagina della privacy}
+
 
 
 
