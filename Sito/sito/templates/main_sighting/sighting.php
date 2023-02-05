@@ -88,6 +88,7 @@
                     <div class="col-12 col-lg-6 lg-my-4 lg-px-3 px-4 py-0 my-0">
                         <div id="divtbl" class="tableFixHead mb-3">
                             <table id="tblAvvistamenti" class="table">
+                                <caption class="d-none">Tabella con elenco avvistamenti</caption>
                                 <thead>
                                     <tr>
                                         <th id="utente" scope="col">Utente</th>
