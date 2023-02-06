@@ -75,7 +75,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-success my-2">Conferma</button>
+                                <div class="right">
+                                    <button type="button" class="btn btn-primary my-2">Conferma</button>
+                                </div>
                             </form>
                         </div>
                         <div id="security" class="section d-none">
@@ -92,7 +94,9 @@
                                         <label for="reinserisci"><span>Conferma nuova password:</span></label>
                                         <input id="reinserisci" type="password" class="form-control my-1" name="newk" placeholder="Conferma la nuova password" autocomplete="off" required />
                                 </div>
-                                <button class="btn btn-success my-2" type="button">Conferma</button>
+                                <div class="right">
+                                    <button class="btn btn-primary my-2" type="button">Conferma</button>
+                                </div>
                             </form>
                         </div>
                     </section>

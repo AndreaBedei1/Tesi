@@ -31,6 +31,10 @@
   background-color: inherit;
 }
 
+.right{
+  text-align: right;
+}
+
 .btnIcon{
   background-color: inherit;
   border: none;
