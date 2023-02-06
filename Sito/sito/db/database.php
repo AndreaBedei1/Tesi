@@ -128,15 +128,15 @@
             if($specie==""){
                 $query = 'INSERT INTO `avvistamenti`(`Data`, `Numero_Esemplari`, `Vento`, `Mare`, `Note`, `Latid`, `Long`, `Utente_ID`, `Anima_Nome`, `Specie_Anima_Nome`, `Specie_Nome`) VALUES (?,?,?,?,?,?,?,?,NULL,NULL,NULL)';
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('ssssssss', $data, $esemplari, $mare, $vento, $note, $latitudine, $longitudine, $userID);
+                $stmt->bind_param('ssssssss', $data, $esemplari, $vento, $mare, $note, $latitudine, $longitudine, $userID);
             } else if($specie!="" && $sottospecie==""){
                 $query ='INSERT INTO `avvistamenti`(`Data`, `Numero_Esemplari`, `Vento`, `Mare`, `Note`, `Latid`, `Long`, `Utente_ID`, `Anima_Nome`, `Specie_Anima_Nome`, `Specie_Nome`) VALUES (?,?,?,?,?,?,?,?,?,NULL,NULL)';
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('sssssssss', $data, $esemplari, $mare, $vento, $note, $latitudine, $longitudine, $userID, $specie);
+                $stmt->bind_param('sssssssss', $data, $esemplari, $vento, $mare, $note, $latitudine, $longitudine, $userID, $specie);
             } else {
                 $query ='INSERT INTO `avvistamenti`(`Data`, `Numero_Esemplari`, `Vento`, `Mare`, `Note`, `Latid`, `Long`, `Utente_ID`, `Anima_Nome`, `Specie_Anima_Nome`, `Specie_Nome`) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('sssssssssss', $data, $esemplari, $mare, $vento, $note, $latitudine, $longitudine, $userID, $specie, $specie, $sottospecie);
+                $stmt->bind_param('sssssssssss', $data, $esemplari, $vento, $mare, $note, $latitudine, $longitudine, $userID, $specie, $specie, $sottospecie);
             }
             return $stmt->execute();
         }
