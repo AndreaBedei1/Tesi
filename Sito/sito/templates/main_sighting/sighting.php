@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title">Aggiungi avvistamento</h2>
-                        <button type="button" class="btn btn-light btn-sm close" data-dismiss="modal" aria-label="chiusura">
+                        <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="chiusura">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -63,7 +63,7 @@
                         </div>   
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Aggiungi</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aggiungi</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
                     </div>
                 </div>

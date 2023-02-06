@@ -10,7 +10,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title"></h2>
-                        <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Chiusura">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
