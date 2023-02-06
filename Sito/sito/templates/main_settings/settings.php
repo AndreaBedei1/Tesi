@@ -2,7 +2,7 @@
     <header>
     <h1 class="text-center">Impostazioni</h1>
     </header>
-    <div class="container h-100">
+    <div class="container h-100 my-2">
         <div id="settings" class="row gutters-sm">
             <aside class="col-md-4 d-none d-md-block">
                 <div class="card">
@@ -50,27 +50,27 @@
                             <form id="frmProfile" class="mb-3">
                                 <div class="form-group">
                                     <div class="row my-2">
-                                        <div class="col-md-12 col-lg-4 my-auto">
+                                        <div class="col-12 col-sm-4 my-auto">
                                             <label for="email">Email: </label>
                                         </div>
-                                        <div class="col-md-12 col-lg-8">
+                                        <div class="col-12 col-sm-8">
                                             <input type="email" id="email" name="email" disabled/>
                                         </div>
                                     </div>
                                     <div class="row mx-4 my-3 border-bottom"></div>
                                     <div class="row my-2">
-                                        <div class="col-md-12 col-lg-4 my-auto">
+                                        <div class="col-12 col-sm-4 my-auto">
                                             <label for="nome">Nome: </label>
                                         </div>
-                                        <div class="col-md-12 col-lg-8">
+                                        <div class="col-12 col-sm-8">
                                             <input type="text" id="nome" name="nome" required autofocus/>
                                         </div>
                                     </div>
                                     <div class="row my-2">
-                                        <div class="col-md-12 col-lg-4 my-auto">
+                                        <div class="col-12 col-sm-4 my-auto">
                                             <label for="cognome">Cognome: </label>
                                         </div>
-                                        <div class="col-md-12 col-lg-8">
+                                        <div class="col-12 col-sm-8">
                                             <input type="text" id="cognome" name="cognome" required/>
                                         </div>
                                     </div>

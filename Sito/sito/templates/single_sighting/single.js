@@ -846,7 +846,7 @@ function modifyInjured(btn){
                     </div>
                 </div>
                 <div class="row form-group mb-1">
-                    <div class="col-6">
+                    <div class="col-12">
                         <label class="form-label mb-1" for="slcGravita">Gravità: </label>
                         <select name="gravita" id="slcGravita" class="form-select"></select>
                     </div>
