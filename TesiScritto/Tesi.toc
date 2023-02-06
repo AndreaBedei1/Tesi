@@ -51,17 +51,17 @@
 \contentsline {subsubsection}{Linee guida}{47}{}%
 \contentsline {section}{\numberline {4.3}Struttura del progetto}{49}{}%
 \contentsline {subsection}{\numberline {4.3.1}Pagina di login}{51}{}%
-\contentsline {subsection}{\numberline {4.3.2}Pagina di sign Up}{51}{}%
-\contentsline {subsection}{\numberline {4.3.3}Pagina principale}{51}{}%
-\contentsline {subsection}{\numberline {4.3.4}Pagina delle impostazioni}{51}{}%
-\contentsline {subsection}{\numberline {4.3.5}Pagina degli avvistamenti}{51}{}%
-\contentsline {subsection}{\numberline {4.3.6}Pagina della privacy}{51}{}%
-\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{52}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{53}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{53}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{54}{}%
-\contentsline {chapter}{\numberline {8}Utilità}{55}{}%
-\contentsline {section}{\numberline {8.1}Ingegneria del software}{55}{}%
-\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{55}{}%
-\contentsline {subsubsection}{Testing}{56}{}%
-\contentsline {subsection}{\numberline {8.1.2}Analisi}{57}{}%
+\contentsline {subsection}{\numberline {4.3.2}Pagina di sign Up}{52}{}%
+\contentsline {subsection}{\numberline {4.3.3}Pagina della privacy}{53}{}%
+\contentsline {subsection}{\numberline {4.3.4}Pagina principale}{54}{}%
+\contentsline {subsection}{\numberline {4.3.5}Pagina delle impostazioni}{55}{}%
+\contentsline {subsection}{\numberline {4.3.6}Pagina degli avvistamenti}{55}{}%
+\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{56}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{57}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{57}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{58}{}%
+\contentsline {chapter}{\numberline {8}Utilità}{59}{}%
+\contentsline {section}{\numberline {8.1}Ingegneria del software}{59}{}%
+\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{59}{}%
+\contentsline {subsubsection}{Testing}{60}{}%
+\contentsline {subsection}{\numberline {8.1.2}Analisi}{61}{}%

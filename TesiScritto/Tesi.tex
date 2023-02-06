@@ -679,12 +679,60 @@ Tutte le funzioni di interrogazione sono racchiuse nel file denominato database,
  \end{itemize} 
 \end{itemize}
 
+\newpage
+
 \subsection{Pagina di login}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/login.png}
+\caption{Struttura della pagina di Login.}
+\end{figure}
+La pagina è composta da due sezioni: la principale è la sezione di inserimento dati, dove l'utente inserisce le proprie informazioni per accedere al portale. Ci sono altri due pulsanti oltre a quello di accesso: uno per la pagina di registrazione, se l'utente non ha un account, e l'altro per la recupero della password in caso di dimenticanza. Al click su quest'ultimo, appare un modale dove, inserendo la propria email, l'utente riceverà le informazioni necessarie per accedere al portale, rispettando le regole di sicurezza.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.42]{img_concettuale/recuperoPWD.png}
+\caption{Modale per il recupero della password.}
+\end{figure}
+\\La seconda parte presente in tutte le pagine dell'applicazione è il footer che contiene un link al repository di Github e un link alla sezione dedicata alla privacy.
 \subsection{Pagina di sign Up}
-\subsection{Pagina principale}
-\subsection{Pagina delle impostazioni}
-\subsection{Pagina degli avvistamenti}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/signup.png}
+\caption{Struttura della pagina di Sign-Up.}
+\end{figure}
+La pagina è composta da una form che contiene diversi campi obbligatori e alcuni facoltativi. Durante la registrazione, l'utente inserisce i propri dati che vengono successivamente convalidati e registrati nel database. La pagina presenta uno sfondo con un gradiente lineare che crea un forte contrasto con lo sfondo bianco della form, per garantire una maggiore accessibilità come descritto dalle specifiche del WCAG. Inoltre, la pagina include anche un footer identico a quello della pagina di login.
+
+\newpage
+
 \subsection{Pagina della privacy}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/privacy.png}
+\caption{Struttura della pagina dell'informativa sulla privacy.}
+\end{figure}
+In questa pagina, sono elencate tutte le politiche sulla privacy. Ogni sezione presenta un elenco numerato che descrive i provvedimenti attuati per migliorare la protezione dei dati.\\ Questa è l'unica pagina che dispone di due menù di navigazione differenti. Il primo è visibile a tutti gli utenti che non hanno effettuato l'accesso al portale, con i soli link per il login e la registrazione. Il secondo è invece disponibile per gli utenti loggati e permette di navigare all'interno del sito.
+
+\newpage
+
+\subsection{Pagina principale}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/tabellaAvv.png}
+\caption{Struttura della pagina pagina principale del sito.}
+\end{figure}
+La struttura della pagine è molto semplice essa presenta un menù di navigazione comune alle pagine interne del sito. Esso permette di navigare il sito oppure di eseguire il logout.\\
+La parte principale della pagina si compone da due sezioni la prima rappresenta una mappa dove sono segnati tutti gli avvistamneti attraverso dei marker. L'utente ha la possibilità di muoversi all'interno della sezione della mappa e in caso passaggio del mouse sui marker essi, attraverso dei popup mostreranno le informazioni principali sull'avvistamento. Se invece un marker viene cliccato viene aperta la pagina dell'avvistamento. Nella sezione di destra invece è presente una tabella in cui vengono aggiunti tutti gli avvistamenti con le informazioni più importanti. La tabella è stata realizzata rispettando tutte le direttive sull'accessibilità. Cliccando sul bottone vedi, si aprirà la pagina relativa all'avvistamento. Entrambe le sezioni in caso di hover cambiano aspetto per motivi stilistici. Infine, in alto sulla destra è presente un bottone che permette l'aggiunta di un nuovo avvistamento attraverso un modale che compare in sovraimpressione.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/aggiungiAvv.png}
+\caption{Modale per l'inserimento di un nuovo avvistamento.}
+\end{figure}
+
+\subsection{Pagina delle impostazioni}
+
+\subsection{Pagina degli avvistamenti}
+
+
 
 
 
