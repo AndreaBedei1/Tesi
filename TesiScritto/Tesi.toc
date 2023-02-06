@@ -54,14 +54,14 @@
 \contentsline {subsection}{\numberline {4.3.2}Pagina di sign Up}{52}{}%
 \contentsline {subsection}{\numberline {4.3.3}Pagina della privacy}{53}{}%
 \contentsline {subsection}{\numberline {4.3.4}Pagina principale}{54}{}%
-\contentsline {subsection}{\numberline {4.3.5}Pagina delle impostazioni}{55}{}%
-\contentsline {subsection}{\numberline {4.3.6}Pagina degli avvistamenti}{55}{}%
-\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{56}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{57}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{57}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{58}{}%
-\contentsline {chapter}{\numberline {8}Utilità}{59}{}%
-\contentsline {section}{\numberline {8.1}Ingegneria del software}{59}{}%
-\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{59}{}%
-\contentsline {subsubsection}{Testing}{60}{}%
-\contentsline {subsection}{\numberline {8.1.2}Analisi}{61}{}%
+\contentsline {subsection}{\numberline {4.3.5}Pagina delle impostazioni}{56}{}%
+\contentsline {subsection}{\numberline {4.3.6}Pagina degli avvistamenti}{57}{}%
+\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{58}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{59}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{59}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{60}{}%
+\contentsline {chapter}{\numberline {8}Utilità}{61}{}%
+\contentsline {section}{\numberline {8.1}Ingegneria del software}{61}{}%
+\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{61}{}%
+\contentsline {subsubsection}{Testing}{62}{}%
+\contentsline {subsection}{\numberline {8.1.2}Analisi}{63}{}%

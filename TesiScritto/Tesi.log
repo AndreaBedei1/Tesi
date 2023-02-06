@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  6 FEB 2023 10:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  6 FEB 2023 11:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -536,49 +536,63 @@ File: img_concettuale/tabellaAvv.png Graphic file (type png)
 Package pdftex.def Info: img_concettuale/tabellaAvv.png  used on input line 720
 .
 (pdftex.def)             Requested size: 358.45549pt x 166.34575pt.
-<img_concettuale/aggiungiAvv.png, id=224, 545.03625pt x 370.38374pt>
+<img_concettuale/aggiungiAvv.png, id=224, 539.01375pt x 364.36125pt>
 File: img_concettuale/aggiungiAvv.png Graphic file (type png)
 <use img_concettuale/aggiungiAvv.png>
 Package pdftex.def Info: img_concettuale/aggiungiAvv.png  used on input line 72
-7.
-(pdftex.def)             Requested size: 168.95949pt x 114.81776pt.
+9.
+(pdftex.def)             Requested size: 269.50621pt x 182.18018pt.
  [54 <./img_concettuale/tabellaAvv.png>]
 [55 <./img_concettuale/aggiungiAvv.png>]
+<img_concettuale/impostazioniPG.png, id=233, 1156.32pt x 536.60475pt>
+File: img_concettuale/impostazioniPG.png Graphic file (type png)
+<use img_concettuale/impostazioniPG.png>
+Package pdftex.def Info: img_concettuale/impostazioniPG.png  used on input line
+ 739.
+(pdftex.def)             Requested size: 358.45549pt x 166.34575pt.
+<img_concettuale/impostazioniSec.png, id=234, 509.5035pt x 536.0025pt>
+File: img_concettuale/impostazioniSec.png Graphic file (type png)
+<use img_concettuale/impostazioniSec.png>
+Package pdftex.def Info: img_concettuale/impostazioniSec.png  used on input lin
+e 747.
+(pdftex.def)             Requested size: 254.75111pt x 268.0006pt.
+ [56 <./img_concettuale/impostazioniPG.png>] [57 <./img_concettuale/impostazion
+iSec.png>]
 Capitolo 5.
-[56
-
-]
-Capitolo 6.
-[57
-
-]
-Capitolo 7.
 [58
 
 ]
-Capitolo 8.
+Capitolo 6.
 [59
 
-] [60] [61] [62
+]
+Capitolo 7.
+[60
+
+]
+Capitolo 8.
+[61
+
+] [62] [63] [64
 
 ] (Tesi.aux) ) 
 Here is how much of TeX's memory you used:
- 4201 strings out of 477843
- 69988 string characters out of 2823599
+ 4215 strings out of 477843
+ 70501 string characters out of 2823599
  404434 words of memory out of 3000000
- 23054 multiletter control sequences out of 15000+600000
+ 23066 multiletter control sequences out of 15000+600000
  489068 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,18n,62p,986b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 55i,18n,62p,971b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/bas
 e/8r.enc}<C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmsy10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on Tesi.pdf (64 pages, 3994879 bytes).
+Output written on Tesi.pdf (66 pages, 4048242 bytes).
 PDF statistics:
- 276 PDF objects out of 1000 (max. 8388607)
+ 286 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
 

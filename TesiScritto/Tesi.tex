@@ -720,20 +720,36 @@ In questa pagina, sono elencate tutte le politiche sulla privacy. Ogni sezione p
 \includegraphics[scale=0.31]{img_concettuale/tabellaAvv.png}
 \caption{Struttura della pagina pagina principale del sito.}
 \end{figure}
-La struttura della pagine è molto semplice essa presenta un menù di navigazione comune alle pagine interne del sito. Esso permette di navigare il sito oppure di eseguire il logout.\\
-La parte principale della pagina si compone da due sezioni la prima rappresenta una mappa dove sono segnati tutti gli avvistamneti attraverso dei marker. L'utente ha la possibilità di muoversi all'interno della sezione della mappa e in caso passaggio del mouse sui marker essi, attraverso dei popup mostreranno le informazioni principali sull'avvistamento. Se invece un marker viene cliccato viene aperta la pagina dell'avvistamento. Nella sezione di destra invece è presente una tabella in cui vengono aggiunti tutti gli avvistamenti con le informazioni più importanti. La tabella è stata realizzata rispettando tutte le direttive sull'accessibilità. Cliccando sul bottone vedi, si aprirà la pagina relativa all'avvistamento. Entrambe le sezioni in caso di hover cambiano aspetto per motivi stilistici. Infine, in alto sulla destra è presente un bottone che permette l'aggiunta di un nuovo avvistamento attraverso un modale che compare in sovraimpressione.
+La struttura della pagina è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
+La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con marker. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Cliccando su un marker, verrà aperta la pagina dell'avvistamento specifico.\\
+La sezione di destra presenta una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità e, cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di loro, per motivi di stile.\\
+Infine, in alto a destra c'è un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovraimpressione quando si clicca sul pulsante.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.31]{img_concettuale/aggiungiAvv.png}
+\includegraphics[scale=0.50]{img_concettuale/aggiungiAvv.png}
 \caption{Modale per l'inserimento di un nuovo avvistamento.}
 \end{figure}
+\\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. Si necessita prima la selezione dell'animale, e una volta scelto si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
+
+\newpage
 
 \subsection{Pagina delle impostazioni}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/impostazioniPG.png}
+\caption{Pagine delle impostazioni del profilo utente.}
+\end{figure}
+Questa pagina presenta un menù leggermente diverso rispetto agli altri, che cambia aspetto in base alle dimensioni dello schermo. Se viene utilizzato uno schermo più piccolo, il menù viene integrato nella sezione di destra. La sezione comprende una form, dove l'utente può modificare le proprie informazioni inserite durante il login, ad eccezione dell'indirizzo email, la cui modifica è disabilitata per ragioni di sicurezza.
+Se invece si entra nella sezione sicurezza si ha la possibilità di modificare la password, in primo luogo verrà chiesta la vecchia password, poi la nuova e una conferma ulteriore della nuova password, tutto questo per evitare problemi legati alla sicurezza ed errori di battitura.\\
+In aggiunta in tutte le pagine del sito al fine di migliorare l'accessibilità e la facilità di utilizzo sono stati aggiunti attributi "placeholder" ai tag di input, i quali indicano all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificare lo scopo del pulsante.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/impostazioniSec.png}
+\caption{Pagine delle impostazioni del profilo utente.}
+\end{figure}
+
 
 \subsection{Pagina degli avvistamenti}
-
-
-
 
 
 
