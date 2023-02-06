@@ -736,7 +736,7 @@ Infine, in alto a destra c'è un pulsante che permette di aggiungere un nuovo av
 \subsection{Pagina delle impostazioni}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.31]{img_concettuale/impostazioniPG.png}
+\includegraphics[scale=0.36]{img_concettuale/impostazioniPG.png}
 \caption{Pagine delle impostazioni del profilo utente.}
 \end{figure}
 Questa pagina presenta un menù leggermente diverso rispetto agli altri, che cambia aspetto in base alle dimensioni dello schermo. Se viene utilizzato uno schermo più piccolo, il menù viene integrato nella sezione di destra. La sezione comprende una form, dove l'utente può modificare le proprie informazioni inserite durante il login, ad eccezione dell'indirizzo email, la cui modifica è disabilitata per ragioni di sicurezza.
@@ -744,14 +744,59 @@ Se invece si entra nella sezione sicurezza si ha la possibilità di modificare l
 In aggiunta in tutte le pagine del sito al fine di migliorare l'accessibilità e la facilità di utilizzo sono stati aggiunti attributi "placeholder" ai tag di input, i quali indicano all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificare lo scopo del pulsante.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.50]{img_concettuale/impostazioniSec.png}
-\caption{Pagine delle impostazioni del profilo utente.}
+\includegraphics[scale=0.61]{img_concettuale/impostazioniSec.png}
+\caption{Pagine delle impostazioni sulla sicurezza in modalità mobile.}
 \end{figure}
 
-
 \subsection{Pagina degli avvistamenti}
-
-
+La pagina degli avvistamenti consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente. Per questo verrà descritta in dettaglio.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.35]{img_concettuale/avvistamentoPAG.png}
+\caption{Prima parte della pagina dell'avvistamento, modifica dei dati.}
+\end{figure}
+In questa prima parte ci sono due sezioni la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente ci clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra invece c'è la possibilità di modificare i dati inseriti in precedenza.
+Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento, esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti. In questo modo, in caso di eliminazioni non volute c'è la possibilità di recuperarli.\\
+Vicino alla specie è presente un pulsante a forma di punto interrogativo, quel pulsante aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
+Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, invece il bottone "+Immgine" permette di aggiungere un immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/eliminazione.png}
+\caption{Modale di eliminazione.}
+\end{figure}
+\\ Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.40]{img_concettuale/info.png}
+\caption{Modale di informazione sulla specie.}
+\end{figure}
+\\Per quanto riguarda la seconda parte della pagina essa è incentrata unicamente sulle immagine caricate.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.31]{img_concettuale/avvistamentoPAG2.png}
+\caption{Seconda parte della pagina dell'avvistamento, caratteristiche esemplari.}
+\end{figure}
+\\Nella seguente pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento, in caso siano state caricate più immagini a destra e a sinistra dell'immagine compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
+Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto attraverso un modale permetterà di disegnare dei rettangoli per individuare l'individuo. L'id dell'individuo, cioè della sottoimmagine è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associargli un nome oppure se si riconosce che si tratti di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare. A ciascuno di essi possono essere associate una o più ferite, una volta individuate e scelto l'esemplare di riferimento possono essere aggiunte grazie al relativo pulsante e nel caso anche modificate e cancellate.\\
+Un esempio di aggiunta di un individuo può essere questo:  
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.42]{img_concettuale/addEsempl.png}
+\caption{Modale con canvas per disegnare l'individuo.}
+\end{figure}
+\\Invece per quanto riguarda la modifica dell'individuo si ha questo modale:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.51]{img_concettuale/modificaNome.png}
+\caption{Modifica dell'esemplare.}
+\end{figure}
+\\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare questo perché due esemplari possono avere lo stesso nome.\\
+Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.60]{img_concettuale/ferita.png}
+\caption{Modale per l'aggiunta e modifica della ferita.}
+\end{figure}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
 
