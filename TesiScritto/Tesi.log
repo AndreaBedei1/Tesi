@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  6 FEB 2023 16:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  6 FEB 2023 18:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -435,24 +435,24 @@ Capitolo 4.
 <img_concettuale/HomeMob.png, id=116, 289.08pt x 578.16pt>
 File: img_concettuale/HomeMob.png Graphic file (type png)
 <use img_concettuale/HomeMob.png>
-Package pdftex.def Info: img_concettuale/HomeMob.png  used on input line 464.
-(pdftex.def)             Requested size: 124.30197pt x 248.60394pt.
+Package pdftex.def Info: img_concettuale/HomeMob.png  used on input line 465.
+(pdftex.def)             Requested size: 115.62994pt x 231.2599pt.
 <img_concettuale/Home.png, id=117, 338.76563pt x 297.36093pt>
 File: img_concettuale/Home.png Graphic file (type png)
 <use img_concettuale/Home.png>
-Package pdftex.def Info: img_concettuale/Home.png  used on input line 471.
+Package pdftex.def Info: img_concettuale/Home.png  used on input line 472.
 (pdftex.def)             Requested size: 304.88623pt x 267.62236pt.
 <img_concettuale/avvistamentoMok.png, id=118, 289.08pt x 799.48688pt>
 File: img_concettuale/avvistamentoMok.png Graphic file (type png)
 <use img_concettuale/avvistamentoMok.png>
 Package pdftex.def Info: img_concettuale/avvistamentoMok.png  used on input lin
-e 478.
+e 479.
 (pdftex.def)             Requested size: 144.53964pt x 399.74246pt.
 <img_concettuale/avvistamentoDesk.png, id=119, 560.8453pt x 633.11531pt>
 File: img_concettuale/avvistamentoDesk.png Graphic file (type png)
 <use img_concettuale/avvistamentoDesk.png>
 Package pdftex.def Info: img_concettuale/avvistamentoDesk.png  used on input li
-ne 485.
+ne 486.
 (pdftex.def)             Requested size: 263.59732pt x 297.56422pt.
  [29 <./img_concettuale/HomeMob.png>] [30 <./img_concettuale/Home.png>] [31 <./
 img_concettuale/avvistamentoMok.png>] [32 <./img_concettuale/avvistamentoDesk.p
@@ -470,11 +470,11 @@ Package pdftex.def Info: img_concettuale/LAMP.png  used on input line 500.
 <img_concettuale/tecnologie.png, id=145, 585.98924pt x 255.354pt>
 File: img_concettuale/tecnologie.png Graphic file (type png)
 <use img_concettuale/tecnologie.png>
-Package pdftex.def Info: img_concettuale/tecnologie.png  used on input line 513
+Package pdftex.def Info: img_concettuale/tecnologie.png  used on input line 514
 .
 (pdftex.def)             Requested size: 351.59625pt x 153.21358pt.
  [35 <./img_concettuale/tecnologie.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 521--525
+Underfull \hbox (badness 10000) in paragraph at lines 522--526
 
  []
 
@@ -482,29 +482,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 521--525
 <img_concettuale/ajax.jpg, id=161, 697.60625pt x 350.30875pt>
 File: img_concettuale/ajax.jpg Graphic file (type jpg)
 <use img_concettuale/ajax.jpg>
-Package pdftex.def Info: img_concettuale/ajax.jpg  used on input line 548.
-(pdftex.def)             Requested size: 313.9199pt x 157.63748pt.
+Package pdftex.def Info: img_concettuale/ajax.jpg  used on input line 549.
+(pdftex.def)             Requested size: 279.03755pt x 140.12102pt.
  [39 <./img_concettuale/ajax.jpg>] [40] [41] [42] [43]
 <img_concettuale/sale.png, id=178, 713.66624pt x 416.55624pt>
 File: img_concettuale/sale.png Graphic file (type png)
 <use img_concettuale/sale.png>
-Package pdftex.def Info: img_concettuale/sale.png  used on input line 595.
+Package pdftex.def Info: img_concettuale/sale.png  used on input line 596.
 (pdftex.def)             Requested size: 356.83224pt x 208.2776pt.
- [44 <./img_concettuale/sale.png>] [45]
+
+Underfull \hbox (badness 2781) in paragraph at lines 597--597
+[]\OT1/ptm/m/n/12 Figura 4.8: Strut-tu-ra al-la ba-se del-la fa-se di crip-tag-
+gio. Fon-te:
+ []
+
+[44 <./img_concettuale/sale.png>] [45]
 <img_concettuale/wcag.png, id=185, 562.1pt x 365.365pt>
 File: img_concettuale/wcag.png Graphic file (type png)
 <use img_concettuale/wcag.png>
-Package pdftex.def Info: img_concettuale/wcag.png  used on input line 628.
-(pdftex.def)             Requested size: 224.83601pt x 146.1434pt.
- [46 <./img_concettuale/wcag.png>] [47] [48]
+Package pdftex.def Info: img_concettuale/wcag.png  used on input line 629.
+(pdftex.def)             Requested size: 213.60022pt x 138.84013pt.
+
+Underfull \hbox (badness 1014) in paragraph at lines 630--630
+[]\OT1/ptm/m/n/12 Figura 4.9: Strut-tu-ra del-le li-nee gui-de coi ri-spet-ti-v
+i li-vel-li. Fon-te:
+ []
+
+[46 <./img_concettuale/wcag.png>] [47] [48]
 <img_concettuale/struttura.png, id=197, 408.3255pt x 175.25475pt>
 File: img_concettuale/struttura.png Graphic file (type png)
 <use img_concettuale/struttura.png>
 Package pdftex.def Info: img_concettuale/struttura.png  used on input line 667.
 
 (pdftex.def)             Requested size: 244.99718pt x 105.15364pt.
-
-[49 <./img_concettuale/struttura.png>] [50]
+ [49 <./img_concettuale/struttura.png>] [50]
 <img_concettuale/login.png, id=205, 1156.32pt x 536.0025pt>
 File: img_concettuale/login.png Graphic file (type png)
 <use img_concettuale/login.png>
@@ -522,14 +533,13 @@ File: img_concettuale/signup.png Graphic file (type png)
 <use img_concettuale/signup.png>
 Package pdftex.def Info: img_concettuale/signup.png  used on input line 700.
 (pdftex.def)             Requested size: 358.45549pt x 159.8114pt.
- [52 <./img_concettuale/signup.png>]
+[52 <./img_concettuale/signup.png>]
 <img_concettuale/privacy.png, id=217, 967.2135pt x 537.80925pt>
 File: img_concettuale/privacy.png Graphic file (type png)
 <use img_concettuale/privacy.png>
 Package pdftex.def Info: img_concettuale/privacy.png  used on input line 710.
 (pdftex.def)             Requested size: 299.83308pt x 166.71913pt.
-
-[53 <./img_concettuale/privacy.png>]
+ [53 <./img_concettuale/privacy.png>]
 <img_concettuale/tabellaAvv.png, id=223, 1156.32pt x 536.60475pt>
 File: img_concettuale/tabellaAvv.png Graphic file (type png)
 <use img_concettuale/tabellaAvv.png>
@@ -542,8 +552,9 @@ File: img_concettuale/aggiungiAvv.png Graphic file (type png)
 Package pdftex.def Info: img_concettuale/aggiungiAvv.png  used on input line 72
 9.
 (pdftex.def)             Requested size: 269.50621pt x 182.18018pt.
- [54 <./img_concettuale/tabellaAvv.png>]
-[55 <./img_concettuale/aggiungiAvv.png>]
+
+[54 <./img_concettuale/tabellaAvv.png>] [55 <./img_concettuale/aggiungiAvv.png>
+]
 <img_concettuale/impostazioniPG.png, id=233, 968.418pt x 534.798pt>
 File: img_concettuale/impostazioniPG.png Graphic file (type png)
 <use img_concettuale/impostazioniPG.png>
@@ -583,19 +594,19 @@ ne 776.
 <img_concettuale/addEsempl.png, id=243, 372.79276pt x 386.6445pt>
 File: img_concettuale/addEsempl.png Graphic file (type png)
 <use img_concettuale/addEsempl.png>
-Package pdftex.def Info: img_concettuale/addEsempl.png  used on input line 784.
+Package pdftex.def Info: img_concettuale/addEsempl.png  used on input line 785.
 
 (pdftex.def)             Requested size: 156.57188pt x 162.38957pt.
 <img_concettuale/modificaNome.png, id=244, 374.5995pt x 262.581pt>
 File: img_concettuale/modificaNome.png Graphic file (type png)
 <use img_concettuale/modificaNome.png>
 Package pdftex.def Info: img_concettuale/modificaNome.png  used on input line 7
-90.
+91.
 (pdftex.def)             Requested size: 191.04321pt x 133.91452pt.
 <img_concettuale/ferita.png, id=245, 372.1905pt x 317.988pt>
 File: img_concettuale/ferita.png Graphic file (type png)
 <use img_concettuale/ferita.png>
-Package pdftex.def Info: img_concettuale/ferita.png  used on input line 797.
+Package pdftex.def Info: img_concettuale/ferita.png  used on input line 798.
 (pdftex.def)             Requested size: 223.31602pt x 190.79427pt.
  [57 <./img_concettuale/impostazioniSec.png>] [58 <./img_concettuale/avvistamen
 toPAG.png>] [59 <./img_concettuale/eliminazione.png> <./img_concettuale/info.pn
@@ -627,14 +638,14 @@ Here is how much of TeX's memory you used:
  23108 multiletter control sequences out of 15000+600000
  489068 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,18n,62p,971b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 55i,18n,62p,964b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/bas
 e/8r.enc}<C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmsy10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on Tesi.pdf (71 pages, 5002281 bytes).
+Output written on Tesi.pdf (71 pages, 5002630 bytes).
 PDF statistics:
  316 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

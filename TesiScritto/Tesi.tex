@@ -411,28 +411,28 @@ L'operazione di traduzione porta alla creazione dello schema logico:\\
 \section{Progettazione}
 Nella progettazione sia dell'applicativo web che mobile si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
 \begin{itemize}
-\item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: Tridimensionalità, ombreggiatura e puntamento.
-\item \textbf{Metafora:} una parola, una frase o una figura la quale dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è: un bottone rappresenta un comando.
+\item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: tridimensionalità, ombreggiatura e puntamento.
+\item \textbf{Metafora:} una parola, una frase o una figura la quale dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è un bottone che rappresenta un comando.
 \item \textbf{Layout:} 
 la posizione degli elementi all'interno della pagina è uno strumento importante di comunicazione.
-\item \textbf{Colori:} utili per focalizzare l'attenzione o suscitare emozioni.
+\item \textbf{Colori:} utili per focalizzare l'attenzione o suscitare emozioni secondo la psicologia del colore.
 \item \textbf{Font:} leggibilità in relazione al tipo e alle caratteristiche del carattere.
 \end{itemize}
 
 \subsection{Usabilità}
 Col termine usabilità si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
-Più nello specifico in questo applicativo tali termini rappresentano:
+Più nello specifico, in questo applicativo tali termini rappresentano:
 \begin{itemize}
-\item \textbf{Efficacia:} tutti i compiti richiesti in fasi di analisi possono essere eseguiti senza problematiche.
+\item \textbf{Efficacia:} tutti i compiti richiesti in fase di analisi possono essere eseguiti senza problematiche.
 \item \textbf{Efficienza:} si è cercato di usare al meglio le risorse disponibili per svolgere i compiti richiesti.
 \item \textbf{Soddisfazione:} si è avuta prova dell'accettabilità del funzionamento da parte dell'utente.
 \end{itemize}
 
 \subsubsection{Personas e scenarios}
-Sono state definite delle personas, cioè persone che rappresentano dei gruppi di utenti, i quali saranno gli utilizzatori del programma ed a ognuno di loro è stato associato uno scenario, il quale rappresenta le operazioni, il modo di muoversi nel sito e le modalità di utilizzo di ciascuno di loro.
-Le personas che sono state riscontrate:
+Sono state definite delle personas, cioè descrizioni di persone che rappresentano dei gruppi di utenti, i quali saranno gli utilizzatori del programma ed a ognuno di loro è stato associato uno scenario, il quale rappresenta le operazioni, il modo di muoversi nel sito e le loro modalità di utilizzo della piattaforma.
+Le personas che sono state riscontrate sono:
 \begin{itemize}
- \item Responsabile avvistamenti: persona addetta alla modifica delle informazioni al fine di modificare, aggiungere o eliminare i dati. 
+ \item Responsabile avvistamenti: persona addetta alla gestione delle informazioni al fine di modificare, aggiungere o eliminare i dati. 
 \item Ricercatore: persona che carica nuove informazioni, di un nuovo avvistamento direttamente dal portale.
  \end{itemize} 
  A ciascuna di esse è associato uno scenarios:
@@ -443,43 +443,44 @@ Le personas che sono state riscontrate:
 
 \subsection{Design}
 In questa sezione viene descritto il processo che ha portato alla creazione dell'interfaccia web.
-Al fine di progettare la migliore interfaccia con le rispettive caratteristiche che sono stato elencate in fase di analisi sono stati fatti:
+Al fine di progettare la migliore interfaccia che rispetti le caratteristiche elencate in fase di analisi sono stati realizzati:
 \begin{itemize}
-\item Focus Group: è stato chiesto agli utilizzatori del sistema come prevedevano la realizzazione di determinate parti di interfaccia, in particolare per le schede dei singoli avvistamenti sono state proposte diverse modalità disposizione dei contenuti e sulla base di un sondaggio è stata scelta la migliore strategia.
-\item Mockup: sulla base delle informazioni sono stati creati degli schemi base in cui danno un'idea della struttura del sistema.
-\item Experience Prototyping: E' stata realizzata un semplice prototipo di tipo usa e getta al fine di verificare alcune parti incerte del programma in particolare la tabella degli avvistamenti e le specifiche di ogni avvistamento.
+\item Focus Group: è stato chiesto agli utilizzatori del sistema come si aspettavano la realizzazione di determinate parti dell'interfaccia, in particolare per le schede dei singoli avvistamenti sono state proposte diverse modalità di disposizione dei contenuti e sulla base di un sondaggio è stata scelta la migliore strategia.
+\item Mockup: sulla base delle informazioni sono stati creati degli schemi base i quali danno un'idea della struttura del sistema.
+\item Experience Prototyping: è stato realizzato un semplice prototipo di tipo usa e getta al fine di verificare alcune parti incerte del programma, in particolare la tabella degli avvistamenti e le loro specifiche.
 \end{itemize}
-Gli obiettivi del design sono principalmente di essere:
+Per quanto riguarda il design si è cercato di rispettare i seguenti principi:
 \begin{itemize}
 \item Mobile First
 \item User Centered
+\item Responsive
 \item Accessibile
 \end{itemize}
 
 \subsubsection{Mockup}
-Prima dell'inizio della realizzazione sono stati creati i mockup principali al fine definire la struttura delle pagine. In particolare sono stati creati i mockup per la pagina principale in cui vengono visualizzati tutti i gli avvistamenti e la pagina del singolo avvistamento in cui si definiscono le operazioni chiave.
+Prima dell'inizio della realizzazione effettiva delle pagine sono stati creati i mockup principali al fine di definire la struttura delle stesse. In particolare sono stati creati i mockup per la pagina principale, in cui vengono visualizzati tutti gli avvistamenti, e anche per la pagina del singolo avvistamento in cui si definiscono le operazioni chiave.
 Il primo mockup che viene mostrato è quello della pagina principale in modalità mobile:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.43]{img_concettuale/HomeMob.png}
+\includegraphics[scale=0.40]{img_concettuale/HomeMob.png}
 \caption{Mockup homepage del sito in versione mobile.}
 \end{figure}
-\\Da come si può vedere dell'immagine, si tratta di un design molto semplice in cui è presente un menù, una mappa e una tabella in cui saranno elencati gli avvistamenti che sono caricati attraverso l'apposito pulsante oppure attraverso l'applicazione mobile.\\
-Nel secondo mockup viene mostrata stessa pagina web in versione desktop: 
+\\Da come si può vedere dall'immagine, si tratta di un design molto semplice in cui è presente un menù, una mappa e una tabella in cui saranno elencati gli avvistamenti che sono caricati attraverso l'apposito pulsante oppure attraverso l'applicazione mobile.\\
+Nel mockup di seguito viene invece mostrata la stessa pagina web in versione desktop: 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.90]{img_concettuale/Home.png}
 \caption{Mockup homepage del sito in versione desktop.}
-\end{figure}
-\\La pagina web contiene gli stessi elementi descritti nell'immagine precedente ma disposti solo in modo differente al fine di adattare lo spazio.
+	\end{figure}
+\\La pagina web contiene gli stessi elementi descritti nell'immagine precedente ma disposti solo in modo differente al fine di ottimizzare lo spazio.\\
 Nel terzo mockup invece viene rappresentata la struttura della pagina degli avvistamenti in versione mobile:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/avvistamentoMok.png}
 \caption{Mockup avvistamento del sito in versione mobile.}
 \end{figure}
-\\La pagina web contiene una semplice mappa in cui viene raffigurato il luogo dell'avvistamento, per ogni avvistamento vengono mostrati i dati, i quali sono modificabili al fine di variare le informazioni precedentemente inserite. In aggiunta per ogni avvistamento c'è la possibilità di aggiungere immagini e di cancellarle. Per ogni immagine possono essere aggiunte più sottoimmagini ognuna delle quali rappresenta un individuo al quale possono essere aggiunte o eliminare le ferite.\\
-Nel quarto ed ultimo mockup viene raffigurata la struttura della pagina degli avvistamenti:
+\\La pagina web contiene una semplice mappa in cui viene raffigurato il luogo dell'avvistamento e per ognuno vengono mostrati i relativi dati, i quali sono modificabili al fine di variare le informazioni precedentemente inserite. In aggiunta, per ogni avvistamento c'è la possibilità di aggiungere immagini e di cancellarle. Per ogni immagine possono essere aggiunte più sottoimmagini, ognuna delle quali rappresenta un individuo al quale possono essere aggiunte o eliminate le ferite.\\
+Nel quarto ed ultimo mockup viene raffigurata la struttura della pagina degli avvistamenti in versione desktop:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/avvistamentoDesk.png}
@@ -487,31 +488,31 @@ Nel quarto ed ultimo mockup viene raffigurata la struttura della pagina degli av
 \end{figure}
 \\Il contenuto della pagina è lo stesso della versione mobile solo con una disposizione diversa degli elementi.
 
-
 \subsection{Solution stack}
 Un solution stack è un insieme di tecnologie software che vengono utilizzate per costruire un'applicazione o un sistema. È composto da una combinazione di software di sviluppo, linguaggi di programmazione, framework, database e altri strumenti necessari per creare un'applicazione completa e funzionante.
 Un solution stack ben sviluppato può rendere molto più semplice e veloce lo sviluppo di un'applicazione, poiché fornisce tutti gli strumenti necessari in un pacchetto completo.\\ 
-Esistono molti solution stack differenti disponibili, alcuni dei quali sono sviluppati per specifici sistemi operativi o piattaforme, mentre altri sono più generici e possono essere utilizzati su molte piattaforme diverse.\\
+Esistono molti solution stack differenti, alcuni dei quali sono sviluppati per specifici sistemi operativi o piattaforme, mentre altri sono più generici e possono essere utilizzati su molte piattaforme diverse.\\
 
 \subsubsection{LAMP}
-Nel nostro caso è stato utilizzato il solution stack denominato LAMP (Linux, Apache, MySQL, PHP) è un popolare solution stack per lo sviluppo di applicazioni web su sistemi operativi Linux. Questo perchè il database il server web Apache2 sono situati in una raspberry4 la quale ha un indirizzo di rete fisso al quale chiunque collegato via internet può collegarsi ed accedere al sito e ai suoi contenuti previa registrazione.
+Nel nostro caso è stato utilizzato il solution stack denominato LAMP (Linux, Apache, MySQL, PHP), il quale è un popolare solution stack per lo sviluppo di applicazioni web su sistema operativo Linux. Questo perchè il database e il server web Apache2 sono situati in una Raspberry pi 4, la quale ha un indirizzo di rete fisso a cui chiunque collegato via internet può connettersi ed accedere al sito e ai suoi contenuti previa registrazione.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/LAMP.png}
-\caption{Stack LAMP}
+\caption{Stack LAMP. Fonte: phoenixnap.com}
 \end{figure} 
 \subsubsection{PHP}
-Lato server si ha un linguaggio di programmazione denominato PHP esso è open-source, utilizzato per lo sviluppo di siti web dinamici e interattivi. \\ PHP è un linguaggio di scripting server-side, il che significa che il codice PHP viene eseguito sul server, non sul browser del client. Questo rende il processo di sviluppo più efficiente, poiché l'elaborazione avviene sul server e i dati vengono inviati al browser solo una volta elaborati. Questo rende possibile creare siti web dinamici e interattivi, che possono essere personalizzati in base alle esigenze dell'utente. \\ Esso supporta anche molte funzionalità avanzate, come l'elaborazione di form HTML, la connessione a database, l'elaborazione di cookie e sessioni, e la gestione dei file. Questo rende possibile creare siti web dinamici che possono offrire molte funzionalità avanzate, come ad esempio la personalizzazione dei contenuti in base alle preferenze dell'utente.
+Lato server si ha un linguaggio di programmazione denominato PHP. Esso è open-source ed utilizzato per lo sviluppo di siti web dinamici e interattivi. \\ PHP è un linguaggio di scripting server-side, il che significa che il codice PHP viene eseguito sul server, non sul browser del client. Questo rende il processo di sviluppo più efficiente, poiché l'elaborazione avviene sul server e i dati vengono inviati al browser solo una volta elaborati. Questo rende possibile creare siti web dinamici e interattivi, che possono essere personalizzati in base alle esigenze dell'utente. \\ Esso supporta anche molte funzionalità avanzate, come l'elaborazione di form HTML, la connessione a database, l'elaborazione di cookie e sessioni e la gestione dei file. Questo rende possibile creare siti web che possono offrire molte funzionalità avanzate, come ad esempio la personalizzazione dei contenuti in base alle preferenze dell'utente.
 
 \subsubsection{MYSQL}
-MySQL è un sistema di gestione del database relazionale open-source, utilizzato per gestire grandi quantità di informazioni. Il fatto che sia un sistema di gestione del database relazionale, significa che i dati sono organizzati in tabelle e ogni tabella ha una relazione con le altre. Questo rende il processo di gestione dei dati molto efficiente e semplice, poiché è possibile accedere rapidamente a informazioni specifiche utilizzando delle query. Esso è un sistema di gestione del database altamente scalabile, il che significa che può gestire grandi quantità di informazioni senza compromettere le prestazioni. Inoltre, è molto flessibile e facile da usare, il che significa che gli sviluppatori possono facilmente creare e gestire grandi quantità di informazioni.
+MySQL è un sistema di gestione del database relazionale open-source, utilizzato per gestire grandi quantità di informazioni. Il fatto che sia un sistema di gestione del database relazionale significa che i dati sono organizzati in tabelle e ogni tabella può avere relazioni con le altre. Questo rende il processo di gestione dei dati molto efficiente e semplice, poiché è possibile accedere rapidamente a informazioni specifiche utilizzando delle query.\\
+Questa tecnologia offre quindi un sistema di gestione del database altamente scalabile, il che significa che può gestire grandi quantità di informazioni senza compromettere le prestazioni. Inoltre, è molto flessibile e facile da usare, il che significa che gli sviluppatori possono facilmente creare e gestire grandi quantità di dati.
 
 \subsection{Fruizione del servizio}
-Il servizio essendo di tipo centralizzato su un unico server è fruibile utilizzando le tre tecnologie che sono alla base del web.
+Il servizio, essendo di tipo centralizzato su un unico server, è fruibile utilizzando le tre tecnologie che sono alla base del web.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.60]{img_concettuale/tecnologie.png}
-\caption{Tecnologie alla base del web}
+\caption{Tecnologie alla base del web.}
 \end{figure} 
 
 \subsubsection{URI}
@@ -520,85 +521,85 @@ Lo Uniform Resource Identifier è utilizzato per identificare risorse in modo un
 \subsubsection{HTTPS}
 L'Hypertext Transfer Protocol Secure è un'estensione di HTTP, il protocollo di base utilizzato per la trasmissione di informazioni su internet. Il funzionamento di HTTPS si basa sulla crittografia. Quando un utente accede a un sito web che utilizza HTTPS, i dati inviati e ricevuti vengono crittografati utilizzando un certificato SSL (Secure Sockets Layer) o TLS (Transport Layer Security). Questo certificato garantisce che i dati siano protetti da eventuali attacchi esterni e che solo l'utente e il sito web abbiano accesso ai dati scambiati.
 L'utilizzo di HTTPS è molto importante per la sicurezza delle informazioni personali e sensibili degli utenti. Ad esempio, quando si effettua un login i dati sensibili come le password vengono trasmessi attraverso internet. Se il sito web utilizza HTTPS, questi dati vengono protetti da eventuali attacchi esterni e non possono essere intercettati o utilizzati impropriamente.\\
-In particolare nel nostro caso una volta installato e configurato il server web sulla Ruspberry pi4 è stato utilizzato un software denominato certbot il quale facilita la creazione, l'installazione e l'utilizzo di certificati SSL per i siti web. Inoltre, Certbot si occupa automaticamente della gestione dei certificati, inclusa la rinnovazione automatica dei certificati prima della loro scadenza. Questo rende molto più semplice la gestione dei certificati SSL, poiché gli sviluppatori non devono preoccuparsi di rinnovare manualmente i certificati.\\
-Certbot permette di ottenere certificati gratuiti tramite Let's Encrypt, un'organizzazione che fornisce certificati SSL gratuiti a tutti.\\
+Nel nostro caso, in particolare, una volta installato e configurato il server web sulla Raspberry pi4 è stato utilizzato un software denominato Certbot il quale facilita la creazione, l'installazione e l'utilizzo di certificati SSL per i siti web. Inoltre, Certbot si occupa automaticamente della gestione dei certificati, incluso il rinnovo automatico dei certificati prima della loro scadenza. Questo rende molto più semplice la gestione dei certificati SSL, poiché gli sviluppatori non devono preoccuparsi di rinnovare manualmente i certificati.
+Certbot permette di ottenere certificati gratuiti tramite Let's Encrypt, un'organizzazione che fornisce certificati SSL a chiunque li richieda.\\
 
 \subsubsection{HTML}
-Quindi una volta contattato il server attraverso l'identificatore e utilizzando il protocollo di file transfert in modalità sicura il client e il server si scambiano le pagine in formato HTML.\\
-HTML (Hypertext Markup Language) è un linguaggio di markup utilizzato per creare documenti web. HTML definisce la struttura e il contenuto della pagina web, utilizzando un insieme di tag per identificare diversi elementi della pagina, come il testo, le immagini, i link e molto altro.
+Una volta contattato il server attraverso l'identificatore e utilizzando il protocollo di file transfert in modalità sicura, il client e il server si scambiano le pagine in formato HTML.\\
+HTML (Hypertext Markup Language) è un linguaggio di markup utilizzato per creare documenti web. HTML definisce la struttura e il contenuto della pagina web utilizzando un insieme di tag per identificare diversi elementi della pagina, come il testo, le immagini, i link e molto altro.
 
 \subsection{Stile}
 Per quanto riguarda lo stile del sito sono state utilizzate diverse tecnologie combinate insieme per cercare di avere la massima resa possibile.
 
 \subsubsection{CSS}
-CSS (Cascading Style Sheets) è un linguaggio di marcatura utilizzato per descrivere l'aspetto di un documento HTML. Esso è un componente importante della creazione di siti web, poiché permette ai designer e agli sviluppatori di separare il contenuto di una pagina web dalla sua presentazione. In questo modo il contenuto di una pagina web può essere modificato senza influire sulla sua presentazione, rendendo più semplice la manutenzione e l'aggiornamento del sito. CSS viene utilizzato per la creazione di layout complessi, animazioni, transizioni e effetti grafici. 
+CSS (Cascading Style Sheets) è un linguaggio utilizzato per descrivere l'aspetto di un documento HTML. Esso è un componente importante della creazione di siti web, poiché permette ai designer e agli sviluppatori di separare il contenuto di una pagina web dalla sua rappresentazione. In questo modo il contenuto di una pagina web può essere modificato senza influire sulla sua presentazione, rendendo più semplice la manutenzione e l'aggiornamento del sito. CSS viene utilizzato per la creazione di layout complessi, animazioni, transizioni e effetti grafici. 
 
 \subsubsection{Bootstrap}
-Bootstrap è un framework di design per il web, che fornisce un insieme di componenti e strumenti per la creazione di siti web. Bootstrap è progettato per aiutare i designer e gli sviluppatori a creare progetti web più velocemente e con maggiore facilità, fornendo una serie di componenti predefiniti e stili per la creazione di interfacce utente. Bootstrap è basato su HTML, CSS e JavaScript, e offre una vasta gamma di componenti, tra cui barre di navigazione, moduli, tabelle, pulsanti, icone, griglie e molto altro.
-Esso rende molto più semplice la creazione di progetti web, invece di dover scrivere da zero il codice CSS e HTML per ogni progetto, i designer e gli sviluppatori possono utilizzare i componenti predefiniti di Bootstrap, che sono già ben testati e ottimizzati per una buona esperienza utente.
-Un altro spetto fondamentale è che esso è basato sul principio denominato Mobile first e questo permette di creare pagine web adatte oltre che per pc anche per cellulari. Grazie alla combinazione di righe e colonne che insieme formano una griglia, permettono di modificare il layout della pagina in base alla grandezza del dispositivo che si utilizza.
+Bootstrap è un framework di design per il web, che fornisce un insieme di componenti e strumenti per la creazione di pagine. Bootstrap è progettato per aiutare i designer e gli sviluppatori a creare progetti web più velocemente e con maggiore facilità, fornendo una serie di componenti predefiniti e stili per la creazione di interfacce utente. Esso è basato su HTML, CSS e JavaScript e offre una vasta gamma di componenti, tra cui barre di navigazione, moduli, tabelle, pulsanti, icone, griglie e molto altro.
+Bootstrap rende inoltre molto più semplice la creazione di progetti web, senza dover scrivere da zero il codice CSS e HTML per ogni progetto. I designer e gli sviluppatori possono utilizzare i componenti predefiniti di Bootstrap, che sono già ben testati e ottimizzati per una buona esperienza utente.
+Un altro aspetto fondamentale è che esso è basato sul principio denominato Mobile first e questo permette di creare pagine web adatte oltre che per pc anche per cellulari.\\ Grazie alla combinazione di righe e colonne che insieme formano una griglia è possibile modificare agevolmente il layout della pagina in base alla grandezza del dispositivo che si utilizza.
 
 \subsection{Javascript e Librerire}
-Per l'applicazione è stato usato Javascript come linguaggio di programmazione lato client esso è dinamico e interpretato, utilizzato principalmente per creare interazioni ed effetti visivi sulle pagine web. Esso è un linguaggio di programmazione completamente differente rispetto a HTML e CSS, che sono utilizzati per la creazione della struttura e del design delle pagine web. JavaScript, d'altra parte, è utilizzato per creare interazioni e effetti dinamici all'interno della pagina, come ad esempio la validazione dei moduli e la creazione di animazioni.
+Per l'applicazione è stato usato Javascript come linguaggio di programmazione lato client. Esso è dinamico, interpretato e viene utilizzato principalmente per creare interazioni ed effetti visivi sulle pagine web. Questo linguaggio di programmazione è completamente differente rispetto a HTML e CSS, i quali sono utilizzati per la creazione della struttura e del design delle pagine web. JavaScript, d'altra parte, è utilizzato per creare interazioni e effetti dinamici all'interno della pagina, come ad esempio la validazione dei moduli e la creazione di animazioni.
 \subsubsection{JQUERY}
-Nel progetto al fine di semplificare la crezione di determinate funzionalità è stato utilizzata una libreria JavaScript open source utilizzata per rendere più semplice e veloce lo sviluppo di pagine web interattive e applicazioni web. Essa è denominata JQUERY la sua principale caratteristica è la sua capacità di semplificare le attività di sviluppo web, come la manipolazione del DOM (Document Object Model), l'aggiunta di effetti e animazioni e la gestione degli eventi. Essa ha la caratteristica di essere molto compatibile con i browser più diffusi e offre un'ottima compatibilità anche con i dispositivi mobile.
+Nel progetto, al fine di semplificare la crezione di determinate funzionalità, è stata utilizzata una libreria JavaScript open source utilizzata per rendere più semplice e veloce lo sviluppo di pagine interattive e applicazioni web. Essa è denominata JQUERY e la sua principale caratteristica è la sua capacità di semplificare le attività di sviluppo web, come la manipolazione del DOM (Document Object Model), l'aggiunta di effetti e animazioni e la gestione degli eventi. JQUERY ha la caratteristica di essere totalmente compatibile con i browser più diffusi e di offrire un'ottima compatibilità anche con i dispositivi mobile.
 \subsubsection{AJAX}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.45]{img_concettuale/ajax.jpg}
-\caption{Funzionamento di AJAX}
+\includegraphics[scale=0.40]{img_concettuale/ajax.jpg}
+\caption{Funzionamento di AJAX. Fonte: www.javascript-coder.com}
 \end{figure} 
-Nell'applicazione per richiedere dati dal database vengono eseguite delle chiamate Ajax asincrone al server. AJAX (Asynchronous JavaScript and XML) è una tecnologia utilizzata per creare applicazioni web dinamiche e interattive. Esso si basa sull'utilizzo di JavaScript e permette di aggiornare parti di una pagina web senza dover ricaricare l'intera pagina.
+Nell'applicazione per richiedere dati dal database vengono eseguite delle chiamate Ajax asincrone al server. AJAX (Asynchronous JavaScript and XML) è una tecnologia utilizzata per creare applicazioni web dinamiche e interattive. Esso si basa sull'utilizzo di JavaScript e permette di aggiornare parti di una pagina web senza dover ricaricarla.
 Invece di inviare una richiesta al server per ottenere l'intera pagina web, AJAX consente di inviare richieste al server per ottenere solo i dati necessari. Questo significa che, ad esempio, se un utente clicca su un link o modifica una form, solo i dati necessari vengono inviati al server, e solo la parte della pagina che deve essere aggiornata viene effettivamente modificata. Questo rende l'interazione più veloce e fluida per l'utente, poiché non è necessario attendere il caricamento dell'intera pagina ogni volta che viene effettuata un'azione.
 Il server invierà i dati richiesti dal client in formato JSON.
 
 \subsubsection{PHPMailer}
-Nel sito al fine di recuperare la password nel caso qualcuno se la dimentichi in fase di login è stata implementata una funzione che permetta di inviare email con all'interno la password temporanea dell'account. Per farlo è stata utilizzata la libreria PHP Mailer. Essa è una libreria open-source per PHP che permette di inviare email tramite il protocollo SMTP (Simple Mail Transfer Protocol). Questa libreria è stata sviluppata per semplificare il processo di invio di email da un sito web, e offre molte funzionalità avanzate, come ad esempio la gestione della codifica dei caratteri e l'invio di email con allegati. La libreria PHPMailer è molto semplice da utilizzare e offre un'interfaccia intuitiva per l'invio di email da un sito web.\\
-AL fine di non dover comprare un dominio per le mail e dover gestire il server mail è stato utilizzato il servizio di posta elettronica di Libero.
+Nel sito, al fine di recuperare la password nel caso qualcuno se la dimentichi in fase di login, è stata implementata una funzione che permette di inviare email con all'interno la password temporanea dell'account. Per farlo è stata utilizzata la libreria PHP Mailer. Essa è una libreria open-source per PHP che permette di inviare email tramite il protocollo SMTP (Simple Mail Transfer Protocol). Questa libreria è stata sviluppata per semplificare il processo di invio di email da un sito web e offre molte funzionalità avanzate, come ad esempio la gestione della codifica dei caratteri e l'invio di email con allegati. La libreria PHPMailer è molto semplice da utilizzare e offre un'interfaccia intuitiva per l'invio di email da un sito web.\\
+Al fine di non dover comprare un dominio per le mail e dover gestire il server mail è stato utilizzato il servizio di posta elettronica di Libero.
 
 \subsubsection{LeafLet}
-Leaflet è una libreria open-source per la visualizzazione di mappe interattive sul web. Leaflet consente di visualizzare mappe basate su tiles, marker, pop-up, forme e altri elementi geografici. La libreria supporta una vasta gamma di formati di dati geografici. Leaflet offre la possibilità di creare mappe personalizzate utilizzando fogli di stile. La libreria è supportata da una vasta gamma di dispositivi, tra cui desktop, tablet e smartphone, rendendola una soluzione versatile e scalabile per la visualizzazione di mappe e in particolare punti un cui sono stati effettuati gli avvistamenti sul sito web.
+Leaflet è una libreria open-source per la visualizzazione di mappe interattive sul web. Leaflet consente di visualizzare mappe basate su tiles, marker, pop-up, forme e altri elementi geografici. La libreria supporta una vasta gamma di formati di dati geografici. Leaflet offre la possibilità di creare mappe personalizzate utilizzando fogli di stile. La libreria è supportata da una vasta gamma di dispositivi, tra cui desktop, tablet e smartphone, rendendola una soluzione versatile e scalabile. In particolare è utile nella nostra piattaforma per evidenziare i punti in cui sono stati effettuati gli avvistamenti.
 
 \subsection{Cookies}
-Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire, attraverso esse, un profilo dell'utente. Una di queste tecniche prevede l'utilizzo di cookies, essi sono considerati delle stringhe di testo che il browser crea all'apertura di una pagina web sul computer dell'utente e che salvano dati dell'utente durante la navigazione di un sito web agevolandone l'utilizzo. Dei possibili esempi possono essere:
+Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire, attraverso essi, un profilo dell'utente. Una di queste tecniche prevede l'utilizzo di cookies. Essi sono considerati delle stringhe di testo che il browser crea all'apertura di una pagina web sul computer dell'utente e che salvano dati dello stesso durante la navigazione di un sito web, agevolandone l'utilizzo. Dei possibili esempi possono essere:
 \begin{itemize}
-\item Memorizzare le preferenze linguistiche.
-\item I dati di login.
+\item Memorizzare le preferenze linguistiche
+\item I dati di login
 \end{itemize}
-I dati vengono memorizzati per essere poi ritrasmessi ai medesimi siti alla visita successiva dello stesso utente. Mediante i cookies è anche possibile monitorare la navigazione e raccogliere dati inerenti alle abitudini e le scelte personali degli utenti, consentendo così la creazione di profili dettagliati degli utenti. Un esempio è la personalizzazione delle inserzioni pubblicitarie sul browser. Generalmente un cookie contiene un attributo che indica la durata di vita e un numero generato in modo casuale che consente il riconoscimento dell'utente.\\
+I dati vengono memorizzati per essere poi ritrasmessi ai medesimi siti alla visita successiva dello stesso utente. Mediante i cookies è anche possibile monitorare la navigazione e raccogliere dati inerenti le abitudini e le scelte personali degli utenti, consentendo così la creazione di profili dettagliati degli utenti. Un esempio è la personalizzazione delle inserzioni pubblicitarie sul browser. Generalmente un cookie contiene un attributo che indica la durata di vita e un numero generato in modo casuale che consente il riconoscimento dell'utente.\\
 Esiste una specifica normativa, di derivazione europea, che disciplina l'utilizzo dei cookies al fine di tutelare le persone da forme di profilazione definite occulte e di consentirgli
-un minimo controllo sulla circolazione dei dati inerenti alla propria navigazione online.\\
+un minimo controllo sulla circolazione dei dati inerenti la propria navigazione online.\\
 Esistono tre tipologie di cookies:
 \begin{enumerate}
-\item \textbf{Cookies tecnici:} necessari per motivi tecnici e comportano una forma indispensabile (e molte volte temporanea) di memorizzazione di dati. Essi consentono la normale navigazione di un sito o la implementazione di un servizio, salvando solo le preferenze ed i criteri di navigazione di ogni utente.
-\item \textbf{Cookies di profilazione:} elementi che non sono tecnicamente necessari per il funzionamento del sito. Alcuni esempi sono i cookies di tracciamento, oppure ai cookies che creano profili dell'utente per finalità pubblicitarie e vengono utilizzati per finalità di marketing.
-\item \textbf{Cookies analitici:} consentono il monitoraggio dell'uso del sito da parte degli utenti e consentono il miglioramento del sito stesso. Talvolta anche i cookies analitici possono essere di terze parti.
+\item \textbf{Cookies tecnici:} necessari per motivi tecnici e comportano una forma indispensabile (e molte volte temporanea) di memorizzazione di dati. Essi consentono la normale navigazione di un sito o la implementazione di un servizio, salvando solo le preferenze ed i criteri di navigazione di ogni utente
+\item \textbf{Cookies di profilazione:} elementi che non sono tecnicamente necessari per il funzionamento del sito. Alcuni esempi sono i cookies di tracciamento, oppure i cookies che creano profili dell'utente per finalità pubblicitarie o che vengono utilizzati per finalità di marketing
+\item \textbf{Cookies analitici:} consentono il monitoraggio dell'uso del sito da parte degli utenti e consentono il miglioramento del sito stesso. Talvolta anche i cookies analitici possono essere di terze parti
 \end{enumerate}
 Nel nostro applicativo sono stati utilizzati solo cookies tecnici, al fine di memorizzare i dati di login. Quindi secondo la normativa, i cookies tecnici possono essere usati anche senza chiedere il consenso dell'utente. Al fine dell'applicazione si è deciso di non utilizzare cookies di profilazione e nemmeno quelli analitici.
 
 \subsection{Sicurezza}
-Oltre all'utilizzo di un protocollo https si è data una particolare attenzione alla sicurezza sia per quanto riguarda la trasmissione dei dati tecnici degli avvistamenti che quelli personali come ad esempio le password.
+Oltre all'utilizzo di un protocollo HTTPS si è data una particolare attenzione alla sicurezza sia per quanto riguarda la trasmissione dei dati tecnici degli avvistamenti che quelli personali come ad esempio le password.
 \subsubsection{Invio dati} 
-Tutte le form, chiamate ajax inviano i dati in modalità POST. Il metodo "POST" è una delle due modalità principali per inviare dati tramite una richiesta HTTP. Quando si inviano dati utilizzando il metodo POST, i dati sono inclusi nella corpo della richiesta HTTP, anziché nell'URL come con il metodo GET. Questo rende il metodo POST adatto per l'invio di dati sensibili o confidenziali, poiché i dati non sono visibili nell'URL e non possono essere facilmente intercettati o modificati.
+Tutte le form tramite chiamate ajax inviano i dati in modalità POST. Il metodo "POST" è una delle due modalità principali per inviare dati tramite una richiesta HTTP. Quando si inviano dati utilizzando il metodo POST, essi sono inclusi nella corpo della richiesta HTTP, anziché nell'URL come con il metodo GET. Questo rende il metodo POST adatto per l'invio di dati sensibili o confidenziali, poiché questi non sono visibili nell'URL e non possono essere facilmente intercettati o modificati.
 
 \subsubsection{Criptaggio password} 
-Per quanto riguarda la password si è usata una tecnica leggermente complicata:
+Per quanto riguarda le password si è usata una tecnica leggermente complessa:
 \begin{enumerate}
-\item In fase di registrazione l'utente inserisce due volte la password in modo da evitare errori di battitura.
-\item Quando conferma i dati inseriti viene creata una chiave univoca basata sul timestamp del momento e criptata utilizzando una funzione hash SHA1 (SALT).
-\item Una volta calcolata la chiave criptata viene utilizzata come chiave di codifica per cifrare la password inserita dell'utente attraverso l'algoritmo di crittografia a chiave simmetrica denominato HMACSHA512. 
-\item Avendo la password e la chiave entrambe criptate, oltre a tutti gli altri dati, verrà salvato tutto nel database.
-\item Una volta che l'utente esegue l'accesso, il client richiederà al server la chiave al fine di criptare la password e la invierà al server, a questo punto il server confronterà le due password in caso di uguaglianza permetterà l'accesso al servizio.
+\item In fase di registrazione l'utente inserisce due volte la password in modo da evitare errori di battitura
+\item Quando conferma i dati inseriti viene creata una chiave univoca basata sul timestamp del momento e criptata utilizzando una funzione hash SHA1 (SALT)
+\item Una volta calcolata la chiave criptata, essa viene utilizzata come chiave di codifica per cifrare la password inserita dell'utente attraverso l'algoritmo di crittografia a chiave simmetrica denominato HMACSHA512. 
+\item Avendo criptato la password e  la chiave, insieme a tutti gli altri dati utente (non criptati), essi verranno salvati nel database.
+\item Una volta che l'utente esegue l'accesso, il client richiederà al server la chiave al fine di criptare la password e la invierà al server, a questo punto il server confronterà le due password e in caso di uguaglianza permetterà l'accesso al servizio.
 \end{enumerate}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/sale.png}
-\caption{Struttura alla base della fase di criptaggio}
+\caption{Struttura alla base della fase di criptaggio. Fonte: www.okta.com}
 \end{figure}
-In questo modo la password dell'utente per l'accesso al sistema non verrà mai trasmessa in rete permettendo maggiore sicurezza in caso di attacchi di tipo Sniffing, man in the middle, o Spoofing.  
+In questo modo la password dell'utente per l'accesso al sistema non verrà mai trasmessa in rete, permettendo maggiore sicurezza in caso di attacchi di tipo Sniffing, man in the middle o Spoofing.  
 
 \section{Accessibilità}
-L'accessibilità informatica è la capacità per i sistemi informatici di fornire servizi e informazioni utilizzabili senza discriminazioni per tutti, compresi coloro che hanno bisogno di tecnologie assistive o configurazioni speciali a causa di disabilità. Questo viene realizzato nei limiti delle attuali conoscenze tecnologiche. Per quanto riguarda il sito si sono prese in considerazione i seguenti tipi di disabilità:
+L'accessibilità informatica è la capacità per i sistemi informatici di fornire servizi e informazioni utilizzabili senza discriminazioni per tutti, compresi coloro che hanno bisogno di tecnologie assistive o configurazioni speciali a causa di disabilità. Questo viene realizzato nei limiti delle attuali conoscenze tecnologiche. Per quanto riguarda il sito si sono presi in considerazione i seguenti tipi di disabilità:
 \begin{itemize}
 \item Visive
 \begin{itemize}
@@ -611,7 +612,7 @@ L'accessibilità informatica è la capacità per i sistemi informatici di fornir
 
 \subsection{WCAG}
 L'intero sito internet segue le linee guida create dal W3C per i diversi livelli di accessibilità.
-In particolare il WAI è l'acronimo di Web Accessibility Initiative ed è un'iniziativa del W3C. Il cui obiettivo è di promuovere la creazione di contenuti web accessibili e di garantire che tutti gli utenti, indipendentemente dalla loro abilità, possano accedere e interagire con i contenuti del web in modo efficiente e significativo. Il WAI lavora in stretta collaborazione con organizzazioni governative, industriali e di advocacy per garantire che le linee guida e le tecnologie sviluppate siano adatte alle esigenze di tutti gli utenti del web. Il suo impegno a supportare l'accessibilità del web ha contribuito a rendere il web un luogo più inclusivo e accessibile per tutti gli utenti.\\
+In particolare il WAI è l'acronimo di Web Accessibility Initiative ed è un'iniziativa del W3C il cui obiettivo è di promuovere la creazione di contenuti web accessibili e di garantire che tutti gli utenti, indipendentemente dalla loro abilità, possano accedere e interagire con i contenuti del web in modo efficiente e significativo. Il WAI lavora in stretta collaborazione con organizzazioni governative, industriali e di advocacy per garantire che le linee guida e le tecnologie sviluppate siano adatte alle esigenze di tutti gli utenti del web. Il suo impegno a supportare l'accessibilità del web ha contribuito a rendere questo ambiente un luogo più inclusivo e accessibile per tutti gli utenti.\\
 Le linee guida prese in considerazione sono le WCAG che è l'acronimo di Web Content Accessibility Guidelines.
 Esse si basano su 4 principi:
 \begin{itemize}
@@ -621,12 +622,12 @@ Esse si basano su 4 principi:
 \item Robusto
 \end{itemize}
 Dai 4 principi discendono le 12 linee guida che
-forniscono indicazioni per rendere il contenuto più accessibile. per ciascuna di esse sono stati identificati una serie di criteri di successo che possono essere facilmente verificati. Questi criteri sono suddivisi in tre livelli di conformità: A (minimo), AA e AAA (massimo). Il livello A rappresenta il livello minimo di conformità, mentre il livello AAA rappresenta il massimo livello di conformità possibile.
+forniscono indicazioni per rendere il contenuto più accessibile. Per ciascuna di esse sono stati identificati una serie di criteri di successo che possono essere facilmente verificati. Questi criteri sono suddivisi in tre livelli di conformità: A (minimo), AA e AAA (massimo). Il livello A rappresenta il livello minimo di conformità, mentre il livello AAA rappresenta il massimo livello di conformità possibile.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.40]{img_concettuale/wcag.png}
-\caption{Struttura delle linee guide coi rispettivi livelli.}
+\includegraphics[scale=0.38]{img_concettuale/wcag.png}
+\caption{Struttura delle linee guide coi rispettivi livelli. Fonte: www.antoniogiovannischiavone.it}
 \end{figure}
 
 Il WCAG è stato sviluppato con la collaborazione di una vasta comunità di esperti in accessibilità, tecnologia e advocacy e viene continuamente aggiornato per tener conto delle evoluzioni delle tecnologie e delle esigenze degli utenti. Esso è diventato un punto di riferimento per gli sviluppatori di siti web e per le organizzazioni che cercano di garantire l'accessibilità dei loro contenuti web.
@@ -635,28 +636,27 @@ Il WCAG è stato sviluppato con la collaborazione di una vasta comunità di espe
 Nel progetto le linee guida a cui si è data maggiore importanza sono state:\\
 \emph{Principio Percettibile:}
 \begin{itemize}
-\item Linea guida 1.1 Alternative testuali: Si necessita di fornire alternative testuali per qualsiasi contenuto non di testo in modo che
-questo possa essere trasformato in altre forme fruibili secondo le necessità degli utenti come Braille, stampa a caratteri ingranditi, sintesi vocale o in un linguaggio più semplice.
+\item Linea guida 1.1 Alternative testuali: si necessita di fornire alternative testuali per qualsiasi contenuto non di testo in modo che questo possa essere trasformato in altre forme fruibili secondo le necessità degli utenti come Braille, stampa a caratteri ingranditi, sintesi vocale o in un linguaggio più semplice.
 \begin{itemize}
-\item Criterio di successo 1.1.1; Contenuti non testuali: Tutti i contenuti non testuali presentati all'utente hanno un'alternativa testuale equivalente. Questo viene fatto con l'utilizzo in modo opportuno dei tag figure, figcaption oppure con gli attributi alt oppure longdesc nei tag img.
+\item Criterio di successo 1.1.1 Contenuti non testuali: tutti i contenuti non testuali presentati all'utente hanno un'alternativa testuale equivalente. Questo viene fatto con l'utilizzo in modo opportuno dei tag figure, figcaption oppure con gli attributi alt e longdesc nei tag img.
 \end{itemize}
-\item Linea guida 1.4 Distinguibile: Rendere più semplice agli utenti la visione dei contenuti, separando i contenuti in primo piano dallo sfondo.
+\item Linea guida 1.4 Distinguibile: rendere più semplice agli utenti la visione dei contenuti, separando i contenuti in primo piano dallo sfondo.
 \begin{itemize}
-\item Criterio di successo 1.4.3 Contrasto (minimo): La rappresentazione visiva del testo e di immagini contenenti testo ha un rapporto di
+\item Criterio di successo 1.4.3 Contrasto (minimo): la rappresentazione visiva del testo e di immagini contenenti testo ha un rapporto di
 contrasto di almeno 4.5:1.
 \end{itemize}
 
-\item Linea guida 1.3 Adattabile: Creare contenuti che possano essere rappresentati in modalità differenti (ad esempio, con layout più semplici), senza perdere informazioni o la struttura.
+\item Linea guida 1.3 Adattabile: creare contenuti che possano essere rappresentati in modalità differenti (ad esempio, con layout più semplici), senza perdere informazioni o struttura.
 \begin{itemize}
 \item Questa linea guida tratta molte componenti che sono fondamentali nella costruzione della struttura di un documento, in particolare gli elementi della categoria Sectioning hanno funzione strutturale. La struttura del documento è importante non solo per supportare la navigazione con l'ausilio di uno screen reader, ma anche per ottimizzare l'indicizzazione da parte dei motori di ricerca (SEO). La struttura del documento permette una navigazione più fluida tra sezioni, titoli e link.
 \end{itemize}
-In particolare gli screen reader permettono all'utente non vedenti di percorrere la pagine attraverso i tag di heading. Per questo motivo i tag non devono assolutamente avere uno scopo presentazionale ma la loro sequenza deve essere corretta al fine di aiutare gli utenti che utilizzano mezzi assistivi.\\
-Un altro aspetto da tenere in considerazione sono le tabelle che sono presenti nel sito web, queste tabelle per essere accessibili devono utilizzare l'attributo id nei tag di heading(th) e l'attributo headers nei tag td al fine di permettere l'associazione di quella cella con il rispettivo titolo. In aggiunta nei tag di intestazione deve essere utilizzato l'attributo scope, esso permette di identificare lo scopo di quella cella. Per finire, al fine di far capire all'utente quali dati tale tabella rappresenta è utile utilizzare il tag caption dove viene scritta la didascalia della tabella.
+In particolare gli screen reader permettono all'utente non vedente di percorrere le pagine attraverso i tag di heading. Per questo motivo i tag non devono assolutamente avere uno scopo presentazionale ma la loro sequenza deve essere corretta al fine di aiutare gli utenti che utilizzano mezzi assistivi.\\
+Un altro aspetto da tenere in considerazione sono le tabelle che sono presenti nel sito web. Queste, per essere accessibili, devono utilizzare l'attributo id nei tag di heading(th) e l'attributo headers nei tag (td) al fine di permettere l'associazione di quella cella con il rispettivo titolo. In aggiunta nei tag di intestazione deve essere utilizzato l'attributo scope, che permette di identificare lo scopo di quella cella. Per finire, al fine di far capire all'utente quali dati tale tabella rappresenta è fondamentale utilizzare il tag caption, dove viene scritta la didascalia della tabella.
 \end{itemize}
 \newpage
-\emph{Principio Percettibile:}
+\emph{Principio Comprensibile:}
 \begin{itemize}
-\item – Linea guida 3.3 Assistenza nell'inserimento: Aiutare gli utenti ad evitare gli errori ed agevolarli nella loro correzione. In particolare,  Fornire etichette o istruzioni quando il contenuto richiede azioni di input da parte dell'utente.\\
+\item – Linea guida 3.3 Assistenza nell'inserimento: aiutare gli utenti ad evitare gli errori ed agevolarli nella loro correzione. In particolare, fornire etichette o istruzioni quando il contenuto richiede azioni di input da parte dell'utente.\\
 La soluzione è l'utilizzo di label con attributo for e input con attributo id, oppure inserire il tag input all'interno della label.
 \end{itemize}
 
@@ -669,10 +669,10 @@ La struttura del progetto è concepita come un insieme di componenti distinti ch
 \end{figure}
 \begin{itemize}
 \item La base della pagina web è un file il quale al suo interno contiene tutti i riferimenti a file di stile esterni, file js comuni a tutte le pagine e riferimenti a librerie.
-\item Ogni pagina è composta da più componenti, ogni componente è composto da un template al cui interno è presente solo codice html con la struttura di quella sezione, un file javascript il quale permette di eseguire chiamate ascincrone a un terzio file php il quale, a seconda dell'operazione richiesta richiede un'interrogazione al database e ritorna i dati richiesti in formato JSON.
+\item Ogni pagina è composta da più componenti, ed ognuno è composto da un template al cui interno è presente solo codice html con la struttura di quella sezione, un file javascript il quale permette di eseguire chiamate ascincrone a un terzio file php il quale, a seconda dell'operazione richiesta richiede un'interrogazione al database e ritorna i dati richiesti in formato JSON.
 \item Al fine di eseguire le interrogazioni al database, esiste un file boostrap nel quale viene creata una connessione al DB.
 Tutte le funzioni di interrogazione sono racchiuse nel file denominato database, il quale è utilizzato da tutti i file PHP citati prima.
-\item Esistono anche delle funzioni di utilità sia in PHP che in JS, che sono file separati e sono utilizzabili da tutti i file col fine di non avere del codice ridondante o troppo pesante.\\ Un esempio:
+\item Esistono anche delle funzioni di utilità sia in PHP che in JS, che sono file separati e sono utilizzabili da tutti i file, col fine di non avere del codice ridondante o troppo pesante.\\ Un esempio:
 \begin{itemize}
  \item Per JS le funzioni di criptaggio, riempimento delle select, creazione di alert.
  \item Per PHP funzioni di invio mail, conversione date, orario, registrazione delle sessioni dell'utente. 
@@ -687,7 +687,7 @@ Tutte le funzioni di interrogazione sono racchiuse nel file denominato database,
 \includegraphics[scale=0.31]{img_concettuale/login.png}
 \caption{Struttura della pagina di Login.}
 \end{figure}
-La pagina è composta da due sezioni: la principale è la sezione di inserimento dati, dove l'utente inserisce le proprie informazioni per accedere al portale. Ci sono altri due pulsanti oltre a quello di accesso: uno per la pagina di registrazione, se l'utente non ha un account, e l'altro per la recupero della password in caso di dimenticanza. Al click su quest'ultimo, appare un modale dove, inserendo la propria email, l'utente riceverà le informazioni necessarie per accedere al portale, rispettando le regole di sicurezza.
+La pagina è composta da due sezioni: la principale è la sezione di inserimento dati, dove l'utente inserisce le proprie informazioni per accedere al portale. Ci sono altri due pulsanti oltre a quello di accesso: uno per la pagina di registrazione, se l'utente non ha un account, e l'altro per il recupero della password in caso di dimenticanza. Al click su quest'ultimo, appare un modale dove, inserendo la propria email, l'utente riceverà le informazioni necessarie per accedere al portale, rispettando le regole di sicurezza.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.42]{img_concettuale/recuperoPWD.png}
@@ -700,7 +700,7 @@ La pagina è composta da due sezioni: la principale è la sezione di inserimento
 \includegraphics[scale=0.31]{img_concettuale/signup.png}
 \caption{Struttura della pagina di Sign-Up.}
 \end{figure}
-La pagina è composta da una form che contiene diversi campi obbligatori e alcuni facoltativi. Durante la registrazione, l'utente inserisce i propri dati che vengono successivamente convalidati e registrati nel database. La pagina presenta uno sfondo con un gradiente lineare che crea un forte contrasto con lo sfondo bianco della form, per garantire una maggiore accessibilità come descritto dalle specifiche del WCAG. Inoltre, la pagina include anche un footer identico a quello della pagina di login.
+La pagina è composta da una form che contiene diversi campi obbligatori e alcuni facoltativi. Durante la registrazione, l'utente inserisce i propri dati che vengono successivamente convalidati e registrati nel database. La pagina presenta uno sfondo con un gradiente lineare che crea un forte contrasto con lo sfondo bianco della form, per garantire una maggiore accessibilità come descritto dalle specifiche del WCAG.
 
 \newpage
 
@@ -710,7 +710,7 @@ La pagina è composta da una form che contiene diversi campi obbligatori e alcun
 \includegraphics[scale=0.31]{img_concettuale/privacy.png}
 \caption{Struttura della pagina dell'informativa sulla privacy.}
 \end{figure}
-In questa pagina, sono elencate tutte le politiche sulla privacy. Ogni sezione presenta un elenco numerato che descrive i provvedimenti attuati per migliorare la protezione dei dati.\\ Questa è l'unica pagina che dispone di due menù di navigazione differenti. Il primo è visibile a tutti gli utenti che non hanno effettuato l'accesso al portale, con i soli link per il login e la registrazione. Il secondo è invece disponibile per gli utenti loggati e permette di navigare all'interno del sito.
+In questa pagina sono elencate tutte le politiche sulla privacy. Ogni sezione presenta un elenco numerato che descrive i provvedimenti attuati per migliorare la protezione dei dati.\\ Questa è l'unica pagina che dispone di due menù di navigazione differenti. Il primo è visibile a tutti gli utenti che non hanno effettuato l'accesso al portale, con i soli link per il login e la registrazione. Il secondo è invece disponibile per gli utenti loggati e permette di navigare all'interno del sito.
 
 \newpage
 
@@ -721,15 +721,15 @@ In questa pagina, sono elencate tutte le politiche sulla privacy. Ogni sezione p
 \caption{Struttura della pagina pagina principale del sito.}
 \end{figure}
 La struttura della pagina è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
-La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con marker. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Cliccando su un marker, verrà aperta la pagina dell'avvistamento specifico.\\
-La sezione di destra presenta una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità e, cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di loro, per motivi di stile.\\
+La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato verrà aperta la pagina dell'avvistamento specifico.\\
+La sezione di destra presenta invece una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità e cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di loro, per motivi di stile.\\
 Infine, in alto a destra c'è un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovraimpressione quando si clicca sul pulsante.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/aggiungiAvv.png}
 \caption{Modale per l'inserimento di un nuovo avvistamento.}
 \end{figure}
-\\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. Si necessita prima la selezione dell'animale, e una volta scelto si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
+\\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. Si necessita prima della selezione dell'animale, e solo dopo si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
 
 \newpage
 
@@ -737,28 +737,28 @@ Infine, in alto a destra c'è un pulsante che permette di aggiungere un nuovo av
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.36]{img_concettuale/impostazioniPG.png}
-\caption{Pagine delle impostazioni del profilo utente.}
+\caption{Pagina delle impostazioni del profilo utente.}
 \end{figure}
 Questa pagina presenta un menù leggermente diverso rispetto agli altri, che cambia aspetto in base alle dimensioni dello schermo. Se viene utilizzato uno schermo più piccolo, il menù viene integrato nella sezione di destra. La sezione comprende una form, dove l'utente può modificare le proprie informazioni inserite durante il login, ad eccezione dell'indirizzo email, la cui modifica è disabilitata per ragioni di sicurezza.
-Se invece si entra nella sezione sicurezza si ha la possibilità di modificare la password, in primo luogo verrà chiesta la vecchia password, poi la nuova e una conferma ulteriore della nuova password, tutto questo per evitare problemi legati alla sicurezza ed errori di battitura.\\
-In aggiunta in tutte le pagine del sito al fine di migliorare l'accessibilità e la facilità di utilizzo sono stati aggiunti attributi "placeholder" ai tag di input, i quali indicano all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificare lo scopo del pulsante.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
+Se invece si entra nella sezione sicurezza si ha la possibilità di modificare la password. In primo luogo verrà chiesta la vecchia password, poi la nuova e una conferma ulteriore della nuova password, tutto questo per evitare problemi legati alla sicurezza ed errori di battitura.\\
+Per di più, in tutte le pagine del sito al fine di migliorare l'accessibilità e la facilità di utilizzo sono stati aggiunti attributi "placeholder" ai tag di input, i quali indicano all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificarne lo scopo.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.61]{img_concettuale/impostazioniSec.png}
-\caption{Pagine delle impostazioni sulla sicurezza in modalità mobile.}
+\caption{Pagina delle impostazioni sulla sicurezza in modalità mobile.}
 \end{figure}
 
 \subsection{Pagina degli avvistamenti}
-La pagina degli avvistamenti consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente. Per questo verrà descritta in dettaglio.
+La pagina degli avvistamenti consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente, per questo verrà descritta in dettaglio.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.35]{img_concettuale/avvistamentoPAG.png}
 \caption{Prima parte della pagina dell'avvistamento, modifica dei dati.}
 \end{figure}
-In questa prima parte ci sono due sezioni la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente ci clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra invece c'è la possibilità di modificare i dati inseriti in precedenza.
-Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento, esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti. In questo modo, in caso di eliminazioni non volute c'è la possibilità di recuperarli.\\
-Vicino alla specie è presente un pulsante a forma di punto interrogativo, quel pulsante aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
-Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, invece il bottone "+Immgine" permette di aggiungere un immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento.
+\\In questa prima parte ci sono due sezioni: la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente ci clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra invece c'è la possibilità di modificare i dati inseriti in precedenza.
+Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento. Esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti, in questo modo in caso di eliminazioni non volute c'è la possibilità di recuperarli.\\
+Vicino alla specie è presente un pulsante a forma di punto interrogativo che aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
+Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/eliminazione.png}
@@ -774,23 +774,24 @@ Il pulsante "salva" invece permette di salvare le informazioni inserite negli in
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.31]{img_concettuale/avvistamentoPAG2.png}
-\caption{Seconda parte della pagina dell'avvistamento, caratteristiche esemplari.}
+\caption{Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}
 \end{figure}
-\\Nella seguente pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento, in caso siano state caricate più immagini a destra e a sinistra dell'immagine compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
-Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto attraverso un modale permetterà di disegnare dei rettangoli per individuare l'individuo. L'id dell'individuo, cioè della sottoimmagine è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associargli un nome oppure se si riconosce che si tratti di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare. A ciascuno di essi possono essere associate una o più ferite, una volta individuate e scelto l'esemplare di riferimento possono essere aggiunte grazie al relativo pulsante e nel caso anche modificate e cancellate.\\
-Un esempio di aggiunta di un individuo può essere questo:  
+\\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
+Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per individuare l'individuo. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
+Per ciascuna sottoimmagine è associata una o più ferite, una volta individuate possono essere aggiunte grazie al relativo pulsante e sono possibili anche le operazioni di modifica e cancellazione delle stesse.\\
+Un esempio di aggiunta di un individuo può essere il seguente:  
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.42]{img_concettuale/addEsempl.png}
 \caption{Modale con canvas per disegnare l'individuo.}
 \end{figure}
-\\Invece per quanto riguarda la modifica dell'individuo si ha questo modale:
+\\Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.51]{img_concettuale/modificaNome.png}
 \caption{Modifica dell'esemplare.}
 \end{figure}
-\\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare questo perché due esemplari possono avere lo stesso nome.\\
+\\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome.\\
 Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale.
 \begin{figure}[hbtp]
 \centering
