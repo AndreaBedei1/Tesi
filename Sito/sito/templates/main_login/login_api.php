@@ -20,8 +20,14 @@ if(isset($_POST["request"])){
             if(isset($_POST["email"]) && isset($_POST["password"])){
                 $loginResult = $dbh->login($_POST["email"], $_POST["password"]);
                 if(count($loginResult)==1){
-                    $result["state"]=true;
-                    registerLoggedUser($_POST["email"]);
+                    if($loginResult[0]["Active"]=="0"){
+                        $result["state"]=false;
+                        $result["msg"]="Utente non abilitato, contattare gli amministratori del sistema!";
+                    } else {
+                        $result["state"]=true;
+                        registerLoggedUser($_POST["email"]);
+                    }
+
                 }
                 else{
                     $result["state"]=false;
