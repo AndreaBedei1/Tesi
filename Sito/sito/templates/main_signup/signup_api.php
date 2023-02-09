@@ -10,7 +10,6 @@ if(isset($_POST["request"])){
                 $state = $dbh->addUser($_POST["nome"], $_POST["cognome"], $_POST["password"], $_POST["email"], $_POST["key"]);
                 if($state){
                     $result["state"]=true;
-                    // sendEmail($_POST["email"], $_POST["username"], "Ciao ".$_POST["username"].", la tua iscrizione e' stata completata! \nBenvenuto in U-niversity!!!");
                 }
                 else{
                     $result["state"]=false;
@@ -25,6 +24,6 @@ if(isset($_POST["request"])){
     }
 }
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=UTF-8');
 echo json_encode($result);
 ?>

@@ -16,8 +16,8 @@ $(document).ready(function() {
     
     document.querySelectorAll("#add button")[1].addEventListener("click",function() {
         const datas = getFormData("frmIns")
-        if(datas.get("data")!=="" && datas.has("esemplari")!=="" && datas.has("latitudine")!=="" && datas.has("longitudine")!=="" ){
-            if(datas.get("sottospecie")=="")
+        if(datas.get("data")!="" && datas.get("esemplari")!=="" && datas.get("latitudine")!=="" && datas.get("longitudine")!=="" ){
+            if(!datas.has("sottospecie"))
                 datas.append("sottospecie", "");
             datas.append("request", "saveAvv");
             $.ajax({

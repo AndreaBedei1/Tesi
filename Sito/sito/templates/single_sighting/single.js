@@ -72,6 +72,41 @@ $(document).ready(function() {
         });
         $('#info').modal('toggle');
     });
+
+    $("#btn_Rico").click(function() {
+        document.querySelector("#info .modal-title").innerText="Salvataggio";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button type="button" class="btn btn-primary">OK</button>`;
+
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            $('#info').modal('toggle');
+        });
+
+        $('#info').modal('toggle');
+        const datas = new FormData();
+        datas.append("id", id);
+        datas.append("request", "recognition");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            console.log(data);
+            if(data.state){
+                document.querySelector("#info .modal-body").innerHTML=`cavolo
+
+                `;
+            } else {
+                document.querySelector("#info .modal-body").innerHTML="<p>Non ci sono immagini relative all'avvistamento, caricarne almeno una.</p>";
+            }
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
     
     $("#infoSpecie").click(function() {
         if($("#slcSottospecie").val()!=""){
@@ -662,7 +697,7 @@ function setCreature(){
         }
     })
     .fail(function(response) {
-        console.log(response);
+        console.log("Errore:"+response);
     });
 }
 

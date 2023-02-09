@@ -4,6 +4,7 @@
 
         public function __construct($servername, $username, $password, $dbname, $port){
             $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+            mysqli_set_charset($this->db , 'utf8mb4');
             if ($this->db->connect_error) {
                 die("Connessione al database fallita: " . $this->db->connect_error);
             }        
@@ -161,7 +162,8 @@
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $animale, $specie);
             $stmt->execute();
-            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $cm = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            return $cm;
         }
 
         public function getSottoimmagini($id){

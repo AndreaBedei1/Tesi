@@ -2,6 +2,19 @@
 
 require("../../bootstrap.php");
 
+function riconoscimento($img){
+    $command = 'conda activate myenv && python3 p.py "'.$img.'"';
+    exec($command, $output, $status);
+    if ($status) {
+       echo "Il comando non è stato eseguito correttamente.";
+    } else {
+       echo "Output del comando:<br />";
+       foreach ($output as $line) {
+          echo $line . "<br />";
+       }
+    }
+}
+
 $result = array();
 if(isset($_POST["request"])){
     switch ($_POST["request"]) {
@@ -166,9 +179,20 @@ if(isset($_POST["request"])){
                 }
             }
             break;
+        case 'recognition':
+            if (isUserLoggedIn() && isset($_POST["id"])) {
+                $imgs = $dbh->getImages($_POST["id"]);
+                if(count($imgs)>=1){
+                    $result["state"] = true;
+
+                }else{
+                    $result["state"] = false;
+                }
+            }
+            break;
     }
 }
 
-header('Content-Type: application/json');
-echo json_encode($result);
+header('Content-Type: application/json; charset=UTF-8');
+echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 ?>
