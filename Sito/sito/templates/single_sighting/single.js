@@ -86,7 +86,7 @@ $(document).ready(function() {
         setInterval(function() {
             dots = (dots + 1) % 4;
             $("#loading").text("Caricamento in corso" + ".".repeat(dots));
-        }, 500);
+        }, 750);
 
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
             $('#info').modal('toggle');
@@ -523,10 +523,20 @@ function setImages(w, h){
                     const id = c.getAttribute("id").split("_")[1];
                     datas.append("id", id);
                     datas.append("esemID", "0");
-                    if(startY>endY){
+                    if(startY>endY && startX>endX){
                         datas.append("bx", startX/c.offsetWidth);
                         datas.append("by", startY/c.offsetHeight);
                         datas.append("tx", endX/c.offsetWidth);
+                        datas.append("ty", endY/c.offsetHeight);
+                    } else if(startY<endY && startX>endX){
+                        datas.append("bx", startX/c.offsetWidth);
+                        datas.append("by", endY/c.offsetHeight);
+                        datas.append("tx", endX/c.offsetWidth);
+                        datas.append("ty", startY/c.offsetHeight);
+                    } else if(startY>endY && startX<endX){
+                        datas.append("bx", endX/c.offsetWidth);
+                        datas.append("by", startY/c.offsetHeight);
+                        datas.append("tx", startX/c.offsetWidth);
                         datas.append("ty", endY/c.offsetHeight);
                     } else {
                         datas.append("tx", startX/c.offsetWidth);

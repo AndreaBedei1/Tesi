@@ -193,10 +193,41 @@ if(isset($_POST["request"])){
                     $result["state"] = true;
                     $arr = array();
                     $str = "";
+                    $c=0;
                     foreach ($imgs as $k) {
-                        $str.=" ".$k["Img"]." ";
+                        // Carica l'immagine originale
+                        $immagine_originale = imagecreatefromjpeg('/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"]);
+                        $larghezza_originale = imagesx($immagine_originale);
+                        $altezza_originale = imagesy($immagine_originale);
+
+                        $sotts = $dbh->getSottoimmagini($k["ID"]);
+                        // Crea una porzione di immagine per ogni parte
+                        foreach ($sotts as $st) {   
+                            // Definire le coordinate x e y per l'angolo in alto a sinistra e l'angolo in basso a destra
+
+                            $x1 = $st["tl_x"]*$larghezza_originale;
+                            $y1 = $st["tl_y"]*$altezza_originale;
+                            $x2 = $st["br_x"]*$larghezza_originale;
+                            $y2 = $st["br_y"]*$altezza_originale;
+
+                            // Calcola la larghezza e l'altezza del rettangolo di ritaglio
+                            $larghezza = abs($x2 - $x1);
+                            $altezza = abs($y2 - $y1);
+                            // Crea una nuova immagine vuota con le dimensioni del rettangolo di ritaglio
+                            $immagine_ritagliata = imagecreatetruecolor($larghezza, $altezza);
+
+                            // Copia la porzione di immagine originale nel nuovo rettangolo
+                            imagecopyresampled($immagine_ritagliata, $immagine_originale, 0, 0, $x1, $y1, $larghezza, $altezza, $larghezza, $altezza);
+
+
+                            $nome = "i".$c.".jpg";
+                            $c = $c+1;
+                            // Salva la nuova immagine ritagliata come file JPEG
+                            $esito_ritaglio = imagejpeg($immagine_ritagliata, "/var/www/html/Tesi/Sito/img/temp/".$nome);
+                            $str.=" ".$nome." ";
+                        }
                     }
-                    $arr = riconoscimento($str);
+                    // $arr = riconoscimento($str);
                     $result["data"] = $arr;
 
                 }else{
