@@ -77,6 +77,16 @@ $(document).ready(function() {
         document.querySelector("#info .modal-title").innerText="Riconoscimento esemplari";
         document.querySelector("#info .modal-footer").innerHTML=`
             <button type="button" class="btn btn-primary">OK</button>`;
+        document.querySelector("#info .modal-body").innerHTML=`
+            <div id="loading" role="status" aria-live="polite">
+                Caricamento in corso...
+            </div>
+        `;
+        let dots = 0;
+        setInterval(function() {
+            dots = (dots + 1) % 4;
+            $("#loading").text("Caricamento in corso" + ".".repeat(dots));
+        }, 500);
 
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
             $('#info').modal('toggle');
@@ -93,9 +103,11 @@ $(document).ready(function() {
             contentType: false
         })
         .done(function(data,success,response) {
-            console.log(data);
             if(data.state){
-                document.querySelector("#info .modal-body").innerHTML=`cavolo`;
+                document.querySelector("#info .modal-body").innerHTML="<p>Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: ";
+                data.data.forEach(e => {
+                    document.querySelector("#info .modal-body").innerHTML+="<p>"+e+"</p>";
+                });
             } else {
                 document.querySelector("#info .modal-body").innerHTML="<p>Non ci sono immagini relative all'avvistamento, caricarne almeno una.</p>";
             }

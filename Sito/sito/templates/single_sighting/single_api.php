@@ -3,17 +3,18 @@
 require("../../bootstrap.php");
 
 function riconoscimento($img){
-
-    $command = 'sudo -i -u andrea /var/www/html/Tesi/Sito/sito/templates/single_sighting/bash.sh';
+    $command = 'sudo -i -u andrea /var/www/html/Tesi/Sito/sito/templates/single_sighting/bash.sh '.$img;
     exec($command, $output, $status);
+    $ris="";
     if ($status) {
-       echo "Il comando non è stato eseguito correttamente.";
+       $ris="Il comando non è stato eseguito correttamente.";
     } else {
-       echo "Output del comando:<br />";
        foreach ($output as $line) {
-          echo $line . "<br />";
+          $ris .= $line;
        }
+       $ris = explode("Risultato:", $ris)[1];
     }
+    return $ris;
 }
 
 $result = array();
@@ -158,7 +159,11 @@ if(isset($_POST["request"])){
             break;
         case 'updateEsempl':
             if(isUserLoggedIn()  && isset($_POST["nomeSlc"])  && isset($_POST["img"]) && isset($_POST["id"])){
+                $res = $dbh->checkID($_POST["id"], $_POST["img"]);
                 $result=$dbh->updateEsempl($_POST["nomeSlc"], $_POST["img"], $_POST["id"]);
+                if(count($res)==1){
+                    $dbh->deleteIndiv($res[0]["Esemp_ID"]);
+                }
             }
             break;
         case 'createEsempl':
@@ -185,7 +190,11 @@ if(isset($_POST["request"])){
                 $imgs = $dbh->getImages($_POST["id"]);
                 if(count($imgs)>=1){
                     $result["state"] = true;
-                    riconoscimento("ciao");
+                    $arr = array();
+                    foreach ($imgs as $k) {
+                        array_push($arr, riconoscimento($imgs[0]["Img"]));    
+                    }
+                    $result["data"] = $arr;
 
                 }else{
                     $result["state"] = false;
