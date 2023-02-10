@@ -74,14 +74,13 @@ $(document).ready(function() {
     });
 
     $("#btn_Rico").click(function() {
-        document.querySelector("#info .modal-title").innerText="Salvataggio";
+        document.querySelector("#info .modal-title").innerText="Riconoscimento esemplari";
         document.querySelector("#info .modal-footer").innerHTML=`
             <button type="button" class="btn btn-primary">OK</button>`;
 
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
             $('#info').modal('toggle');
         });
-
         $('#info').modal('toggle');
         const datas = new FormData();
         datas.append("id", id);
@@ -96,9 +95,7 @@ $(document).ready(function() {
         .done(function(data,success,response) {
             console.log(data);
             if(data.state){
-                document.querySelector("#info .modal-body").innerHTML=`cavolo
-
-                `;
+                document.querySelector("#info .modal-body").innerHTML=`cavolo`;
             } else {
                 document.querySelector("#info .modal-body").innerHTML="<p>Non ci sono immagini relative all'avvistamento, caricarne almeno una.</p>";
             }
@@ -221,8 +218,10 @@ $(document).ready(function() {
     window.addEventListener("resize", function(){
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-            selected = document.querySelector(".carousel-item.active canvas").getAttribute("id");
-            setImages(window.innerWidth, window.innerHeight);
+            if(document.querySelector(".carousel-item.active canvas")!==null){
+                selected = document.querySelector(".carousel-item.active canvas").getAttribute("id");
+                setImages(window.innerWidth, window.innerHeight);
+            }
         }, 250);
     });
 });

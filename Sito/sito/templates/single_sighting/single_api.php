@@ -3,7 +3,8 @@
 require("../../bootstrap.php");
 
 function riconoscimento($img){
-    $command = 'conda activate myenv && python3 p.py "'.$img.'"';
+
+    $command = 'sudo -i -u andrea /var/www/html/Tesi/Sito/sito/templates/single_sighting/bash.sh';
     exec($command, $output, $status);
     if ($status) {
        echo "Il comando non è stato eseguito correttamente.";
@@ -184,6 +185,7 @@ if(isset($_POST["request"])){
                 $imgs = $dbh->getImages($_POST["id"]);
                 if(count($imgs)>=1){
                     $result["state"] = true;
+                    riconoscimento("ciao");
 
                 }else{
                     $result["state"] = false;
