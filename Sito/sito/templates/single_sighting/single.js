@@ -79,14 +79,14 @@ $(document).ready(function() {
             <button type="button" class="btn btn-primary">OK</button>`;
         document.querySelector("#info .modal-body").innerHTML=`
             <div id="loading" role="status" aria-live="polite">
-                Caricamento in corso...
+                Caricamento in corso
             </div>
         `;
         let dots = 0;
         setInterval(function() {
             dots = (dots + 1) % 4;
             $("#loading").text("Caricamento in corso" + ".".repeat(dots));
-        }, 750);
+        }, 1000);
 
         document.querySelectorAll("#info button")[1].addEventListener("click",function() {
             $('#info').modal('toggle');
@@ -105,7 +105,10 @@ $(document).ready(function() {
         .done(function(data,success,response) {
             if(data.state){
                 document.querySelector("#info .modal-body").innerHTML="<p>Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: ";
-                data.data.forEach(e => {
+                let ris = removeDuplicates(data.data);
+                ris = ris.filter(str => str.trim() !== "");
+                console.log(ris);
+                ris.forEach(e => {
                     document.querySelector("#info .modal-body").innerHTML+="<p>"+e+"</p>";
                 });
             } else {
@@ -447,7 +450,13 @@ function setImages(w, h){
                 document.querySelector("#info .modal-body").appendChild(canvas);
                 document.querySelector("#info .modal-title").innerText="Aggiunta";
                 document.querySelector("#info .modal-footer").innerHTML=`
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Aggiungi</button>`;
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Aggiungi</button>
+                    `;
+
+                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                    $('#info').modal('toggle');
+                });
                 const canvas2 = document.querySelector(".carousel-item.active canvas");
                 let ctx = canvas.getContext("2d");
                 ctx.drawImage(canvas2, 0, 0);
@@ -517,7 +526,7 @@ function setImages(w, h){
                     ctx.stroke();
                 }, { passive: true });
 
-                document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+                document.querySelectorAll("#info button")[2].addEventListener("click",function() {
                     const datas = new FormData();
                     const c = document.querySelector(".carousel-item.active canvas");
                     const id = c.getAttribute("id").split("_")[1];
@@ -1000,4 +1009,7 @@ function addInjury(btn){
         $('#info').modal('toggle');
 }
 
+function removeDuplicates(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+}
 
