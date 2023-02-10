@@ -193,15 +193,13 @@ if(isset($_POST["request"])){
                     $result["state"] = true;
                     $arr = array();
                     $str = "";
-                    $c=0;
                     foreach ($imgs as $k) {
 
                         $src = '/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"];
                         // Percorso cartella destinazione
                         $dst_folder = '/var/www/html/Tesi/Sito/img/temp/';
                         // Nome file destinazione
-                        $dst_name = "i".$c.'.jpg';
-                        $c=$c+1;
+                        $dst_name = uniqid().'.jpg';
                         // Copia il contenuto del file originale nella cartella destinazione
                         $res = file_put_contents($dst_folder . $dst_name, file_get_contents($src));
                         $str.=" ".$dst_name." ";
@@ -229,14 +227,21 @@ if(isset($_POST["request"])){
                             // Copia la porzione di immagine originale nel nuovo rettangolo
                             imagecopyresampled($immagine_ritagliata, $immagine_originale, 0, 0, $x1, $y1, $larghezza, $altezza, $larghezza, $altezza);
 
-                            $nome = "i".$c.".jpg";
-                            $c = $c+1;
+                            $nome = uniqid().".jpg";
                             // Salva la nuova immagine ritagliata come file JPEG
                             $esito_ritaglio = imagejpeg($immagine_ritagliata, "/var/www/html/Tesi/Sito/img/temp/".$nome);
                             $str.=" ".$nome." ";
                         }
                     }
                     $arr = riconoscimento($str);
+                    $str = substr($str, 1, -1);
+                    $array = explode("  ", $str);
+                    foreach ($array as $k) {
+                        $file = "/var/www/html/Tesi/Sito/img/temp/".$k;
+                        if (file_exists($file)) {
+                            unlink($file);
+                        }
+                    }
                     $result["data"] = $arr;
 
                 }else{
