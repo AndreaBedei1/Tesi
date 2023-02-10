@@ -12,7 +12,8 @@ function riconoscimento($img){
        foreach ($output as $line) {
           $ris .= $line;
        }
-       $ris = explode("Risultato:", $ris)[1];
+       $ris = explode("Risultato: ", $ris)[1];
+       $ris = explode("-", $ris);
     }
     return $ris;
 }
@@ -191,9 +192,11 @@ if(isset($_POST["request"])){
                 if(count($imgs)>=1){
                     $result["state"] = true;
                     $arr = array();
+                    $str = "";
                     foreach ($imgs as $k) {
-                        array_push($arr, riconoscimento($imgs[0]["Img"]));    
+                        $str.=" ".$k["Img"]." ";
                     }
+                    $arr = riconoscimento($str);
                     $result["data"] = $arr;
 
                 }else{
