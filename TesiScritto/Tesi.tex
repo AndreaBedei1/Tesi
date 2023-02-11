@@ -76,7 +76,7 @@
 \begin{flushright}
 \thispagestyle{empty}
 \null\vspace{\stretch {1}}
-\emph{La vita non è complessa.\\ Siamo noi a essere complessi.\\ La vita è semplice.\\ E la cosa più semplice è anche la più giusta.\break --- Oscar Wilde}
+\emph{La vita non è complessa.\\ Siamo noi a essere complessi.\\ La vita è semplice.\break --- Oscar Wilde}
 \vspace{\stretch{2}}\null
 \end{flushright}
 \cleardoublepage
@@ -805,25 +805,26 @@ Il pulsante "salva" invece permette di salvare le informazioni inserite negli in
 \caption{Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}
 \end{figure}
 \\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
-Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per individuare l'individuo. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
+Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per selezionare l'individuo, tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi tali coordinate devono essere convertite da assolute in relative e ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
 Per ciascuna sottoimmagine è associata una o più ferite, una volta individuate possono essere aggiunte grazie al relativo pulsante e sono possibili anche le operazioni di modifica e cancellazione delle stesse.\\
 Un esempio di aggiunta di un individuo può essere il seguente:  
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.42]{img_concettuale/addEsempl.png}
+\includegraphics[scale=0.60]{img_concettuale/addEsempl.png}
 \caption{Modale con canvas per disegnare l'individuo.}
 \end{figure}
-\\Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
+Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
+\newpage
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.51]{img_concettuale/modificaNome.png}
+\includegraphics[scale=0.46]{img_concettuale/modificaNome.png}
 \caption{Modifica dell'esemplare.}
 \end{figure}
 \\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome.\\
 Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.60]{img_concettuale/ferita.png}
+\includegraphics[scale=0.45]{img_concettuale/ferita.png}
 \caption{Modale per l'aggiunta e modifica della ferita.}
 \end{figure}
 

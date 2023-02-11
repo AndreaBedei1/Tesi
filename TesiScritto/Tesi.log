@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  10 FEB 2023 11:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  11 FEB 2023 01:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -642,23 +642,38 @@ File: img_concettuale/addEsempl.png Graphic file (type png)
 <use img_concettuale/addEsempl.png>
 Package pdftex.def Info: img_concettuale/addEsempl.png  used on input line 813.
 
-(pdftex.def)             Requested size: 156.57188pt x 162.38957pt.
-<img_concettuale/modificaNome.png, id=257, 374.5995pt x 262.581pt>
-File: img_concettuale/modificaNome.png Graphic file (type png)
-<use img_concettuale/modificaNome.png>
-Package pdftex.def Info: img_concettuale/modificaNome.png  used on input line 8
-19.
-(pdftex.def)             Requested size: 191.04321pt x 133.91452pt.
-<img_concettuale/ferita.png, id=258, 372.1905pt x 317.988pt>
-File: img_concettuale/ferita.png Graphic file (type png)
-<use img_concettuale/ferita.png>
-Package pdftex.def Info: img_concettuale/ferita.png  used on input line 826.
-(pdftex.def)             Requested size: 223.31602pt x 190.79427pt.
+(pdftex.def)             Requested size: 223.67737pt x 231.98848pt.
  [60 <./img_concettuale/impostazioniSec.png>] [61 <./img_concettuale/avvistamen
 toPAG.png>] [62 <./img_concettuale/eliminazione.png> <./img_concettuale/info.pn
 g>] [63 <./img_concettuale/avvistamentoPAG2.png>] [64 <./img_concettuale/addEse
-mpl.png> <./img_concettuale/modificaNome.png>] [65 <./img_concettuale/ferita.pn
-g>]
+mpl.png>]
+<img_concettuale/modificaNome.png, id=279, 374.5995pt x 262.581pt>
+File: img_concettuale/modificaNome.png Graphic file (type png)
+<use img_concettuale/modificaNome.png>
+Package pdftex.def Info: img_concettuale/modificaNome.png  used on input line 8
+20.
+(pdftex.def)             Requested size: 172.31786pt x 120.78871pt.
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.823 \\C
+         ome si vede dall'immagine si hanno due possibilità o attraverso un...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<img_concettuale/ferita.png, id=280, 372.1905pt x 317.988pt>
+File: img_concettuale/ferita.png Graphic file (type png)
+<use img_concettuale/ferita.png>
+Package pdftex.def Info: img_concettuale/ferita.png  used on input line 827.
+(pdftex.def)             Requested size: 167.48418pt x 143.09326pt.
+[65 <./img_concettuale/modificaNome.png> <./img_concettuale/ferita.png>]
 Capitolo 5.
 [66
 
@@ -691,7 +706,7 @@ nts/cm/cmsy10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on Tesi.pdf (75 pages, 5011000 bytes).
+Output written on Tesi.pdf (75 pages, 5010821 bytes).
 PDF statistics:
  330 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
