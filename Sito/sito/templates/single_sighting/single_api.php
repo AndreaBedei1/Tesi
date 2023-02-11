@@ -194,22 +194,26 @@ if(isset($_POST["request"])){
                     $arr = array();
                     $str = "";
                     foreach ($imgs as $k) {
-
-                        $src = '/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"];
-                        // Percorso cartella destinazione
-                        $dst_folder = '/var/www/html/Tesi/Sito/img/temp/';
-                        // Nome file destinazione
-                        $dst_name = uniqid().'.jpg';
-                        // Copia il contenuto del file originale nella cartella destinazione
-                        $res = file_put_contents($dst_folder . $dst_name, file_get_contents($src));
-                        $str.=" ".$dst_name." ";
-
                         // Carica l'immagine originale
                         $immagine_originale = imagecreatefromjpeg('/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"]);
                         $larghezza_originale = imagesx($immagine_originale);
                         $altezza_originale = imagesy($immagine_originale);
-                        $sotts = $dbh->getSottoimmagini($k["ID"]);
-                        // Crea una porzione di immagine per ogni parte
+
+                        $sotts = $dbh->getSottoimmagini($k["ID"]); // Prendo tutte le sottoimmagini.
+
+                        //Controllo che ci siano sottoimaggini per quell'immagine, altrimenti viene messa l'immaigne originale.
+                        if(count($sotts)==0){
+                            var_dump("entrato");
+                            $src = '/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"];
+                            // Percorso cartella destinazione
+                            $dst_folder = '/var/www/html/Tesi/Sito/img/temp/';
+                            // Nome file destinazione
+                            $dst_name = uniqid().'.jpg';
+                            // Copia il contenuto del file originale nella cartella destinazione
+                            $res = file_put_contents($dst_folder . $dst_name, file_get_contents($src));
+                            $str.=" ".$dst_name." ";
+                        }
+
                         foreach ($sotts as $st) {   
                             // Definire le coordinate x e y per l'angolo in alto a sinistra e l'angolo in basso a destra
 

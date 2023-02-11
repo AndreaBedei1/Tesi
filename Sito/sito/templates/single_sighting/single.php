@@ -102,13 +102,16 @@
                                     </div>
                                 </div>
                                 <div class="row form-group mb-1">
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><span class="fas fa-plus"></span> Immagine</button>
                                     </div>
-                                    <div class="col-4 text-center">
+                                    <div class="col-6 text-center">
                                         <button id="btn_Rico" class="btn btn-info" type="button" aria-label="Individua specie"><span class="fas fa-search"></span> Riconoscimento</button>
+                                        <button id="infoRic" type="button" aria-label="Info riconoscimento automatico" class="btn btn-outline-dark rounded-circle btn-sm">
+                                                <span class="fas fa-info"></span>
+                                        </button>
                                     </div>
-                                    <div class="col-4 text-end">
+                                    <div class="col-3 text-end">
                                         <button id="save" class="btn btn-primary" type="button"><span class="fas fa-save"></span> Salva</button>
                                     </div>
                                 <div>

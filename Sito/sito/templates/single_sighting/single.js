@@ -159,6 +159,19 @@ $(document).ready(function() {
         }
     });
 
+    $("#infoRic").click(function() {
+        modalInfo();
+        document.querySelector("#info .modal-body").innerHTML=`
+            <p>
+            Il sistema utilizza un algoritmo di riconoscimento di visione artificiale.<br/> 
+            Attraverso tutte le immagini caricate per un avvistamento il sistema consiglia la specie dell'esemplare che più si avvicina.<br/>
+            Per una maggiore precisione si consiglia di aggiungere gli esemplari ritagliandoli dalle foto nella sezione sottostante, altrimenti il sistema potrebbe non avere un alto grado di precisione. 
+            </p>
+        `;
+        $('#info').modal('toggle');
+
+    });
+
     $("#delete").click(function() {
         document.querySelector("#info .modal-body").innerHTML="<p>Sei sicuro di volere eliminare l'avvistamento?</p>";
         document.querySelector("#info .modal-title").innerText="Eliminazione";
