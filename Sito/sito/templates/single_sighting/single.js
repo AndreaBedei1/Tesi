@@ -107,6 +107,8 @@ $(document).ready(function() {
                 document.querySelector("#info .modal-body").innerHTML="<p>Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: ";
                 let ris = removeDuplicates(data.data);
                 ris = ris.filter(str => str.trim() !== "");
+                ris = ris.map(s => s.replace(/_/g, " "));
+                ris = ris.map(s => s.replace(/-/g, " "));
                 ris.forEach(e => {
                     document.querySelector("#info .modal-body").innerHTML+="<p>"+e+"</p>";
                 });
