@@ -6,6 +6,9 @@
 \usepackage{geometry} % Deve esserci!
 \usepackage{graphicx} % permette di inserire immagini
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{listings}
 
 % Comandi per impaginare secondo le regole Unibo, da mettere dopo gli usepackage
 \renewcommand{\baselinestretch}{1.25}
@@ -82,7 +85,7 @@
 \cleardoublepage
 
 \begin{abstract}
-Il dipartimento di Acquacoltura sta cercando di monitorare gli avvistamenti di diverse specie marine nel nostro territorio, in particolare necessita di un’applicazione la quale permetta di controllare tutti gli avvistamenti che i ricercatori hanno effettuato durante le loro uscite in mare.\\\\ 
+Il dipartimento di Acquacoltura sta cercando di monitorare gli avvistamenti di diverse specie marine nel nostro territorio, in particolare necessita di un’applicazione che permetta di controllare tutti gli avvistamenti che i ricercatori hanno effettuato durante le loro uscite in mare.\\\\ 
 L’obiettivo di questo studio è quello di poter aiutare i ricercatori nel loro lavoro, in particolare nel loro compito di monitoraggio al fine di comprendere al meglio il comportamento degli individui con lo scopo di individuare delle soluzioni ambientali affinché questi esemplari non si sentano minacciati nei nostri mari. \\\\
 Per riuscire in questo compito si ha la necessità di un’intera infrastruttura, in primis una banca dati al fine del mantenimento degli stessi, e poi un portale, il quale permetta la registrazione di nuovi avvistamenti, ma anche la modifica e la cancellazione. Per ogni avvistamento si ha anche la possibilità di caricare immagini e individuare esemplari, i quali possono avere diverse ferite. Durante la modifica o l’inserimento dei dati ai ricercatori è stata proposta la possibilità dell’utilizzo di una tecnica di riconoscimento automatico al fine di individuare più velocemente la specie di appartenenza. \\\\
 Tale applicazione può essere utilizzata non solo per scopi di ricerca, ma anche al fine di creare una grande comunità, la quale abbia la possibilità di scambiarsi informazioni e immagini vicendevolmente.
@@ -108,15 +111,16 @@ Tutto è partito dalle sue lezioni in cui grazie alla sua felicità e tranquilli
 \tableofcontents
 \listoffigures
 \setlength{\parindent}{0pt}
+
 \chapter{Introduzione}
-Durante il percorso accademico mi è stata proposta la creazione di una piattaforma per la gestione degli avvistamenti di particolari specie marine. Tale proposta è stata presa in considerazione al fine di aiutare il dipartimento di acquacoltura e igiene delle produzioni ittiche per il tracciamento degli avvistamenti delle diverse specie marine.\\
+Durante il percorso accademico mi è stata proposta la creazione di una piattaforma per la gestione degli avvistamenti di particolari specie marine. Tale proposta è stata presa in considerazione al fine di aiutare il dipartimento di acquacoltura e igiene delle produzioni ittiche nel tracciamento degli avvistamenti delle diverse specie marine.\\
 Ho intrapreso questo progetto al fine di mettere alla prova le conoscenze apprese durante il corso universitario con lo scopo di creare un'intera infrastruttura centralizzata.\\
 Il sistema si suddivide in diverse parti, tra cui:
 \begin{itemize}
 \item Creazione di un database centralizzato che permetta di salvare tutte le informazioni ricavate da un avvistamento e di poterle modificare in un secondo momento.
 \item Creazione di applicazione smartphone che permetta di inserire i nuovi avvistamenti.
 \item Creazione di una applicazione web che permetta di gestire, modificare e visualizzare gli avvistamenti e i relativi dati.
-\item Utilizzo di script di riconoscimento che attraverso la visione artificiale e diversi algoritmi noti permetta di individuare la specie precisa di determinati esemplari acquatici.
+\item Utilizzo di script di riconoscimento che attraverso la visione artificiale e diversi algoritmi noti permetta di individuare la specie precisa di determinati esemplari acquatici o anche riconoscere il singolo individuo per poterne eventualmente tracciare gli spostamenti.
 \end{itemize}
 
 \section{Diagramma dei casi d'uso}
@@ -136,19 +140,18 @@ In questa sezione analizzeremo tutte le specifiche che il committente richiede p
 \subsection{Intervista}
 Di seguito si riporta la prima intervista col committente:
 "La facoltà di Acquacoltura e Igiene delle produzioni ittiche richiede un sistema informativo per la gestione di una banca dati al fine di permettere la registrazione di determinati avvistamenti durante le uscite a largo dalla costa.\\
-Ogni utente, il quale ha a disposizione uno smartphone, una volta effettuato l'accesso con login e password, ha la possibilità di inserire un nuovo avvistamento, per il quale gli elementi da memorizzare sono la data e ora corrente(inserite in autonomia dal sistema), il numero di esemplari che sono stati avvistati e opzionalmente anche il vento in km/h, le condizioni del mare, eventuali ferite visibili. In particolare si ponga attenzione alla descrizione della ferita, la sua posizione e la relativa gravità. Deve anche essere possibile scrivere note che possano aiutare ad individuare la specie e/o elementi che aggiungano informazioni all'avvistamento. 
+Ogni utente, il quale ha a disposizione uno smartphone, una volta effettuato l'accesso con login e password, ha la possibilità di inserire un nuovo avvistamento, per il quale gli elementi da memorizzare sono la data e ora corrente (inserite automaticamente dal sistema), il numero di esemplari che sono stati avvistati e opzionalmente anche il vento in km/h, le condizioni del mare, eventuali ferite visibili. In particolare, si ponga attenzione alla descrizione della ferita, la sua posizione e la relativa gravità. Deve anche essere possibile scrivere note che possano aiutare ad individuare la specie e/o elementi che aggiungano informazioni all'avvistamento. 
 \\
 Un avvistamento può far riferimento ad un particolare animale, a una specie specifica o anche a nessuna delle due: il terzo caso viene preso in considerazione quando chi sta eseguendo la rilevazione non ha la possibilità di riconoscere la specie esatta, inseribile comunque in un secondo momento.
 \\
-Oltre all'applicazione smartphone deve essere realizzato un applicativo web il quale, una volta effettuato l'accesso, deve poter visualizzare tutti gli avvistamenti che sono stati effettuati dagli utenti e poter modificare i parametri. La modifica deve essere permessa per tutti i dati, eccetto gli elementi che riguardo l'utente e la data della rilevazione.
+Oltre all'applicazione smartphone deve essere realizzato un applicativo web il quale, una volta effettuato l'accesso, deve poter visualizzare tutti gli avvistamenti che sono stati effettuati dagli utenti e poterne modificare i parametri. La modifica deve essere permessa per tutti i dati, eccetto gli elementi che riguardano l'utente e la data della rilevazione.
 \\ 
-Ad ogni avvistamento il personale addetto può associare anche una o più immagini. Esse serviranno in seguito per il riconoscimento della specie di appartenenza. Dato che in un avvistamento possono essere presenti anche più animali, comunque tutti della stessa specie, la foto può essere suddivisa in più parti in modo tale da isolare ogni singolo individuo.
+Ad ogni avvistamento il personale addetto può associare anche una o più immagini. Esse serviranno in seguito per il riconoscimento della specie di appartenenza e/o dei singoli individui. Dato che in un avvistamento possono essere presenti anche più animali, comunque tutti della stessa specie, la foto può essere suddivisa in più sottoimmagini in modo tale da isolare ogni singolo individuo.
 \\
-La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, attraverso le sottoimmagini se si avvista più volte lo stesso esemplare si deve avere la possibilità di associargli entrambe le immagini riferite a lui, in modo tale da vedere la sua evoluzione nel tempo.
-\\
+La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, le sottoimmagini possono essere riferite allo stesso individuo in avvistamenti diversi, in modo tale da vedere la sua evoluzione nel tempo e i suoi aspostamenti.\\
 Per aiutare l'utente nella decisione della specie da assegnare a un particolare animale, il sistema deve memorizzare una descrizione, in cui vengono fornite le informazioni base su ciascuna specie analizzabile.
 \\
-Infine l'applicativo web, attraverso l'uso di visione artificiale ed in particolare per l'animale denominato delfino, deve poter essere in grado in autonomia di identificare la relativa specie attraverso la foto scattata durante il rilevamento. Nello specifico deve cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie che ha presenti in database.
+Infine l'applicativo web, attraverso l'uso di tecniche di visione artificiale, con particolare riferimento ai delfini, deve poter essere in grado in autonomia di identificare la relativa specie attraverso la foto scattata durante il rilevamento. Nello specifico deve cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie e gli individui che ha presenti in database.
 \\
 Un aspetto importante da tenere in considerazione è il fatto che il sistema in autonomia, siccome se ci si trova a largo della costa non è presente connessione, deve poter lo stesso mantenere i dati in memoria e caricali una volta che ha la possibilità di farlo".
 
@@ -209,7 +212,7 @@ Per maggiore chiarezza, di seguito riportiamo i primi esempi di schemi concettua
 \caption{Schema concettuale per la modellazione degli avvistamenti e delle proprietà dell'utente.}
 \end{figure}
 
-Come mostrato in figura sono presenti uno o più utenti, ognuno dei quali accedono alla piattaforma attraverso la propria email, password e grazie a una chiave personale univoca all'interno del database, la quale viene utilizzata al fine di criptare la password. Di tale utente possiamo tenere anche in considerazione il proprio nome e cognome.
+Come mostrato in figura sono presenti uno o più utenti, ognuno dei quali accedono alla piattaforma attraverso la propria email, password e grazie a una chiave personale univoca all'interno del database, la quale viene utilizzata al fine di criptare la password. Di tale utente possiamo tenere anche in considerazione il nome e cognome.
 Ogni utente aggiunge degli avvistamenti, ognuno dei quali contiene tutti i dati richiesti del committente tra cui la data di avvistamento, il numero di esemplari presenti e opzionalmente anche il vento espresso in km/h, lo stato del mare ed eventuali note informative al fine di ricerca e in particolare per riuscire ad identificare meglio la specie.\\
 In aggiunta per ogni avvistamento è associata una posizione la quale tiene in considerazione la longitudine e la latitudine al momento dell'inserimento.
 
@@ -219,11 +222,11 @@ In aggiunta per ogni avvistamento è associata una posizione la quale tiene in c
 \caption{Modellazione dell'attribuzione dell'animale e della specie all' avvistamento.}
 \end{figure}
 
-Dalla figura si può notare che un avvistamento può far riferimento a un animale, direttamente alla specie o anche a nessuno dei due, in quest'ultimo caso tali dati verranno inseriti in un secondo momento. Al fine di individuare al meglio la specie ad ognuna può essere attribuita una descrizione in cui vengono elencate le caratteristiche fondamentali. Ogni specie è identificata dal nome dell'animale e dal suo nome specifico. Come si nota dalla figura, l'avvistamento può essere direttamente associato all'animale oppure alla specie, in questo caso nasce il vincolo che se dichiaro una determinata specie essa deve fare  riferimento al giusto animale. Un ulteriore vincolo da rispettare è il fatto che in un avvistamento, anche se esso include più esemplari, questi devono far riferimento allo stesso animale ed eventualmente alla relativa specie.
+Dalla figura si può notare che un avvistamento può far riferimento a un animale (ad esempio un delfino oppure a un granchio), direttamente alla specie o anche a nessuno dei due, in quest'ultimo caso tali dati verranno inseriti in un secondo momento. Al fine di individuare al meglio la specie ad ognuna può essere attribuita una descrizione in cui vengono elencate le caratteristiche fondamentali. Ogni specie è identificata dal nome dell'animale e dal suo nome specifico. Come si nota dalla figura, l'avvistamento può essere direttamente associato all'animale oppure alla specie, in questo caso nasce il vincolo che se dichiaro una determinata specie essa deve fare riferimento al giusto animale. Un ulteriore vincolo da rispettare è il fatto che in un avvistamento, anche se esso include più esemplari, questi devono far riferimento allo stesso animale ed eventualmente alla relativa specie, per segnalare la presenza di specie diverse sarà quindi necessario inserire più avvistamenti.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.13]{img_concettuale/avvistamento3.png}
+\includegraphics[scale=0.12]{img_concettuale/avvistamento3.png}
 \caption{Schema concettuale raffigurante le immagini con relative sottoimmagini e la gestione delle ferite.}
 \end{figure}
 
@@ -820,7 +823,7 @@ Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \includegraphics[scale=0.46]{img_concettuale/modificaNome.png}
 \caption{Modifica dell'esemplare.}
 \end{figure}
-\\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome.\\
+Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome.\\
 Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale.
 \begin{figure}[hbtp]
 \centering
@@ -829,7 +832,196 @@ Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle 
 \end{figure}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
+Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata delle immagini caricate degli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale attraverso la segmentazione delle pinne degli individui permette di individuare di aiutare l'utente a individiduare la specie.
 
+\section{Il problema}
+I ricercatori utilizzano tecniche come le impronte digitali e il riconoscimento facciale per identificare le persone, ma stanno anche esplorando metodi simili per gli animali marini. Ad esempio, gli scienziati identificano manualmente questi animali basandosi sulla forma e sui segni presenti sulla coda, sulle pinne dorsali, sulla testa e in altre parti del loro corpo. Questa tecnica, nota come "foto-identificazione" e che consiste nell'identificare i segni naturali tramite fotografie, è un importante strumento per la scienza dei mammiferi marini. Essa permette di monitorare singoli individui nel tempo e di valutare lo stato e le tendenze della popolazione.\\
+
+Grazie all'utilizzo di un algoritmo di foto-identificazione, i ricercatori possono ridurre i tempi di identificazione delle immagini di oltre il 99\%. Ciò può aprire la strada a nuovi studi su larga scala, altrimenti impossibili o difficili da realizzare. Attualmente, la maggior parte degli istituti di ricerca si affida alla corrispondenza manuale con l'occhio umano, un processo che richiede molto tempo e che a volte può essere impreciso.\\
+
+L'obiettivo principale di questo algoritmo è quello di aumentare la comprensione e la cura degli ambienti marini a livello globale attraverso la scienza della conservazione e l'educazione di alta qualità. Essa sviluppa un modello per abbinare i singoli delfini basandosi sulle loro uniche e spesso sottili marcature naturali, con particolare attenzione alle pinne dorsali e alle viste laterali del loro corpo, utilizzando un vasto set di dati creato da 28 istituti di ricerca.\\
+
+\section{Dataset}
+Le balene e i delfini presenti nei dati a disposizione possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dorsi, teste e fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno distinte. Inoltre, le caratteristiche individuali possono variare nel tempo. Questa competizione amplia in modo significativo questo compito: i dati in gara contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte da 28 diverse organizzazioni di ricerca. Gli individui sono stati identificati manualmente e assegnati un ID-individuo dai ricercatori marini, e il compito è quello di identificare correttamente questi individui nelle immagini.
+
+\subsection{Specie presenti e quantità di immagini}
+Il dataset è stato suddiviso in base alla specie a cui ogni animale appartiene nel seguente modo:
+
+\begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}}
+\toprule
+\textbf{Specie} & \textbf{Numero di immagini} \\
+\midrule
+\endfirsthead
+%
+\endhead
+%
+\bottomrule
+\endfoot
+%
+\bottomrule
+\endlastfoot
+%
+Balaenoptera Edeni & 154 \\
+Balena Blu & 4830 \\
+Balena Franca Australe & 866 \\
+Balena Grigia & 1123 \\
+Balenottera Boreale & 428 \\
+Balenottera Comune & 1324 \\
+Balenottera Minore & 1608 \\
+Beluga & 7443 \\
+Cefalorinco di Commerson & 90 \\
+Delfino Bianco Atlantico & 229 \\
+Delfino Comune & 347 \\
+Delfino Scuro & 3139 \\
+Feresa & 76 \\
+Globicefalo & 238 \\
+Globicefalo di Gray & 367 \\
+Globicephala & 262 \\
+Globis & 116 \\
+Lagenodelfino & 14 \\
+Megattera & 7392 \\
+Orca & 962 \\
+Orca2 & 1493 \\
+Peponocefalo & 1689 \\
+Pseudorca & 3326 \\
+Stenella Maculata & 490 \\
+Stenella Dal Lungo Rostro & 1700 \\
+Stenella Maculata & 145 \\
+Steno & 60 \\
+Tursiope & 9664 \\
+Tursiope2 & 1117 \\
+Zifio & 341 \\
+\end{longtable}
+Da come si può notare dalla tabella per cisacuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
+
+\section{Algoritmo di riconoscimento}
+Per quanto riguarda l'algoritmo di riconoscimento è diviso in due parti:
+\begin{itemize}
+    \item Fase di training
+    \item Fase di riconosciemnto dell'immagine
+\end{itemize}
+Entrambe le fasi sono realizzate attraverso degli script in codice python, le quali attraverso comandi bash sono state integrate nel codice php del server web.
+
+\subsection{Fase di training}
+La fase di training dell'algoritmo di visione artificiale è un processo cruciale che ha l'obiettivo di formare il modello sulla base dei dati forniti. Questo processo consente all'algoritmo di riconoscere ed elaborare correttamente i segnali visivi, in modo da eseguire compiti specifici come la classificazione, la rilevazione e la localizzazione di oggetti all'interno di un'immagine.\\
+Durante questa fase, l'algoritmo viene alimentato con un gran numero di dati di formazione, che consistono in immagini etichettate con informazioni sul loro contenuto. Questi dati vengono utilizzati per formare un modello matematico che descrive la relazione tra gli input visivi e le relative etichette.\\
+Il modello viene quindi testato su un insieme di dati di prova, che non sono stati utilizzati durante il processo di formazione. Questi dati vengono utilizzati per valutare la precisione del modello, ovvero la sua capacità di prevedere correttamente le etichette associate agli input visivi. In base ai risultati ottenuti, il modello può essere raffinato e ripetere il processo di formazione fino a quando non si ottiene una precisione sufficientemente alta.\\
+L'algoritmo di visione artificiale può essere addestrato utilizzando diverse tecniche di apprendimento automatico, come l'apprendimento profondo (deep learning), l'apprendimento supervisionato e l'apprendimento non supervisionato. Queste tecniche sono basate su diverse architetture di rete neurale, che utilizzano algoritmi matematici per elaborare i dati visivi e produrre output di alta qualità.\\
+Il codice che è stato utlizzato per realizzare questa funzionalità verrà scomposta in più parti in modo da descriverlo nel dettaglio:
+
+
+\begin{lstlisting}[caption={Le librerie utilizzate}, label={lst:librerie_usate}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from pathlib import Path
+import os.path
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+import tensorflow as tf
+from sklearn.metrics import confusion_matrix, classification_report
+\end{lstlisting}
+Descrizione delle librerie utilizzate:
+\begin{itemize}
+    \item \textbf{numpy}: è una libreria di alto livello per il calcolo scientifico in Python. Fornisce supporto per array multi-dimensionale, funzioni matematiche e altri strumenti utili per il calcolo numerico.
+    \item \textbf{matplotlib}: è una libreria per la creazione di visualizzazioni dati. Può essere utilizzata per creare grafici e altre forme di rappresentazione visiva dei dati.
+    \item \textbf{pathlib}: è una libreria per lavorare con file system e percorsi. Fornisce un modo semplice per creare, manipolare e lavorare con percorsi di file e directory.
+    \item \textbf{os.path}: è un modulo che fornisce funzioni per lavorare con i percorsi dei file in un sistema operativo.
+    \item \textbf{pandas}: è una libreria per l'analisi dei dati in Python. Fornisce strumenti per la manipolazione e l'elaborazione di dati strutturati in forma di tabelle.
+    \item \textbf{seaborn}: è una libreria di visualizzazione dei dati che si basa su matplotlib.
+    \item \textbf{tensorflow}: è una libreria open-source per il machine learning e il deep learning sviluppata da Google. Può essere utilizzata per costruire, addestrare e utilizzare modelli di machine learning e deep learning.
+    \item \textbf{scikit-learn}: è una libreria di machine learning che fornisce un insieme di algoritmi di apprendimento automatico. Le funzioni che vengono utilizzate della libreria sono:
+    \begin{itemize}
+        \item \textbf{train\_test\_split}: viene utilizzata per suddividere i dati in un insieme di addestramento e di test.
+        \item \textbf{confusion\_matrix}:  permette di creare una matrice di confusione che mostra le previsioni del modello confrontate con i valori effettivi.
+        \item \textbf{classification\_report}: fornisce una relazione di classificazione che riassume le prestazioni del modello.
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[caption={Caricamento dei dati di training.}, label={lst:Descrizioni_prese}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+df = pd.read_csv('../dolphin/train.csv')
+df.head()
+\end{lstlisting}
+Il codice permette di caricare il file CSV denominato "train.csv" in un DataFrame, una struttura di dati tabulare a 2 dimensioni utilizzata per l'analisi dei dati. \\
+La funzione pd.read\_csv() legge i dati dal file CSV e li carica in un oggetto. La seconda riga, df.head(), mostra le prime cinque righe del DataFrame al fine di assicurarsi che tutti i dati siano stati caricati correttamente. Il risultato è il seguente:
+\begin{table}[hbtp]
+\begin{center}
+\begin{tabular}{|
+>{\columncolor[HTML]{C0C0C0}}l |
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |}
+\hline
+{\color[HTML]{000000} } & \cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Immagine} & \cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Specie} & \cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} ID immagine} \\ \hline
+{\color[HTML]{000000} 0} & {\color[HTML]{000000} 00021adfb725ed.jpg} & {\color[HTML]{000000} Tursiope} & {\color[HTML]{000000} cadddb1636b9} \\ \hline
+{\color[HTML]{000000} 1} & {\color[HTML]{000000} 000562241d384d.jpg} & {\color[HTML]{000000} Orca} & {\color[HTML]{000000} 1a71fbb72250} \\ \hline
+{\color[HTML]{000000} 2} & {\color[HTML]{000000} 0007c33415ce37.jpg} & {\color[HTML]{000000} Delfino\_comune} & {\color[HTML]{000000} 60008f293a2b} \\ \hline
+{\color[HTML]{000000} 3} & {\color[HTML]{000000} 0007d9bca26a99.jpg} & {\color[HTML]{000000} Balenottera} & {\color[HTML]{000000} 4b00fe572063} \\ \hline
+{\color[HTML]{000000} 4} & {\color[HTML]{000000} 00087baf5cef7a.jpg} & {\color[HTML]{000000} Balena\_blu} & {\color[HTML]{000000} 8e5253662392} \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{lstlisting}[caption={Controllo del corretto caricamento dei dati.}, label={lst:Controllo_caricamento_dati}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+df.shape
+df.species.nunique()
+df.species.value_counts().sort_index()
+plt.figure(figsize=(20, 10))
+df['species'].value_counts().sort_values(ascending=True).plot(kind='barh');
+\end{lstlisting}
+La prima riga permette di verificare che siano stati caricati nel DataFrame tutti i dati del file, nella seconda si verifica che il numero di specie(nomi unici) sia corretto. Invece la terza permette di visuaizzare tutti i nomi delle specie col relativo numero di immagini ad esse associate.\\
+Le ultime due righe permettono di disegnare un grafico a barre orizzontali che mostra la distribuzione delle categorie della colonna "species" del DataFrame. In particolare:
+\begin{itemize}
+    \item df['species'] seleziona la colonna "species" dal DataFrame.
+    \item df.value\_counts() conta il numero di elementi univoci per ogni valore nella colonna species.
+    \item sort\_values(ascending=True) ordina i valori in ordine crescente.
+    \item plot() disegna il grafico.
+\end{itemize}
+Questo grafico aiuta a visualizzare la distribuzione delle categorie nella colonna species, che è utile per comprendere la quantità e la distribuzione delle diverse categorie presenti nei dati. Il risultato è il seguente:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.28]{img_concettuale/numEsemp.png}
+\caption{Distribuzione delle categorie nella colonna species.}
+\end{figure}
+
+\begin{lstlisting}[caption={.}, label={lst:}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+image_dir = Path('../imagessortedbyspecies/train_species_list')
+filepaths = list(image_dir.glob(r'**/*.jpg'))
+labels = list(map(lambda x: os.path.split(os.path.split(x)[0])[1], filepaths))
+filepaths = pd.Series(filepaths, name='Filepath').astype(str)
+labels = pd.Series(labels, name='Label')
+image_df = pd.concat([filepaths, labels], axis=1)
+image_df
+\end{lstlisting}
+In queste righe di codice, si sta creando un DataFrame Pandas che associ a ciascun file immagine un'etichetta.In particolare:
+\begin{itemize}
+    \item image\_dir: è un oggetto che rappresenta il percorso della directory che contiene le immagini classificate per specie.
+    \item filepaths: è una lista che contiene i percorsi completi di ogni file immagine nella directory. La funzione list(image\_dir.glob(r'**/*.jpg')) utilizza la funzione glob per trovare tutti i file con estensione ".jpg" nella directory.
+    \item labels: è una lista che contiene le etichette associate a ciascuna immagine. La funzione map()  utilizza la funzione os.path.split() per estrarre il nome della cartella che contiene l'immagine, che viene utilizzato come etichetta per l'immagine.
+    \item filepaths e labels: sono entrambi convertiti in oggetti Series di Pandas, che sono array unidimensionali etichettati.
+    \item Infine, i due oggetti Series sono concatenati insieme per creare un DataFrame.
+\end{itemize}
+Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei file immagine e l'altra contiene le etichette associate a ciascuna immagine. Questo DataFrame può essere utilizzato per lavorare con i dati delle immagini. Il risultato finale è il seguente:
+\begin{table}[hbtp]
+\begin{center}
+\begin{tabular}{|
+>{\columncolor[HTML]{C0C0C0}}l |
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |}
+\hline
+{\color[HTML]{000000} } & \cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Filepath} & \cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Label} \\ \hline
+{\color[HTML]{000000} 0} & {\color[HTML]{000000} ./train/img0.jpg} & {\color[HTML]{000000} globicefalo\_di\_Gray} \\ \hline
+{\color[HTML]{000000} 1} & {\color[HTML]{000000} ./train/img1.jpg} & {\color[HTML]{000000} globicefalo\_di\_Gray} \\ \hline
+{\color[HTML]{000000} ...} & {\color[HTML]{000000} ...} & {\color[HTML]{000000} ...} \\ \hline
+{\color[HTML]{000000} 51031} & {\color[HTML]{000000} ./train/img51031.jpg} & {\color[HTML]{000000} tursiope} \\ \hline
+{\color[HTML]{000000} 51032} & {\color[HTML]{000000} ./train/img51032.jpg} & {\color[HTML]{000000} tursiope} \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+\subsection{Fase di riconosciemnto dell'immagine}
 \chapter{Documentazione Test}
 
 
@@ -895,6 +1087,5 @@ Infatti, l'evoluzione del valore associato alle variabili durante l'esecuzione d
 \begin{thebibliography}{100}
 \bibitem{1} Khan, K. \& Yadav, S. 2022, A Literature Review on Software Testing Techniques.
 \end{thebibliography}
-
 
 \end{document} 

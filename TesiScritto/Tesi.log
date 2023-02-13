@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  11 FEB 2023 01:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  13 FEB 2023 16:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -143,10 +143,73 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 )
-\alphabet=\skip52
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip52
+\LTright=\skip53
+\LTpre=\skip54
+\LTpost=\skip55
+\LTchunksize=\count270
+\LTcapwidth=\dimen152
+\LT@head=\box53
+\LT@firsthead=\box54
+\LT@foot=\box55
+\LT@lastfoot=\box56
+\LT@gbox=\box57
+\LT@cols=\count271
+\LT@rows=\count272
+\c@LT@tables=\count273
+\c@LT@chunks=\count274
+\LT@p@ftn=\toks20
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen153
+\lightrulewidth=\dimen154
+\cmidrulewidth=\dimen155
+\belowrulesep=\dimen156
+\belowbottomsep=\dimen157
+\aboverulesep=\dimen158
+\abovetopsep=\dimen159
+\cmidrulesep=\dimen160
+\cmidrulekern=\dimen161
+\defaultaddspace=\dimen162
+\@cmidla=\count275
+\@cmidlb=\count276
+\@aboverulesep=\dimen163
+\@belowrulesep=\dimen164
+\@thisruleclass=\count277
+\@lastruleclass=\count278
+\@thisrulewidth=\dimen165
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+\lst@mode=\count279
+\lst@gtempboxa=\box58
+\lst@token=\toks21
+\lst@length=\count280
+\lst@currlwidth=\dimen166
+\lst@column=\count281
+\lst@pos=\count282
+\lst@lostspace=\dimen167
+\lst@width=\dimen168
+\lst@newlines=\count283
+\lst@lineno=\count284
+\lst@maxwidth=\dimen169
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count285
+\lst@skipnumbers=\count286
+\lst@framebox=\box59
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+\alphabet=\skip56
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 1
-3.
- (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
+6.
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 *geometry* verbose mode - [ newgeometry ] result:
@@ -186,27 +249,27 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2022-08-23 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count270
-\l__pdf_internal_box=\box53
+\l__color_backend_stack_int=\count287
+\l__pdf_internal_box=\box60
 ) (Tesi.aux)
 \openout1 = `Tesi.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Info: Redefining \it@ocap on input line 16.
-LaTeX Info: Redefining \it@ccap on input line 16.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Info: Redefining \it@ocap on input line 19.
+LaTeX Info: Redefining \it@ccap on input line 19.
 
 
 File italian.ldf warning: 
@@ -214,7 +277,7 @@ italian.ldf    With OT1 encoding guillemets are poorly faked
 italian.ldf    Use T1 encoding
 italian.ldf    or specify a font with command \CaporaliFrom
 italian.ldf    See the documentation concerning the babel-italian typesetting 
-italian.ldf    on input line 16.
+italian.ldf    on input line 19.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -255,17 +318,17 @@ italian.ldf    on input line 16.
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count271
-\scratchdimen=\dimen152
-\scratchbox=\box54
-\nofMPsegments=\count272
-\nofMParguments=\count273
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count274
-\MPscratchDim=\dimen153
-\MPnumerator=\count275
-\makeMPintoPDFobject=\count276
-\everyMPtoPDFconversion=\toks21
+\scratchcounter=\count288
+\scratchdimen=\dimen170
+\scratchbox=\box61
+\nofMPsegments=\count289
+\nofMParguments=\count290
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count291
+\MPscratchDim=\dimen171
+\MPnumerator=\count292
+\makeMPintoPDFobject=\count293
+\everyMPtoPDFconversion=\toks23
 )
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -277,6 +340,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
+\c@lstlisting=\count294
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -319,29 +383,29 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 85--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--92
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--92
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--92
 
  []
 
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 93--103
+Underfull \hbox (badness 10000) in paragraph at lines 96--106
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 93--103
+Underfull \hbox (badness 10000) in paragraph at lines 96--106
 
  []
 
@@ -379,22 +443,22 @@ Overfull \hbox (122.71646pt too wide) in paragraph at lines 22--22
  [7]
 Capitolo 1.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-16.
+20.
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 [8
 
 ]
-<img_concettuale/casi.png, id=39, 437.7153pt x 280.1667pt>
+<img_concettuale/casi.png, id=39, 523.9575pt x 280.1667pt>
 File: img_concettuale/casi.png Graphic file (type png)
 <use img_concettuale/casi.png>
-Package pdftex.def Info: img_concettuale/casi.png  used on input line 127.
-(pdftex.def)             Requested size: 262.6312pt x 168.10132pt.
+Package pdftex.def Info: img_concettuale/casi.png  used on input line 131.
+(pdftex.def)             Requested size: 314.37692pt x 168.10132pt.
  [9 <./img_concettuale/casi.png>]
 Capitolo 2.
 
-Overfull \hbox (0.16098pt too wide) in paragraph at lines 137--154
+Overfull \hbox (0.16098pt too wide) in paragraph at lines 141--157
 \OT1/ptm/m/n/12 Oltre al-l'ap-pli-ca-zio-ne smart-pho-ne de-ve es-se-re rea-liz
 -za-to un ap-pli-ca-ti-vo web
  []
@@ -402,48 +466,43 @@ Overfull \hbox (0.16098pt too wide) in paragraph at lines 137--154
 [10
 
 ] [11] [12] [13]
-Overfull \hbox (1.7327pt too wide) in paragraph at lines 190--191
+Overfull \hbox (1.7327pt too wide) in paragraph at lines 193--194
 []\OT1/ptm/m/n/12 Registrazione di un nuo-vo av-vi-sta-men-to at-tra-ver-so l'a
 p-pli-ca-zio-ne mo-
  []
 
 [14]
-<img_concettuale/avvistamento1.png, id=61, 1751.7947pt x 931.98187pt>
+<img_concettuale/avvistamento1.png, id=60, 1751.7947pt x 931.98187pt>
 File: img_concettuale/avvistamento1.png Graphic file (type png)
 <use img_concettuale/avvistamento1.png>
 Package pdftex.def Info: img_concettuale/avvistamento1.png  used on input line 
-208.
+211.
 (pdftex.def)             Requested size: 262.75786pt x 139.79124pt.
  [15 <./img_concettuale/avvistamento1.png>]
 <img_concettuale/avvistamento2.png, id=66, 2098.84125pt x 2005.4925pt>
 File: img_concettuale/avvistamento2.png Graphic file (type png)
 <use img_concettuale/avvistamento2.png>
 Package pdftex.def Info: img_concettuale/avvistamento2.png  used on input line 
-218.
+221.
 (pdftex.def)             Requested size: 209.89642pt x 200.56099pt.
  [16 <./img_concettuale/avvistamento2.png>]
 <img_concettuale/avvistamento3.png, id=72, 2830.575pt x 2588.92218pt>
 File: img_concettuale/avvistamento3.png Graphic file (type png)
 <use img_concettuale/avvistamento3.png>
 Package pdftex.def Info: img_concettuale/avvistamento3.png  used on input line 
-226.
-(pdftex.def)             Requested size: 367.98767pt x 336.5717pt.
-
-Overfull \hbox (9.70059pt too wide) in paragraph at lines 226--227
- [][] 
- []
-
-[17 <./img_concettuale/avvistamento3.png>] [18]
+229.
+(pdftex.def)             Requested size: 339.65434pt x 310.65726pt.
+ [17 <./img_concettuale/avvistamento3.png>] [18]
 <img_concettuale/ER2.png, id=80, 2929.19344pt x 3243.11626pt>
 File: img_concettuale/ER2.png Graphic file (type png)
 <use img_concettuale/ER2.png>
-Package pdftex.def Info: img_concettuale/ER2.png  used on input line 243.
+Package pdftex.def Info: img_concettuale/ER2.png  used on input line 246.
 (pdftex.def)             Requested size: 292.93651pt x 324.33063pt.
  [19 <./img_concettuale/ER2.png>] [20] [21]
 <img_concettuale/individuo.png, id=91, 282.3348pt x 164.7756pt>
 File: img_concettuale/individuo.png Graphic file (type png)
 <use img_concettuale/individuo.png>
-Package pdftex.def Info: img_concettuale/individuo.png  used on input line 325.
+Package pdftex.def Info: img_concettuale/individuo.png  used on input line 328.
 
 (pdftex.def)             Requested size: 310.56921pt x 181.2537pt.
  [22 <./img_concettuale/individuo.png>]
@@ -451,15 +510,15 @@ Package pdftex.def Info: img_concettuale/individuo.png  used on input line 325.
 File: img_concettuale/Avvistamento_accessi.png Graphic file (type png)
 <use img_concettuale/Avvistamento_accessi.png>
 Package pdftex.def Info: img_concettuale/Avvistamento_accessi.png  used on inpu
-t line 351.
+t line 354.
 (pdftex.def)             Requested size: 275.37393pt x 308.79822pt.
  [23 <./img_concettuale/Avvistamento_accessi.png>] [24]
-Underfull \hbox (badness 10000) in paragraph at lines 399--401
+Underfull \hbox (badness 10000) in paragraph at lines 402--404
 
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 415--426
+Underfull \hbox (badness 10000) in paragraph at lines 418--429
 
  []
 
@@ -467,7 +526,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 415--426
 <img_concettuale/Logico.png, id=112, 1562.08594pt x 1518.4228pt>
 File: img_concettuale/Logico.png Graphic file (type png)
 <use img_concettuale/Logico.png>
-Package pdftex.def Info: img_concettuale/Logico.png  used on input line 431.
+Package pdftex.def Info: img_concettuale/Logico.png  used on input line 434.
 (pdftex.def)             Requested size: 343.65997pt x 334.05405pt.
  [27 <./img_concettuale/Logico.png>]
 Capitolo 3.
@@ -481,46 +540,46 @@ Capitolo 4.
 <img_concettuale/HomeMob.png, id=130, 289.08pt x 578.16pt>
 File: img_concettuale/HomeMob.png Graphic file (type png)
 <use img_concettuale/HomeMob.png>
-Package pdftex.def Info: img_concettuale/HomeMob.png  used on input line 493.
+Package pdftex.def Info: img_concettuale/HomeMob.png  used on input line 496.
 (pdftex.def)             Requested size: 115.62994pt x 231.2599pt.
 <img_concettuale/Home.png, id=131, 338.76563pt x 297.36093pt>
 File: img_concettuale/Home.png Graphic file (type png)
 <use img_concettuale/Home.png>
-Package pdftex.def Info: img_concettuale/Home.png  used on input line 500.
+Package pdftex.def Info: img_concettuale/Home.png  used on input line 503.
 (pdftex.def)             Requested size: 304.88623pt x 267.62236pt.
 <img_concettuale/avvistamentoMok.png, id=132, 289.08pt x 799.48688pt>
 File: img_concettuale/avvistamentoMok.png Graphic file (type png)
 <use img_concettuale/avvistamentoMok.png>
 Package pdftex.def Info: img_concettuale/avvistamentoMok.png  used on input lin
-e 507.
+e 510.
 (pdftex.def)             Requested size: 144.53964pt x 399.74246pt.
 <img_concettuale/avvistamentoDesk.png, id=133, 560.8453pt x 633.11531pt>
 File: img_concettuale/avvistamentoDesk.png Graphic file (type png)
 <use img_concettuale/avvistamentoDesk.png>
 Package pdftex.def Info: img_concettuale/avvistamentoDesk.png  used on input li
-ne 514.
+ne 517.
 (pdftex.def)             Requested size: 263.59732pt x 297.56422pt.
  [32 <./img_concettuale/HomeMob.png>] [33 <./img_concettuale/Home.png>] [34 <./
 img_concettuale/avvistamentoMok.png>] [35 <./img_concettuale/avvistamentoDesk.p
 ng>]
-Underfull \hbox (badness 10000) in paragraph at lines 520--523
+Underfull \hbox (badness 10000) in paragraph at lines 523--526
 
  []
 
 <img_concettuale/LAMP.png, id=151, 534.49687pt x 293.59688pt>
 File: img_concettuale/LAMP.png Graphic file (type png)
 <use img_concettuale/LAMP.png>
-Package pdftex.def Info: img_concettuale/LAMP.png  used on input line 528.
+Package pdftex.def Info: img_concettuale/LAMP.png  used on input line 531.
 (pdftex.def)             Requested size: 251.21356pt x 137.99054pt.
 [36] [37 <./img_concettuale/LAMP.png>]
 <img_concettuale/tecnologie.png, id=159, 585.98924pt x 255.354pt>
 File: img_concettuale/tecnologie.png Graphic file (type png)
 <use img_concettuale/tecnologie.png>
-Package pdftex.def Info: img_concettuale/tecnologie.png  used on input line 542
+Package pdftex.def Info: img_concettuale/tecnologie.png  used on input line 545
 .
 (pdftex.def)             Requested size: 351.59625pt x 153.21358pt.
  [38 <./img_concettuale/tecnologie.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 550--554
+Underfull \hbox (badness 10000) in paragraph at lines 553--557
 
  []
 
@@ -528,16 +587,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 550--554
 <img_concettuale/ajax.jpg, id=174, 697.60625pt x 350.30875pt>
 File: img_concettuale/ajax.jpg Graphic file (type jpg)
 <use img_concettuale/ajax.jpg>
-Package pdftex.def Info: img_concettuale/ajax.jpg  used on input line 577.
+Package pdftex.def Info: img_concettuale/ajax.jpg  used on input line 580.
 (pdftex.def)             Requested size: 279.03755pt x 140.12102pt.
  [42 <./img_concettuale/ajax.jpg>] [43] [44] [45] [46]
 <img_concettuale/sale.png, id=191, 713.66624pt x 416.55624pt>
 File: img_concettuale/sale.png Graphic file (type png)
 <use img_concettuale/sale.png>
-Package pdftex.def Info: img_concettuale/sale.png  used on input line 624.
+Package pdftex.def Info: img_concettuale/sale.png  used on input line 627.
 (pdftex.def)             Requested size: 356.83224pt x 208.2776pt.
 
-Underfull \hbox (badness 2781) in paragraph at lines 625--625
+Underfull \hbox (badness 2781) in paragraph at lines 628--628
 []\OT1/ptm/m/n/12 Figura 4.8: Strut-tu-ra al-la ba-se del-la fa-se di crip-tag-
 gio. Fon-te:
  []
@@ -546,10 +605,10 @@ gio. Fon-te:
 <img_concettuale/wcag.png, id=198, 562.1pt x 365.365pt>
 File: img_concettuale/wcag.png Graphic file (type png)
 <use img_concettuale/wcag.png>
-Package pdftex.def Info: img_concettuale/wcag.png  used on input line 657.
+Package pdftex.def Info: img_concettuale/wcag.png  used on input line 660.
 (pdftex.def)             Requested size: 213.60022pt x 138.84013pt.
 
-Underfull \hbox (badness 1014) in paragraph at lines 658--658
+Underfull \hbox (badness 1014) in paragraph at lines 661--661
 []\OT1/ptm/m/n/12 Figura 4.9: Strut-tu-ra del-le li-nee gui-de coi ri-spet-ti-v
 i li-vel-li. Fon-te:
  []
@@ -558,45 +617,45 @@ i li-vel-li. Fon-te:
 <img_concettuale/struttura.png, id=209, 408.3255pt x 175.25475pt>
 File: img_concettuale/struttura.png Graphic file (type png)
 <use img_concettuale/struttura.png>
-Package pdftex.def Info: img_concettuale/struttura.png  used on input line 695.
+Package pdftex.def Info: img_concettuale/struttura.png  used on input line 698.
 
 (pdftex.def)             Requested size: 244.99718pt x 105.15364pt.
  [52 <./img_concettuale/struttura.png>] [53]
 <img_concettuale/login.png, id=218, 1156.32pt x 536.0025pt>
 File: img_concettuale/login.png Graphic file (type png)
 <use img_concettuale/login.png>
-Package pdftex.def Info: img_concettuale/login.png  used on input line 715.
+Package pdftex.def Info: img_concettuale/login.png  used on input line 718.
 (pdftex.def)             Requested size: 358.45549pt x 166.15906pt.
 <img_concettuale/recuperoPWD.png, id=219, 543.2295pt x 198.7425pt>
 File: img_concettuale/recuperoPWD.png Graphic file (type png)
 <use img_concettuale/recuperoPWD.png>
 Package pdftex.def Info: img_concettuale/recuperoPWD.png  used on input line 72
-1.
+4.
 (pdftex.def)             Requested size: 228.15483pt x 83.47127pt.
  [54 <./img_concettuale/login.png> <./img_concettuale/recuperoPWD.png>]
 <img_concettuale/signup.png, id=225, 1156.32pt x 515.526pt>
 File: img_concettuale/signup.png Graphic file (type png)
 <use img_concettuale/signup.png>
-Package pdftex.def Info: img_concettuale/signup.png  used on input line 728.
+Package pdftex.def Info: img_concettuale/signup.png  used on input line 731.
 (pdftex.def)             Requested size: 358.45549pt x 159.8114pt.
 [55 <./img_concettuale/signup.png>]
 <img_concettuale/privacy.png, id=230, 967.2135pt x 537.80925pt>
 File: img_concettuale/privacy.png Graphic file (type png)
 <use img_concettuale/privacy.png>
-Package pdftex.def Info: img_concettuale/privacy.png  used on input line 738.
+Package pdftex.def Info: img_concettuale/privacy.png  used on input line 741.
 (pdftex.def)             Requested size: 299.83308pt x 166.71913pt.
  [56 <./img_concettuale/privacy.png>]
 <img_concettuale/tabellaAvv.png, id=235, 1156.32pt x 536.60475pt>
 File: img_concettuale/tabellaAvv.png Graphic file (type png)
 <use img_concettuale/tabellaAvv.png>
-Package pdftex.def Info: img_concettuale/tabellaAvv.png  used on input line 748
+Package pdftex.def Info: img_concettuale/tabellaAvv.png  used on input line 751
 .
 (pdftex.def)             Requested size: 358.45549pt x 166.34575pt.
 <img_concettuale/aggiungiAvv.png, id=236, 539.01375pt x 364.36125pt>
 File: img_concettuale/aggiungiAvv.png Graphic file (type png)
 <use img_concettuale/aggiungiAvv.png>
-Package pdftex.def Info: img_concettuale/aggiungiAvv.png  used on input line 75
-7.
+Package pdftex.def Info: img_concettuale/aggiungiAvv.png  used on input line 76
+0.
 (pdftex.def)             Requested size: 269.50621pt x 182.18018pt.
 
 [57 <./img_concettuale/tabellaAvv.png>] [58 <./img_concettuale/aggiungiAvv.png>
@@ -605,42 +664,42 @@ Package pdftex.def Info: img_concettuale/aggiungiAvv.png  used on input line 75
 File: img_concettuale/impostazioniPG.png Graphic file (type png)
 <use img_concettuale/impostazioniPG.png>
 Package pdftex.def Info: img_concettuale/impostazioniPG.png  used on input line
- 767.
+ 770.
 (pdftex.def)             Requested size: 348.63022pt x 192.52713pt.
 <img_concettuale/impostazioniSec.png, id=247, 401.70074pt x 481.8pt>
 File: img_concettuale/impostazioniSec.png Graphic file (type png)
 <use img_concettuale/impostazioniSec.png>
 Package pdftex.def Info: img_concettuale/impostazioniSec.png  used on input lin
-e 775.
+e 778.
 (pdftex.def)             Requested size: 245.0371pt x 293.89757pt.
  [59 <./img_concettuale/impostazioniPG.png>]
 <img_concettuale/avvistamentoPAG.png, id=252, 967.81575pt x 519.1395pt>
 File: img_concettuale/avvistamentoPAG.png Graphic file (type png)
 <use img_concettuale/avvistamentoPAG.png>
 Package pdftex.def Info: img_concettuale/avvistamentoPAG.png  used on input lin
-e 783.
+e 786.
 (pdftex.def)             Requested size: 338.74059pt x 181.70154pt.
 <img_concettuale/eliminazione.png, id=253, 371.58826pt x 165.0165pt>
 File: img_concettuale/eliminazione.png Graphic file (type png)
 <use img_concettuale/eliminazione.png>
 Package pdftex.def Info: img_concettuale/eliminazione.png  used on input line 7
-92.
+95.
 (pdftex.def)             Requested size: 185.79367pt x 82.50803pt.
 <img_concettuale/info.png, id=254, 374.5995pt x 534.798pt>
 File: img_concettuale/info.png Graphic file (type png)
 <use img_concettuale/info.png>
-Package pdftex.def Info: img_concettuale/info.png  used on input line 798.
+Package pdftex.def Info: img_concettuale/info.png  used on input line 801.
 (pdftex.def)             Requested size: 149.83714pt x 213.9154pt.
 <img_concettuale/avvistamentoPAG2.png, id=255, 1142.46825pt x 536.0025pt>
 File: img_concettuale/avvistamentoPAG2.png Graphic file (type png)
 <use img_concettuale/avvistamentoPAG2.png>
 Package pdftex.def Info: img_concettuale/avvistamentoPAG2.png  used on input li
-ne 804.
+ne 807.
 (pdftex.def)             Requested size: 354.1615pt x 166.15906pt.
 <img_concettuale/addEsempl.png, id=256, 372.79276pt x 386.6445pt>
 File: img_concettuale/addEsempl.png Graphic file (type png)
 <use img_concettuale/addEsempl.png>
-Package pdftex.def Info: img_concettuale/addEsempl.png  used on input line 813.
+Package pdftex.def Info: img_concettuale/addEsempl.png  used on input line 816.
 
 (pdftex.def)             Requested size: 223.67737pt x 231.98848pt.
  [60 <./img_concettuale/impostazioniSec.png>] [61 <./img_concettuale/avvistamen
@@ -651,64 +710,87 @@ mpl.png>]
 File: img_concettuale/modificaNome.png Graphic file (type png)
 <use img_concettuale/modificaNome.png>
 Package pdftex.def Info: img_concettuale/modificaNome.png  used on input line 8
-20.
+23.
 (pdftex.def)             Requested size: 172.31786pt x 120.78871pt.
-
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.823 \\C
-         ome si vede dall'immagine si hanno due possibilità o attraverso un...
-
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
 <img_concettuale/ferita.png, id=280, 372.1905pt x 317.988pt>
 File: img_concettuale/ferita.png Graphic file (type png)
 <use img_concettuale/ferita.png>
-Package pdftex.def Info: img_concettuale/ferita.png  used on input line 827.
+Package pdftex.def Info: img_concettuale/ferita.png  used on input line 830.
 (pdftex.def)             Requested size: 167.48418pt x 143.09326pt.
-[65 <./img_concettuale/modificaNome.png> <./img_concettuale/ferita.png>]
+ [65 <./img_concettuale/modificaNome.png> <./img_concettuale/ferita.png>]
 Capitolo 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 838--839
+
+ []
+
 [66
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 840--841
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 842--843
+
+ []
+
+[67] [68] [69] [70]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
+13.
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+[71] [72] [73]
+<img_concettuale/numEsemp.png, id=312, 1339.1631pt x 712.5822pt>
+File: img_concettuale/numEsemp.png Graphic file (type png)
+<use img_concettuale/numEsemp.png>
+Package pdftex.def Info: img_concettuale/numEsemp.png  used on input line 983.
+(pdftex.def)             Requested size: 374.96312pt x 199.52165pt.
+
+Overfull \hbox (16.67604pt too wide) in paragraph at lines 983--984
+ [][] 
+ []
+
+[74 <./img_concettuale/numEsemp.png>] [75] [76]
 Capitolo 6.
-[67
+[77
 
 ]
 Capitolo 7.
-[68
+[78
 
 ]
 Capitolo 8.
-[69
+[79
 
-] [70] [71] [72
+] [80] [81] [82
 
-] (Tesi.aux) ) 
+] (Tesi.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4274 strings out of 477843
- 72251 string characters out of 2823599
- 404434 words of memory out of 3000000
- 23114 multiletter control sequences out of 15000+600000
- 491201 words of font info for 62 fonts, out of 8000000 for 9000
+ 6121 strings out of 477843
+ 97761 string characters out of 2823599
+ 470230 words of memory out of 3000000
+ 24937 multiletter control sequences out of 15000+600000
+ 491716 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,18n,62p,964b,344s stack positions out of 10000i,1000n,20000p,200000b,80000s
-{C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/bas
-e/8r.enc}<C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on Tesi.pdf (75 pages, 5010821 bytes).
+ 55i,18n,62p,1028b,1665s stack positions out of 10000i,1000n,20000p,200000b,80000s
+{C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
+/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucr
+r8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
+b8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
+r8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on Tesi.pdf (85 pages, 5075034 bytes).
 PDF statistics:
- 330 PDF objects out of 1000 (max. 8388607)
+ 369 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 166 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 

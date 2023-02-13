@@ -57,11 +57,17 @@
 \contentsline {subsection}{\numberline {4.3.5}Pagina delle impostazioni}{59}{}%
 \contentsline {subsection}{\numberline {4.3.6}Pagina degli avvistamenti}{60}{}%
 \contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{66}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{67}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{67}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{68}{}%
-\contentsline {chapter}{\numberline {8}Utilità}{69}{}%
-\contentsline {section}{\numberline {8.1}Ingegneria del software}{69}{}%
-\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{69}{}%
-\contentsline {subsubsection}{Testing}{70}{}%
-\contentsline {subsection}{\numberline {8.1.2}Analisi}{71}{}%
+\contentsline {section}{\numberline {5.1}Il problema}{66}{}%
+\contentsline {section}{\numberline {5.2}Dataset}{67}{}%
+\contentsline {subsection}{\numberline {5.2.1}Specie presenti e quantità di immagini}{68}{}%
+\contentsline {section}{\numberline {5.3}Algoritmo di riconoscimento}{69}{}%
+\contentsline {subsection}{\numberline {5.3.1}Fase di training}{70}{}%
+\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{76}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{77}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{77}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{78}{}%
+\contentsline {chapter}{\numberline {8}Utilità}{79}{}%
+\contentsline {section}{\numberline {8.1}Ingegneria del software}{79}{}%
+\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{79}{}%
+\contentsline {subsubsection}{Testing}{80}{}%
+\contentsline {subsection}{\numberline {8.1.2}Analisi}{81}{}%
