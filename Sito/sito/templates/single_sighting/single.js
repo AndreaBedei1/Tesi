@@ -246,7 +246,6 @@ $(document).ready(function() {
         .done(function(data,success,response) {
             if(data){
                 document.querySelector("#info .modal-body").innerHTML="<p>Dati aggiornati!</p>";
-                
             }else{
                 document.querySelector("#info .modal-body").innerHTML="<p>Errore nell'aggiornamento.</p>";
             }
