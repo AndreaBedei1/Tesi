@@ -76,7 +76,7 @@
                             </form>
                             <div class="row my-4">
                                 <div class="col-lg-12">
-                                    <a class="btn btn-2 btn-sm btn-outline-secondary" href="login.php">Ho già un account</a>
+                                    <a class="btn btn-2 btn-outline-secondary" href="login.php">Ho già un account</a>
                                 </div>
                             </div>
                         </div>

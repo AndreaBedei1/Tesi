@@ -82,10 +82,10 @@
                             </form>
                             <div class="row my-4">
                                 <div class="col-6">
-                                    <a class="btn btn-2 btn-sm btn-outline-secondary m-1" href="signup.php">Non ho un account</a>
+                                    <a class="btn btn-2 btn-outline-secondary m-1" href="signup.php">Non ho un account</a>
                                 </div>
                                 <div class="col-6">
-                                    <button id="recpwd" class="btn btn-2 btn-sm btn-outline-secondary m-1">Recupera password</button>
+                                    <button id="recpwd" class="btn btn-2 btn-outline-secondary m-1">Recupera password</button>
                                 </div>
                             </div>
                             <div class="col-lg-2"></div>

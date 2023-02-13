@@ -2,7 +2,7 @@
   --col-dark: rgb(39, 45, 53);
   --col-mid: rgb(126, 176, 241);
   --col-light: rgb(198, 222, 255);
-  --col-lighter: rgb(202, 230, 255);
+  --col-lighter: rgba(152, 200, 248, 0.801);
   --transp: rgba(0,0,0,0);
   --btn-fg-1: rgb(0, 0, 255);
   --btn-fg-1-h: hsl(0, 0%, 100%);
@@ -20,6 +20,10 @@
   --btn-fg-4-h: rgb(136, 84, 84);
   --btn-bg-4: var(--transp);
   --btn-bg-4-h: var(--btn-fg-4);
+}
+
+*{
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .carousel-control-next,
@@ -98,15 +102,21 @@ table tr{
   max-height: 10vh;
 }
 
-table:hover tr{
+#divtbl:hover table tr{
   transition: border 1s;
   border-bottom: 1px solid rgb(0, 59, 185);
+}
+
+#divtbl table tr{
+  transition: border 1s;
+  border-bottom: 1px solid black;
 }
 
 .tableFixHead thead th{
   vertical-align: middle;
   position: sticky;
-  background-color: rgb(236, 249, 255);
+  background-color: rgb(0, 59, 185);
+  color: white;
   z-index: 1;
   top: 0px;
 }
@@ -115,11 +125,11 @@ html#page-login body, html#page-signup body, html#page-homepage body, html#page-
   background-color: var(--col-lighter);
 }
 
-html#page-login, html#page-login body, html#page-settings, html#page-settings body, html#page-single, html#page-single body {
+html#page-login, html#page-login body, html#page-settings, html#page-settings body, html#page-single, html#page-single body, html#page-signup body, html#page-signup{
   height: 100%;
 }
 
-html#page-login body, html#page-settings body, html#page-single body{
+html#page-login body, html#page-settings body, html#page-single body, html#page-signup body{
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -129,7 +139,7 @@ html#page-login body, html#page-settings body, html#page-single body{
           flex-direction: column;
 }
 
-html#page-login main, html#page-settings main, html#page-single main{
+html#page-login main, html#page-settings main, html#page-single main, html#page-signup main{
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
