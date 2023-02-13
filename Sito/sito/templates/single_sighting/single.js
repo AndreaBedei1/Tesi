@@ -12,15 +12,32 @@ $(document).ready(function() {
     
     $( "#slcSpecie" ).change(function() {
         var sp = $("#slcSpecie").val();
+        console.log(sp);
         if(sp==""){
             $("#slcSottospecie").prop('disabled', true);
             $("#infoSpecie").prop('disabled', true);
+            $("#infoSpecie").addClass("disabled");
         }else{
             $("#slcSottospecie").prop('disabled', false);
-            $("#infoSpecie").prop('disabled', false);
+        }
+        if(sp=="Delfino"){
+            $("#btn_Rico").prop('disabled', false);
+            $("#btn_Rico").removeClass("disabled");
+        }else{
+            $("#btn_Rico").prop('disabled', true);
+            $("#btn_Rico").addClass("disabled");
         }
         select_file(fileint, "slcSottospecie", {specie:sp}, "slcSottospecie", "", 1);
     });
+
+    $("#slcSottospecie").change(function() {
+        var sp = $("#slcSottospecie").val();
+        if(sp!=""){
+            $("#infoSpecie").prop('disabled', false);
+            $("#infoSpecie").removeClass("disabled");
+        }
+    });
+    
     
     $("#btn_visual").click(function() {
         document.querySelector("#info .modal-body").innerHTML=`
@@ -74,24 +91,23 @@ $(document).ready(function() {
     });
 
     $("#btn_Rico").click(function() {
-        document.querySelector("#info .modal-title").innerText="Riconoscimento esemplari";
-        document.querySelector("#info .modal-footer").innerHTML=`
+        document.querySelector("#info2 .modal-title").innerText="Riconoscimento esemplari";
+        document.querySelector("#info2 .modal-footer").innerHTML=`
             <button type="button" class="btn btn-primary">OK</button>`;
-        document.querySelector("#info .modal-body").innerHTML=`
-            <div id="loading" role="status" aria-live="polite">
-                Caricamento in corso
-            </div>
+        document.querySelector("#info2 .modal-body").innerHTML=`
+            <div id="alert3" role="dialog"></div>
         `;
-        let dots = 0;
-        setInterval(function() {
-            dots = (dots + 1) % 4;
-            $("#loading").text("Caricamento in corso" + ".".repeat(dots));
-        }, 1000);
 
-        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
-            $('#info').modal('toggle');
+        document.querySelectorAll("#info2 button")[0].addEventListener("click",function() {
+            $('#info2').modal('toggle');
         });
-        $('#info').modal('toggle');
+
+        document.querySelectorAll("#info2 button")[1].addEventListener("click",function() {
+            $('#info2').modal('toggle');
+        });
+
+        addAlert("alert3","alert-warning","Caricamento in corso, attendere...","");
+        $('#info2').modal('toggle');
         const datas = new FormData();
         datas.append("id", id);
         datas.append("request", "recognition");
@@ -104,16 +120,16 @@ $(document).ready(function() {
         })
         .done(function(data,success,response) {
             if(data.state){
-                document.querySelector("#info .modal-body").innerHTML="<p>Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: ";
+                document.querySelector("#info2 .modal-body").innerHTML="<p>Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: ";
                 let ris = removeDuplicates(data.data);
                 ris = ris.filter(str => str.trim() !== "");
                 ris = ris.map(s => s.replace(/_/g, " "));
                 ris = ris.map(s => s.replace(/-/g, " "));
                 ris.forEach(e => {
-                    document.querySelector("#info .modal-body").innerHTML+="<p>"+e+"</p>";
+                    document.querySelector("#info2 .modal-body").innerHTML+="<p>"+e+"</p>";
                 });
             } else {
-                document.querySelector("#info .modal-body").innerHTML="<p>Non ci sono immagini relative all'avvistamento, caricarne almeno una.</p>";
+                document.querySelector("#info2 .modal-body").innerHTML="<p>Non ci sono immagini relative all'avvistamento, caricarne almeno una.</p>";
             }
         })
         .fail(function(response) {
@@ -165,13 +181,12 @@ $(document).ready(function() {
         modalInfo();
         document.querySelector("#info .modal-body").innerHTML=`
             <p>
-            Il sistema utilizza un algoritmo di riconoscimento di visione artificiale.<br/> 
+            Il sistema utilizza un algoritmo di riconoscimento di visione artificiale per i delfini.<br/> 
             Attraverso tutte le immagini caricate per un avvistamento il sistema consiglia la specie dell'esemplare che più si avvicina.<br/>
             Per una maggiore precisione si consiglia di aggiungere gli esemplari ritagliandoli dalle foto nella sezione sottostante, altrimenti il sistema potrebbe non avere un alto grado di precisione. 
             </p>
         `;
         $('#info').modal('toggle');
-
     });
 
     $("#delete").click(function() {
@@ -281,6 +296,10 @@ function uploadDates(){
         if(dati["Anima_Nome"]=="?"){
             $("#slcSottospecie").prop('disabled', true);
             $("#infoSpecie").prop('disabled', true);
+        }
+        if(dati["Anima_Nome"]!="Delfino"){
+            $("#btn_Rico").prop('disabled', true);
+            $("#btn_Rico").addClass("disabled");
         }
     })
     .fail(function(response) {

@@ -4,6 +4,24 @@
     }
 ?>
 <main class="big-margin">
+    <div id="dialog2">
+        <div id='info2' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
+            <div class='modal-dialog' role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title"></h2>
+                        <button type="button" class="btn btn-outline-secondary btn-sm close" data-dismiss="modal" aria-label="Chiusura">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="dialog">
         <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
             <div class='modal-dialog' role="document">
