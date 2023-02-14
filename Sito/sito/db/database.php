@@ -79,7 +79,7 @@
         }
 
         public function getDates($id){
-            $query = 'SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.ID=?';
+            $query = 'SELECT a.*, u.Nome, u.Cognome, u.Email FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.ID=?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $id);
             $stmt->execute();

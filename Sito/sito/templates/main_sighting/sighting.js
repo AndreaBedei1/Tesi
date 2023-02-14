@@ -95,6 +95,9 @@ function createMap(data)
 }
 
 function averageCoord(arr, str){
+    if(arr.length==0){
+        return 0;
+    }
     let sum = 0;
     arr.forEach(function(num) { sum += num[str] });
     let average = sum / arr.length;
@@ -116,6 +119,11 @@ function createTableMap(){
         tbl_avvist = $("#tblAvvistamenti tbody");
         createMap(data);
         row = "";
+        if(data.length==0){
+            row += '<tr class="rig">';
+            row += '<td headers="utente data2 coordinate animale visualizza" colspan="5" class="px-1">Nessun avvistamento presente</td>';
+            row += '</tr>';
+        }
         for(let i = 0; i<data.length; i++)
         {
             row += '<tr class="rig">';

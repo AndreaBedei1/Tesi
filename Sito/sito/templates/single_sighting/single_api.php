@@ -76,6 +76,14 @@ if(isset($_POST["request"])){
         case 'infoSpecie':
             if(isUserLoggedIn() && isset($_POST["animale"]) && isset($_POST["specie"])){
                 $result = $dbh->infoSpecie($_POST["animale"], $_POST["specie"]);
+                for ($i=0; $i < count($result); $i++) { 
+                    if($result[$i]["Dimensione"]==null){
+                        $result[$i]["Dimensione"]="Nessuna informazione presente.";
+                    }
+                    if($result[$i]["Curiosita"]==null){
+                        $result[$i]["Curiosita"]="Nessuna informazione presente.";
+                    }
+                }
             }
             break;
         case 'getSottoimmagini':

@@ -62,17 +62,29 @@
                                 </div>
                             </div>
                             <form id="avvDates" class="m-0 p-0 w-100" action="#" method="post">
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="utente">Utente:</label>
                                         <input id="utente" class="form-control" type="text" disabled name="utente"/>
                                     </div>
+                                    <div class="col-6 align-self-end">
+                                        <div class="d-flex justify-content-between">
+                                            <a id="emailTo" class="btn btn-primary p-auto" href="mailto:indirizzo@mail.com" role="button" title="Invia una mail a indirizzo@mail.com" aria-label="Invia una mail al creatore dell'avvistamento">Contatta</a>
+                                            <button id="notCambiamento" type="button" aria-label="Invia notifica del cambiamento" class="btn btn-primary p-auto">Notifica</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group mb-2">
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="data">Data: </label>
                                         <input id="data" class="form-control" type="datetime-local" disabled name="data"/>
                                     </div>
+                                    <div class="col-6">
+                                        <label class="form-label mb-1" for="nEsemplari">Num. esemplari: </label>
+                                        <input id="nEsemplari" class="form-control" type="number" min="0" max="10" name="esemplari"/>
+                                    </div>
                                 </div>
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="latitudine">Latitudine: </label>
                                         <input id="latitudine" class="form-control" type="number" step="0.000001" min="0" max="90" name="latitudine"/>
@@ -82,7 +94,7 @@
                                         <input id="longitudine" class="form-control" type="number" step="0.000001" min="0" max="90" name="longitudine"/>
                                     </div>
                                 </div>
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="slcSpecie">Animale: </label>
                                         <select name="specie" id="slcSpecie" class="form-select"></select>
@@ -97,29 +109,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-6">
-                                        <label class="form-label mb-1" for="nEsemplari">Num. esemplari: </label>
-                                        <input id="nEsemplari" class="form-control" type="number" min="0" max="10" name="esemplari"/>
+                                        <label class="form-label mb-1" for="mare">Mare (nodi): </label>
+                                        <input id="mare" class="form-control" type="number" min="0" max="500" name="mare"/>
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label mb-1" for="vento">Vento (km/h): </label>
                                         <input id="vento" class="form-control" type="number" min="0" max="500" name="vento"/>
                                     </div>
                                 </div>
-                                <div class="row form-group mb-1">
-                                    <div class="col-6">
-                                        <label class="form-label mb-1" for="mare">Mare (nodi): </label>
-                                        <input id="mare" class="form-control" type="number" min="0" max="500" name="mare"/>
-                                    </div>
-                                </div>
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-12">
                                         <label class="form-label mb-1" for="note">Note: </label>
                                         <textarea name="note" id="note" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
-                                <div class="row form-group mb-1">
+                                <div class="row form-group mb-2">
                                     <div class="col-3">
                                         <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><span class="fas fa-plus"></span> Foto</button>
                                     </div>

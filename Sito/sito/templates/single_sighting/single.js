@@ -139,6 +139,41 @@ $(document).ready(function() {
             console.log(response);
         });
     });
+
+    $("#notCambiamento").click(function() {
+        document.querySelector("#info .modal-body").innerHTML="<p>Confermi di volere inviare la notifica di cambiamento della specie all'utente creatore dell'avvistamento?</p>";
+        document.querySelector("#info .modal-title").innerText="Invia notifica";
+        document.querySelector("#info .modal-footer").innerHTML=`
+            <button type="button" class="btn btn-success" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>`;
+
+        document.querySelectorAll("#info button")[2].addEventListener("click",function() {
+            $('#info').modal('toggle');
+        });
+        
+        document.querySelectorAll("#info button")[1].addEventListener("click",function() {
+            // const datas = new FormData();
+            // datas.append("id", id);
+            // datas.append("request", "delete");
+            // $.ajax({
+            //     method: "POST",
+            //     url: fileint,
+            //     data:  datas,
+            //     processData: false,
+            //     contentType: false
+            // })
+            // .done(function(data,success,response) {
+            //     if(data)
+            //         document.location.href = "homepage.php";
+            // })
+            // .fail(function(response) {
+            //     console.log(response);
+            // });
+            alert("TODO");
+        });
+        $('#info').modal('toggle');
+    });
+    
     
     $("#infoSpecie").click(function() {
         if($("#slcSottospecie").val()!=""){
@@ -285,6 +320,8 @@ function uploadDates(){
     })
     .done(function(dati,success,response) {
         createMap(dati);
+        $('#emailTo').attr('href',"mailto:"+dati["Email"]);
+        $('#emailTo').attr('title',"Invia una mail a "+dati["Email"]);
         $("#utente").val(dati["Cognome"]+" "+dati["Nome"]);
         $("#data").val(dati["Data"]);
         $("#latitudine").val(dati["Latid"]);
