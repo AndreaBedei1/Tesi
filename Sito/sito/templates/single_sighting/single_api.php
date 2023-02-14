@@ -203,7 +203,6 @@ if(isset($_POST["request"])){
 
                         //Controllo che ci siano sottoimaggini per quell'immagine, altrimenti viene messa l'immaigne originale.
                         if(count($sotts)==0){
-                            var_dump("entrato");
                             $src = '/var/www/html/Tesi/Sito/img/avvistamenti/'.$k["Img"];
                             // Percorso cartella destinazione
                             $dst_folder = '/var/www/html/Tesi/Sito/img/temp/';

@@ -35,6 +35,9 @@ $(document).ready(function() {
         if(sp!=""){
             $("#infoSpecie").prop('disabled', false);
             $("#infoSpecie").removeClass("disabled");
+        } else {
+            $("#infoSpecie").prop('disabled', true);
+            $("#infoSpecie").addClass("disabled");
         }
     });
     
@@ -372,7 +375,7 @@ function setImages(w, h){
             document.getElementById("divDel").innerHTML=`
                 <div class="col-3 col-md-5"></diV> 
                 <div class="col-6 col-md-2">                
-                    <button id="deleteImg" class="btn btn-danger" type="button" aria-label="Elimina immagine"><span class="fas fa-trash"></span> Immagine</button>
+                    <button id="deleteImg" class="btn btn-danger" type="button" aria-label="Elimina foto"><span class="fas fa-trash"></span> Foto</button>
                 </div>
                 <div class="col-3 col-md-5"></diV>
             `;

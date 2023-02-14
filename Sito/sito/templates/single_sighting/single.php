@@ -24,7 +24,7 @@
     </div>
     <div id="dialog">
         <div id='info' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog" aria-hidden="true">
-            <div class='modal-dialog' role="document">
+            <div class='modal-dialog modal-lg' role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title"></h2>
@@ -121,10 +121,10 @@
                                 </div>
                                 <div class="row form-group mb-1">
                                     <div class="col-3">
-                                        <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><span class="fas fa-plus"></span> Immagine</button>
+                                        <button id="btn_visual" class="btn btn-success" type="button" aria-label="Aggiungi immagine"><span class="fas fa-plus"></span> Foto</button>
                                     </div>
                                     <div class="col-6 text-center">
-                                        <button id="btn_Rico" class="btn btn-info" type="button" aria-label="Individua specie"><span class="fas fa-search"></span> Riconoscimento</button>
+                                        <button id="btn_Rico" class="btn btn-info" type="button" aria-label="Individua specie"><span class="fas fa-search"></span> Riconosci</button>
                                         <button id="infoRic" type="button" aria-label="Info riconoscimento automatico" class="btn btn-outline-dark rounded-circle btn-sm">
                                                 <span class="fas fa-info"></span>
                                         </button>
