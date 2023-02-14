@@ -110,30 +110,97 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Specie presenti e quantità di immagini}{68}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Algoritmo di riconoscimento}{69}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Fase di training}{70}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Librerie utilizzate}{71}{}\protected@file@percent }
 \newlabel{lst:librerie_usate}{{5.1}{71}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}Le librerie utilizzate}{71}{}\protected@file@percent }
-\newlabel{lst:Descrizioni_prese}{{5.2}{72}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Caricamento dei dati di training.}{72}{}\protected@file@percent }
-\newlabel{lst:Controllo_caricamento_dati}{{5.3}{73}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.3}Controllo del corretto caricamento dei dati.}{73}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{74}{}\protected@file@percent }
-\newlabel{lst:}{{5.4}{74}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}.}{74}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{76}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Documentazione Test}{77}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Caricamento dei dati}{73}{}\protected@file@percent }
+\newlabel{lst:Descrizioni_prese}{{5.2}{73}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Caricamento dei dati di training.}{73}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Controllo caricamento e distribuzione delle categorie}{74}{}\protected@file@percent }
+\newlabel{lst:Controllo_caricamento_dati}{{5.3}{74}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.3}Controllo del corretto caricamento dei dati.}{74}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{75}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Associazione immagine etichetta}{75}{}\protected@file@percent }
+\newlabel{lst:Associazione_immagine_etichetta}{{5.4}{75}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}Associazione immagini alle relative etichette.}{75}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Divisione del dataframe}{77}{}\protected@file@percent }
+\newlabel{lst:Divisione_dataframe}{{5.5}{77}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.5}Divisione del dataframe.}{77}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Istanziamento dei generatori}{78}{}\protected@file@percent }
+\newlabel{lst:Istanziamento_generatori}{{5.6}{78}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.6}Istanziamento dei generatori.}{78}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Creazione di un generatore di immagini da un dataframe}{79}{}\protected@file@percent }
+\newlabel{lst:Generatore_di_immagini}{{5.7}{79}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Creazione del generatore di immagini da un dataframe di addestramento.}{79}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Creazione del generatore di immagini di test}{81}{}\protected@file@percent }
+\newlabel{lst:Generatore_di_immagini_di_test}{{5.8}{81}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.8}Creazione del generatore di immagini di test.}{81}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Creazione di un modello pre-addestrato di MobileNetV2}{81}{}\protected@file@percent }
+\newlabel{lst:modello_MobileNetV2}{{5.9}{81}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.9}Modello pre-addestrato di MobileNetV2t.}{81}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Definizione di un nuovo modello}{83}{}\protected@file@percent }
+\newlabel{lst:aggiunta_strati_densi}{{5.10}{83}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.10}Aggiunta di due strati densi alla rete.}{83}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Compilazione del modello di apprendimento automatico}{84}{}\protected@file@percent }
+\newlabel{lst:compilazione_modello}{{5.11}{84}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.11}Compilazione del modello di apprendimento automatico.}{84}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Fase di allenamento del modello}{86}{}\protected@file@percent }
+\newlabel{lst:allenamento_modello}{{5.12}{86}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.12}Fase di allenamento del modello.}{86}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Rappresentazione delle curve di perdiata}{89}{}\protected@file@percent }
+\newlabel{lst:curve_perdita}{{5.13}{89}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.13}Codice per il grafico delle curve di perdita.}{89}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{89}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Rappresentazione delle curve di accuratezza}{90}{}\protected@file@percent }
+\newlabel{lst:curve_accuratezza}{{5.14}{90}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.14}Codice per il grafico delle curve di accuratezza.}{90}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{90}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Significato delle rappresentazioni}{91}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Determinazione dell'accuratezza media}{91}{}\protected@file@percent }
+\newlabel{lst:accuratezza_media}{{5.15}{91}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.15}Determinazione dell'accuratezza.}{91}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Matrice di confusione e report di classificazione}{91}{}\protected@file@percent }
+\newlabel{lst:matrice_report}{{5.16}{91}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.16}Codice per la creazione della matrice di confusione e del report di classificazione.}{91}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Visualizzazione della matrice di confusione}{93}{}\protected@file@percent }
+\newlabel{lst:matrice_vista}{{5.17}{93}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.17}Codice per la visualizzazione della matrice di confusione.}{93}{}\protected@file@percent }
+\gdef \LT@ii {\LT@entry 
+    {1}{119.48721pt}\LT@entry 
+    {1}{65.74086pt}\LT@entry 
+    {1}{65.74086pt}\LT@entry 
+    {1}{58.57906pt}\LT@entry 
+    {1}{47.83089pt}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{94}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Visualizzazione della precisione per ogni specie}{94}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{96}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Librerie utilizzate}{96}{}\protected@file@percent }
+\newlabel{lst:librerie_riconoscimento}{{5.18}{96}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.18}Librerie per il riconosciemtno dell'immagine.}{96}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Caricamento della rete neurale}{96}{}\protected@file@percent }
+\newlabel{lst:caricamento_rete}{{5.19}{96}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.19}Codice di caricamento della rete neurale.}{96}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Funzione di predizione}{97}{}\protected@file@percent }
+\newlabel{lst:funzione_predizione}{{5.20}{97}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.20}Codice della funzione di predizione.}{97}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Predizione delle immagini}{98}{}\protected@file@percent }
+\newlabel{lst:Immagini_predizione}{{5.21}{98}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.21}Codice della predizione delle immagini.}{98}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Integrazione dell'algoritmo col sistema}{98}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Documentazione Test}{99}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Test con l'utente}{77}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusioni}{78}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Test con l'utente}{99}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusioni}{100}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \citation{1}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Utilità}{79}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Utilità}{101}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}Ingegneria del software}{79}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{79}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Testing}{80}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1.2}Analisi}{81}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}Ingegneria del software}{101}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{101}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Testing}{102}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1.2}Analisi}{103}{}\protected@file@percent }
 \bibcite{1}{1}
-\gdef \@abspage@last{85}
+\gdef \@abspage@last{107}

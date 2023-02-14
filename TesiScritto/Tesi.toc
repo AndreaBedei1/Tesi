@@ -62,12 +62,36 @@
 \contentsline {subsection}{\numberline {5.2.1}Specie presenti e quantità di immagini}{68}{}%
 \contentsline {section}{\numberline {5.3}Algoritmo di riconoscimento}{69}{}%
 \contentsline {subsection}{\numberline {5.3.1}Fase di training}{70}{}%
-\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{76}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{77}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{77}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{78}{}%
-\contentsline {chapter}{\numberline {8}Utilità}{79}{}%
-\contentsline {section}{\numberline {8.1}Ingegneria del software}{79}{}%
-\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{79}{}%
-\contentsline {subsubsection}{Testing}{80}{}%
-\contentsline {subsection}{\numberline {8.1.2}Analisi}{81}{}%
+\contentsline {subsubsection}{Librerie utilizzate}{71}{}%
+\contentsline {subsubsection}{Caricamento dei dati}{73}{}%
+\contentsline {subsubsection}{Controllo caricamento e distribuzione delle categorie}{74}{}%
+\contentsline {subsubsection}{Associazione immagine etichetta}{75}{}%
+\contentsline {subsubsection}{Divisione del dataframe}{77}{}%
+\contentsline {subsubsection}{Istanziamento dei generatori}{78}{}%
+\contentsline {subsubsection}{Creazione di un generatore di immagini da un dataframe}{79}{}%
+\contentsline {subsubsection}{Creazione del generatore di immagini di test}{81}{}%
+\contentsline {subsubsection}{Creazione di un modello pre-addestrato di MobileNetV2}{81}{}%
+\contentsline {subsubsection}{Definizione di un nuovo modello}{83}{}%
+\contentsline {subsubsection}{Compilazione del modello di apprendimento automatico}{84}{}%
+\contentsline {subsubsection}{Fase di allenamento del modello}{86}{}%
+\contentsline {subsubsection}{Rappresentazione delle curve di perdiata}{89}{}%
+\contentsline {subsubsection}{Rappresentazione delle curve di accuratezza}{90}{}%
+\contentsline {subsubsection}{Significato delle rappresentazioni}{91}{}%
+\contentsline {subsubsection}{Determinazione dell'accuratezza media}{91}{}%
+\contentsline {subsubsection}{Matrice di confusione e report di classificazione}{91}{}%
+\contentsline {subsubsection}{Visualizzazione della matrice di confusione}{93}{}%
+\contentsline {subsubsection}{Visualizzazione della precisione per ogni specie}{94}{}%
+\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{96}{}%
+\contentsline {subsubsection}{Librerie utilizzate}{96}{}%
+\contentsline {subsubsection}{Caricamento della rete neurale}{96}{}%
+\contentsline {subsubsection}{Funzione di predizione}{97}{}%
+\contentsline {subsubsection}{Predizione delle immagini}{98}{}%
+\contentsline {section}{\numberline {5.4}Integrazione dell'algoritmo col sistema}{98}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{99}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{99}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{100}{}%
+\contentsline {chapter}{\numberline {8}Utilità}{101}{}%
+\contentsline {section}{\numberline {8.1}Ingegneria del software}{101}{}%
+\contentsline {subsection}{\numberline {8.1.1}Verifica del software}{101}{}%
+\contentsline {subsubsection}{Testing}{102}{}%
+\contentsline {subsection}{\numberline {8.1.2}Analisi}{103}{}%

@@ -37,7 +37,10 @@
 \contentsline {figure}{\numberline {4.24}{\ignorespaces Modifica dell'esemplare.}}{65}{}%
 \contentsline {figure}{\numberline {4.25}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{65}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{74}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{75}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{89}{}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{90}{}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{94}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

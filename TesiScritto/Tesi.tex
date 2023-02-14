@@ -464,12 +464,11 @@ Sono state definite delle personas, cioè descrizioni di persone che rappresenta
 Le personas che sono state riscontrate sono:
 \begin{itemize}
  \item Responsabile avvistamenti: persona addetta alla gestione delle informazioni al fine di modificare, aggiungere o eliminare i dati. 
-\item Ricercatore: persona che carica nuove informazioni, di un nuovo avvistamento direttamente dal portale.
+\item Pescatore: persona che carica nuove informazioni, di un nuovo avvistamento direttamente dal portale.
  \end{itemize} 
  A ciascuna di esse è associato uno scenarios:
  \begin{itemize}
- \item Responsabile avvistamenti: iscrizione al sito con possibilità di modifica degli avvistamenti, aggiunta e cancellazione.
- \item Ricercatore: Aggiunta di nuovi avvistamenti.
+ \item Ricercare: iscrizione al sito con possibilità di modifica degli avvistamenti, aggiunta e cancellazione.
  \end{itemize}
 
 \subsection{Design}
@@ -809,14 +808,14 @@ Il pulsante "salva" invece permette di salvare le informazioni inserite negli in
 \end{figure}
 \\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
 Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per selezionare l'individuo, tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi tali coordinate devono essere convertite da assolute in relative e ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
-Per ciascuna sottoimmagine è associata una o più ferite, una volta individuate possono essere aggiunte grazie al relativo pulsante e sono possibili anche le operazioni di modifica e cancellazione delle stesse.\\
-Un esempio di aggiunta di un individuo può essere il seguente:  
+Per ciascuna sottoimmagine è associata una o più ferite, una volta individuate possono essere aggiunte grazie al relativo pulsante e sono possibili anche le operazioni di modifica e cancellazione delle stesse.
+Un esempio di aggiunta di un individuo può essere il seguente:\\
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.60]{img_concettuale/addEsempl.png}
 \caption{Modale con canvas per disegnare l'individuo.}
 \end{figure}
-Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
+\\Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \newpage
 \begin{figure}[hbtp]
 \centering
@@ -845,53 +844,54 @@ L'obiettivo principale di questo algoritmo è quello di aumentare la comprension
 Le balene e i delfini presenti nei dati a disposizione possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dorsi, teste e fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno distinte. Inoltre, le caratteristiche individuali possono variare nel tempo. Questa competizione amplia in modo significativo questo compito: i dati in gara contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte da 28 diverse organizzazioni di ricerca. Gli individui sono stati identificati manualmente e assegnati un ID-individuo dai ricercatori marini, e il compito è quello di identificare correttamente questi individui nelle immagini.
 
 \subsection{Specie presenti e quantità di immagini}
-Il dataset è stato suddiviso in base alla specie a cui ogni animale appartiene nel seguente modo:
+Il dataset è stato suddiviso in cartelle in base alla specie a cui ogni animale appartiene con le seguenti quantità di immagini:
 
 \begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}}
 \toprule
-\textbf{Specie} & \textbf{Numero di immagini} \\
+\textbf{Specie} & \textbf{Numero di immagini per ogni animale.} \\
 \midrule
 \endfirsthead
 %
 \endhead
 %
 \bottomrule
-\endfoot
+%\endfoot
 %
-\bottomrule
+%\bottomrule
 \endlastfoot
 %
-Balaenoptera Edeni & 154 \\
-Balena Blu & 4830 \\
-Balena Franca Australe & 866 \\
-Balena Grigia & 1123 \\
-Balenottera Boreale & 428 \\
-Balenottera Comune & 1324 \\
-Balenottera Minore & 1608 \\
+Tursiope & 10781 \\
 Beluga & 7443 \\
-Cefalorinco di Commerson & 90 \\
-Delfino Bianco Atlantico & 229 \\
-Delfino Comune & 347 \\
-Delfino Scuro & 3139 \\
-Feresa & 76 \\
-Globicefalo & 238 \\
-Globicefalo di Gray & 367 \\
-Globicephala & 262 \\
-Globis & 116 \\
-Lagenodelfino & 14 \\
 Megattera & 7392 \\
-Orca & 962 \\
-Orca2 & 1493 \\
-Peponocefalo & 1689 \\
+Balena Blu & 4830 \\
 Pseudorca & 3326 \\
-Stenella Maculata & 490 \\
+Delfino Scuro & 3139 \\
+Orca & 2455 \\
 Stenella Dal Lungo Rostro & 1700 \\
-Stenella Maculata & 145 \\
+Peponocefalo & 1689 \\
+Balenottera Minore & 1608 \\
+Balenottera Comune & 1324 \\
+Balena Grigia & 1123 \\
+Balena Franca Australe & 866 \\
+Stenella Maculata & 635 \\
+Balenottera Boreale & 428 \\
+Globicefalo di Gray & 367 \\
+Delfino Comune & 347 \\
+Zifio & 320 \\
+Globicephala & 262 \\
+Globicefalo & 238 \\
+Delfino Bianco Atlantico & 229 \\
+Balaenoptera Edeni & 154 \\
+Globis & 116 \\
+Cefalorinco di Commerson & 90 \\
+Feresa & 76 \\
 Steno & 60 \\
-Tursiope & 9664 \\
-Tursiope2 & 1117 \\
-Zifio & 341 \\
+Lagenodelfino & 14 \\
+Zifio4 & 8 \\
+Zifio3 & 7 \\
+Zifio2 & 6 \\
 \end{longtable}
+
 Da come si può notare dalla tabella per cisacuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
 
 \section{Algoritmo di riconoscimento}
@@ -907,9 +907,9 @@ La fase di training dell'algoritmo di visione artificiale è un processo crucial
 Durante questa fase, l'algoritmo viene alimentato con un gran numero di dati di formazione, che consistono in immagini etichettate con informazioni sul loro contenuto. Questi dati vengono utilizzati per formare un modello matematico che descrive la relazione tra gli input visivi e le relative etichette.\\
 Il modello viene quindi testato su un insieme di dati di prova, che non sono stati utilizzati durante il processo di formazione. Questi dati vengono utilizzati per valutare la precisione del modello, ovvero la sua capacità di prevedere correttamente le etichette associate agli input visivi. In base ai risultati ottenuti, il modello può essere raffinato e ripetere il processo di formazione fino a quando non si ottiene una precisione sufficientemente alta.\\
 L'algoritmo di visione artificiale può essere addestrato utilizzando diverse tecniche di apprendimento automatico, come l'apprendimento profondo (deep learning), l'apprendimento supervisionato e l'apprendimento non supervisionato. Queste tecniche sono basate su diverse architetture di rete neurale, che utilizzano algoritmi matematici per elaborare i dati visivi e produrre output di alta qualità.\\
-Il codice che è stato utlizzato per realizzare questa funzionalità verrà scomposta in più parti in modo da descriverlo nel dettaglio:
+Il codice che è stato utlizzato per realizzare questa funzionalità verrà scomposta in più parti in modo da descriverlo nel dettaglio.
 
-
+\subsubsection{Librerie utilizzate}
 \begin{lstlisting}[caption={Le librerie utilizzate}, label={lst:librerie_usate}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 import numpy as np
 import matplotlib.pyplot as plt
@@ -921,7 +921,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix, classification_report
 \end{lstlisting}
-Descrizione delle librerie utilizzate:
+Descrizione delle librerie:
 \begin{itemize}
     \item \textbf{numpy}: è una libreria di alto livello per il calcolo scientifico in Python. Fornisce supporto per array multi-dimensionale, funzioni matematiche e altri strumenti utili per il calcolo numerico.
     \item \textbf{matplotlib}: è una libreria per la creazione di visualizzazioni dati. Può essere utilizzata per creare grafici e altre forme di rappresentazione visiva dei dati.
@@ -938,6 +938,8 @@ Descrizione delle librerie utilizzate:
     \end{itemize}
 \end{itemize}
 
+\newpage
+\subsubsection{Caricamento dei dati}
 \begin{lstlisting}[caption={Caricamento dei dati di training.}, label={lst:Descrizioni_prese}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 df = pd.read_csv('../dolphin/train.csv')
 df.head()
@@ -961,7 +963,8 @@ La funzione pd.read\_csv() legge i dati dal file CSV e li carica in un oggetto. 
 \end{tabular}
 \end{center}
 \end{table}
-
+\newpage
+\subsubsection{Controllo caricamento e distribuzione delle categorie}
 \begin{lstlisting}[caption={Controllo del corretto caricamento dei dati.}, label={lst:Controllo_caricamento_dati}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 df.shape
 df.species.nunique()
@@ -980,11 +983,12 @@ Le ultime due righe permettono di disegnare un grafico a barre orizzontali che m
 Questo grafico aiuta a visualizzare la distribuzione delle categorie nella colonna species, che è utile per comprendere la quantità e la distribuzione delle diverse categorie presenti nei dati. Il risultato è il seguente:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.28]{img_concettuale/numEsemp.png}
+\includegraphics[scale=0.26]{img_concettuale/numEsemp.png}
 \caption{Distribuzione delle categorie nella colonna species.}
 \end{figure}
 
-\begin{lstlisting}[caption={.}, label={lst:}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+\subsubsection{Associazione immagine etichetta}
+\begin{lstlisting}[caption={Associazione immagini alle relative etichette.}, label={lst:Associazione_immagine_etichetta}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 image_dir = Path('../imagessortedbyspecies/train_species_list')
 filepaths = list(image_dir.glob(r'**/*.jpg'))
 labels = list(map(lambda x: os.path.split(os.path.split(x)[0])[1], filepaths))
@@ -995,11 +999,11 @@ image_df
 \end{lstlisting}
 In queste righe di codice, si sta creando un DataFrame Pandas che associ a ciascun file immagine un'etichetta.In particolare:
 \begin{itemize}
-    \item image\_dir: è un oggetto che rappresenta il percorso della directory che contiene le immagini classificate per specie.
-    \item filepaths: è una lista che contiene i percorsi completi di ogni file immagine nella directory. La funzione list(image\_dir.glob(r'**/*.jpg')) utilizza la funzione glob per trovare tutti i file con estensione ".jpg" nella directory.
-    \item labels: è una lista che contiene le etichette associate a ciascuna immagine. La funzione map()  utilizza la funzione os.path.split() per estrarre il nome della cartella che contiene l'immagine, che viene utilizzato come etichetta per l'immagine.
-    \item filepaths e labels: sono entrambi convertiti in oggetti Series di Pandas, che sono array unidimensionali etichettati.
-    \item Infine, i due oggetti Series sono concatenati insieme per creare un DataFrame.
+    \item \textbf{image\_dir}: è un oggetto che rappresenta il percorso della directory che contiene le immagini classificate per specie.
+    \item \textbf{filepaths}: è una lista che contiene i percorsi completi di ogni file immagine nella directory. La funzione list(image\_dir.glob(r'**/*.jpg')) utilizza la funzione glob per trovare tutti i file con estensione ".jpg" nella directory.
+    \item \textbf{labels}: è una lista che contiene le etichette associate a ciascuna immagine. La funzione map()  utilizza la funzione os.path.split() per estrarre il nome della cartella che contiene l'immagine, che viene utilizzato come etichetta per l'immagine.
+    \item \textbf{filepaths e labels}: sono entrambi convertiti in oggetti Series di Pandas, che sono array unidimensionali etichettati.
+    \item Infine, i due oggetti sono concatenati insieme per creare un DataFrame.
 \end{itemize}
 Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei file immagine e l'altra contiene le etichette associate a ciascuna immagine. Questo DataFrame può essere utilizzato per lavorare con i dati delle immagini. Il risultato finale è il seguente:
 \begin{table}[hbtp]
@@ -1013,19 +1017,344 @@ Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei fil
 {\color[HTML]{000000} 0} & {\color[HTML]{000000} ./train/img0.jpg} & {\color[HTML]{000000} globicefalo\_di\_Gray} \\ \hline
 {\color[HTML]{000000} 1} & {\color[HTML]{000000} ./train/img1.jpg} & {\color[HTML]{000000} globicefalo\_di\_Gray} \\ \hline
 {\color[HTML]{000000} ...} & {\color[HTML]{000000} ...} & {\color[HTML]{000000} ...} \\ \hline
-{\color[HTML]{000000} 51031} & {\color[HTML]{000000} ./train/img51031.jpg} & {\color[HTML]{000000} tursiope} \\ \hline
 {\color[HTML]{000000} 51032} & {\color[HTML]{000000} ./train/img51032.jpg} & {\color[HTML]{000000} tursiope} \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
+\subsubsection{Divisione del dataframe}
+\begin{lstlisting}[caption={Divisione del dataframe.}, label={lst:Divisione_dataframe}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+train_df, test_df = train_test_split(image_df, train_size=0.8, shuffle=True, random_state=1)
+\end{lstlisting}
+Nel codice sopra riportato viene utilizzata la funzione train\_test\_split del pacchetto scikit-learn per dividere un dataframe image\_df in due parti, una chiamata train\_df e l'altra test\_df.\\
+La funzione train\_test\_split divide un insieme di dati in due parti, una parte di addestramento (train) e una parte di test (test). La dimensione della parte di addestramento è specificata dall'argomento train\_size e viene impostato su 0,8 in questo caso, il che significa che l'80\% dei dati verrà utilizzato per l'addestramento e il restante 20\% verrà utilizzato per i test.\\
+L'argomento shuffle viene impostato su True, il che significa che i dati verranno mescolati casualmente prima della divisione. Questo è importante per garantire una distribuzione casuale dei dati tra la parte di addestramento e quella di test.\\
+L'argomento random\_state viene impostato su 1, il che significa che verrà utilizzato un seme specifico per la generazione di numeri casuali. Questo garantisce che i dati vengano divisi allo stesso modo ogni volta che il codice viene eseguito con lo stesso seme.\\
+
+\newpage
+\subsubsection{Istanziamento dei generatori}
+\begin{lstlisting}[caption={Istanziamento dei generatori.}, label={lst:Istanziamento_generatori}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+train_generator = tf.keras.preprocessing.image.ImageDataGenerator(
+    preprocessing_function=tf.keras.applications.mobilenet_v2.preprocess_input,
+)
+test_generator = tf.keras.preprocessing.image.ImageDataGenerator(
+    preprocessing_function=tf.keras.applications.mobilenet_v2.preprocess_input
+)
+\end{lstlisting}
+Questo codice crea due generatori di immagini, uno chiamato train\_generator e l'altro chiamato test\_generator. Entrambi i generatori sono istanziati dalla classe ImageDataGenerator del pacchetto tf.keras.preprocessing.image.\\
+La classe ImageDataGenerator viene utilizzata per pre-elaborare i dati delle immagini in modo che possano essere utilizzati come input per una rete neurale. In questo caso, il pre-elaborazione viene effettuata utilizzando la funzione preprocess\_input della libreria tf.keras.applications.mobilenet\_v2. Questa funzione si occupa di normalizzare i valori dei pixel delle immagini in modo che siano adatti per l'utilizzo con la rete neurale MobileNetV2.\\
+Da notare che la funzione preprocess\_input viene passata come argomento preprocessing\_function a entrambe le istanze di ImageDataGenerator. Questo garantisce che sia il generator di addestramento che quello di test vengano pre-elaborati allo stesso modo.\\
+
+\subsubsection{Creazione di un generatore di immagini da un dataframe}
+\begin{lstlisting}[caption={Creazione del generatore di immagini da un dataframe di addestramento.}, label={lst:Generatore_di_immagini}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+train_images = train_generator.flow_from_dataframe(
+    dataframe=train_df,
+    x_col='Filepath',
+    y_col='Label',
+    target_size=(224, 224),
+    color_mode='rgb',
+    class_mode='categorical',
+    batch_size=32,
+    shuffle=True,
+    seed=42,
+    subset='training'
+)
+\end{lstlisting}
+Questo codice utilizza la funzione flow\_from\_dataframe del generatore di addestramento (train\_generator) per creare un generatore di immagini da un dataframe di addestramento (train\_df). La funzione flow\_from\_dataframe legge le immagini dal file system e le trasforma in un formato utilizzabile per l'addestramento del modello di apprendimento automatico. Gli argomenti passati sono:
+\begin{itemize}
+    \item \textbf{dataframe}: specifica il dataframe di origine per il generatore di immagini.
+    \item \textbf{x\_col}: specifica la colonna che contiene il percorso del file per ciascuna immagine.
+    \item \textbf{y\_col}: specifica la colonna che contiene l'etichetta per ciascuna immagine.
+    \item \textbf{target\_size}: specifica le dimensioni delle immagini di destinazione e viene impostato su (224, 224).
+    \item \textbf{color\_mode} viene impostato su rgb, il che significa che le immagini verranno lette come immagini a colori.
+    \item \textbf{class\_mode}: viene impostato su categorical, il che significa che le etichette verranno restituite come matrici one-hot codificate. Esse sono una rappresentazione numerica delle categorie che consiste in un vettore di lunghezza pari al numero di categorie possibili, in cui solo un elemento è impostato su 1 e gli altri sono impostati su 0.
+    \item \textbf{batch\_size}: specifica il numero di immagini da restituire in un singolo batch(sottoinsieme di dati) e viene impostato su 32 in questo caso. L'argomento shuffle viene impostato su True, il che significa che le immagini verranno mescolate casualmente durante l'iterazione del generatore.
+    \item \textbf{seed}: viene impostato su 42, il che significa che verrà utilizzato un seme specifico per la generazione di numeri casuali durante la mescolatura delle immagini.
+     \item \textbf{subset}: viene impostato su training, il che significa che il generatore di immagini verrà utilizzato solo per l'addestramento del modello.
+\end{itemize}
+
+\newpage
+\subsubsection{Creazione del generatore di immagini di test}
+\begin{lstlisting}[caption={Creazione del generatore di immagini di test.}, label={lst:Generatore_di_immagini_di_test}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+test_images = test_generator.flow_from_dataframe(
+    dataframe=test_df,
+    x_col='Filepath',
+    y_col='Label',
+    target_size=(224, 224),
+    color_mode='rgb',
+    class_mode='categorical',
+    batch_size=32,
+    shuffle=False
+)
+\end{lstlisting}
+Questo codice quasi identico a quello descritto sopra e crea un generatore di immagini di test per un modello di apprendimento automatico, settando i reletivi argomenti. 
+
+\subsubsection{Creazione di un modello pre-addestrato di MobileNetV2}
+\begin{lstlisting}[caption={Modello pre-addestrato di MobileNetV2t.}, label={lst:modello_MobileNetV2}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+pretrained_model = tf.keras.applications.MobileNetV2(
+    input_shape=(224, 224, 3),
+    include_top=False,
+    weights='imagenet',
+    pooling='avg'
+)
+pretrained_model.trainable = False
+\end{lstlisting}
+Questo codice crea un modello pre-addestrato di MobileNetV2 con TensorFlow. Il modello viene creato utilizzando la funzione tf.keras.applications.MobileNetV2 e viene configurato con una forma di input di (224, 224, 3), che corrisponde alla dimensione delle immagini che verranno utilizzate. Per il modello vengono settate le seguenti proprietà:
+\begin{itemize}
+    \item \textbf{include\_top}: viene impostata su False, il che significa che la parte superiore del modello, che include i livelli di classificazione, verrà esclusa.
+    \item  \textbf{weights}: viene impostata su "imagenet", il che significa che il modello verrà inizializzato con i pesi pre-addestrati sulla base di ImageNet(vasto insieme di dati di immagini).
+    \item  \textbf{pooling}: viene impostata su "avg", il che significa che verrà utilizzata la media pooling per la riduzione delle dimensioni delle feature.
+\end{itemize}
+Infine, la proprietà trainable del modello viene impostata su False, il che significa che i pesi del modello non verranno adattati durante l'addestramento del modello finale. Questo è utile perché il modello MobileNetV2 è già stato addestrato su un vasto insieme di immagini e le feature che estrae sono molto utili per molte diverse attività di classificazione delle immagini. Pertanto, si desidera utilizzare queste feature pre-addestrate come caratteristiche fisse nel modello finale.\\
+\newpage
+
+\subsubsection{Definizione di un nuovo modello}
+\begin{lstlisting}[caption={Aggiunta di due strati densi alla rete.}, label={lst:aggiunta_strati_densi}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+inputs = pretrained_model.input
+x = tf.keras.layers.Dense(128, activation='relu')(pretrained_model.output)
+x = tf.keras.layers.Dense(128, activation='relu')(x)
+outputs = tf.keras.layers.Dense(30, activation='softmax')(x)
+model = tf.keras.Model(inputs, outputs)
+print(model.summary())
+\end{lstlisting}
+Il codice definisce un nuovo modello "model" che utilizza come input il modello pre-addestrato. Quindi, vengono aggiunti due strati densi alla rete, ognuno con 128 unità e un'attivazione "relu". Gli strati densi sono strati di una rete neurale artificiale che hanno una grande quantità di pesi che sono connessi a ogni neurone dello strato. Questi strati sono utilizzati per elaborare le informazioni provenienti dai livelli precedenti della rete e per produrre un'uscita che rappresenta le caratteristiche più complesse delle immagini. In questo codice, i due strati densi con 128 unità e attivazione "relu" sono stati aggiunti alla rete per estrarre ulteriori informazioni sulle immagini. L'attivazione "relu" è un'attivazione non lineare utilizzata comunemente nei modelli di rete neurale. Questa attivazione restituisce il valore di ingresso se è positivo e restituisce zero se è negativo. Questo rende la rete più efficiente e capace di apprendere relazioni più complesse tra gli input e le relative uscite.\\
+Infine, viene aggiunto un ultimo strato denso con 30 unità e un'attivazione "softmax". L'attivazione "softmax" è un'attivazione che produce una distribuzione di probabilità delle classi. Questa attivazione è spesso utilizzata come ultimo strato di una rete neurale, poiché trasforma l'uscita della rete in una probabilità per ogni classe. In questo caso, l'attivazione softmax con 30 unità viene utilizzata come ultimo strato del modello per classificare le immagini in 30 categorie diverse.\\
+Infine, il codice stampa un riepilogo del modello, che fornisce informazioni sul numero di parametri del modello e sulle sue dimensioni.\\
+
+\subsubsection{Compilazione del modello di apprendimento automatico}
+\begin{lstlisting}[caption={Compilazione del modello di apprendimento automatico.}, label={lst:compilazione_modello}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+\end{lstlisting}
+Il codice è relativo alla compilazione del modello di apprendimento automatico. La compilazione è l'ultimo passo prima di addestrare il modello. Durante la compilazione, si specificano i seguenti parametri:
+\begin{enumerate}
+    \item \textbf{Ottimizzatore}: 'adam' è un tipo di ottimizzatore che viene utilizzato per la formazione del modello. L'ottimizzatore "Adam" è un ottimizzatore di gradiente estensione della descensione del gradiente stocastico. La descensione del gradiente stocastico (SGD) è un algoritmo di addestramento della rete. Il processo consiste nel trovare i pesi ottimali del modello che minimizzano la funzione di perdita, che misura la differenza tra le previsioni del modello e i valori desiderati. Nella descensione del gradiente stocastico, viene calcolato il gradiente (una misura della pendenza) della funzione di perdita rispetto ai pesi del modello su un singolo esempio o su un piccolo gruppo di esempi (batch) alla volta. Questo gradiente viene quindi utilizzato per aggiornare i pesi del modello nella direzione opposta, in modo da minimizzare la funzione di perdita. Questo processo viene ripetuto più volte su diverse iterazioni fino a quando i pesi non convergono verso un valore ottimale. La descensione del gradiente stocastico è chiamata stocastica perché il gradiente viene calcolato su un singolo esempio o un piccolo gruppo di esempi, anziché sull'intero set di dati, il che rende il processo più efficiente rispetto alla descensione del gradiente batch. Inoltre, l'utilizzo di un singolo esempio o di un piccolo gruppo di esempi a ogni passo può aiutare a evitare di rimanere bloccati in un minimo locale durante il processo di addestramento.
+    \item \textbf{Funzione di perdita}: La funzione di perdita utilizzata è categorical\_crossentropy. Essa è una funzione di perdita utilizzata per la classificazione multi-classe che calcola la distanza tra la distribuzione di probabilità prevista e quella reale.
+    \item \textbf{Metriche}: La metrica utilizzata per valutare il modello è 'accuracy', che misura la percentuale di previsioni corrette fatte dal modello.
+\end{enumerate}
+Possiamo dire che la compilazione del modello specifica come il modello dovrebbe essere addestrato, come la perdita dovrebbe essere calcolata e come dovrebbe essere valutato il modello.\\
+
+\newpage
+\subsubsection{Fase di allenamento del modello}
+\begin{lstlisting}[caption={Fase di allenamento del modello.}, label={lst:allenamento_modello}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+r = model.fit(
+    train_images,
+    validation_data=test_images,
+    epochs=5,
+)
+\end{lstlisting}
+Il codice rappresenta l'allenamento del modello. Il metodo fit accetta i dati di allenamento:
+\begin{itemize}
+    \item \textbf{train\_images}:  le immagini che si utilizzano per addestrare il modello.
+    \item \textbf{validation\_data}: fornisce i dati di convalida al modello durante l'allenamento.
+    \item  \textbf{epochs}: specifica il numero di volte che i dati di allenamento verranno presentati al modello durante l'allenamento.
+\end{itemize}
+Il risultato dell'allenamento viene salvato nella variabile r.
+L'output dell'allenamento del modello, le informazioni sul suo progresso e la sua precisione nelle varie epoche vengono mostrate nella seguente tabella:
+
+\begin{table}[hbtp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{374151} \textbf{Epoch}} & {\color[HTML]{374151} \textbf{Time}} & {\color[HTML]{374151} \textbf{Train. loss}} & {\color[HTML]{374151} \textbf{Train. accuracy}} & {\color[HTML]{374151} \textbf{Valid. loss}} & {\color[HTML]{374151} \textbf{Valid. accuracy}} \\ \hline
+\rowcolor[HTML]{F7F7F8} 
+{\color[HTML]{374151} 1} & {\color[HTML]{374151} 155s} & {\color[HTML]{374151} 0.7081} & {\color[HTML]{374151} 0.7903} & {\color[HTML]{374151} 0.5015} & {\color[HTML]{374151} 0.8443} \\ \hline
+\rowcolor[HTML]{F7F7F8} 
+{\color[HTML]{374151} 2} & {\color[HTML]{374151} 150s} & {\color[HTML]{374151} 0.4338} & {\color[HTML]{374151} 0.8634} & {\color[HTML]{374151} 0.5241} & {\color[HTML]{374151} 0.8386} \\ \hline
+\rowcolor[HTML]{F7F7F8} 
+{\color[HTML]{374151} 3} & {\color[HTML]{374151} 148s} & {\color[HTML]{374151} 0.3507} & {\color[HTML]{374151} 0.8870} & {\color[HTML]{374151} 0.4261} & {\color[HTML]{374151} 0.8665} \\ \hline
+\rowcolor[HTML]{F7F7F8} 
+{\color[HTML]{374151} 4} & {\color[HTML]{374151} 147s} & {\color[HTML]{374151} 0.2905} & {\color[HTML]{374151} 0.9040} & {\color[HTML]{374151} 0.4281} & {\color[HTML]{374151} 0.8700} \\ \hline
+\rowcolor[HTML]{F7F7F8} 
+{\color[HTML]{374151} 5} & {\color[HTML]{374151} 151s} & {\color[HTML]{374151} 0.2480} & {\color[HTML]{374151} 0.9164} & {\color[HTML]{374151} 0.4433} & {\color[HTML]{374151} 0.8715} \\ \hline
+\end{tabular}%
+}
+\end{table}
+I valori che vengono rappresentati nella tabella sono:
+\begin{itemize}
+    \item \textbf{Epoch}: Il numero di epoca a cui è arrivato. Un'epoca rappresenta l'elaborazione dell'intero dataset di addestramento. In genere, si eseguono molte epoche di addestramento su un modello di apprendimento automatico per aumentare la sua precisione.
+    \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di allenamento. Gli step di allenamento sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una volta.
+    \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante l'allenamento. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di allenamento. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione del Training Loss indica un miglioramento del modello e un'adattamento più preciso alle osservazioni di allenamento..
+    \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di allenamento. Viene calcolato come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di allenamento. Esso è utilizzato per valutare la performance del modello durante l'allenamento e per verificare che esso stia effettivamente imparando dai dati di allenamento. Tuttavia, esso non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di allenamento invece che generalizzare davvero le informazioni presenti in essi.
+    \item \textbf{Validation loss}: è una metrica utilizzata per valutare la performance del modello durante la validazione. Questa metrica rappresenta la quantità di errore che il modello commette quando si prevede le classificazioni per i dati di validazione. Il valore di Validation loss viene calcolato come la media della funzione di costo tra le previsioni effettuate dal modello e le verità di etichetta per i dati di validazione. Più basso è il suo valore, migliore è la capacità del modello di generalizzare su dati nuovi.
+    \item \textbf{Validation accuracy}: è una metrica utilizzata per valutare la precisione del modello. Si riferisce alla percentuale di previsioni corrette effettuate dal modello su un set di dati di validazione, che è separato dal set di dati di addestramento. Essa fornisce una misura dell'accuratezza del modello sui dati che non ha ancora visto e quindi fornisce una valutazione più equa della sua capacità di generalizzare su dati nuovi.
+\end{itemize}
+
+\newpage
+\subsubsection{Rappresentazione delle curve di perdiata}
+\begin{lstlisting}[caption={Codice per il grafico delle curve di perdita.}, label={lst:curve_perdita}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+plt.plot(r.history['loss'], label='train loss')
+plt.plot(r.history['val_loss'], label='val loss')
+plt.legend()
+plt.show()
+\end{lstlisting}
+Questo codice traccia due curve: una rappresenta la perdita(loss) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta la perdita ottenuta dal modello durante la validazione su un insieme di dati di validazione. Il grafico quindi mostra come la perdita del modello varia durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. La funzione plt.plot viene utilizzata per tracciare il grafico, mentre i dati sono forniti dal dizionario r.history che contiene la storia dell'addestramento e della validazione. Il risultato è il seguente:
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.59]{img_concettuale/grpP.png}
+\caption{Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}
+\end{figure}
+
+\subsubsection{Rappresentazione delle curve di accuratezza}
+\begin{lstlisting}[caption={Codice per il grafico delle curve di accuratezza.}, label={lst:curve_accuratezza}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+plt.plot(r.history['accuracy'], label='train acc')
+plt.plot(r.history['val_accuracy'], label='val acc')
+plt.legend()
+plt.show()
+\end{lstlisting}
+Questo codice traccia due curve: una rappresenta l'accuratezza(accuracy) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta l'accuratezza ottenuta dal modello durante la validazione su un insieme di dati di validazione. Quindi il grafico mostra come l'accuratezza del modello varia durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. 
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.70]{img_concettuale/grpPP.png}
+\caption{L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}
+\end{figure}
+
+\subsubsection{Significato delle rappresentazioni}
+Come è possibile vedere dai grafici delle due sezioni precedenti si nota che:
+il grafico che rappresenta la perdita ovvero la misura della discrepanza tra i valori predetti dal modello e i valori reali attraverso l'addestramento porta a minimizzare la perdita in modo tale che i valori predetti si avvicinino sempre di più a quelli reali. Invece, il grafivo dell'accuratezza ovvero la percentuale di predizioni corrette effettuate dal modello rispetto al numero totale di predizioni effettuate, con l'addestramento essa si alza.
+
+\subsubsection{Determinazione dell'accuratezza media}
+\begin{lstlisting}[caption={Determinazione dell'accuratezza.}, label={lst:accuratezza_media}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+results = model.evaluate(test_images, verbose=0)
+print("Test Accuracy: {:.2f}%".format(results[1] * 100))
+\end{lstlisting}
+Il codice valuta le prestazioni del modello sui dati di test, utilizzando il metodo \textit{evaluate} del modello. Esso viene invocato passando come input le immagini di test(test\_images) e restituisce una lista di valori, tra cui la perdita (loss) e l'accuratezza (accuracy) ottenute dal modello sui dati di test.
+Successivamente, il codice stampa a video l'accuratezza ottenuta sul test set, utilizzando.
+Nel nostro caso l'accuratezza ottenuta è quella del 86.95\%.
 
 
+\subsubsection{Matrice di confusione e report di classificazione}
+\begin{lstlisting}[caption={Codice per la creazione della matrice di confusione e del report di classificazione.}, label={lst:matrice_report}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+predictions = np.argmax(model.predict(test_images), axis=1)
+cm = confusion_matrix(test_images.labels, predictions)
+clr = classification_report(test_images.labels, predictions, target_names=test_images.class_indices, zero_division=0)
+\end{lstlisting}
+Il codice prende in input le immagini di test e utilizza il modello addestrato per effettuare le predizioni. In particolare, utilizza il metodo predict del modello per ottenere le predizioni in forma di probabilità, e la funzione argmax di Numpy per ottenere la classe con la probabilità maggiore.\\
+Successivamente, il codice utilizza la matrice di confusione per valutare le prestazioni del modello. La matrice di confusione è una tabella che mostra il numero di predizioni corrette e di predizioni errate del modello per ciascuna classe di appartenenza. In particolare, la variabile cm rappresenta la matrice ottenuta utilizzando le etichette di classe reali e le etichette di classe predette dal modello. La matrice di confusione è rappresentata come una matrice quadrata, in cui ogni riga rappresenta la classe reale e ogni colonna rappresenta la classe predetta. Gli elementi sulla diagonale principale rappresentano il numero di predizioni corrette, mentre gli elementi fuori dalla diagonale principale rappresentano il numero di predizioni errate.\\
+L'ultimo passo del codice utilizza la funzione classification\_report della libreria Scikit-learn per generare un report di classificazione.
+Il report di classificazione, è un resoconto dettagliato delle prestazioni del modello. In particolare, il report fornisce informazioni come l'accuratezza, la precisione, il recall e l'F1-score per ogni classe di appartenenza. L'accuratezza è il rapporto tra il numero di predizioni corrette e il numero totale di predizioni, mentre la precisione è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di predizioni per quella classe. Il recall invece, è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di esempi di quella classe nel dataset di test. Mentre l'F1-score è una media armonica di precisione e recall. Il report di classificazione è un'importante fonte di informazioni per valutare le prestazioni del modello e per identificare le classi in cui il modello presenta maggiori difficoltà. 
+
+\subsubsection{Visualizzazione della matrice di confusione}
+\begin{lstlisting}[caption={Codice per la visualizzazione della matrice di confusione.}, label={lst:matrice_vista}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+plt.figure(figsize=(15, 15))
+sns.heatmap(cm, annot=True, fmt='g', vmin=0, cmap='Blues', cbar=False)
+plt.xticks(ticks=np.arange(30) + 0.5, labels=test_images.class_indices, rotation=90)
+plt.yticks(ticks=np.arange(30) + 0.5, labels=test_images.class_indices, rotation=0)
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+plt.show()
+\end{lstlisting}
+Il codice disegna una heatmap(mappa di calore) della matrice di confusione, che visualizza graficamente le informazioni contenute nella matrice di confusione in modo più chiaro. In particolare, con l'utilizzo della libreria Seaborn per creare la heatmap, vengono specificati i seguenti parametri: il parametro annot=True per mostrare i numeri all'interno della heatmap, il parametro fmt='g' per formattare i numeri come interi, e il parametro vmin=0 per impostare il valore minimo del range di colori.
+Inoltre, il codice utilizza le funzioni xticks e yticks di Matplotlib per impostare le etichette degli assi x e y con i nomi delle classi di appartenenza, utilizzando il parametro labels e il dizionario test\_images.class\_indices per ottenere i nomi delle classi.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.29]{img_concettuale/matConf.png}
+\caption{Matrice di confusione.}
+\end{figure}
+
+\subsubsection{Visualizzazione della precisione per ogni specie}
+La precisione di ogni singola specie è riportata nella seguente tabella, in aggiunti sono presenti anche altri indici spiegati in precedenza:
+\begin{longtable}{p{0.30\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.13\textwidth}p{0.10\textwidth}}
+\toprule
+\textbf{Specie} & \textbf{Precisione} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+\endfirsthead
+%
+\endhead
+%
+\bottomrule
+%\endfoot
+%
+%\bottomrule
+\endlastfoot
+%
+balaenoptera edeni & 0.86 & 0.25 & 0.39 & 24 \\
+balena blu & 0.95 & 0.98 & 0.97 & 1005 \\
+balena franca australe & 0.99 & 0.87 & 0.93 & 173 \\
+balena grigia & 0.82 & 0.86 & 0.84 & 251 \\
+balenottera boreale & 0.93 & 0.66 & 0.77 & 79 \\
+balenottera comune & 0.76 & 0.72 & 0.74 & 281 \\
+balenottera minore & 0.75 & 0.75 & 0.75 & 315 \\
+beluga & 0.99 & 0.96 & 0.97 & 1449 \\
+cefalorinco Commer. & 1.00 & 0.73 & 0.85 & 15 \\
+delfino b. atlant. & 0.73 & 0.55 & 0.63 & 49 \\
+delfino comune & 0.82 & 0.42 & 0.56 & 64 \\
+delfino scuro & 0.93 & 0.97 & 0.95 & 635 \\
+feresa & 0.23 & 0.17 & 0.19 & 18 \\
+globicefalo & 0.95 & 0.41 & 0.58 & 46 \\
+globicefalo di Gray & 0.95 & 0.74 & 0.83 & 85 \\
+globicephala & 0.82 & 0.32 & 0.46 & 56 \\
+globis & 0.18 & 0.10 & 0.13 & 20 \\
+lagenodelfino & 0.00 & 0.00 & 0.00 & 2 \\
+megattera & 0.88 & 0.92 & 0.90 & 1527 \\
+orca & 0.89 & 0.89 & 0.89 & 480 \\
+peponocefalo & 0.85 & 0.65 & 0.74 & 345 \\
+pseudorca & 0.78 & 0.71 & 0.74 & 663 \\
+stenella lungo rostro & 0.77 & 0.84 & 0.80 & 354 \\
+stenella maculata & 0.62 & 0.57 & 0.59 & 114 \\
+steno & 1.00 & 0.08 & 0.15 & 12 \\
+tursiope & 0.82 & 0.94 & 0.87 & 2071 \\
+zifio & 0.65 & 0.46 & 0.54 & 70 \\
+zifio2 & 0.00 & 0.00 & 0.00 & 1 \\
+zifio3 & 0.00 & 0.00 & 0.00 & 2 \\
+zifio4 & 0.00 & 0.00 & 0.00 & 1 \\
+\end{longtable}
 
 \subsection{Fase di riconosciemnto dell'immagine}
+In questa fase esamineremo il codice al fine di identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stato implementato la rete neurale viene addestartata periodicamente in caso di aggiunta di nuove immaggini, invece ongi volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
+
+\subsubsection{Librerie utilizzate}
+\begin{lstlisting}[caption={Librerie per il riconosciemtno dell'immagine.}, label={lst:librerie_riconoscimento}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+from keras.models import load_model
+from keras.preprocessing.image import load_img,img_to_array
+\end{lstlisting}
+Queste librerie sono utilizzate per caricare un modello di rete neurale già addestrato (load\_model) e per caricare un'immagine come input per la rete neurale (load\_img,img\_to\_array). La libreria \textit{load\_img} consente di caricare un'immagine in memoria come oggetto PIL (Python Imaging Library), mentre la libreria \textit{img\_to\_array} converte l'oggetto PIL in un array NumPy che può essere utilizzato come input per la rete neurale.
+
+\subsubsection{Caricamento della rete neurale}
+\begin{lstlisting}[caption={Codice di caricamento della rete neurale.}, label={lst:caricamento_rete}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+model1 = load_model('./WCvF.h5',compile=False)
+lab = train_images.class_indices
+lab={k:v for v,k in lab.items()}
+\end{lstlisting}
+Il codice carica il modello salvato precedentemente nel file WCvF.h5 (un file di dati binari che contiene un modello di rete neurale addestrato) e lo assegna ad una variabile model1. Successivamente, crea un dizionario lab che associa i valori numerici alle rispettive classi(in ordine alfabetico) estratte dal modello caricato. Il dizionario è stato creato invertendo la posizione di chiave e valore rispetto al dizionario originale train\_images.class\_indices. Col parametro compile uguale a False il modello non verrà compilato.
+
+\subsubsection{Funzione di predizione}
+\begin{lstlisting}[caption={Codice della funzione di predizione.}, label={lst:funzione_predizione}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+def output(location):
+    img=load_img(location,target_size=(224,224,3))
+    img=img_to_array(img)
+    img=img/255
+    img=np.expand_dims(img,[0])
+    answer=model1.predict(img)
+    y_class = answer.argmax(axis=-1)
+    y = " ".join(str(x) for x in y_class)
+    y = int(y)
+    res = lab[y]
+    return res
+\end{lstlisting}
+La funzione prende in input la posizione di un'immagine, la carica, la converte in un array di numpy, normalizza i valori del pixel dell'immagine, aggiunge una dimensione per il batch e fa una previsione sulla classe dell'immagine usando un modello preaddestrato \textit{model1}. Attraverso l'utilizzo del dizionario \textit{lab} per mappare l'indice della classe al nome corrispondente viene restituita la sigla della specie predetta dell'immagine.
+
+\subsubsection{Predizione delle immagini}
+\begin{lstlisting}[caption={Codice della predizione delle immagini.}, label={lst:Immagini_predizione}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+args = sys.argv[1:]
+for arg in args:
+    img='/percorso/img/temp/'+arg
+    pic=load_img(img, target_size=(224,224,3))
+    ris = ris + output(img) + "-"
+print(ris)
+\end{lstlisting}
+Questa funzione legge gli argomenti passati da riga di comando da uno scipt bash, cioè il nome di una o più immagini. Per ogni immagine, carica l'immagine dal percorso specificato, elabora l'immagine utilizzando la funzione "output" e restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
+
+\section{Integrazione dell'algoritmo col sistema}
+
+
+
 \chapter{Documentazione Test}
-
-
-
 
 \section{Test con l'utente}
 Al fine di effettuare operazioni di test direttamente con l'utente di è deciso di creare un prototipo per far interagire direttamente l'utente sull'intero sistema in beta-release.
