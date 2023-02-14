@@ -78,7 +78,8 @@ function createMap(data)
         if(data[i]['Specie_Nome']==null){
             data[i]['Specie_Nome']="?";
         }
-        let marker = L.marker([data[i]['Latid'], data[i]['Long']]).addTo(map);
+        let icon = selectMarker(data[i]['Anima_Nome']);
+        let marker = L.marker([data[i]['Latid'], data[i]['Long']], {icon: icon}).addTo(map);
         marker.bindPopup("Data: " + data[i]['Data']+"<br> Animale: " + data[i]['Anima_Nome']+"<br> Specie: " + data[i]['Specie_Nome']);
         marker.on('mouseover', function (e) {
             this.openPopup();
@@ -92,6 +93,44 @@ function createMap(data)
     }
     layer = new L.TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     map.addLayer(layer);
+}
+
+function selectMarker(animale){
+    let url = "";
+    switch (animale) {
+        case "Balena":
+            url = "../../img/marker/m1.png";
+            break;
+        case "Delfino":
+            url = "../../img/marker/m2.png";
+            break;
+        case "Foca":
+            url = "../../img/marker/m3.png";
+            break;
+        case "Razza":
+            url = "../../img/marker/m4.png";
+            break;
+        case "Squalo":
+            url = "../../img/marker/m5.png";
+            break;
+        case "Tartaruga":
+            url = "../../img/marker/m6.png";
+            break;
+        case "Tonno":
+            url = "../../img/marker/m7.png";
+            break;
+        default:
+            url = "../../img/marker/m8.png";
+            break;
+    }
+
+    const greenIcon = new L.Icon({
+        iconUrl: url,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34]
+    });
+    return greenIcon;
 }
 
 function averageCoord(arr, str){
