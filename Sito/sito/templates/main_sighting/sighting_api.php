@@ -35,6 +35,21 @@ if(isset($_POST["request"])){
                 $result = $dbh->saveAvv($user[0]["ID"], $_POST["data"], $_POST["esemplari"], $_POST["latitudine"], $_POST["longitudine"], $_POST["specie"], $_POST["sottospecie"], $_POST["mare"], $_POST["vento"], $_POST["note"]);
             }
             break;
+        case 'export':
+            if(isUserLoggedIn()){
+                $filename = "dati.csv";
+                header('Content-Type: text/csv');
+                header('Content-Disposition: attachment; filename="'.$filename.'"');
+                $file = fopen('php://output', 'w');
+                fputcsv($file, array('ID', 'Nome', 'Cognome', 'Email', 'Data', 'Numero esemplari', 'Latitudine', 'Longitudine', 'Animale', 'Specie', 'Vento', 'Mare', 'Note'));
+                $result = $dbh->getSighting();
+                foreach ($result as $k) {
+                    fputcsv($file, array($k['ID'], $k['Nome'], $k['Cognome'], $k['Email'], $k['Data'], $k['Numero_Esemplari'], $k['Latid'], $k['Long'], $k['Anima_Nome'], $k['Specie_Nome'], $k['Vento'], $k['Mare'], $k['Note']));
+                }
+                fclose($file);
+                return ;
+            }
+            break;
     }
 }
 

@@ -72,7 +72,7 @@
         }
 
         public function getSighting(){
-            $query = 'SELECT a.*, u.Nome, u.Cognome FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.Eliminato<>"1" ORDER BY Data DESC';
+            $query = 'SELECT a.*, u.Nome, u.Cognome, u.Email FROM avvistamenti a JOIN utenti u ON a.Utente_ID=u.ID WHERE a.Eliminato<>"1" ORDER BY Data DESC';
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

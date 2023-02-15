@@ -48,6 +48,30 @@ $(document).ready(function() {
     $("#aggiungi").click(function() {
         $('#add').modal('toggle');
     });
+
+    $("#export").click(function() {
+        const datas = new FormData();
+        datas.append("request", "export");
+        $.ajax({
+            method: "POST",
+            url: fileint,
+            data:  datas,
+            processData: false,
+            contentType: false
+        })
+        .done(function(data,success,response) {
+            var link = document.createElement('a');
+            link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data);
+            link.download = 'dati.csv';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .fail(function(response) {
+            console.log(response);
+        });
+    });
     
     $( "#slcSpecie" ).change(function() {
         var sp = $("#slcSpecie").val();

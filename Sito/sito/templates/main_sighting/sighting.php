@@ -77,6 +77,7 @@
                     <h1>Tabella Avvistamenti</h1>
                 </div>
                 <div class="p-3 pt-0 bd-highlight text-end">
+                    <button id="export" class="btn btn-primary" aria-label="Esporta avvistamenti"><span class="fas fa-file-export" aria-hidden="true"></span> Esporta Dati</button>
                     <button id="aggiungi" class="btn btn-success" aria-label="Aggiungi avvistamento"><span class="fas fa-plus"></span> Avvistamento</button>
                 </div>
             </header>
