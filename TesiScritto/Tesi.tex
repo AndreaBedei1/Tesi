@@ -528,7 +528,8 @@ Nel nostro caso è stato utilizzato il solution stack denominato LAMP (Linux, Ap
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/LAMP.png}
-\caption{Stack LAMP. Fonte: phoenixnap.com}
+\caption{Stack LAMP, Fonte: \cite{phoenixnap}}
+
 \end{figure} 
 \subsubsection{PHP}
 Lato server si ha un linguaggio di programmazione denominato PHP. Esso è open-source ed utilizzato per lo sviluppo di siti web dinamici e interattivi. \\ PHP è un linguaggio di scripting server-side, il che significa che il codice PHP viene eseguito sul server, non sul browser del client. Questo rende il processo di sviluppo più efficiente, poiché l'elaborazione avviene sul server e i dati vengono inviati al browser solo una volta elaborati. Questo rende possibile creare siti web dinamici e interattivi, che possono essere personalizzati in base alle esigenze dell'utente. \\ Esso supporta anche molte funzionalità avanzate, come l'elaborazione di form HTML, la connessione a database, l'elaborazione di cookie e sessioni e la gestione dei file. Questo rende possibile creare siti web che possono offrire molte funzionalità avanzate, come ad esempio la personalizzazione dei contenuti in base alle preferenze dell'utente.
@@ -577,7 +578,7 @@ Nel progetto, al fine di semplificare la crezione di determinate funzionalità, 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.40]{img_concettuale/ajax.jpg}
-\caption{Funzionamento di AJAX. Fonte: www.javascript-coder.com}
+\caption{Funzionamento di AJAX, Fonte: \cite{javascript-coder}}
 \end{figure} 
 Nell'applicazione per richiedere dati dal database vengono eseguite delle chiamate Ajax asincrone al server. AJAX (Asynchronous JavaScript and XML) è una tecnologia utilizzata per creare applicazioni web dinamiche e interattive. Esso si basa sull'utilizzo di JavaScript e permette di aggiornare parti di una pagina web senza dover ricaricarla.
 Invece di inviare una richiesta al server per ottenere l'intera pagina web, AJAX consente di inviare richieste al server per ottenere solo i dati necessari. Questo significa che, ad esempio, se un utente clicca su un link o modifica una form, solo i dati necessari vengono inviati al server, e solo la parte della pagina che deve essere aggiornata viene effettivamente modificata. Questo rende l'interazione più veloce e fluida per l'utente, poiché non è necessario attendere il caricamento dell'intera pagina ogni volta che viene effettuata un'azione.
@@ -624,7 +625,7 @@ Per quanto riguarda le password si è usata una tecnica leggermente complessa:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/sale.png}
-\caption{Struttura alla base della fase di criptaggio. Fonte: www.okta.com}
+\caption{Struttura alla base della fase di criptaggio, Fonte: \cite{okta}}
 \end{figure}
 In questo modo la password dell'utente per l'accesso al sistema non verrà mai trasmessa in rete, permettendo maggiore sicurezza in caso di attacchi di tipo Sniffing, man in the middle o Spoofing.  
 
@@ -657,7 +658,7 @@ forniscono indicazioni per rendere il contenuto più accessibile. Per ciascuna d
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.38]{img_concettuale/wcag.png}
-\caption{Struttura delle linee guide coi rispettivi livelli. Fonte: www.antoniogiovannischiavone.it}
+\caption{Struttura delle linee guida coi rispettivi livelli, Fonte: \cite{antonio}}
 \end{figure}
 
 Il WCAG è stato sviluppato con la collaborazione di una vasta comunità di esperti in accessibilità, tecnologia e advocacy e viene continuamente aggiornato per tener conto delle evoluzioni delle tecnologie e delle esigenze degli utenti. Esso è diventato un punto di riferimento per gli sviluppatori di siti web e per le organizzazioni che cercano di garantire l'accessibilità dei loro contenuti web.
@@ -747,21 +748,20 @@ In questa pagina sono elencate tutte le politiche sulla privacy. Ogni sezione pr
 \subsection{Pagina principale}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.31]{img_concettuale/tabellaAvv.png}
+\includegraphics[scale=0.27]{img_concettuale/tabellaAvv.png}
 \caption{Struttura della pagina pagina principale del sito.}
 \end{figure}
 La struttura della pagina è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
-La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato verrà aperta la pagina dell'avvistamento specifico.\\
+La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker colorati in base all'animale che rappresentano. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato verrà aperta la pagina dell'avvistamento specifico.\\
 La sezione di destra presenta invece una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità e cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di loro, per motivi di stile.\\
-Infine, in alto a destra c'è un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovraimpressione quando si clicca sul pulsante.
+In alto a destra è presente un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovraimpressione quando si clicca sul pulsante.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/aggiungiAvv.png}
 \caption{Modale per l'inserimento di un nuovo avvistamento.}
 \end{figure}
 \\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. Si necessita prima della selezione dell'animale, e solo dopo si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
-
-\newpage
+Infine, è possibie anche estrapolare i dati di tutti gli avvistamenti presenti nella tabella e anche quelli eliminati, attraverso il pulsante esporta, il quale avvia il download di un file .csv, leggibile col programma excel. 
 
 \subsection{Pagina delle impostazioni}
 \begin{figure}[hbtp]
@@ -774,7 +774,7 @@ Se invece si entra nella sezione sicurezza si ha la possibilità di modificare l
 Per di più, in tutte le pagine del sito al fine di migliorare l'accessibilità e la facilità di utilizzo sono stati aggiunti attributi "placeholder" ai tag di input, i quali indicano all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificarne lo scopo.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.61]{img_concettuale/impostazioniSec.png}
+\includegraphics[scale=0.53]{img_concettuale/impostazioniSec.png}
 \caption{Pagina delle impostazioni sulla sicurezza in modalità mobile.}
 \end{figure}
 
@@ -782,73 +782,76 @@ Per di più, in tutte le pagine del sito al fine di migliorare l'accessibilità 
 La pagina degli avvistamenti consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente, per questo verrà descritta in dettaglio.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.35]{img_concettuale/avvistamentoPAG.png}
+\includegraphics[scale=0.22]{img_concettuale/avvistamentoPAG.png}
 \caption{Prima parte della pagina dell'avvistamento, modifica dei dati.}
 \end{figure}
 \\In questa prima parte ci sono due sezioni: la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente ci clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra invece c'è la possibilità di modificare i dati inseriti in precedenza.
 Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento. Esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti, in questo modo in caso di eliminazioni non volute c'è la possibilità di recuperarli.\\
 Vicino alla specie è presente un pulsante a forma di punto interrogativo che aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
-Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento.
+Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento. Infine, sono presenti anche due bottoni: uno "contatta" che permetterà di contattare l'utente che ha eseguito l'avvistamento e uno "notifica" che invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.50]{img_concettuale/eliminazione.png}
+\includegraphics[scale=0.80]{img_concettuale/eliminazione.png}
 \caption{Modale di eliminazione.}
 \end{figure}
-\\ Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie:
+\newpage
+Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.40]{img_concettuale/info.png}
+\includegraphics[scale=0.65]{img_concettuale/info.png}
 \caption{Modale di informazione sulla specie.}
 \end{figure}
-\\Per quanto riguarda la seconda parte della pagina essa è incentrata unicamente sulle immagine caricate.
+\newpage
+Per quanto riguarda la seconda parte della pagina essa è incentrata unicamente sulle immagine caricate.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.31]{img_concettuale/avvistamentoPAG2.png}
 \caption{Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}
 \end{figure}
-\\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' presente un bottone elimina sotto all'immagine il quale eliminerà non solo l'immagine ma anche tutti i riferimenti ad essa associati.
-Ad ogni immagine c'è la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per selezionare l'individuo, tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi tali coordinate devono essere convertite da assolute in relative e ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
+\\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' anche presente un bottone elimina sotto all'immagine il quale eliminerà non solo la foto ma anche tutti i riferimenti ad essa associati.
+Ad ogni immagine è presente la possibilità di aggiungere un esemplare attraverso il relativo bottone, il quale una volta premuto permetterà attraverso un modale di disegnare dei rettangoli per selezionare l'individuo, tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi tali coordinate devono essere convertite da assolute in relative e ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure se si riconosce che si tratta di un esemplare già incontrato si ha la possibilità di selezionarlo. Come negli altri casi anche qui è presente la funzione di eliminazione di un esemplare.\\
 Per ciascuna sottoimmagine è associata una o più ferite, una volta individuate possono essere aggiunte grazie al relativo pulsante e sono possibili anche le operazioni di modifica e cancellazione delle stesse.
-Un esempio di aggiunta di un individuo può essere il seguente:\\
+Un esempio di aggiunta di un individuo può essere il seguente:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.60]{img_concettuale/addEsempl.png}
+\includegraphics[scale=0.80]{img_concettuale/addEsempl.png}
 \caption{Modale con canvas per disegnare l'individuo.}
 \end{figure}
-\\Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \newpage
+Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.46]{img_concettuale/modificaNome.png}
+\includegraphics[scale=0.90]{img_concettuale/modificaNome.png}
 \caption{Modifica dell'esemplare.}
 \end{figure}
-Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome.\\
-Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale.
+\\Come si vede dall'immagine si hanno due possibilità o attraverso una select viene scelto un esemplare già visto in precedenza oppure cliccando sul pulsante nuovo esemplare si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome nel menù a tendina si ha anche l'id univoco dell'esemplare, questo perché due esemplari possono avere lo stesso nome. 
+\newpage
+Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.45]{img_concettuale/ferita.png}
+\includegraphics[scale=0.90]{img_concettuale/ferita.png}
 \caption{Modale per l'aggiunta e modifica della ferita.}
 \end{figure}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
-Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata delle immagini caricate degli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale attraverso la segmentazione delle pinne degli individui permette di individuare di aiutare l'utente a individiduare la specie.
+Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individiduare la specie.
 
 \section{Il problema}
 I ricercatori utilizzano tecniche come le impronte digitali e il riconoscimento facciale per identificare le persone, ma stanno anche esplorando metodi simili per gli animali marini. Ad esempio, gli scienziati identificano manualmente questi animali basandosi sulla forma e sui segni presenti sulla coda, sulle pinne dorsali, sulla testa e in altre parti del loro corpo. Questa tecnica, nota come "foto-identificazione" e che consiste nell'identificare i segni naturali tramite fotografie, è un importante strumento per la scienza dei mammiferi marini. Essa permette di monitorare singoli individui nel tempo e di valutare lo stato e le tendenze della popolazione.\\
 
-Grazie all'utilizzo di un algoritmo di foto-identificazione, i ricercatori possono ridurre i tempi di identificazione delle immagini di oltre il 99\%. Ciò può aprire la strada a nuovi studi su larga scala, altrimenti impossibili o difficili da realizzare. Attualmente, la maggior parte degli istituti di ricerca si affida alla corrispondenza manuale con l'occhio umano, un processo che richiede molto tempo e che a volte può essere impreciso.\\
+Grazie all'utilizzo di un algoritmo di foto-identificazione, i ricercatori possono ridurre i tempi di identificazione delle immagini di oltre il 99\%. Ciò può aprire la strada a nuovi studi su larga scala, altrimenti impossibili o difficili da realizzare. Attualmente la maggior parte degli istituti di ricerca si affida alla corrispondenza manuale con l'occhio umano, un processo che richiede molto tempo e che a volte può essere impreciso.\\
 
 L'obiettivo principale di questo algoritmo è quello di aumentare la comprensione e la cura degli ambienti marini a livello globale attraverso la scienza della conservazione e l'educazione di alta qualità. Essa sviluppa un modello per abbinare i singoli delfini basandosi sulle loro uniche e spesso sottili marcature naturali, con particolare attenzione alle pinne dorsali e alle viste laterali del loro corpo, utilizzando un vasto set di dati creato da 28 istituti di ricerca.\\
 
 \section{Dataset}
-Le balene e i delfini presenti nei dati a disposizione possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dorsi, teste e fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno distinte. Inoltre, le caratteristiche individuali possono variare nel tempo. Questa competizione amplia in modo significativo questo compito: i dati in gara contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte da 28 diverse organizzazioni di ricerca. Gli individui sono stati identificati manualmente e assegnati un ID-individuo dai ricercatori marini, e il compito è quello di identificare correttamente questi individui nelle immagini.
+Il dataset comprende immagini di  balene e i delfini che possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dorsi, teste e fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno. Inoltre, le caratteristiche individuali possono variare nel tempo. I dati che compongono il dataset contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte da 28 diverse organizzazioni di ricerca. Gli individui sono stati identificati manualmente e a loro è stato assegnato un ID-individuo dai ricercatori marini.
 
 \subsection{Specie presenti e quantità di immagini}
 Il dataset è stato suddiviso in cartelle in base alla specie a cui ogni animale appartiene con le seguenti quantità di immagini:
 
 \begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}}
 \toprule
-\textbf{Specie} & \textbf{Numero di immagini per ogni animale.} \\
+\textbf{Specie} & \textbf{Numero immagini} \\
 \midrule
 \endfirsthead
 %
@@ -892,23 +895,23 @@ Zifio3 & 7 \\
 Zifio2 & 6 \\
 \end{longtable}
 
-Da come si può notare dalla tabella per cisacuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
+Da come si può notare dalla tabella, per ciascuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
 
 \section{Algoritmo di riconoscimento}
-Per quanto riguarda l'algoritmo di riconoscimento è diviso in due parti:
+Per quanto riguarda l'algoritmo di riconoscimento, esso è diviso in due parti:
 \begin{itemize}
     \item Fase di training
-    \item Fase di riconosciemnto dell'immagine
+    \item Fase di riconoscimento dell'immagine
 \end{itemize}
-Entrambe le fasi sono realizzate attraverso degli script in codice python, le quali attraverso comandi bash sono state integrate nel codice php del server web.
+Entrambe le fasi sono realizzate attraverso degli script in codice python, le quali tramite comandi bash sono state integrate nel codice php del server web.
 
 \subsection{Fase di training}
 La fase di training dell'algoritmo di visione artificiale è un processo cruciale che ha l'obiettivo di formare il modello sulla base dei dati forniti. Questo processo consente all'algoritmo di riconoscere ed elaborare correttamente i segnali visivi, in modo da eseguire compiti specifici come la classificazione, la rilevazione e la localizzazione di oggetti all'interno di un'immagine.\\
 Durante questa fase, l'algoritmo viene alimentato con un gran numero di dati di formazione, che consistono in immagini etichettate con informazioni sul loro contenuto. Questi dati vengono utilizzati per formare un modello matematico che descrive la relazione tra gli input visivi e le relative etichette.\\
 Il modello viene quindi testato su un insieme di dati di prova, che non sono stati utilizzati durante il processo di formazione. Questi dati vengono utilizzati per valutare la precisione del modello, ovvero la sua capacità di prevedere correttamente le etichette associate agli input visivi. In base ai risultati ottenuti, il modello può essere raffinato e ripetere il processo di formazione fino a quando non si ottiene una precisione sufficientemente alta.\\
 L'algoritmo di visione artificiale può essere addestrato utilizzando diverse tecniche di apprendimento automatico, come l'apprendimento profondo (deep learning), l'apprendimento supervisionato e l'apprendimento non supervisionato. Queste tecniche sono basate su diverse architetture di rete neurale, che utilizzano algoritmi matematici per elaborare i dati visivi e produrre output di alta qualità.\\
-Il codice che è stato utlizzato per realizzare questa funzionalità verrà scomposta in più parti in modo da descriverlo nel dettaglio.
-
+Il codice che è stato utilizzato per realizzare questa funzionalità verrà scomposto in più parti in modo da descriverlo nel dettaglio.
+\newpage
 \subsubsection{Librerie utilizzate}
 \begin{lstlisting}[caption={Le librerie utilizzate}, label={lst:librerie_usate}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 import numpy as np
@@ -972,7 +975,7 @@ df.species.value_counts().sort_index()
 plt.figure(figsize=(20, 10))
 df['species'].value_counts().sort_values(ascending=True).plot(kind='barh');
 \end{lstlisting}
-La prima riga permette di verificare che siano stati caricati nel DataFrame tutti i dati del file, nella seconda si verifica che il numero di specie(nomi unici) sia corretto. Invece la terza permette di visuaizzare tutti i nomi delle specie col relativo numero di immagini ad esse associate.\\
+La prima riga permette di verificare che siano stati caricati nel DataFrame tutti i dati del file, nella seconda si verifica che il numero di specie(nomi unici) sia corretto. Invece la terza permette di visualizzare tutti i nomi delle specie col relativo numero di immagini ad esse associate.\\
 Le ultime due righe permettono di disegnare un grafico a barre orizzontali che mostra la distribuzione delle categorie della colonna "species" del DataFrame. In particolare:
 \begin{itemize}
     \item df['species'] seleziona la colonna "species" dal DataFrame.
@@ -1041,7 +1044,7 @@ test_generator = tf.keras.preprocessing.image.ImageDataGenerator(
 )
 \end{lstlisting}
 Questo codice crea due generatori di immagini, uno chiamato train\_generator e l'altro chiamato test\_generator. Entrambi i generatori sono istanziati dalla classe ImageDataGenerator del pacchetto tf.keras.preprocessing.image.\\
-La classe ImageDataGenerator viene utilizzata per pre-elaborare i dati delle immagini in modo che possano essere utilizzati come input per una rete neurale. In questo caso, il pre-elaborazione viene effettuata utilizzando la funzione preprocess\_input della libreria tf.keras.applications.mobilenet\_v2. Questa funzione si occupa di normalizzare i valori dei pixel delle immagini in modo che siano adatti per l'utilizzo con la rete neurale MobileNetV2.\\
+La classe ImageDataGenerator viene utilizzata per pre-elaborare i dati delle immagini in modo che possano essere utilizzati come input per una rete neurale. In questo caso, la pre-elaborazione viene effettuata utilizzando la funzione preprocess\_input della libreria tf.keras.applications.mobilenet\_v2. Questa funzione si occupa di normalizzare i valori dei pixel delle immagini in modo che siano adatti per l'utilizzo con la rete neurale MobileNetV2.\\
 Da notare che la funzione preprocess\_input viene passata come argomento preprocessing\_function a entrambe le istanze di ImageDataGenerator. Questo garantisce che sia il generator di addestramento che quello di test vengano pre-elaborati allo stesso modo.\\
 
 \subsubsection{Creazione di un generatore di immagini da un dataframe}
@@ -1067,7 +1070,7 @@ Questo codice utilizza la funzione flow\_from\_dataframe del generatore di addes
     \item \textbf{target\_size}: specifica le dimensioni delle immagini di destinazione e viene impostato su (224, 224).
     \item \textbf{color\_mode} viene impostato su rgb, il che significa che le immagini verranno lette come immagini a colori.
     \item \textbf{class\_mode}: viene impostato su categorical, il che significa che le etichette verranno restituite come matrici one-hot codificate. Esse sono una rappresentazione numerica delle categorie che consiste in un vettore di lunghezza pari al numero di categorie possibili, in cui solo un elemento è impostato su 1 e gli altri sono impostati su 0.
-    \item \textbf{batch\_size}: specifica il numero di immagini da restituire in un singolo batch(sottoinsieme di dati) e viene impostato su 32 in questo caso. L'argomento shuffle viene impostato su True, il che significa che le immagini verranno mescolate casualmente durante l'iterazione del generatore.
+    \item \textbf{batch\_size}: specifica il numero di immagini da restituire in un singolo batch(sottoinsieme di dati) e viene impostato su 32 in questo caso.
     \item \textbf{seed}: viene impostato su 42, il che significa che verrà utilizzato un seme specifico per la generazione di numeri casuali durante la mescolatura delle immagini.
      \item \textbf{subset}: viene impostato su training, il che significa che il generatore di immagini verrà utilizzato solo per l'addestramento del modello.
 \end{itemize}
@@ -1086,7 +1089,7 @@ test_images = test_generator.flow_from_dataframe(
     shuffle=False
 )
 \end{lstlisting}
-Questo codice quasi identico a quello descritto sopra e crea un generatore di immagini di test per un modello di apprendimento automatico, settando i reletivi argomenti. 
+Questo codice è quasi identico a quello descritto sopra e crea un generatore di immagini di test per un modello di apprendimento automatico, settando i relativi parametri. 
 
 \subsubsection{Creazione di un modello pre-addestrato di MobileNetV2}
 \begin{lstlisting}[caption={Modello pre-addestrato di MobileNetV2t.}, label={lst:modello_MobileNetV2}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1104,7 +1107,7 @@ Questo codice crea un modello pre-addestrato di MobileNetV2 con TensorFlow. Il m
     \item  \textbf{weights}: viene impostata su "imagenet", il che significa che il modello verrà inizializzato con i pesi pre-addestrati sulla base di ImageNet(vasto insieme di dati di immagini).
     \item  \textbf{pooling}: viene impostata su "avg", il che significa che verrà utilizzata la media pooling per la riduzione delle dimensioni delle feature.
 \end{itemize}
-Infine, la proprietà trainable del modello viene impostata su False, il che significa che i pesi del modello non verranno adattati durante l'addestramento del modello finale. Questo è utile perché il modello MobileNetV2 è già stato addestrato su un vasto insieme di immagini e le feature che estrae sono molto utili per molte diverse attività di classificazione delle immagini. Pertanto, si desidera utilizzare queste feature pre-addestrate come caratteristiche fisse nel modello finale.\\
+Infine, la proprietà trainable del modello viene impostata su False, il che significa che i pesi del modello non verranno adattati durante l'addestramento del modello finale. Questo è utile perché il modello MobileNetV2 è già stato addestrato su un vasto insieme di immagini e le feature estratte sono molto utili per molte diverse attività di classificazione delle immagini. Pertanto, si desidera utilizzare queste feature pre-addestrate come caratteristiche fisse nel modello finale.\\
 \newpage
 
 \subsubsection{Definizione di un nuovo modello}
@@ -1117,7 +1120,7 @@ model = tf.keras.Model(inputs, outputs)
 print(model.summary())
 \end{lstlisting}
 Il codice definisce un nuovo modello "model" che utilizza come input il modello pre-addestrato. Quindi, vengono aggiunti due strati densi alla rete, ognuno con 128 unità e un'attivazione "relu". Gli strati densi sono strati di una rete neurale artificiale che hanno una grande quantità di pesi che sono connessi a ogni neurone dello strato. Questi strati sono utilizzati per elaborare le informazioni provenienti dai livelli precedenti della rete e per produrre un'uscita che rappresenta le caratteristiche più complesse delle immagini. In questo codice, i due strati densi con 128 unità e attivazione "relu" sono stati aggiunti alla rete per estrarre ulteriori informazioni sulle immagini. L'attivazione "relu" è un'attivazione non lineare utilizzata comunemente nei modelli di rete neurale. Questa attivazione restituisce il valore di ingresso se è positivo e restituisce zero se è negativo. Questo rende la rete più efficiente e capace di apprendere relazioni più complesse tra gli input e le relative uscite.\\
-Infine, viene aggiunto un ultimo strato denso con 30 unità e un'attivazione "softmax". L'attivazione "softmax" è un'attivazione che produce una distribuzione di probabilità delle classi. Questa attivazione è spesso utilizzata come ultimo strato di una rete neurale, poiché trasforma l'uscita della rete in una probabilità per ogni classe. In questo caso, l'attivazione softmax con 30 unità viene utilizzata come ultimo strato del modello per classificare le immagini in 30 categorie diverse.\\
+Infine, viene aggiunto un ultimo strato denso con 30 unità e un'attivazione "softmax". Essa produce una distribuzione di probabilità delle classi. Questa attivazione è spesso utilizzata come ultimo strato di una rete neurale, poiché trasforma l'uscita della rete in una probabilità per ogni classe. In questo caso, l'attivazione softmax con 30 unità viene utilizzata come ultimo strato del modello per classificare le immagini in 30 categorie diverse.\\
 Infine, il codice stampa un riepilogo del modello, che fornisce informazioni sul numero di parametri del modello e sulle sue dimensioni.\\
 
 \subsubsection{Compilazione del modello di apprendimento automatico}
@@ -1177,15 +1180,15 @@ L'output dell'allenamento del modello, le informazioni sul suo progresso e la su
 I valori che vengono rappresentati nella tabella sono:
 \begin{itemize}
     \item \textbf{Epoch}: Il numero di epoca a cui è arrivato. Un'epoca rappresenta l'elaborazione dell'intero dataset di addestramento. In genere, si eseguono molte epoche di addestramento su un modello di apprendimento automatico per aumentare la sua precisione.
-    \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di allenamento. Gli step di allenamento sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una volta.
+    \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di allenamento. Gli step di allenamento sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una.
     \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante l'allenamento. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di allenamento. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione del Training Loss indica un miglioramento del modello e un'adattamento più preciso alle osservazioni di allenamento..
-    \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di allenamento. Viene calcolato come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di allenamento. Esso è utilizzato per valutare la performance del modello durante l'allenamento e per verificare che esso stia effettivamente imparando dai dati di allenamento. Tuttavia, esso non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di allenamento invece che generalizzare davvero le informazioni presenti in essi.
-    \item \textbf{Validation loss}: è una metrica utilizzata per valutare la performance del modello durante la validazione. Questa metrica rappresenta la quantità di errore che il modello commette quando si prevede le classificazioni per i dati di validazione. Il valore di Validation loss viene calcolato come la media della funzione di costo tra le previsioni effettuate dal modello e le verità di etichetta per i dati di validazione. Più basso è il suo valore, migliore è la capacità del modello di generalizzare su dati nuovi.
+    \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di allenamento. Viene calcolata come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di allenamento. Esso è utilizzato per valutare la performance del modello durante l'allenamento e per verificare che esso stia effettivamente imparando dai dati di allenamento. Tuttavia, essa non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di allenamento invece che generalizzare davvero le informazioni presenti in essi.
+    \item \textbf{Validation loss}: è una metrica utilizzata per valutare la performance del modello durante la validazione. Questa metrica rappresenta la quantità di errore che il modello commette quando prevede le classificazioni per i dati di validazione. Il valore di Validation loss viene calcolato come la media della funzione di costo tra le previsioni effettuate dal modello e le verità di etichetta per i dati di validazione. Più basso è il suo valore, migliore è la capacità del modello di generalizzare su dati nuovi.
     \item \textbf{Validation accuracy}: è una metrica utilizzata per valutare la precisione del modello. Si riferisce alla percentuale di previsioni corrette effettuate dal modello su un set di dati di validazione, che è separato dal set di dati di addestramento. Essa fornisce una misura dell'accuratezza del modello sui dati che non ha ancora visto e quindi fornisce una valutazione più equa della sua capacità di generalizzare su dati nuovi.
 \end{itemize}
 
 \newpage
-\subsubsection{Rappresentazione delle curve di perdiata}
+\subsubsection{Rappresentazione delle curve di perdita}
 \begin{lstlisting}[caption={Codice per il grafico delle curve di perdita.}, label={lst:curve_perdita}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 plt.plot(r.history['loss'], label='train loss')
 plt.plot(r.history['val_loss'], label='val loss')
@@ -1214,8 +1217,8 @@ Questo codice traccia due curve: una rappresenta l'accuratezza(accuracy) ottenut
 \end{figure}
 
 \subsubsection{Significato delle rappresentazioni}
-Come è possibile vedere dai grafici delle due sezioni precedenti si nota che:
-il grafico che rappresenta la perdita ovvero la misura della discrepanza tra i valori predetti dal modello e i valori reali attraverso l'addestramento porta a minimizzare la perdita in modo tale che i valori predetti si avvicinino sempre di più a quelli reali. Invece, il grafivo dell'accuratezza ovvero la percentuale di predizioni corrette effettuate dal modello rispetto al numero totale di predizioni effettuate, con l'addestramento essa si alza.
+Come è possibile vedere dai grafici delle due sezioni precedenti si nota che
+il grafico che rappresenta la perdita, ovvero la misura della discrepanza tra i valori predetti dal modello e i valori reali attraverso l'addestramento, porta a minimizzare la perdita in modo tale che i valori predetti si avvicinino sempre di più a quelli reali. Invece, il grafico dell'accuratezza ovvero la percentuale di predizioni corrette effettuate dal modello rispetto al numero totale di predizioni effettuate, con l'addestramento si alza.
 
 \subsubsection{Determinazione dell'accuratezza media}
 \begin{lstlisting}[caption={Determinazione dell'accuratezza.}, label={lst:accuratezza_media}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1223,7 +1226,7 @@ results = model.evaluate(test_images, verbose=0)
 print("Test Accuracy: {:.2f}%".format(results[1] * 100))
 \end{lstlisting}
 Il codice valuta le prestazioni del modello sui dati di test, utilizzando il metodo \textit{evaluate} del modello. Esso viene invocato passando come input le immagini di test(test\_images) e restituisce una lista di valori, tra cui la perdita (loss) e l'accuratezza (accuracy) ottenute dal modello sui dati di test.
-Successivamente, il codice stampa a video l'accuratezza ottenuta sul test set, utilizzando.
+Successivamente, il codice stampa a video l'accuratezza ottenuta sul test set.
 Nel nostro caso l'accuratezza ottenuta è quella del 86.95\%.
 
 
@@ -1306,7 +1309,7 @@ zifio4 & 0.00 & 0.00 & 0.00 & 1 \\
 \end{longtable}
 
 \subsection{Fase di riconosciemnto dell'immagine}
-In questa fase esamineremo il codice al fine di identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stato implementato la rete neurale viene addestartata periodicamente in caso di aggiunta di nuove immaggini, invece ongi volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
+In questa fase esamineremo il codice al fine di identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stato implementata la rete neurale viene addestrata periodicamente in caso di aggiunta di nuove immagini, invece ogni volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
 
 \subsubsection{Librerie utilizzate}
 \begin{lstlisting}[caption={Librerie per il riconosciemtno dell'immagine.}, label={lst:librerie_riconoscimento}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1348,11 +1351,20 @@ for arg in args:
     ris = ris + output(img) + "-"
 print(ris)
 \end{lstlisting}
-Questa funzione legge gli argomenti passati da riga di comando da uno scipt bash, cioè il nome di una o più immagini. Per ogni immagine, carica l'immagine dal percorso specificato, elabora l'immagine utilizzando la funzione "output" e restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
+Questa funzione legge gli argomenti passati da riga di comando da uno script bash, cioè il nome di una o più immagini. Per ogni immagine, carica l'immagine dal percorso specificato, elabora l'immagine utilizzando la funzione "output" e restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
 
-\section{Integrazione dell'algoritmo col sistema}
-
-
+\section{Integrazione dell'algoritmo di riconoscimento}
+Il sistema che permette di identificare la specie in un avvistamento è stato integrato con un bottone nella pagina di ogni singolo avvistamento. Quando questo viene premuto viene aperto un modale e inviate delle sottoimmagini dell'avvistamento. Per la precisione, se sono presenti solo delle foto senza nessuna sottoimmagine, vengono inviate le foto intere, ma questo non permetterà un'alta precisione visto che il sistema è addestrato solo con singole immagini. Se invece l'utente ha creato delle sottoimmagini dell'avvistamento, queste sottoimmagini verranno ritagliate e inviate singolarmente all'algoritmo. Esso processerà tutte le immagini che gli sono state inviate e risponderà con le possibili soluzioni. Se invece non sono presenti immagini il sistema darà un errore.\\
+Per utilizzare le librerie di machine learning citate sopra il sistema è stato spostato su un computer sul quale è attivo il server web con sistema operativo ubuntu 18.04, nel quale è stato installato un ambiente virtuale Anaconda. Esso è un ambiente di sviluppo isolato, dove è possibile creare e gestire pacchetti Python e le relative dipendenze. Questo significa che esso può contenere una versione specifica di Python, nel nostro caso la 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
+Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vengono passati i nomi delle foto, il quale a sua volta attiverà l'ambiente virtuale e farà partire lo script.
+\begin{lstlisting}[caption={Codice script bash.}, label={lst:script_bash}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+#!/bin/bash
+source ~/.bashrc
+eval "$('/percorso/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+conda activate amb
+cd "/percorso/Riconoscimento"
+python3 check.py "$@"
+\end{lstlisting}
 
 \chapter{Documentazione Test}
 
@@ -1366,19 +1378,9 @@ Gli aspetti testati sono:
 \item Livello di interazione tra l'utente e l'interfaccia.
 \item Adeguato bilanciamento tra flusso predefinito e flessibilità.
 \end{itemize}
-\chapter{Conclusioni}
-
-\chapter{Utilità}
-Capitolo di elementi da inserire nei capitoli precedenti.
-
-
-
-\section{Ingegneria del software}
-
-
 
 \subsection{Verifica del software}
-Questa fase ha lo scopo di verificare che il sistema contenga le specifiche di progetto. Tale operazione non viene eseguita solo sul prodotto finale ma segue il progetto ad ogni suo passo.\\
+Questa fase ha lo scopo di verificare che il sistema contenga le specifiche di progetto. Tale operazione non viene eseguita solo sul prodotto finale ma segue il progetto ad ogni suo passo.
 Le tecniche di verifica che sono stato utilizzate sono:
 \begin{itemize}
 \item \textbf{Di testing:} che attraverso delle prove sperimentali, su un insieme rappresentativo di situazioni, verificano il corretto funzionamento del sistema. 
@@ -1386,7 +1388,7 @@ Le tecniche di verifica che sono stato utilizzate sono:
 \end{itemize}
 
 \subsubsection{Testing}
-"Le operazioni di testing possono individuare la presenza di errori nel software ma non possono dimostrarne la correttezza."\cite{1}\\
+"\textit{Le operazioni di testing possono individuare la presenza di errori nel software ma non possono dimostrarne la correttezza.}"\cite{1}\\
 Come primo passo si sono individuati i casi significativi in cui applicare tale processo.\\
 Le operazioni di testing si suddividono in:
 \begin{enumerate}
@@ -1395,9 +1397,8 @@ Le operazioni di testing si suddividono in:
 \end{enumerate}
 
 Nel primo caso si è cercato di seguire il seguente criterio di copertura:\\
-\textbf{Criterio di copertura delle decisioni e delle condizioni:} selezionare un insieme di test T tali che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.
-\\
-Nel secondo caso il sistema viene considerato come una black-box. L'insieme di test che verranno usati vengono selezionati sulla base delle specifiche di progetto, e grazie ad esse definiti i valori di input a cui corrisponderanno determinati valori di output.\\
+\textbf{Criterio di copertura delle decisioni e delle condizioni}: selezionare un insieme di test concreti tali che, a seguito dell’esecuzione del programma su tutti i casi di test, ogni arco del grafo di controllo sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.
+Nel secondo caso il sistema viene considerato come una black-box. L'insieme di test che verranno usati vengono selezionati sulla base delle specifiche di progetto, e grazie ad esse definiti i valori di input a cui corrisponderanno determinati valori di output. 
 I casi di testing in the large presi in considerazione sono:
 \begin{itemize}
 \item \textbf{Test di modulo:} controlla se l'implementazione di un modulo è corretta in base al comportamento esterno.
@@ -1407,14 +1408,33 @@ I casi di testing in the large presi in considerazione sono:
 
 \subsection{Analisi}
 Analizzare il software consiste nel capire le caratteristiche e le funzionalità.
-
-L'approccio per l'analisi del software è stato il Code Inspection.\\
-In particolare si è posta molta attenzione all'analisi di flusso dei dati.
+L'approccio per l'analisi del software è stato il Code Inspection. In particolare si è posta molta attenzione all'analisi di flusso dei dati.
 Infatti, l'evoluzione del valore associato alle variabili durante l'esecuzione del programma è estremamente dinamica. Quindi si è usata la tecnica di associare ad ogni comando staticamente il tipo di operazioni eseguite sulle variabili. In questo modo avremo delle sequenze di comandi corrispondenti a possibili esecuzioni, le quali sono riconducibili staticamente a sequenze di tali operazioni. Quest'ultime verranno analizzate al fine di individuare delle possibili anomalie nel programma.
+
+\subsection{Test}
+E' stato eseguito sia l'alpha testing cioè la fase in cui un software viene testato internamente dallo sviluppatore o dal team di sviluppo, che il beta testing il quale invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso si è cercato di migliorare al meglio le funzionalità del programma e cercato di risolvere tutti gli eventuali che si sono presentati. Invece nel secondo, il sistema una volta installato è stato testato direttamenti dagli utenti finali in modo da poter verificare che tutte le funzionalità fossero presenti e che siano state implementate correttamente.
+
+\subsubsection{Algoritmo di riconosciemento}
+Per quanto riguarda l'algoritmo di riconoscimento invece si è testata la sua precisione con delle immagini prestabilite in modo da controllare che l'output fosse corretto.
+In più è stata verificata la precisione con la suguente formula:
+\begin{equation}
+MAP@5 = \frac{1}{U} \sum_{u=1}^{U} \sum_{k=1}^{min(n,5)} P(k) \times rel(k)
+\end{equation}
+Essa calcola la precisione media dell'elenco dei risultati previsti per un insieme di immagini. In particolare, viene utilizzata la metrica Mean Average Precision @5(MAP@5), che valuta la precisione media dei primi 5 risultati previsti per ogni immagine.
+Nello specifico, n indica il numero di immagini considerate, k indica il numero di previsioni per ogni immagine, e rel(i, j) è una funzione indicatrice che restituisce 1 se l'oggetto i-esimo al rango j è una label rilevante (corretta), altrimenti restituisce 0.
+La precisione alla posizione j per l'immagine i è definita come il numero di previsioni corrette tra le prime j previsioni, diviso j. La precisione media delle prime k previsioni per l'immagine i è quindi la media delle precisioni alle prime k posizioni.
+
+\chapter{Conclusioni}
+
+
 
 
 \begin{thebibliography}{100}
-\bibitem{1} Khan, K. \& Yadav, S. 2022, A Literature Review on Software Testing Techniques.
+\bibitem{1} Khan, K. \& Yadav, A Literature Review on Software Testing Techniques, S. 2022.
+\bibitem{phoenixnap} Jason Potter, Featured Articles, www.liquidweb.com. March 3 2021
+\bibitem{javascript-coder} javascript-coder, Reintroduction To AJAX, www.javascript-coder.com.
+\bibitem{okta} Jason Jung, Password Hashing and Salting, www.okta.com, May 7 2021
+\bibitem{antonio} Antonio Giovanni Schiavone, Accessibilità, www.antoniogiovannischiavone.it, 1 Settembre 2016.
 \end{thebibliography}
 
 \end{document} 

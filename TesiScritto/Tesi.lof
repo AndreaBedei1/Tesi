@@ -15,11 +15,11 @@
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Mockup homepage del sito in versione desktop.}}{33}{}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Mockup avvistamento del sito in versione mobile.}}{34}{}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Mockup avvistamento del sito in versione desktop.}}{35}{}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Stack LAMP. Fonte: phoenixnap.com}}{37}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Stack LAMP, Fonte: \cite {phoenixnap}}}{37}{}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Tecnologie alla base del web.}}{38}{}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Funzionamento di AJAX. Fonte: www.javascript-coder.com}}{42}{}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Struttura alla base della fase di criptaggio. Fonte: www.okta.com}}{47}{}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Struttura delle linee guide coi rispettivi livelli. Fonte: www.antoniogiovannischiavone.it}}{49}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Funzionamento di AJAX, Fonte: \cite {javascript-coder}}}{42}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Struttura alla base della fase di criptaggio, Fonte: \cite {okta}}}{47}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Struttura delle linee guida coi rispettivi livelli, Fonte: \cite {antonio}}}{49}{}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Struttura del progetto.}}{52}{}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Struttura della pagina di Login.}}{54}{}%
 \contentsline {figure}{\numberline {4.12}{\ignorespaces Modale per il recupero della password.}}{54}{}%
@@ -31,16 +31,15 @@
 \contentsline {figure}{\numberline {4.18}{\ignorespaces Pagina delle impostazioni sulla sicurezza in modalità mobile.}}{60}{}%
 \contentsline {figure}{\numberline {4.19}{\ignorespaces Prima parte della pagina dell'avvistamento, modifica dei dati.}}{61}{}%
 \contentsline {figure}{\numberline {4.20}{\ignorespaces Modale di eliminazione.}}{62}{}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Modale di informazione sulla specie.}}{62}{}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{63}{}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{64}{}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Modifica dell'esemplare.}}{65}{}%
-\contentsline {figure}{\numberline {4.25}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{65}{}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Modale di informazione sulla specie.}}{63}{}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{64}{}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{65}{}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Modifica dell'esemplare.}}{66}{}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{67}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{75}{}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{89}{}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{90}{}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{94}{}%
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{78}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{92}{}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{93}{}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{97}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
