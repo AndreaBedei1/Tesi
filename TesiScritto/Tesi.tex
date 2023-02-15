@@ -148,7 +148,7 @@ Oltre all'applicazione smartphone deve essere realizzato un applicativo web il q
 \\ 
 Ad ogni avvistamento il personale addetto può associare anche una o più immagini. Esse serviranno in seguito per il riconoscimento della specie di appartenenza e/o dei singoli individui. Dato che in un avvistamento possono essere presenti anche più animali, comunque tutti della stessa specie, la foto può essere suddivisa in più sottoimmagini in modo tale da isolare ogni singolo individuo.
 \\
-La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, le sottoimmagini possono essere riferite allo stesso individuo in avvistamenti diversi, in modo tale da vedere la sua evoluzione nel tempo e i suoi aspostamenti.\\
+La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, le sottoimmagini possono essere riferite allo stesso individuo in avvistamenti diversi, in modo tale da vedere la sua evoluzione nel tempo e i suoi spostamenti.\\
 Per aiutare l'utente nella decisione della specie da assegnare a un particolare animale, il sistema deve memorizzare una descrizione, in cui vengono fornite le informazioni base su ciascuna specie analizzabile.
 \\
 Infine l'applicativo web, attraverso l'uso di tecniche di visione artificiale, con particolare riferimento ai delfini, deve poter essere in grado in autonomia di identificare la relativa specie attraverso la foto scattata durante il rilevamento. Nello specifico deve cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie e gli individui che ha presenti in database.
@@ -524,7 +524,7 @@ Un solution stack ben sviluppato può rendere molto più semplice e veloce lo sv
 Esistono molti solution stack differenti, alcuni dei quali sono sviluppati per specifici sistemi operativi o piattaforme, mentre altri sono più generici e possono essere utilizzati su molte piattaforme diverse.\\
 
 \subsubsection{LAMP}
-Nel nostro caso è stato utilizzato il solution stack denominato LAMP (Linux, Apache, MySQL, PHP), il quale è un popolare solution stack per lo sviluppo di applicazioni web su sistema operativo Linux. Questo perchè il database e il server web Apache2 sono situati in una Raspberry pi 4, la quale ha un indirizzo di rete fisso a cui chiunque collegato via internet può connettersi ed accedere al sito e ai suoi contenuti previa registrazione.
+Nel nostro caso è stato utilizzato il solution stack denominato LAMP (Linux, Apache, MySQL, PHP), il quale è un popolare solution stack per lo sviluppo di applicazioni web su sistema operativo Linux. Questo perché il database e il server web Apache2 sono situati in una Raspberry pi 4, la quale ha un indirizzo di rete fisso a cui chiunque collegato via internet può connettersi ed accedere al sito e ai suoi contenuti previa registrazione.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/LAMP.png}
@@ -568,7 +568,7 @@ CSS (Cascading Style Sheets) è un linguaggio utilizzato per descrivere l'aspett
 \subsubsection{Bootstrap}
 Bootstrap è un framework di design per il web, che fornisce un insieme di componenti e strumenti per la creazione di pagine. Bootstrap è progettato per aiutare i designer e gli sviluppatori a creare progetti web più velocemente e con maggiore facilità, fornendo una serie di componenti predefiniti e stili per la creazione di interfacce utente. Esso è basato su HTML, CSS e JavaScript e offre una vasta gamma di componenti, tra cui barre di navigazione, moduli, tabelle, pulsanti, icone, griglie e molto altro.
 Bootstrap rende inoltre molto più semplice la creazione di progetti web, senza dover scrivere da zero il codice CSS e HTML per ogni progetto. I designer e gli sviluppatori possono utilizzare i componenti predefiniti di Bootstrap, che sono già ben testati e ottimizzati per una buona esperienza utente.
-Un altro aspetto fondamentale è che esso è basato sul principio denominato Mobile first e questo permette di creare pagine web adatte oltre che per pc anche per cellulari.\\ Grazie alla combinazione di righe e colonne che insieme formano una griglia è possibile modificare agevolmente il layout della pagina in base alla grandezza del dispositivo che si utilizza.
+Un altro aspetto fondamentale è che esso è basato sul principio denominato Mobile first e questo permette di creare pagine web adatte oltre che per PC anche per cellulari.\\ Grazie alla combinazione di righe e colonne che insieme formano una griglia è possibile modificare agevolmente il layout della pagina in base alla grandezza del dispositivo che si utilizza.
 
 \subsection{Javascript e Librerire}
 Per l'applicazione è stato usato Javascript come linguaggio di programmazione lato client. Esso è dinamico, interpretato e viene utilizzato principalmente per creare interazioni ed effetti visivi sulle pagine web. Questo linguaggio di programmazione è completamente differente rispetto a HTML e CSS, i quali sono utilizzati per la creazione della struttura e del design delle pagine web. JavaScript, d'altra parte, è utilizzato per creare interazioni e effetti dinamici all'interno della pagina, come ad esempio la validazione dei moduli e la creazione di animazioni.
@@ -754,14 +754,14 @@ In questa pagina sono elencate tutte le politiche sulla privacy. Ogni sezione pr
 La struttura della pagina è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
 La parte principale della pagina è divisa in due sezioni: una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker colorati in base all'animale che rappresentano. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato verrà aperta la pagina dell'avvistamento specifico.\\
 La sezione di destra presenta invece una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità e cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di loro, per motivi di stile.\\
-In alto a destra è presente un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovraimpressione quando si clicca sul pulsante.
+In alto a destra è presente un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovrimpressione quando si clicca sul pulsante.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/aggiungiAvv.png}
 \caption{Modale per l'inserimento di un nuovo avvistamento.}
 \end{figure}
 \\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. Si necessita prima della selezione dell'animale, e solo dopo si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
-Infine, è possibie anche estrapolare i dati di tutti gli avvistamenti presenti nella tabella e anche quelli eliminati, attraverso il pulsante esporta, il quale avvia il download di un file .csv, leggibile col programma excel. 
+Infine, è possibile anche estrapolare i dati di tutti gli avvistamenti presenti nella tabella e anche quelli eliminati, attraverso il pulsante esporta, il quale avvia il download di un file .csv, leggibile col programma excel. 
 
 \subsection{Pagina delle impostazioni}
 \begin{figure}[hbtp]
@@ -791,8 +791,13 @@ Vicino alla specie è presente un pulsante a forma di punto interrogativo che ai
 Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento. Infine, sono presenti anche due bottoni: uno "contatta" che permetterà di contattare l'utente che ha eseguito l'avvistamento e uno "notifica" che invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.80]{img_concettuale/eliminazione.png}
+\includegraphics[scale=0.55]{img_concettuale/eliminazione.png}
 \caption{Modale di eliminazione.}
+\end{figure}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/autoric.png}
+\caption{Modale per l'auto-riconoscimento della specie.}
 \end{figure}
 \newpage
 Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie:
@@ -834,7 +839,7 @@ Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle 
 \end{figure}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
-Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individiduare la specie.
+Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individuare la specie.
 
 \section{Il problema}
 I ricercatori utilizzano tecniche come le impronte digitali e il riconoscimento facciale per identificare le persone, ma stanno anche esplorando metodi simili per gli animali marini. Ad esempio, gli scienziati identificano manualmente questi animali basandosi sulla forma e sui segni presenti sulla coda, sulle pinne dorsali, sulla testa e in altre parti del loro corpo. Questa tecnica, nota come "foto-identificazione" e che consiste nell'identificare i segni naturali tramite fotografie, è un importante strumento per la scienza dei mammiferi marini. Essa permette di monitorare singoli individui nel tempo e di valutare lo stato e le tendenze della popolazione.\\
@@ -1181,7 +1186,7 @@ I valori che vengono rappresentati nella tabella sono:
 \begin{itemize}
     \item \textbf{Epoch}: Il numero di epoca a cui è arrivato. Un'epoca rappresenta l'elaborazione dell'intero dataset di addestramento. In genere, si eseguono molte epoche di addestramento su un modello di apprendimento automatico per aumentare la sua precisione.
     \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di allenamento. Gli step di allenamento sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una.
-    \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante l'allenamento. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di allenamento. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione del Training Loss indica un miglioramento del modello e un'adattamento più preciso alle osservazioni di allenamento..
+    \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante l'allenamento. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di allenamento. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione del Training Loss indica un miglioramento del modello e un' adattamento più preciso alle osservazioni di allenamento..
     \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di allenamento. Viene calcolata come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di allenamento. Esso è utilizzato per valutare la performance del modello durante l'allenamento e per verificare che esso stia effettivamente imparando dai dati di allenamento. Tuttavia, essa non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di allenamento invece che generalizzare davvero le informazioni presenti in essi.
     \item \textbf{Validation loss}: è una metrica utilizzata per valutare la performance del modello durante la validazione. Questa metrica rappresenta la quantità di errore che il modello commette quando prevede le classificazioni per i dati di validazione. Il valore di Validation loss viene calcolato come la media della funzione di costo tra le previsioni effettuate dal modello e le verità di etichetta per i dati di validazione. Più basso è il suo valore, migliore è la capacità del modello di generalizzare su dati nuovi.
     \item \textbf{Validation accuracy}: è una metrica utilizzata per valutare la precisione del modello. Si riferisce alla percentuale di previsioni corrette effettuate dal modello su un set di dati di validazione, che è separato dal set di dati di addestramento. Essa fornisce una misura dell'accuratezza del modello sui dati che non ha ancora visto e quindi fornisce una valutazione più equa della sua capacità di generalizzare su dati nuovi.
@@ -1308,7 +1313,7 @@ zifio3 & 0.00 & 0.00 & 0.00 & 2 \\
 zifio4 & 0.00 & 0.00 & 0.00 & 1 \\
 \end{longtable}
 
-\subsection{Fase di riconosciemnto dell'immagine}
+\subsection{Fase di riconoscimento dell'immagine}
 In questa fase esamineremo il codice al fine di identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stato implementata la rete neurale viene addestrata periodicamente in caso di aggiunta di nuove immagini, invece ogni volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
 
 \subsubsection{Librerie utilizzate}
@@ -1355,7 +1360,7 @@ Questa funzione legge gli argomenti passati da riga di comando da uno script bas
 
 \section{Integrazione dell'algoritmo di riconoscimento}
 Il sistema che permette di identificare la specie in un avvistamento è stato integrato con un bottone nella pagina di ogni singolo avvistamento. Quando questo viene premuto viene aperto un modale e inviate delle sottoimmagini dell'avvistamento. Per la precisione, se sono presenti solo delle foto senza nessuna sottoimmagine, vengono inviate le foto intere, ma questo non permetterà un'alta precisione visto che il sistema è addestrato solo con singole immagini. Se invece l'utente ha creato delle sottoimmagini dell'avvistamento, queste sottoimmagini verranno ritagliate e inviate singolarmente all'algoritmo. Esso processerà tutte le immagini che gli sono state inviate e risponderà con le possibili soluzioni. Se invece non sono presenti immagini il sistema darà un errore.\\
-Per utilizzare le librerie di machine learning citate sopra il sistema è stato spostato su un computer sul quale è attivo il server web con sistema operativo ubuntu 18.04, nel quale è stato installato un ambiente virtuale Anaconda. Esso è un ambiente di sviluppo isolato, dove è possibile creare e gestire pacchetti Python e le relative dipendenze. Questo significa che esso può contenere una versione specifica di Python, nel nostro caso la 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
+Per utilizzare le librerie di machine learning citate sopra il sistema è stato spostato su un computer sul quale è attivo il server web con sistema operativo Ubuntu 18.04, nel quale è stato installato un ambiente virtuale Anaconda. Esso è un ambiente di sviluppo isolato, dove è possibile creare e gestire pacchetti Python e le relative dipendenze. Questo significa che esso può contenere una versione specifica di Python, nel nostro caso la 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
 Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vengono passati i nomi delle foto, il quale a sua volta attiverà l'ambiente virtuale e farà partire lo script.
 \begin{lstlisting}[caption={Codice script bash.}, label={lst:script_bash}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 #!/bin/bash
@@ -1397,7 +1402,7 @@ Le operazioni di testing si suddividono in:
 \end{enumerate}
 
 Nel primo caso si è cercato di seguire il seguente criterio di copertura:\\
-\textbf{Criterio di copertura delle decisioni e delle condizioni}: selezionare un insieme di test concreti tali che, a seguito dell’esecuzione del programma su tutti i casi di test, ogni arco del grafo di controllo sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.
+\textbf{Criterio di copertura delle decisioni e delle condizioni}: selezionare un insieme di test concreti tali che, a seguito dell'esecuzione del programma su tutti i casi di test, ogni arco del grafo di controllo sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.
 Nel secondo caso il sistema viene considerato come una black-box. L'insieme di test che verranno usati vengono selezionati sulla base delle specifiche di progetto, e grazie ad esse definiti i valori di input a cui corrisponderanno determinati valori di output. 
 I casi di testing in the large presi in considerazione sono:
 \begin{itemize}
@@ -1412,11 +1417,11 @@ L'approccio per l'analisi del software è stato il Code Inspection. In particola
 Infatti, l'evoluzione del valore associato alle variabili durante l'esecuzione del programma è estremamente dinamica. Quindi si è usata la tecnica di associare ad ogni comando staticamente il tipo di operazioni eseguite sulle variabili. In questo modo avremo delle sequenze di comandi corrispondenti a possibili esecuzioni, le quali sono riconducibili staticamente a sequenze di tali operazioni. Quest'ultime verranno analizzate al fine di individuare delle possibili anomalie nel programma.
 
 \subsection{Test}
-E' stato eseguito sia l'alpha testing cioè la fase in cui un software viene testato internamente dallo sviluppatore o dal team di sviluppo, che il beta testing il quale invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso si è cercato di migliorare al meglio le funzionalità del programma e cercato di risolvere tutti gli eventuali che si sono presentati. Invece nel secondo, il sistema una volta installato è stato testato direttamenti dagli utenti finali in modo da poter verificare che tutte le funzionalità fossero presenti e che siano state implementate correttamente.
+E' stato eseguito sia l'alpha testing cioè la fase in cui un software viene testato internamente dallo sviluppatore o dal team di sviluppo, che il beta testing il quale invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso si è cercato di migliorare al meglio le funzionalità del programma e cercato di risolvere tutti gli eventuali che si sono presentati. Invece nel secondo, il sistema una volta installato è stato testato direttamente dagli utenti finali in modo da poter verificare che tutte le funzionalità fossero presenti e che siano state implementate correttamente.
 
-\subsubsection{Algoritmo di riconosciemento}
+\subsubsection{Algoritmo di riconoscimento}
 Per quanto riguarda l'algoritmo di riconoscimento invece si è testata la sua precisione con delle immagini prestabilite in modo da controllare che l'output fosse corretto.
-In più è stata verificata la precisione con la suguente formula:
+In più è stata verificata la precisione con la seguente formula:
 \begin{equation}
 MAP@5 = \frac{1}{U} \sum_{u=1}^{U} \sum_{k=1}^{min(n,5)} P(k) \times rel(k)
 \end{equation}
@@ -1425,7 +1430,13 @@ Nello specifico, n indica il numero di immagini considerate, k indica il numero 
 La precisione alla posizione j per l'immagine i è definita come il numero di previsioni corrette tra le prime j previsioni, diviso j. La precisione media delle prime k previsioni per l'immagine i è quindi la media delle precisioni alle prime k posizioni.
 
 \chapter{Conclusioni}
+Alla fine del mio percorso di studi, ritengo che il progetto che ho appena completato sia stato uno dei più complessi e soddisfacenti. Inizialmente, si trattava solo di un piccolo progetto basato su un mini-server contenente il database e le pagine web. Tuttavia, ho avuto l'opportunità di espandere il progetto in modo significativo, fino a includere un sistema di riconoscimento tramite visione artificiale, librerie e codice per il server web, oltre ad una solida infrastruttura software. Alla fine il sistema è stato spostato nei server web dell'università dove potrà essere utilizzato da tutti i ricercatori e dai pescatori al fine di documentare gli avvistamenti delle varie specie marine.\\
 
+Grazie al mio impegno e alla mia perseveranza, sono riuscito a sviluppare un sistema altamente ampliabile, con numerose funzionalità e applicazioni mobili e web. Ad esempio, l'applicazione mobile permette di caricare gli avvistamenti delle varie specie marine, mentre la pagina web offre la possibilità di caricare, modificare ed eliminare gli avvistamenti. Inoltre, grazie all'integrazione di un sistema di machine learning, il progetto permette di riconoscere con una determinata precisione la specie dei delfini.\\
+
+Sono fiero di aver creato un'infrastruttura software così solida e completa, che può essere utilizzata dai ricercatori e dai pescatori per documentare gli avvistamenti delle specie marine in modo accurato e dettagliato. Inoltre, l'infrastruttura è altamente ampliabile e può essere utilizzata per eseguire ricerche in vari ambiti. Ad esempio si pensava di estendere l'utilizzo della visione artificiale sulla funzione di riconoscimento di individui già avvistati in precedenza oppure di estendere l'applicazione mobile attraverso delle nuove features e aggiungere nuovi dati statistici. Invece, nell'applicazione web si potrebbe implementare un servizio di messaggistica in modo che gli utenti possano scambiarsi ulteriori informazioni oppure consultarsi reciprocamente.\\
+
+Il mio percorso universitario mi ha dato l'opportunità di imparare molte cose e di crescere come persona e come professionista. Sono grato per tutte le esperienze che ho avuto durante gli anni di studio, che mi hanno permesso di diventare la persona che sono oggi. Credo che il progetto che ho appena completato sia una testimonianza del mio impegno e della mia passione per la tecnologia e la ricerca. Spero che possa essere utilizzato e apprezzato da molti ricercatori e pescatori in tutto il mondo.
 
 
 

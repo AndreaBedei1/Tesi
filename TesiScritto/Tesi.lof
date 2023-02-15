@@ -31,11 +31,12 @@
 \contentsline {figure}{\numberline {4.18}{\ignorespaces Pagina delle impostazioni sulla sicurezza in modalità mobile.}}{60}{}%
 \contentsline {figure}{\numberline {4.19}{\ignorespaces Prima parte della pagina dell'avvistamento, modifica dei dati.}}{61}{}%
 \contentsline {figure}{\numberline {4.20}{\ignorespaces Modale di eliminazione.}}{62}{}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Modale di informazione sulla specie.}}{63}{}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{64}{}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{65}{}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Modifica dell'esemplare.}}{66}{}%
-\contentsline {figure}{\numberline {4.25}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{67}{}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Modale per l'auto-riconoscimento della specie.}}{62}{}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Modale di informazione sulla specie.}}{63}{}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{64}{}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{65}{}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Modifica dell'esemplare.}}{66}{}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{67}{}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{78}{}%
 \contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{92}{}%

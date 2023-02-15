@@ -81,7 +81,7 @@
 \contentsline {subsubsection}{Matrice di confusione e report di classificazione}{94}{}%
 \contentsline {subsubsection}{Visualizzazione della matrice di confusione}{96}{}%
 \contentsline {subsubsection}{Visualizzazione della precisione per ogni specie}{97}{}%
-\contentsline {subsection}{\numberline {5.3.2}Fase di riconosciemnto dell'immagine}{99}{}%
+\contentsline {subsection}{\numberline {5.3.2}Fase di riconoscimento dell'immagine}{99}{}%
 \contentsline {subsubsection}{Librerie utilizzate}{99}{}%
 \contentsline {subsubsection}{Caricamento della rete neurale}{99}{}%
 \contentsline {subsubsection}{Funzione di predizione}{100}{}%
@@ -93,5 +93,5 @@
 \contentsline {subsubsection}{Testing}{104}{}%
 \contentsline {subsection}{\numberline {6.1.2}Analisi}{105}{}%
 \contentsline {subsection}{\numberline {6.1.3}Test}{106}{}%
-\contentsline {subsubsection}{Algoritmo di riconosciemento}{106}{}%
+\contentsline {subsubsection}{Algoritmo di riconoscimento}{106}{}%
 \contentsline {chapter}{\numberline {7}Conclusioni}{108}{}%
