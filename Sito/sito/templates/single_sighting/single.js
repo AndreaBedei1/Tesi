@@ -12,7 +12,6 @@ $(document).ready(function() {
     
     $( "#slcSpecie" ).change(function() {
         var sp = $("#slcSpecie").val();
-        console.log(sp);
         if(sp==""){
             $("#slcSottospecie").prop('disabled', true);
             $("#infoSpecie").prop('disabled', true);
@@ -340,6 +339,10 @@ function uploadDates(){
             $("#btn_Rico").prop('disabled', true);
             $("#btn_Rico").addClass("disabled");
         }
+        if(dati["Specie_Nome"]=="?"){
+            $("#infoSpecie").prop('disabled', true);
+            $("#infoSpecie").addClass("disabled");
+        }
     })
     .fail(function(response) {
         console.log(response);
@@ -383,15 +386,12 @@ function setImages(w, h){
         w=w/1.6;
     }
     else if(w>=374 && w<=950){
-        w=w/2;
+        w=w/1.8;
     } else {
-        w=w/3.5;
+        w=w/2.5;
     }
-    if(h<=800){
-        h=h/2.5;
-    } else {
-        h=h/2.5;
-    }
+    h=h/2.5;
+
     w = Math.round(w);
     h = Math.round(h);
 
