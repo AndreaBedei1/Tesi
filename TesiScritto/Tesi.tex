@@ -786,17 +786,17 @@ La pagina degli avvistamenti consente di modificare e aggiungere informazioni su
 \caption{Prima parte della pagina dell'avvistamento, modifica dei dati.}
 \end{figure}
 \\In questa prima parte ci sono due sezioni: la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente ci clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra invece c'è la possibilità di modificare i dati inseriti in precedenza.
-Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento. Esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti, in questo modo in caso di eliminazioni non volute c'è la possibilità di recuperarli.\\
+Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare l'avvistamento. Esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti, in questo modo in caso di eliminazioni non volute c'è la possibilità di recuperarli.
 Vicino alla specie è presente un pulsante a forma di punto interrogativo che aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
-Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento. Infine, sono presenti anche due bottoni: uno "contatta" che permetterà di contattare l'utente che ha eseguito l'avvistamento e uno "notifica" che invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento.
+Il pulsante "salva" invece permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento. Sono presenti anche anche due bottoni: uno "contatta" che permetterà di contattare l'utente che ha eseguito l'avvistamento e uno "notifica" che invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento. Infine, è presente un bottone riconoscimento che permetterà di ricevere dei suggerimenti sulla specie attraverso un modale, il suo funzionamento viene spiegato nel capitolo successivo. In aiuto all'utente affianco ad esso è presente un pulsante che spiega all'utente le modalità di utilizzo.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.55]{img_concettuale/eliminazione.png}
+\includegraphics[scale=0.44]{img_concettuale/eliminazione.png}
 \caption{Modale di eliminazione.}
 \end{figure}
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.50]{img_concettuale/autoric.png}
+\includegraphics[scale=0.40]{img_concettuale/autoric.png}
 \caption{Modale per l'auto-riconoscimento della specie.}
 \end{figure}
 \newpage
@@ -1374,7 +1374,7 @@ python3 check.py "$@"
 \chapter{Documentazione Test}
 
 \section{Test con l'utente}
-Al fine di effettuare operazioni di test direttamente con l'utente di è deciso di creare un prototipo per far interagire direttamente l'utente sull'intero sistema in beta-release.
+Al fine di effettuare operazioni di test direttamente con l'utente si è deciso di creare un prototipo per far interagire direttamente egli sull'intero sistema in beta-release.
 Gli aspetti testati sono:
 \begin{itemize}
 \item Il modello concettuale è sufficientemente rappresentato.
@@ -1386,7 +1386,7 @@ Gli aspetti testati sono:
 
 \subsection{Verifica del software}
 Questa fase ha lo scopo di verificare che il sistema contenga le specifiche di progetto. Tale operazione non viene eseguita solo sul prodotto finale ma segue il progetto ad ogni suo passo.
-Le tecniche di verifica che sono stato utilizzate sono:
+Le tecniche di verifica che sono state utilizzate sono:
 \begin{itemize}
 \item \textbf{Di testing:} che attraverso delle prove sperimentali, su un insieme rappresentativo di situazioni, verificano il corretto funzionamento del sistema. 
 \item \textbf{Di analisi:} attraverso l'analisi della struttura dei moduli e del codice che li realizza viene verificato il corretto funzionamento. 
@@ -1417,7 +1417,7 @@ L'approccio per l'analisi del software è stato il Code Inspection. In particola
 Infatti, l'evoluzione del valore associato alle variabili durante l'esecuzione del programma è estremamente dinamica. Quindi si è usata la tecnica di associare ad ogni comando staticamente il tipo di operazioni eseguite sulle variabili. In questo modo avremo delle sequenze di comandi corrispondenti a possibili esecuzioni, le quali sono riconducibili staticamente a sequenze di tali operazioni. Quest'ultime verranno analizzate al fine di individuare delle possibili anomalie nel programma.
 
 \subsection{Test}
-E' stato eseguito sia l'alpha testing cioè la fase in cui un software viene testato internamente dallo sviluppatore o dal team di sviluppo, che il beta testing il quale invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso si è cercato di migliorare al meglio le funzionalità del programma e cercato di risolvere tutti gli eventuali che si sono presentati. Invece nel secondo, il sistema una volta installato è stato testato direttamente dagli utenti finali in modo da poter verificare che tutte le funzionalità fossero presenti e che siano state implementate correttamente.
+E' stato eseguito sia l'alpha testing cioè la fase in cui un software viene testato internamente dallo sviluppatore o dal team di sviluppo, che il beta testing il quale invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso si è cercato di migliorare al meglio le funzionalità del programma e cercato di risolvere tutti gli eventuali problemi che si sono presentati. Invece nel secondo, il sistema una volta installato è stato testato direttamente dagli utenti finali in modo da poter verificare che tutte le funzionalità fossero presenti e che siano state implementate correttamente.
 
 \subsubsection{Algoritmo di riconoscimento}
 Per quanto riguarda l'algoritmo di riconoscimento invece si è testata la sua precisione con delle immagini prestabilite in modo da controllare che l'output fosse corretto.
@@ -1432,9 +1432,9 @@ La precisione alla posizione j per l'immagine i è definita come il numero di pr
 \chapter{Conclusioni}
 Alla fine del mio percorso di studi, ritengo che il progetto che ho appena completato sia stato uno dei più complessi e soddisfacenti. Inizialmente, si trattava solo di un piccolo progetto basato su un mini-server contenente il database e le pagine web. Tuttavia, ho avuto l'opportunità di espandere il progetto in modo significativo, fino a includere un sistema di riconoscimento tramite visione artificiale, librerie e codice per il server web, oltre ad una solida infrastruttura software. Alla fine il sistema è stato spostato nei server web dell'università dove potrà essere utilizzato da tutti i ricercatori e dai pescatori al fine di documentare gli avvistamenti delle varie specie marine.\\
 
-Grazie al mio impegno e alla mia perseveranza, sono riuscito a sviluppare un sistema altamente ampliabile, con numerose funzionalità e applicazioni mobili e web. Ad esempio, l'applicazione mobile permette di caricare gli avvistamenti delle varie specie marine, mentre la pagina web offre la possibilità di caricare, modificare ed eliminare gli avvistamenti. Inoltre, grazie all'integrazione di un sistema di machine learning, il progetto permette di riconoscere con una determinata precisione la specie dei delfini.\\
+Questo progetto mi ha dato l'opportunità di crescere e migliorare le mie abilità: sono riuscito a sviluppare un sistema altamente ampliabile, con numerose funzionalità e applicazioni mobili e web. Ad esempio, l'applicazione mobile permette di caricare gli avvistamenti delle varie specie marine, mentre la pagina web offre la possibilità di caricare, modificare ed eliminare gli avvistamenti. Inoltre, grazie all'integrazione di un sistema di machine learning, il progetto permette di riconoscere con una determinata precisione la specie dei delfini.\\
 
-Sono fiero di aver creato un'infrastruttura software così solida e completa, che può essere utilizzata dai ricercatori e dai pescatori per documentare gli avvistamenti delle specie marine in modo accurato e dettagliato. Inoltre, l'infrastruttura è altamente ampliabile e può essere utilizzata per eseguire ricerche in vari ambiti. Ad esempio si pensava di estendere l'utilizzo della visione artificiale sulla funzione di riconoscimento di individui già avvistati in precedenza oppure di estendere l'applicazione mobile attraverso delle nuove features e aggiungere nuovi dati statistici. Invece, nell'applicazione web si potrebbe implementare un servizio di messaggistica in modo che gli utenti possano scambiarsi ulteriori informazioni oppure consultarsi reciprocamente.\\
+Inoltre, l'infrastruttura è altamente ampliabile e può essere utilizzata per eseguire ricerche in vari ambiti. Ad esempio si pensava di estendere l'utilizzo della visione artificiale sulla funzione di riconoscimento di individui già avvistati in precedenza oppure di estendere l'applicazione mobile attraverso delle nuove features e aggiungere nuovi dati statistici. Invece, nell'applicazione web si potrebbe implementare un servizio di messaggistica in modo che gli utenti possano scambiarsi ulteriori informazioni oppure consultarsi reciprocamente.\\
 
 Il mio percorso universitario mi ha dato l'opportunità di imparare molte cose e di crescere come persona e come professionista. Sono grato per tutte le esperienze che ho avuto durante gli anni di studio, che mi hanno permesso di diventare la persona che sono oggi. Credo che il progetto che ho appena completato sia una testimonianza del mio impegno e della mia passione per la tecnologia e la ricerca. Spero che possa essere utilizzato e apprezzato da molti ricercatori e pescatori in tutto il mondo.
 
