@@ -2,10 +2,12 @@ Pagina login (Uso di sensori)
 Pagina registrazione (Uso di sensori)
 Pagina impostazioni profilo (cambio foto profilo con camera, salvataggio dati su database locale per impostazioni come tema e notifiche y/n, uscire dal profilo)
 Pagina homepage (lista di avvistamenti e la mappa di tutti gli avvistamenti, avvistamenti preferiti savlati sempre su database locale, filtri per data, specie...)
+Pagina profilo (visione foto, nome,..., se tappi sulla mail invii una mail)
 Pagina visione singolo avvistamento (mappa, caratteristiche)
+
 Pagina creazione nuovo avvistamento (Gallery e/o folder prendere dati da storage interno)
 Pagina statistiche (grafici vari)
-Pagina profilo (visione foto, nome,..., se tappi sulla mail invii una mail)
+
 
 Intent per o Calendario per ricordare impegno, camera per fare foto o aprire galleria, condividere un avvistamento via mail, creare una nuova nota per qualcosa
 Comunicazione con databse online con volley
