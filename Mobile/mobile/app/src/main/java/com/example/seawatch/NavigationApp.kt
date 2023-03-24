@@ -1,5 +1,6 @@
 package com.example.seawatch
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 
 sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
+    object SignUp: NavigationScreen("SignUp")
     object LogIn : NavigationScreen("LogIn")
     object Second : NavigationScreen("Second")
     object Third : NavigationScreen("Third")
@@ -56,7 +58,7 @@ fun NavigationApp(
     // Get the name of the current screen
     val currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
 
-    if(currentScreen != NavigationScreen.LogIn.name) {
+    if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
         Scaffold(
             topBar = {
                 NavigationAppBar(
@@ -70,7 +72,6 @@ fun NavigationApp(
         }
     } else {
         Scaffold(
-
         ) { innerPadding ->
             NavigationGraph(navController, innerPadding)
         }
@@ -90,8 +91,18 @@ private fun NavigationGraph(
     ) {
         composable(route = NavigationScreen.LogIn.name) {
             LogInScreen(
-                onNextButtonClicked = {
+                goToHome = {
                     navController.navigate(NavigationScreen.Second.name)
+                },
+                goToSignUp = {
+                    navController.navigate(NavigationScreen.SignUp.name)
+                }
+            )
+        }
+        composable(route = NavigationScreen.SignUp.name) {
+            SignUpScreen(
+                goToLogin = {
+                    navController.navigate(NavigationScreen.LogIn.name)
                 }
             )
         }
