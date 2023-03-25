@@ -2,13 +2,17 @@ package com.example.seawatch
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +25,7 @@ sealed class NavigationScreen(val name: String) {
     object LogIn : NavigationScreen("LogIn")
     object Second : NavigationScreen("Second")
     object Third : NavigationScreen("Third")
+    object Settings : NavigationScreen("Impostazioni")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,12 +66,29 @@ fun NavigationApp(
     if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
         Scaffold(
             topBar = {
-                NavigationAppBar(
-                    currentScreen = currentScreen,
-                    canNavigateBack = navController.previousBackStackEntry != null,
-                    navigateUp = { navController.navigateUp() }
+                TopAppBar(
+                    title = { Text(currentScreen) },
+                    navigationIcon = {
+                        IconButton(onClick = { navController.navigateUp() }) {
+                            Icon(Icons.Filled.ArrowBack, contentDescription = "Naviga indietro")
+                        }
+                    },
+                    actions = {
+                        if(currentScreen == NavigationScreen.Settings.name) {
+                            IconButton(onClick = { navController.navigate(NavigationScreen.LogIn.name) }) {
+                                Icon(Icons.Filled.ExitToApp, contentDescription = "Esci", tint = Color.Red)
+                            }
+                        }
+                    }
                 )
-            }
+
+                /**NavigationAppBar(
+                    currentScreen = currentScreen,
+                    canNavigateBack = navController.previousBackStackEntry != null, NON CONTROLLATO
+                    navigateUp = { navController.navigateUp() },
+
+                )*/
+            },
         ) { innerPadding ->
             NavigationGraph(navController, innerPadding)
         }
@@ -92,12 +114,18 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.LogIn.name) {
             LogInScreen(
                 goToHome = {
-                    navController.navigate(NavigationScreen.Second.name)
+                    navController.navigate(NavigationScreen.Settings.name)
                 },
                 goToSignUp = {
                     navController.navigate(NavigationScreen.SignUp.name)
                 }
             )
+        }
+        composable(route = NavigationScreen.Settings.name) {
+            Settings(
+                goToSecuritySettings = { /*TODO*/ },
+                goToProfileSettings = { /*TODO*/ },
+                goToDisplaySettings = { /*TODO*/ })
         }
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(

@@ -1,10 +1,15 @@
 package com.example.seawatch
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 /**
  * Composable che rappresenta la prima schermata da visualizzare
@@ -57,7 +64,7 @@ fun LogInScreen(
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.secondaryContainer
-    var text by rememberSaveable { mutableStateOf("") }
+    var mail by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
 
@@ -95,8 +102,8 @@ fun LogInScreen(
                     items(1) { element ->
 
                         TextField(
-                            value = text,
-                            onValueChange = { text = it },
+                            value = mail,
+                            onValueChange = { mail = it },
                             label = { Text("Email") },
                             singleLine = true,
                             placeholder = { Text("esempio@provider.com") }
@@ -174,8 +181,8 @@ fun LogInScreen(
                     Text(text = "ACCEDI", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(med))
                     TextField(
-                        value = text,
-                        onValueChange = { text = it },
+                        value = mail,
+                        onValueChange = { mail = it },
                         label = { Text("Email") },
                         singleLine = true,
                         placeholder = { Text("esempio@provider.com") }
@@ -238,7 +245,9 @@ fun SignUpScreen(
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.secondaryContainer
-    var text by rememberSaveable { mutableStateOf("") }
+    var mail by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
+    var surname by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
 
@@ -275,24 +284,24 @@ fun SignUpScreen(
                 ) {
                     items(1) { element ->
                         TextField(
-                            value = text,
-                            onValueChange = { text = it },
+                            value = name,
+                            onValueChange = { name = it },
                             label = { Text("Nome") },
                             singleLine = true,
                             placeholder = { Text("Mario") }
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
-                            value = text,
-                            onValueChange = { text = it },
+                            value = surname,
+                            onValueChange = { surname = it },
                             label = { Text("Cognome") },
                             singleLine = true,
                             placeholder = { Text("Rossi") }
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
-                            value = text,
-                            onValueChange = { text = it },
+                            value = mail,
+                            onValueChange = { mail = it },
                             label = { Text("Email") },
                             singleLine = true,
                             placeholder = { Text("esempio@provider.com") }
@@ -369,24 +378,24 @@ fun SignUpScreen(
                     Text(text = "REGISTRATI", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(min))
                     TextField(
-                        value = text,
-                        onValueChange = { text = it },
+                        value = name,
+                        onValueChange = { name = it },
                         label = { Text("Nome") },
                         singleLine = true,
                         placeholder = { Text("Mario") }
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     TextField(
-                        value = text,
-                        onValueChange = { text = it },
+                        value = surname,
+                        onValueChange = { surname = it },
                         label = { Text("Cognome") },
                         singleLine = true,
                         placeholder = { Text("Rossi") }
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     TextField(
-                        value = text,
-                        onValueChange = { text = it },
+                        value = mail,
+                        onValueChange = { mail = it },
                         label = { Text("Email") },
                         singleLine = true,
                         placeholder = { Text("esempio@provider.com") }
@@ -437,6 +446,67 @@ fun SignUpScreen(
         }
     }
 }
+
+/**
+ * Composable che rappresenta la seconda schermata da visualizzare
+ * [onCancelButtonClicked] lambda che triggera il cambio di schermata (home)
+ */
+@Composable
+fun Settings(
+    goToSecuritySettings: () -> Unit,
+    goToProfileSettings: () -> Unit,
+    goToDisplaySettings: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp/40
+    val med = configuration.screenHeightDp.dp/20
+    val width = configuration.screenWidthDp.dp-30.dp
+    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backGround),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        items(1) { element ->
+            Spacer(modifier = Modifier.height(min))
+            Button(
+                onClick = { goToSecuritySettings() },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                modifier = modifier.widthIn(min = width)
+            ) {
+                Text("PROFILO")
+            }
+            Spacer(modifier = Modifier.height(min))
+            Button(
+                onClick = { goToProfileSettings() },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                modifier = modifier.widthIn(min = width)
+            ) {
+                Text("DISPLAY")
+            }
+            Spacer(modifier = Modifier.height(min))
+            Button(
+                onClick = { goToDisplaySettings() },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                modifier = modifier.widthIn(min = width)
+            ) {
+                Text("SICUREZZA")
+            }
+        }
+    }
+}
+
+@Composable
+fun DisplaySettings(
+    modifier: Modifier = Modifier,
+    sharedPref:SharedPreferences
+) {
+
+}
+
+
 
 /**
  * Composable che rappresenta la seconda schermata da visualizzare
