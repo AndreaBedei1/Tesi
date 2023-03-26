@@ -25,32 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-
-/**
- * Composable che rappresenta la prima schermata da visualizzare
- * [onNextButtonClicked] lambda che triggera il cambio di schermata
- */
-@Composable
-fun FirstScreen(
-    onNextButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primaryContainer),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "FirstScreen", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = { onNextButtonClicked() },
-            modifier = modifier.widthIn(min = 250.dp)
-        ) {
-            Text("Next")
-        }
-    }
-}
+import androidx.compose.ui.text.style.TextDecoration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -783,77 +758,80 @@ fun ProfileSettings(
         }
     }
 }
-
-
-
-/**
- * Composable che rappresenta la seconda schermata da visualizzare
- * [onNextButtonClicked] lambda che triggera il cambio di schermata (next)
- * [onCancelButtonClicked] lambda che triggera il cambio di schermata (home)
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SecondScreen(
-    onNextButtonClicked: () -> Unit,
-    onCancelButtonClicked: () -> Unit,
+fun Profile(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondaryContainer),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "SecondScreen", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp/40
+    val med = configuration.screenHeightDp.dp/20
+    val hig = configuration.screenHeightDp.dp/10
+    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    var nome by rememberSaveable { mutableStateOf("") }
+    var cognome by rememberSaveable { mutableStateOf("") }
 
-        Row {
-            Button(
-                onClick = { onCancelButtonClicked() },
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
+            Row (
                 modifier = modifier
-                    .widthIn(min = 250.dp)
-                    .weight(1f)
+                    .fillMaxSize()
+                    .background(backGround)
             ) {
-                Text("Cancel")
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .size(width = configuration.screenWidthDp.dp/2, height = configuration.screenHeightDp.dp)
+                        .padding(horizontal = hig),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        Image(
+                            painter = painterResource(R.drawable.sea),
+                            contentDescription = "Immagine Profilo"
+                        )
+                    }
+                }
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .background(backGround),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        Spacer(modifier = Modifier.height(min-5.dp))
+                        Text(text="Mail: example@provider.com", textDecoration = TextDecoration.Underline)
+                        Spacer(modifier = Modifier.height(min))
+                        Text(text="Nome: Mario", textDecoration = TextDecoration.Underline)
+                        Spacer(modifier = Modifier.height(min))
+                        Text(text="Cognome: Rossi", textDecoration = TextDecoration.Underline)
+                    }
+                }
             }
-
-            Spacer(modifier = Modifier.width(2.dp))
-
-            Button(
-                onClick = { onNextButtonClicked() },
-                modifier = modifier
-                    .widthIn(min = 250.dp)
-                    .weight(1f)
-            ) {
-                Text("Next")
-            }
-
         }
-    }
-}
-
-/**
- * Composable che rappresenta la seconda schermata da visualizzare
- * [onCancelButtonClicked] lambda che triggera il cambio di schermata (home)
- */
-@Composable
-fun ThirdScreen(
-    onCancelButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiaryContainer),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "ThirdScreen", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Button(
-            onClick = { onCancelButtonClicked() },
-            modifier = modifier.widthIn(min = 250.dp)
-        ) {
-            Text("Cancel")
+        else -> {                                                   /** Login verticale */
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(1) { element ->
+                    Spacer(modifier = Modifier.height(hig))
+                    Image(
+                        painter = painterResource(R.drawable.sea),
+                        contentDescription = "Immagine Profilo"
+                    )
+                    Spacer(modifier = Modifier.height(min))
+                    Text(text="Mail: example@provider.com", textDecoration = TextDecoration.Underline)
+                    Spacer(modifier = Modifier.height(min))
+                    Text(text="Nome: Mario", textDecoration = TextDecoration.Underline)
+                    Spacer(modifier = Modifier.height(min))
+                    Text(text="Cognome: Rossi", textDecoration = TextDecoration.Underline)
+                }
+            }
         }
     }
 }

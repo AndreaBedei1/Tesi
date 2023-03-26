@@ -2,18 +2,15 @@ package com.example.seawatch
 
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,12 +21,11 @@ sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
     object SignUp: NavigationScreen("SignUp")
     object LogIn : NavigationScreen("LogIn")
-    object Second : NavigationScreen("Second")
-    object Third : NavigationScreen("Third")
     object Settings : NavigationScreen("Impostazioni")
     object DisplaySettings : NavigationScreen("Impostazioni Schermo")
     object SecuritySettings:NavigationScreen("Impostazioni Sicurezza")
     object ProfileSettings:NavigationScreen("Impostazioni Profilo")
+    object Profile:NavigationScreen("Profilo")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,6 +96,35 @@ fun NavigationApp(
                 navigateUp = { navController.navigateUp() },
 
             )*/
+        },
+        bottomBar = {
+            if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name){
+                var selectedItem by remember { mutableStateOf(2) }
+                NavigationBar (
+                    modifier = Modifier.height(65.dp)
+                ){
+                    NavigationBarItem(
+                        icon = { Icon(painter = painterResource(id = R.drawable.baseline_bar_chart_24), contentDescription = "Statistiche", modifier = Modifier.size(30.dp)) },
+                        selected = selectedItem == 0,
+                        onClick = { selectedItem = 0 }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Settings, contentDescription = "Impostazioni", modifier = Modifier.size(30.dp)) },
+                        selected = selectedItem == 1,
+                        onClick = { selectedItem = 1; navController.navigate(NavigationScreen.Settings.name) }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Home, contentDescription = "Homepage", modifier = Modifier.size(30.dp)) },
+                        selected = selectedItem == 2,
+                        onClick = { selectedItem = 2 }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Person, contentDescription = "Profilo", modifier = Modifier.size(30.dp)) },
+                        selected = selectedItem == 3,
+                        onClick = { selectedItem = 3; navController.navigate(NavigationScreen.Profile.name) }
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         NavigationGraph(navController, innerPadding, sharedPref=sharedPref, selectedOption=selectedOption, onOptionSelected=onOptionSelected)
@@ -149,25 +174,14 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.SecuritySettings.name) {
             SecuritySettings()
         }
+        composable(route = NavigationScreen.Profile.name) {
+            Profile()
+        }
+
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(
                 goToLogin = {
                     navController.navigate(NavigationScreen.LogIn.name)
-                }
-            )
-        }
-        composable(route = NavigationScreen.Second.name) {
-            SecondScreen(
-                onNextButtonClicked = { navController.navigate(NavigationScreen.Third.name) },
-                onCancelButtonClicked = {
-                    navigateToHome(navController)
-                }
-            )
-        }
-        composable(route = NavigationScreen.Third.name) {
-            ThirdScreen(
-                onCancelButtonClicked = {
-                    navigateToHome(navController)
                 }
             )
         }
