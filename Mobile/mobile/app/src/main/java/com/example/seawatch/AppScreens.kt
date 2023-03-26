@@ -472,7 +472,7 @@ fun Settings(
         items(1) { element ->
             Spacer(modifier = Modifier.height(min))
             Button(
-                onClick = { goToSecuritySettings() },
+                onClick = { goToProfileSettings() },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = modifier.widthIn(min = width)
             ) {
@@ -480,7 +480,7 @@ fun Settings(
             }
             Spacer(modifier = Modifier.height(min))
             Button(
-                onClick = { goToProfileSettings() },
+                onClick = { goToDisplaySettings() },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = modifier.widthIn(min = width)
             ) {
@@ -488,7 +488,7 @@ fun Settings(
             }
             Spacer(modifier = Modifier.height(min))
             Button(
-                onClick = { goToDisplaySettings() },
+                onClick = { goToSecuritySettings() },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = modifier.widthIn(min = width)
             ) {
@@ -501,9 +501,287 @@ fun Settings(
 @Composable
 fun DisplaySettings(
     modifier: Modifier = Modifier,
-    sharedPref:SharedPreferences
-) {
+    sharedPref:SharedPreferences,
+    selectedOption: String?,
+    onOptionSelected: (String?) -> Unit,
 
+) {
+    val radioOptions = listOf("Chiaro", "Scuro")
+    val THEME_KEY = "THEME_KEY"
+    Column(Modifier.selectableGroup()) {
+        radioOptions.forEach { text ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .selectable(
+                        selected = (text == selectedOption),
+                        onClick = {
+                            onOptionSelected(text)
+                            with(sharedPref.edit()) {
+                                putString(THEME_KEY, text)
+                                apply()
+                            }
+                        },
+                        role = Role.RadioButton
+                    )
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = (text == selectedOption),
+                    onClick = null // null recommended for accessibility with screenreaders
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SecuritySettings(
+    modifier: Modifier = Modifier
+) {
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp/40
+    val med = configuration.screenHeightDp.dp/20
+    val width = configuration.screenWidthDp.dp-30.dp
+    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    var oldPassword by rememberSaveable { mutableStateOf("") }
+    var oldPasswordHidden by rememberSaveable { mutableStateOf(true) }
+    var newPassword by rememberSaveable { mutableStateOf("") }
+    var newPasswordHidden by rememberSaveable { mutableStateOf(true) }
+    var confirmPassword by rememberSaveable { mutableStateOf("") }
+    var confirmPasswordHidden by rememberSaveable { mutableStateOf(true) }
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backGround),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        items(1) { element ->
+            Spacer(modifier = Modifier.height(min))
+            TextField(
+                value = oldPassword,
+                onValueChange = { oldPassword = it },
+                singleLine = true,
+                label = { Text("Vecchia password") },
+                visualTransformation =
+                if (oldPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    IconButton(onClick = { oldPasswordHidden = !oldPasswordHidden }) {
+                        if (oldPasswordHidden) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                contentDescription = "Visibile"
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                contentDescription = "Non visibile"
+                            )
+                        }
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(min))
+            TextField(
+                value = newPassword,
+                onValueChange = { newPassword = it },
+                singleLine = true,
+                label = { Text("Nuova assword") },
+                visualTransformation =
+                if (newPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    IconButton(onClick = { newPasswordHidden = !newPasswordHidden }) {
+                        if (newPasswordHidden) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                contentDescription = "Visibile"
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                contentDescription = "Non visibile"
+                            )
+                        }
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(min))
+            TextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                singleLine = true,
+                label = { Text("Conferma password") },
+                visualTransformation =
+                if (confirmPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    IconButton(onClick = { confirmPasswordHidden = !confirmPasswordHidden }) {
+                        if (confirmPasswordHidden) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                contentDescription = "Visibile"
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                contentDescription = "Non visibile"
+                            )
+                        }
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(med))
+            Button(
+                onClick = {  },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
+                modifier = modifier.widthIn(min = 250.dp)
+            ) {
+                Text("AGGIORNA PASSWRD")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileSettings(
+    modifier: Modifier = Modifier
+) {
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp/40
+    val med = configuration.screenHeightDp.dp/20
+    val hig = configuration.screenHeightDp.dp/10
+    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    var nome by rememberSaveable { mutableStateOf("") }
+    var cognome by rememberSaveable { mutableStateOf("") }
+
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
+            Row (
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround)
+            ) {
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .size(width = configuration.screenWidthDp.dp/2, height = configuration.screenHeightDp.dp)
+                        .padding(horizontal = hig),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        Image(
+                            painter = painterResource(R.drawable.sea),
+                            contentDescription = "Immagine Profilo"
+                        )
+                        Spacer(modifier = Modifier.height(med))
+                        Button(
+                            onClick = { /** TODO */ },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            modifier = modifier.widthIn(min = 150.dp)
+                        ) {
+                            Text("CAMBIA FOTO")
+                        }
+                        Spacer(modifier = Modifier.height(med))
+                    }
+                }
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .background(backGround),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        Spacer(modifier = Modifier.height(min-5.dp))
+                        TextField(
+                            value = nome,
+                            onValueChange = { nome = it },
+                            label = { Text("Nome") },
+                            singleLine = true,
+                            placeholder = { Text("Mario") }
+                        )
+                        Spacer(modifier = Modifier.height(min))
+                        TextField(
+                            value = cognome,
+                            onValueChange = { cognome = it },
+                            label = { Text("Cognome") },
+                            singleLine = true,
+                            placeholder = { Text("Rossi") }
+                        )
+                        Spacer(modifier = Modifier.height(hig))
+                        Button(
+                            onClick = { /** TODO */ },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            modifier = modifier.widthIn(min = 200.dp)
+                        ) {
+                            Text("AGGIORNA")
+                        }
+                    }
+                }
+            }
+        }
+        else -> {                                                   /** Login verticale */
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(1) { element ->
+                    Spacer(modifier = Modifier.height(hig))
+                    Image(
+                        painter = painterResource(R.drawable.sea),
+                        contentDescription = "Immagine Profilo"
+                    )
+                    Spacer(modifier = Modifier.height(min))
+                    Button(
+                        onClick = { /** TODO */ },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                        modifier = modifier.widthIn(min = 150.dp)
+                    ) {
+                        Text("CAMBIA FOTO")
+                    }
+                    Spacer(modifier = Modifier.height(med))
+                    TextField(
+                        value = nome,
+                        onValueChange = { nome = it },
+                        label = { Text("Nome") },
+                        singleLine = true,
+                        placeholder = { Text("Mario") }
+                    )
+                    Spacer(modifier = Modifier.height(min))
+                    TextField(
+                        value = cognome,
+                        onValueChange = { cognome = it },
+                        label = { Text("Cognome") },
+                        singleLine = true,
+                        placeholder = { Text("Rossi") }
+                    )
+                    Spacer(modifier = Modifier.height(med))
+                    Button(
+                        onClick = { /** TODO */ },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                        modifier = modifier.widthIn(min = 200.dp)
+                    ) {
+                        Text("AGGIORNA")
+                    }
+                }
+            }
+        }
+    }
 }
 
 

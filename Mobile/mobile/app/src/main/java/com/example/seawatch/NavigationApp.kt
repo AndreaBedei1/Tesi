@@ -1,5 +1,6 @@
 package com.example.seawatch
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,9 @@ sealed class NavigationScreen(val name: String) {
     object Second : NavigationScreen("Second")
     object Third : NavigationScreen("Third")
     object Settings : NavigationScreen("Impostazioni")
+    object DisplaySettings : NavigationScreen("Impostazioni Schermo")
+    object SecuritySettings:NavigationScreen("Impostazioni Sicurezza")
+    object ProfileSettings:NavigationScreen("Impostazioni Profilo")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,16 +60,19 @@ fun NavigationAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    sharedPref: SharedPreferences,
+    selectedOption: String?,
+    onOptionSelected: (String?) -> Unit
 ) {
+
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
     val currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
-
-    if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
-        Scaffold(
-            topBar = {
+    Scaffold(
+        topBar = {
+            if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
                 TopAppBar(
                     title = { Text(currentScreen) },
                     navigationIcon = {
@@ -74,29 +81,28 @@ fun NavigationApp(
                         }
                     },
                     actions = {
-                        if(currentScreen == NavigationScreen.Settings.name) {
+                        if (currentScreen == NavigationScreen.Settings.name || currentScreen == NavigationScreen.DisplaySettings.name || currentScreen == NavigationScreen.SecuritySettings.name || currentScreen == NavigationScreen.ProfileSettings.name) {
                             IconButton(onClick = { navController.navigate(NavigationScreen.LogIn.name) }) {
-                                Icon(Icons.Filled.ExitToApp, contentDescription = "Esci", tint = Color.Red)
+                                Icon(
+                                    Icons.Filled.ExitToApp,
+                                    contentDescription = "Esci",
+                                    tint = Color.Red
+                                )
                             }
                         }
                     }
                 )
+            }
 
-                /**NavigationAppBar(
-                    currentScreen = currentScreen,
-                    canNavigateBack = navController.previousBackStackEntry != null, NON CONTROLLATO
-                    navigateUp = { navController.navigateUp() },
+            /**NavigationAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null, NON CONTROLLATO
+                navigateUp = { navController.navigateUp() },
 
-                )*/
-            },
-        ) { innerPadding ->
-            NavigationGraph(navController, innerPadding)
+            )*/
         }
-    } else {
-        Scaffold(
-        ) { innerPadding ->
-            NavigationGraph(navController, innerPadding)
-        }
+    ) { innerPadding ->
+        NavigationGraph(navController, innerPadding, sharedPref=sharedPref, selectedOption=selectedOption, onOptionSelected=onOptionSelected)
     }
 }
 
@@ -104,6 +110,9 @@ fun NavigationApp(
 private fun NavigationGraph(
     navController: NavHostController,
     innerPadding: PaddingValues,
+    sharedPref: SharedPreferences,
+    selectedOption: String?,
+    onOptionSelected: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -123,9 +132,22 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.Settings.name) {
             Settings(
-                goToSecuritySettings = { /*TODO*/ },
-                goToProfileSettings = { /*TODO*/ },
-                goToDisplaySettings = { /*TODO*/ })
+                goToSecuritySettings = { navController.navigate(NavigationScreen.SecuritySettings.name) },
+                goToProfileSettings = { navController.navigate(NavigationScreen.ProfileSettings.name) },
+                goToDisplaySettings = { navController.navigate(NavigationScreen.DisplaySettings.name) })
+        }
+        composable(route = NavigationScreen.DisplaySettings.name) {
+            DisplaySettings(
+                sharedPref = sharedPref,
+                selectedOption = selectedOption,
+                onOptionSelected = onOptionSelected
+            )
+        }
+        composable(route = NavigationScreen.ProfileSettings.name){
+            ProfileSettings()
+        }
+        composable(route = NavigationScreen.SecuritySettings.name) {
+            SecuritySettings()
         }
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(
