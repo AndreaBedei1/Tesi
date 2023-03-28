@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -57,9 +58,10 @@ fun NavigationAppBar(
 @Composable
 fun NavigationApp(
     navController: NavHostController = rememberNavController(),
-    sharedPref: SharedPreferences,
-    selectedOption: String?,
-    onOptionSelected: (String?) -> Unit
+    radioOptions: List<String>,
+    theme: String,
+    settingsViewModel: SettingsViewModel
+
 ) {
 
     // Get current back stack entry
@@ -70,10 +72,12 @@ fun NavigationApp(
         topBar = {
             if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
                 TopAppBar(
-                    title = { Text(currentScreen) },
+                    title = { Text(text =  currentScreen) },
                     navigationIcon = {
-                        IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(Icons.Filled.ArrowBack, contentDescription = "Naviga indietro")
+                        if(currentScreen != NavigationScreen.Home.name){
+                            IconButton(onClick = { navController.navigateUp() }) {
+                                Icon(Icons.Filled.ArrowBack, contentDescription = "Naviga indietro")
+                            }
                         }
                     },
                     actions = {
@@ -110,24 +114,24 @@ fun NavigationApp(
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Filled.Settings, contentDescription = "Impostazioni", modifier = Modifier.size(30.dp)) },
-                        selected = selectedItem == 1,
-                        onClick = { selectedItem = 1; navController.navigate(NavigationScreen.Settings.name) }
+                        selected = currentScreen == NavigationScreen.Settings.name,
+                        onClick = {navController.navigate(NavigationScreen.Settings.name) }
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Filled.Home, contentDescription = "Homepage", modifier = Modifier.size(30.dp)) },
-                        selected = selectedItem == 2,
-                        onClick = { selectedItem = 2 }
+                        selected = currentScreen == NavigationScreen.Home.name,
+                        onClick = {navController.navigate(NavigationScreen.Home.name) }
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Filled.Person, contentDescription = "Profilo", modifier = Modifier.size(30.dp)) },
-                        selected = selectedItem == 3,
-                        onClick = { selectedItem = 3; navController.navigate(NavigationScreen.Profile.name) }
+                        selected = currentScreen == NavigationScreen.Profile.name,
+                        onClick = {navController.navigate(NavigationScreen.Profile.name) }
                     )
                 }
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, sharedPref=sharedPref, selectedOption=selectedOption, onOptionSelected=onOptionSelected)
+        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
     }
 }
 
@@ -135,10 +139,10 @@ fun NavigationApp(
 private fun NavigationGraph(
     navController: NavHostController,
     innerPadding: PaddingValues,
-    sharedPref: SharedPreferences,
-    selectedOption: String?,
-    onOptionSelected: (String?) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    radioOptions: List<String>,
+    theme: String,
+    settingsViewModel: SettingsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -148,7 +152,7 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.LogIn.name) {
             LogInScreen(
                 goToHome = {
-                    navController.navigate(NavigationScreen.Settings.name)
+                    navigateToHome(navController)
                 },
                 goToSignUp = {
                     navController.navigate(NavigationScreen.SignUp.name)
@@ -162,11 +166,7 @@ private fun NavigationGraph(
                 goToDisplaySettings = { navController.navigate(NavigationScreen.DisplaySettings.name) })
         }
         composable(route = NavigationScreen.DisplaySettings.name) {
-            DisplaySettings(
-                sharedPref = sharedPref,
-                selectedOption = selectedOption,
-                onOptionSelected = onOptionSelected
-            )
+            DisplaySettings(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
         }
         composable(route = NavigationScreen.ProfileSettings.name){
             ProfileSettings()
@@ -177,7 +177,6 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.Profile.name) {
             Profile()
         }
-
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(
                 goToLogin = {
@@ -185,11 +184,15 @@ private fun NavigationGraph(
                 }
             )
         }
+        composable(route = NavigationScreen.Home.name){
+            HomeScreen()
+        }
     }
 }
 
 private fun navigateToHome(
     navController: NavHostController
 ) {
-    navController.popBackStack(NavigationScreen.Home.name, inclusive = false)
+    navController.popBackStack(NavigationScreen.LogIn.name, inclusive = true)
+    navController.navigate(NavigationScreen.Home.name)
 }

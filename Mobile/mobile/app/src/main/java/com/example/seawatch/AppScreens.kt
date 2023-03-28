@@ -38,7 +38,7 @@ fun LogInScreen(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     var mail by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
@@ -219,7 +219,7 @@ fun SignUpScreen(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     var mail by rememberSaveable { mutableStateOf("") }
     var name by rememberSaveable { mutableStateOf("") }
     var surname by rememberSaveable { mutableStateOf("") }
@@ -437,7 +437,7 @@ fun Settings(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val width = configuration.screenWidthDp.dp-30.dp
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -476,13 +476,11 @@ fun Settings(
 @Composable
 fun DisplaySettings(
     modifier: Modifier = Modifier,
-    sharedPref:SharedPreferences,
-    selectedOption: String?,
-    onOptionSelected: (String?) -> Unit,
-
+    radioOptions: List<String>,
+    theme: String,
+    settingsViewModel: SettingsViewModel
 ) {
-    val radioOptions = listOf("Chiaro", "Scuro")
-    val THEME_KEY = "THEME_KEY"
+    // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
     Column(Modifier.selectableGroup()) {
         radioOptions.forEach { text ->
             Row(
@@ -490,13 +488,9 @@ fun DisplaySettings(
                     .fillMaxWidth()
                     .height(56.dp)
                     .selectable(
-                        selected = (text == selectedOption),
+                        selected = (text == theme),
                         onClick = {
-                            onOptionSelected(text)
-                            with(sharedPref.edit()) {
-                                putString(THEME_KEY, text)
-                                apply()
-                            }
+                            settingsViewModel.saveTheme(text)
                         },
                         role = Role.RadioButton
                     )
@@ -504,7 +498,7 @@ fun DisplaySettings(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = (text == selectedOption),
+                    selected = (text == theme),
                     onClick = null // null recommended for accessibility with screenreaders
                 )
                 Text(
@@ -526,7 +520,7 @@ fun SecuritySettings(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val width = configuration.screenWidthDp.dp-30.dp
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     var oldPassword by rememberSaveable { mutableStateOf("") }
     var oldPasswordHidden by rememberSaveable { mutableStateOf(true) }
     var newPassword by rememberSaveable { mutableStateOf("") }
@@ -637,12 +631,12 @@ fun ProfileSettings(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     var nome by rememberSaveable { mutableStateOf("") }
     var cognome by rememberSaveable { mutableStateOf("") }
 
     when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
+        Configuration.ORIENTATION_LANDSCAPE -> {                   /** profile orizzontale */
             Row (
                 modifier = modifier
                     .fillMaxSize()
@@ -708,7 +702,7 @@ fun ProfileSettings(
                 }
             }
         }
-        else -> {                                                   /** Login verticale */
+        else -> {                                                   /** profile verticale */
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
@@ -767,7 +761,7 @@ fun Profile(
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
-    val backGround = MaterialTheme.colorScheme.secondaryContainer
+    val backGround = MaterialTheme.colorScheme.primaryContainer
     var nome by rememberSaveable { mutableStateOf("") }
     var cognome by rememberSaveable { mutableStateOf("") }
 
@@ -830,6 +824,76 @@ fun Profile(
                     Text(text="Nome: Mario", textDecoration = TextDecoration.Underline)
                     Spacer(modifier = Modifier.height(min))
                     Text(text="Cognome: Rossi", textDecoration = TextDecoration.Underline)
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    modifier: Modifier = Modifier
+) {
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp / 40
+    val med = configuration.screenHeightDp.dp / 20
+    val hig = configuration.screenHeightDp.dp / 10
+    val backGround = MaterialTheme.colorScheme.primaryContainer
+
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            /** Homepage Orizzontale */
+            Row(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround)
+            ) {
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = hig),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        //Spacer(modifier = Modifier.height(hig))
+                        Image(
+                            painter = painterResource(R.drawable.sea),
+                            contentDescription = "Immagine Logo"
+                        )
+                        Spacer(modifier = Modifier.height(med))
+                        Text(text = "REGISTRATI", style = MaterialTheme.typography.titleLarge)
+                    }
+                }
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxHeight()
+                        .background(backGround),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(1) { element ->
+                        Image(
+                            painter = painterResource(R.drawable.sea),
+                            contentDescription = "Immagine Logo"
+                        )
+                        Spacer(modifier = Modifier.height(min))
+                        Text(text = "Avvistamenti", style = MaterialTheme.typography.titleLarge)
+                    }
+                }
+            }
+        }
+        else -> {
+            /** Homepage verticale*/
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(1) { element ->
+
                 }
             }
         }
