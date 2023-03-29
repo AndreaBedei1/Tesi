@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +30,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 
@@ -871,37 +876,116 @@ fun HomeScreen(
                         Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                             Column() {
                                 Card(
-
-                                    colors = CardDefaults.cardColors(Color.LightGray),
-                                    onClick = { /* Do something */ },
-                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black)
                                 ) {
-                                    Box(Modifier.fillMaxSize()) {
-                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(10.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Image(
+                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                                contentDescription = "User Image",
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                                    .clip(CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(med+50.dp))
+                                            IconButton(
+                                                onClick = { isFavorite = !isFavorite  },
+                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Favorite,
+                                                    contentDescription = "Favorite",
+                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                )
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(5.dp))
+                                        Text(
+                                            text = "Data",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = "Animale",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = "Utente",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
                                     }
                                 }
                             }
-                            Spacer(modifier = Modifier.width(min))
                             Column() {
                                 Card(
-                                    colors = CardDefaults.cardColors(Color.LightGray),
-                                    onClick = { /* Do something */ },
-                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black)
                                 ) {
-                                    Box(Modifier.fillMaxSize()) {
-                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(10.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Image(
+                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                                contentDescription = "User Image",
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                                    .clip(CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(med+50.dp))
+                                            IconButton(
+                                                onClick = { isFavorite = !isFavorite  },
+                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Favorite,
+                                                    contentDescription = "Favorite",
+                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                )
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(5.dp))
+                                        Text(
+                                            text = "Data",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = "Animale",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = "Utente",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
                                     }
                                 }
                             }
                         }
-
                     }
                 }
-
             }
-
         }
         else -> {
             /** Homepage verticale*/
@@ -912,42 +996,128 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(1) { element ->
-                    Spacer(modifier = Modifier.height(hig))
+                    Spacer(modifier = Modifier.height(min))
                     Image(
                         painter = painterResource(R.drawable.sea),
                         contentDescription = "Mappa"
                     )
-                    Spacer(modifier = Modifier.height(hig))
-
+                    Spacer(modifier = Modifier.height(min))
+                    Text(
+                        text = "Avvistamenti",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(modifier = Modifier.height(min/2))
                     for(i in 1..20){
                         Row(horizontalArrangement = Arrangement.Center) {
                             Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Card(
-
-                                    colors = CardDefaults.cardColors(Color.LightGray),
-                                    onClick = { /* Do something */ },
-                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .fillMaxWidth() ,
                                     border= BorderStroke(2.dp,Color.Black)
                                 ) {
-                                    Box(Modifier.fillMaxSize()) {
-                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(12.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Image(
+                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                                contentDescription = "User Image",
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                                    .clip(CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(med+30.dp))
+                                            IconButton(
+                                                onClick = { isFavorite = !isFavorite  },
+                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Favorite,
+                                                    contentDescription = "Favorite",
+                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                )
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(10.dp))
+                                        Text(
+                                            text = "Data",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = "Animale",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = "Utente",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
                                     }
                                 }
                             }
                             Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Card(
-                                    colors = CardDefaults.cardColors(Color.LightGray),
-                                    onClick = { /* Do something */ },
-                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .fillMaxWidth() ,
                                     border= BorderStroke(2.dp,Color.Black)
                                 ) {
-                                    Box(Modifier.fillMaxSize()) {
-                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(12.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Image(
+                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                                contentDescription = "User Image",
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                                    .clip(CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(med+30.dp))
+                                            IconButton(
+                                                onClick = { isFavorite = !isFavorite  },
+                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Favorite,
+                                                    contentDescription = "Favorite",
+                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                )
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(13.dp))
+                                        Text(
+                                            text = "Data",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = "Animale",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = "Utente",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
                                     }
                                 }
                             }
                         }
-                        Spacer(modifier=Modifier.height(min))
                     }
                 }
             }
