@@ -3,6 +3,7 @@ package com.example.seawatch
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -89,6 +90,12 @@ fun NavigationApp(
                                     tint = Color.Red
                                 )
                             }
+                        } else{
+                            if(currentScreen == NavigationScreen.Home.name){
+                                IconButton(onClick = {  }) {
+                                    Icon(painter = painterResource(id = R.drawable.baseline_filter_alt_24), contentDescription = "Filtri")
+                                }
+                            }
                         }
                     }
                 )
@@ -127,6 +134,17 @@ fun NavigationApp(
                         selected = currentScreen == NavigationScreen.Profile.name,
                         onClick = {navController.navigate(NavigationScreen.Profile.name) }
                     )
+                }
+            }
+        },
+        floatingActionButton = {
+            if(currentScreen == NavigationScreen.Profile.name){ //Forse serve mettere altra condizione && profilo che si sta vedendo è il mio.
+                FloatingActionButton(
+                    shape= RoundedCornerShape(50.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = { navController.navigate(NavigationScreen.ProfileSettings.name) },
+                ) {
+                    Icon(imageVector = Icons.Filled.Edit, "Edit profile")
                 }
             }
         }

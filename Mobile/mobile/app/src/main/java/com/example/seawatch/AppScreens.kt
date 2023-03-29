@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -645,7 +647,10 @@ fun ProfileSettings(
                 LazyColumn(
                     modifier = modifier
                         .fillMaxHeight()
-                        .size(width = configuration.screenWidthDp.dp/2, height = configuration.screenHeightDp.dp)
+                        .size(
+                            width = configuration.screenWidthDp.dp / 2,
+                            height = configuration.screenHeightDp.dp
+                        )
                         .padding(horizontal = hig),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -775,7 +780,10 @@ fun Profile(
                 LazyColumn(
                     modifier = modifier
                         .fillMaxHeight()
-                        .size(width = configuration.screenWidthDp.dp/2, height = configuration.screenHeightDp.dp)
+                        .size(
+                            width = configuration.screenWidthDp.dp / 2,
+                            height = configuration.screenHeightDp.dp
+                        )
                         .padding(horizontal = hig),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -849,40 +857,51 @@ fun HomeScreen(
                     .fillMaxSize()
                     .background(backGround)
             ) {
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .padding(horizontal = hig),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    items(1) { element ->
-                        //Spacer(modifier = Modifier.height(hig))
-                        Image(
-                            painter = painterResource(R.drawable.sea),
-                            contentDescription = "Immagine Logo"
-                        )
-                        Spacer(modifier = Modifier.height(med))
-                        Text(text = "REGISTRATI", style = MaterialTheme.typography.titleLarge)
-                    }
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                    Spacer(modifier = Modifier.height(hig))
+                    Image(
+                        painter = painterResource(R.drawable.sea),
+                        contentDescription = "Mappa"
+                    )
+                    Spacer(modifier = Modifier.width(hig))
                 }
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .background(backGround),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    items(1) { element ->
-                        Image(
-                            painter = painterResource(R.drawable.sea),
-                            contentDescription = "Immagine Logo"
-                        )
+                LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+                    items(20){element->
                         Spacer(modifier = Modifier.height(min))
-                        Text(text = "Avvistamenti", style = MaterialTheme.typography.titleLarge)
+                        Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
+                            Column() {
+                                Card(
+
+                                    colors = CardDefaults.cardColors(Color.LightGray),
+                                    onClick = { /* Do something */ },
+                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    border= BorderStroke(2.dp,Color.Black)
+                                ) {
+                                    Box(Modifier.fillMaxSize()) {
+                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.width(min))
+                            Column() {
+                                Card(
+                                    colors = CardDefaults.cardColors(Color.LightGray),
+                                    onClick = { /* Do something */ },
+                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    border= BorderStroke(2.dp,Color.Black)
+                                ) {
+                                    Box(Modifier.fillMaxSize()) {
+                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
+
             }
+
         }
         else -> {
             /** Homepage verticale*/
@@ -893,7 +912,43 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(1) { element ->
+                    Spacer(modifier = Modifier.height(hig))
+                    Image(
+                        painter = painterResource(R.drawable.sea),
+                        contentDescription = "Mappa"
+                    )
+                    Spacer(modifier = Modifier.height(hig))
 
+                    for(i in 1..20){
+                        Row(horizontalArrangement = Arrangement.Center) {
+                            Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Card(
+
+                                    colors = CardDefaults.cardColors(Color.LightGray),
+                                    onClick = { /* Do something */ },
+                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    border= BorderStroke(2.dp,Color.Black)
+                                ) {
+                                    Box(Modifier.fillMaxSize()) {
+                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                            Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Card(
+                                    colors = CardDefaults.cardColors(Color.LightGray),
+                                    onClick = { /* Do something */ },
+                                    modifier = Modifier.size(width = 180.dp, height = 100.dp),
+                                    border= BorderStroke(2.dp,Color.Black)
+                                ) {
+                                    Box(Modifier.fillMaxSize()) {
+                                        Text("Clickable", Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier=Modifier.height(min))
+                    }
                 }
             }
         }
