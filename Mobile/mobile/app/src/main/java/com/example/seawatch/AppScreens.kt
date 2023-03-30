@@ -12,10 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
@@ -1156,6 +1158,7 @@ fun SightingScreen(
     var numeroEsemplari by remember { mutableStateOf("") }
     var latitudine by remember { mutableStateOf("") }
     var longitudine by remember { mutableStateOf("") }
+    var posizione by remember { mutableStateOf("") }
     var animale by remember { mutableStateOf("") }
     var specie by remember { mutableStateOf("") }
     var mare by remember { mutableStateOf("") }
@@ -1213,161 +1216,190 @@ fun SightingScreen(
             }
         }
         else -> {
-            /** Login verticale */
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(backGround)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                items(1) { element ->
-                    Card(
-                        shape = MaterialTheme.shapes.medium,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .fillMaxSize(),
-                        border= BorderStroke(2.dp,Color.Black),
-                    ){
-                        Row() {
-                            Column {
-                                Text(text = "Utente:", style = MaterialTheme.typography.titleLarge)
-                                Spacer(modifier = Modifier.height(3.dp))
-                                Text(text = "Data:", style = MaterialTheme.typography.titleLarge)
+            Column(modifier=Modifier.background(backGround)){
+                Card(
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxSize(),
+                    border= BorderStroke(2.dp,Color.Black)
+                ){
+                    /** Login verticale */
+                    LazyColumn(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(1) { element ->
+
+                            Row() {
+                                Column() {
+                                    Text(text = "Utente:", style = MaterialTheme.typography.titleLarge)
+                                    Spacer(modifier = Modifier.height(3.dp))
+                                    Text(text = "Data:", style = MaterialTheme.typography.titleLarge)
+                                }
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Text(
+                                        text = "Nome e cognome",
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Text(text = data, style = MaterialTheme.typography.bodyLarge)
+                                }
                             }
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ){
-                                Spacer(modifier = Modifier.height(6.dp))
-                                Text(text = "Nome e cognome", style = MaterialTheme.typography.bodyLarge)
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Text(text = data, style = MaterialTheme.typography.bodyLarge)
-                            }
-                        }
-                        // Numero Esemplari
-                        OutlinedTextField(
-                            value = numeroEsemplari,
-                            onValueChange = { numeroEsemplari = it },
-                            label = { Text("Numero Esemplari") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                            singleLine = true,
-                            placeholder = { Text("1") }
-                        )
-                        Spacer(modifier = Modifier.height(3.dp))
-                        // Latitudine
-                        OutlinedTextField(
-                            value = latitudine,
-                            onValueChange = { latitudine = it },
-                            label = { Text("Latitudine") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
-                            singleLine = true
-                        )
-                        Spacer(modifier = Modifier.height(3.dp))
-                        // Longitudine
-                        OutlinedTextField(
-                            value = longitudine,
-                            onValueChange = { longitudine = it },
-                            label = { Text("Longitudine") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
-                            singleLine = true
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                        //Animali
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded },
-                        ) {
-                            TextField(
-                                // The `menuAnchor` modifier must be passed to the text field for correctness.
-                                modifier = Modifier.menuAnchor(),
-                                readOnly = true,
-                                value = selectedOptionText,
-                                onValueChange = {},
-                                label = { Text("Animale") },
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                            // Numero Esemplari
+                            OutlinedTextField(
+                                value = numeroEsemplari,
+                                onValueChange = { numeroEsemplari = it },
+                                label = { Text("Numero Esemplari") },
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                                singleLine = true,
+                                placeholder = { Text("1") }
                             )
-                            ExposedDropdownMenu(
+                            Spacer(modifier = Modifier.height(3.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OutlinedTextField(
+                                    value = posizione,
+                                    onValueChange = { posizione = it },
+                                    label = { Text("Posizione") },
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
+                                    singleLine = true,
+                                    trailingIcon = {
+                                        IconButton(onClick = {  }) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
+                                                contentDescription = "GPS",
+                                                tint=Color.Black
+                                            )
+                                        }
+                                    }
+                                )
+                            }
+
+
+                            // Latitudine
+
+                            Spacer(modifier = Modifier.height(10.dp))
+                            //Animali
+                            ExposedDropdownMenuBox(
                                 expanded = expanded,
-                                onDismissRequest = { expanded = false },
+                                onExpandedChange = { expanded = !expanded },
                             ) {
-                                options.forEach { selectionOption ->
-                                    DropdownMenuItem(
-                                        text = { Text(selectionOption) },
-                                        onClick = {
-                                            selectedOptionText = selectionOption
-                                            expanded = false
-                                        },
-                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                                    )
+                                TextField(
+                                    // The `menuAnchor` modifier must be passed to the text field for correctness.
+                                    modifier = Modifier.menuAnchor(),
+                                    readOnly = true,
+                                    value = selectedOptionText,
+                                    onValueChange = {},
+                                    label = { Text("Animale") },
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                ) {
+                                    options.forEach { selectionOption ->
+                                        DropdownMenuItem(
+                                            text = { Text(selectionOption) },
+                                            onClick = {
+                                                selectedOptionText = selectionOption
+                                                expanded = false
+                                            },
+                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                        )
+                                    }
                                 }
                             }
-                        }
-                        Spacer(modifier = Modifier.height(10.dp))
-                        // Specie
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded },
-                        ) {
-                            TextField(
-                                // The `menuAnchor` modifier must be passed to the text field for correctness.
-                                modifier = Modifier.menuAnchor(),
-                                readOnly = true,
-                                value = selectedOptionTextSpecie,
-                                onValueChange = {},
-                                label = { Text("Specie") },
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedSpecie) },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                            Spacer(modifier = Modifier.height(10.dp))
+                            // Specie
+                            Row(){
+                                ExposedDropdownMenuBox(
+                                    modifier=Modifier.width(240.dp),
+                                    expanded = expanded,
+                                    onExpandedChange = { expanded = !expanded },
+                                ) {
+                                    TextField(
+                                        // The `menuAnchor` modifier must be passed to the text field for correctness.
+                                        modifier = Modifier.menuAnchor(),
+                                        readOnly = true,
+                                        value = selectedOptionTextSpecie,
+                                        onValueChange = {},
+                                        label = { Text("Specie") },
+                                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedSpecie) },
+                                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                    )
+                                    ExposedDropdownMenu(
+                                        expanded = expandedSpecie,
+                                        onDismissRequest = { expanded = false },
+                                    ) {
+                                        optionsSpecie.forEach { selectionOptionSpecie ->
+                                            DropdownMenuItem(
+                                                text = { Text(selectionOptionSpecie) },
+                                                onClick = {
+                                                    selectedOptionText = selectionOptionSpecie
+                                                    expanded = false
+                                                },
+                                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                            )
+                                        }
+                                    }
+                                }
+                                Button(
+                                    modifier= Modifier
+                                        .size(40.dp)
+                                        .padding(0.dp)
+                                        .align(Alignment.CenterVertically),
+                                    colors=ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.primary),
+                                    contentPadding = PaddingValues(0.dp),
+                                    onClick = { /*TODO*/ }) {
+                                    Icon(modifier=Modifier.fillMaxSize(), imageVector = Icons.Filled.Info, contentDescription = "Vedi dettagli specie")
+                                }
+                            }
+
+
+                            Spacer(modifier = Modifier.height(3.dp))
+                            // Mare
+                            OutlinedTextField(
+                                value = mare,
+                                onValueChange = { mare = it },
+                                label = { Text("Mare") },
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                             )
-                            ExposedDropdownMenu(
-                                expanded = expandedSpecie,
-                                onDismissRequest = { expanded = false },
+                            // Vento
+                            OutlinedTextField(
+                                value = vento,
+                                onValueChange = { vento = it },
+                                label = { Text("Vento") },
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                            )
+
+                            // Note
+                            OutlinedTextField(
+                                value = note,
+                                onValueChange = { note = it },
+                                label = { Text("Note") }
+                            )
+
+                            // Submit button
+                            Button(
+                                onClick = {
+                                    // Do something with the data
+                                },
+                                modifier = Modifier.padding(vertical = 16.dp),
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             ) {
-                                optionsSpecie.forEach { selectionOptionSpecie ->
-                                    DropdownMenuItem(
-                                        text = { Text(selectionOptionSpecie) },
-                                        onClick = {
-                                            selectedOptionText = selectionOptionSpecie
-                                            expanded = false
-                                        },
-                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                                    )
-                                }
+                                Text(text = "AGGIUNGI IMMAGINI")
                             }
-                        }
-
-                        Spacer(modifier = Modifier.height(3.dp))
-                        // Mare
-                        OutlinedTextField(
-                            value = mare,
-                            onValueChange = { mare = it },
-                            label = { Text("Mare") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-                        )
-                        // Vento
-                        OutlinedTextField(
-                            value = vento,
-                            onValueChange = { vento = it },
-                            label = { Text("Vento") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-                        )
-
-                        // Note
-                        OutlinedTextField(
-                            value = note,
-                            onValueChange = { note = it },
-                            label = { Text("Note") }
-                        )
-
-                        // Submit button
-                        Button(
-                            onClick = {
-                                // Do something with the data
-                            },
-                            modifier = Modifier.padding(vertical = 16.dp),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                        ) {
-                            Text(text = "Invia")
                         }
                     }
                 }
