@@ -3,6 +3,7 @@ package com.example.seawatch
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -10,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.node.modifierElementOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ sealed class NavigationScreen(val name: String) {
     object SecuritySettings:NavigationScreen("Impostazioni Sicurezza")
     object ProfileSettings:NavigationScreen("Impostazioni Profilo")
     object Profile:NavigationScreen("Profilo")
+    object AddSighting:NavigationScreen("Aggiungi")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,9 +114,10 @@ fun NavigationApp(
         bottomBar = {
             if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name){
                 var selectedItem by remember { mutableStateOf(2) }
-                NavigationBar (
+                BottomAppBar (
                     modifier = Modifier.height(65.dp)
                 ){
+
                     NavigationBarItem(
                         icon = { Icon(painter = painterResource(id = R.drawable.baseline_bar_chart_24), contentDescription = "Statistiche", modifier = Modifier.size(30.dp)) },
                         selected = selectedItem == 0,
@@ -143,11 +147,25 @@ fun NavigationApp(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = { navController.navigate(NavigationScreen.ProfileSettings.name) },
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+
                 ) {
                     Icon(imageVector = Icons.Filled.Edit, "Edit profile")
                 }
+            } else if(currentScreen == NavigationScreen.Home.name){
+                FloatingActionButton(
+                    shape= RoundedCornerShape(50.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = { navController.navigate(NavigationScreen.AddSighting.name) },
+
+                ) {
+                    Icon(imageVector = Icons.Filled.Add, "Edit profile")
+                }
+
             }
-        }
+        },
+        floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name) FabPosition.Center else FabPosition.End,
+
     ) { innerPadding ->
         NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
     }
@@ -204,6 +222,9 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.Home.name){
             HomeScreen()
+        }
+        composable(route = NavigationScreen.AddSighting.name){
+            SightingScreen()
         }
     }
 }
