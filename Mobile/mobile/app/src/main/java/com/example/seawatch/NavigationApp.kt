@@ -1,22 +1,12 @@
 package com.example.seawatch
 
-import android.content.SharedPreferences
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.node.modifierElementOf
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,31 +28,6 @@ sealed class NavigationScreen(val name: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationAppBar(
-    currentScreen: String,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(
-        title = { Text(currentScreen) },
-        modifier = modifier,
-        navigationIcon = {
-            //se si può navigare indietro (non home screen) allora appare la freccetta
-            if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back button"
-                    )
-                }
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 fun NavigationApp(
     navController: NavHostController = rememberNavController(),
     radioOptions: List<String>,
@@ -76,118 +41,21 @@ fun NavigationApp(
     // Get the name of the current screen
     val currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
     val configuration = LocalConfiguration.current
-    var h = 0
+    var barHeight = 0
     if (configuration.orientation==ORIENTATION_LANDSCAPE){
-        h = 50
+        barHeight = 50
     } else {
-        h = 60
+        barHeight = 60
     }
     Scaffold(
         topBar = {
-            if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
-                TopAppBar(
-                    title = { Text(text =  currentScreen, modifier = Modifier.padding(8.dp)) },
-                    navigationIcon = {
-                        if(currentScreen != NavigationScreen.Home.name){
-                            IconButton(onClick = { navController.navigateUp() }) {
-                                Icon(Icons.Filled.ArrowBack, contentDescription = "Naviga indietro")
-                            }
-                        }
-                    },
-                    modifier = Modifier.height(h.dp),
-                    actions = {
-                        if (currentScreen == NavigationScreen.Settings.name || currentScreen == NavigationScreen.DisplaySettings.name || currentScreen == NavigationScreen.SecuritySettings.name || currentScreen == NavigationScreen.ProfileSettings.name) {
-                            IconButton(onClick = { navController.navigate(NavigationScreen.LogIn.name) }) {
-                                Icon(
-                                    Icons.Filled.ExitToApp,
-                                    contentDescription = "Esci",
-                                    tint = Color.Red
-                                )
-                            }
-                        } else{
-                            if(currentScreen == NavigationScreen.Home.name){
-                                IconButton(onClick = {  }) {
-                                    Icon(painter = painterResource(id = R.drawable.baseline_filter_alt_24), contentDescription = "Filtri")
-                                }
-                            }
-                        }
-                    }
-                )
-            }
-
-            /**NavigationAppBar(
-                currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null, NON CONTROLLATO
-                navigateUp = { navController.navigateUp() },
-
-            )*/
+            CustomTopBar(currentScreen=currentScreen, navController=navController, barHeight=barHeight)
         },
         bottomBar = {
-            if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name){
-                if (configuration.orientation==ORIENTATION_LANDSCAPE){
-                    h = 50
-                } else {
-                    h = 60
-                }
-                BottomAppBar (
-                    modifier = Modifier.height(h.dp)
-                ){
-
-                    NavigationBarItem(
-                        icon = { Icon(painter = painterResource(id = R.drawable.baseline_bar_chart_24), contentDescription = "Statistiche", modifier = Modifier.size(30.dp)) },
-                        selected = currentScreen == NavigationScreen.Stats.name,
-                        onClick = {navController.navigate(NavigationScreen.Stats.name) }
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Settings, contentDescription = "Impostazioni", modifier = Modifier.size(30.dp)) },
-                        selected = currentScreen == NavigationScreen.Settings.name,
-                        onClick = {navController.navigate(NavigationScreen.Settings.name) }
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Home, contentDescription = "Homepage", modifier = Modifier.size(30.dp)) },
-                        selected = currentScreen == NavigationScreen.Home.name,
-                        onClick = {navController.navigate(NavigationScreen.Home.name) }
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Person, contentDescription = "Profilo", modifier = Modifier.size(30.dp)) },
-                        selected = currentScreen == NavigationScreen.Profile.name,
-                        onClick = {navController.navigate(NavigationScreen.Profile.name) }
-                    )
-                }
-            }
+            CustomBottomBar(currentScreen, configuration, barHeight, navController)
         },
         floatingActionButton = {
-            if(currentScreen == NavigationScreen.Profile.name){ //Forse serve mettere altra condizione && profilo che si sta vedendo è il mio.
-                FloatingActionButton(
-                    shape= RoundedCornerShape(50.dp),
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = { navController.navigate(NavigationScreen.ProfileSettings.name) },
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-
-                ) {
-                    Icon(imageVector = Icons.Filled.Edit, "Edit profile")
-                }
-            } else if(currentScreen == NavigationScreen.Home.name){
-                FloatingActionButton(
-                    shape= RoundedCornerShape(50.dp),
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = { navController.navigate(NavigationScreen.AddSighting.name) },
-
-                ) {
-                    Icon(imageVector = Icons.Filled.Add, "Edit profile")
-                }
-
-            } else if(currentScreen == NavigationScreen.AddSighting.name){
-                FloatingActionButton(
-                    shape= RoundedCornerShape(50.dp),
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = { navController.navigate(NavigationScreen.Home.name) },
-
-                    ) {
-                    Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
-                }
-
-            }
+            CustomFAB(currentScreen, navController)
         },
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name) FabPosition.Center else FabPosition.End,
 
@@ -211,13 +79,9 @@ private fun NavigationGraph(
         modifier = modifier.padding(innerPadding)
     ) {
         composable(route = NavigationScreen.LogIn.name) {
-            LogInScreen(
-                goToHome = {
-                    navigateToHome(navController)
-                },
-                goToSignUp = {
-                    navController.navigate(NavigationScreen.SignUp.name)
-                }
+            LoginScreen(
+                goToHome = { navigateToHome(navController)},
+                goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) }
             )
         }
         composable(route = NavigationScreen.Settings.name) {
@@ -240,9 +104,7 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(
-                goToLogin = {
-                    navController.navigate(NavigationScreen.LogIn.name)
-                }
+                goToLogin = { navController.navigate(NavigationScreen.LogIn.name) }
             )
         }
         composable(route = NavigationScreen.Home.name){
@@ -257,9 +119,7 @@ private fun NavigationGraph(
     }
 }
 
-private fun navigateToHome(
-    navController: NavHostController
-) {
+private fun navigateToHome(navController: NavHostController) {
     navController.popBackStack(NavigationScreen.LogIn.name, inclusive = true)
     navController.navigate(NavigationScreen.Home.name)
 }
