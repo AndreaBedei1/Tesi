@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
@@ -100,7 +101,9 @@ fun LogInScreen(
                             label = { Text("Email") },
                             singleLine = true,
                             placeholder = { Text("esempio@provider.com") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                         Spacer(modifier = Modifier.height(min))
 
@@ -126,7 +129,9 @@ fun LogInScreen(
                                         )
                                     }
                                 }
-                            }
+                            },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                     }
                 }
@@ -180,7 +185,9 @@ fun LogInScreen(
                         label = { Text("Email") },
                         singleLine = true,
                         placeholder = { Text("esempio@provider.com") },
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(min))
                     TextField(
@@ -205,7 +212,9 @@ fun LogInScreen(
                                     )
                                 }
                             }
-                        }
+                        },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(hig))
                     Button(
@@ -557,7 +566,6 @@ fun SecuritySettings(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(1) { element ->
-            Spacer(modifier = Modifier.height(min))
             TextField(
                 value = oldPassword,
                 onValueChange = { oldPassword = it },
@@ -580,7 +588,9 @@ fun SecuritySettings(
                             )
                         }
                     }
-                }
+                },
+                modifier = Modifier.background(backGround),
+                colors = TextFieldDefaults.outlinedTextFieldColors()
             )
             Spacer(modifier = Modifier.height(min))
             TextField(
@@ -605,7 +615,9 @@ fun SecuritySettings(
                             )
                         }
                     }
-                }
+                },
+                modifier = Modifier.background(backGround),
+                colors = TextFieldDefaults.outlinedTextFieldColors()
             )
             Spacer(modifier = Modifier.height(min))
             TextField(
@@ -630,7 +642,9 @@ fun SecuritySettings(
                             )
                         }
                     }
-                }
+                },
+                modifier = Modifier.background(backGround),
+                colors = TextFieldDefaults.outlinedTextFieldColors()
             )
             Spacer(modifier = Modifier.height(med))
             Button(
@@ -705,7 +719,9 @@ fun ProfileSettings(
                             onValueChange = { nome = it },
                             label = { Text("Nome") },
                             singleLine = true,
-                            placeholder = { Text("Mario") }
+                            placeholder = { Text("Mario") },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
@@ -713,9 +729,11 @@ fun ProfileSettings(
                             onValueChange = { cognome = it },
                             label = { Text("Cognome") },
                             singleLine = true,
-                            placeholder = { Text("Rossi") }
+                            placeholder = { Text("Rossi") },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
-                        Spacer(modifier = Modifier.height(hig))
+                        Spacer(modifier = Modifier.height(hig+15.dp))
                         Button(
                             onClick = { /** TODO */ },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
@@ -754,7 +772,9 @@ fun ProfileSettings(
                         onValueChange = { nome = it },
                         label = { Text("Nome") },
                         singleLine = true,
-                        placeholder = { Text("Mario") }
+                        placeholder = { Text("Mario") },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(min))
                     TextField(
@@ -762,7 +782,9 @@ fun ProfileSettings(
                         onValueChange = { cognome = it },
                         label = { Text("Cognome") },
                         singleLine = true,
-                        placeholder = { Text("Rossi") }
+                        placeholder = { Text("Rossi") },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(med))
                     Button(
@@ -1029,8 +1051,10 @@ fun HomeScreen(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
                                         .padding(12.dp)
-                                        .fillMaxWidth() ,
-                                    border= BorderStroke(2.dp,Color.Black)
+                                        .fillMaxWidth(),
+                                    border= BorderStroke(2.dp,Color.Black),
+                                    colors = CardDefaults.outlinedCardColors()
+
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
                                     Column(
@@ -1083,8 +1107,9 @@ fun HomeScreen(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
                                         .padding(12.dp)
-                                        .fillMaxWidth() ,
-                                    border= BorderStroke(2.dp,Color.Black)
+                                        .fillMaxWidth(),
+                                    border= BorderStroke(2.dp,Color.Black),
+                                    colors = CardDefaults.outlinedCardColors()
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
                                     Column(
@@ -1166,10 +1191,10 @@ fun SightingScreen(
     var note by remember { mutableStateOf("") }
     val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
+    var selectedOptionText by remember { mutableStateOf("") }
     val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")
     var expandedSpecie by remember { mutableStateOf(false) }
-    var selectedOptionTextSpecie by remember { mutableStateOf(options[0]) }
+    var selectedOptionTextSpecie by remember { mutableStateOf("") }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -1216,29 +1241,34 @@ fun SightingScreen(
             }
         }
         else -> {
-            Column(modifier=Modifier.background(backGround)){
-                Card(
-                    shape = MaterialTheme.shapes.medium,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .fillMaxSize(),
-                    border= BorderStroke(2.dp,Color.Black)
-                ){
-                    /** Login verticale */
-                    LazyColumn(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+            LazyColumn(modifier=Modifier.background(backGround)){
+                items(1) { element ->
+                    Card(
+                        shape = MaterialTheme.shapes.medium,
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .fillMaxSize(),
+                        border = BorderStroke(2.dp, Color.Black)
                     ) {
-                        items(1) { element ->
-
+                        /** Login verticale */
+                        Column(
+                            modifier = modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .padding(10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             Row() {
                                 Column() {
-                                    Text(text = "Utente:", style = MaterialTheme.typography.titleLarge)
+                                    Text(
+                                        text = "Utente:",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
                                     Spacer(modifier = Modifier.height(3.dp))
-                                    Text(text = "Data:", style = MaterialTheme.typography.titleLarge)
+                                    Text(
+                                        text = "Data:",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
                                 }
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally
@@ -1258,8 +1288,7 @@ fun SightingScreen(
                                 onValueChange = { numeroEsemplari = it },
                                 label = { Text("Numero Esemplari") },
                                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                                singleLine = true,
-                                placeholder = { Text("1") }
+                                singleLine = true
                             )
                             Spacer(modifier = Modifier.height(3.dp))
                             Row(
@@ -1274,25 +1303,28 @@ fun SightingScreen(
                                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
                                     singleLine = true,
                                     trailingIcon = {
-                                        IconButton(onClick = {  }) {
+                                        IconButton(onClick = { }) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
                                                 contentDescription = "GPS",
-                                                tint=Color.Black
+                                                tint = Color.Black
                                             )
                                         }
                                     }
                                 )
                             }
-
-
-                            // Latitudine
-
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                             //Animali
                             ExposedDropdownMenuBox(
                                 expanded = expanded,
                                 onExpandedChange = { expanded = !expanded },
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                                    .border(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outline,
+                                        RoundedCornerShape(2.dp)
+                                    )
                             ) {
                                 TextField(
                                     // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -1301,8 +1333,12 @@ fun SightingScreen(
                                     value = selectedOptionText,
                                     onValueChange = {},
                                     label = { Text("Animale") },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = expanded
+                                        )
+                                    },
+                                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                 )
                                 ExposedDropdownMenu(
                                     expanded = expanded,
@@ -1320,11 +1356,18 @@ fun SightingScreen(
                                     }
                                 }
                             }
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                             // Specie
-                            Row(){
+                            Row() {
                                 ExposedDropdownMenuBox(
-                                    modifier=Modifier.width(240.dp),
+                                    modifier = Modifier
+                                        .width(245.dp)
+                                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                                        .border(
+                                            1.dp,
+                                            MaterialTheme.colorScheme.outline,
+                                            RoundedCornerShape(2.dp)
+                                        ),
                                     expanded = expanded,
                                     onExpandedChange = { expanded = !expanded },
                                 ) {
@@ -1335,8 +1378,12 @@ fun SightingScreen(
                                         value = selectedOptionTextSpecie,
                                         onValueChange = {},
                                         label = { Text("Specie") },
-                                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedSpecie) },
-                                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                                        trailingIcon = {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                                expanded = expandedSpecie
+                                            )
+                                        },
+                                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                     )
                                     ExposedDropdownMenu(
                                         expanded = expandedSpecie,
@@ -1344,7 +1391,7 @@ fun SightingScreen(
                                     ) {
                                         optionsSpecie.forEach { selectionOptionSpecie ->
                                             DropdownMenuItem(
-                                                text = { Text(selectionOptionSpecie) },
+                                                text = {Text(selectionOptionSpecie)},
                                                 onClick = {
                                                     selectedOptionText = selectionOptionSpecie
                                                     expanded = false
@@ -1355,14 +1402,21 @@ fun SightingScreen(
                                     }
                                 }
                                 Button(
-                                    modifier= Modifier
-                                        .size(40.dp)
+                                    modifier = Modifier
+                                        .size(35.dp)
                                         .padding(0.dp)
                                         .align(Alignment.CenterVertically),
-                                    colors=ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.primary),
+                                    colors = ButtonDefaults.buttonColors(
+                                        MaterialTheme.colorScheme.secondaryContainer,
+                                        MaterialTheme.colorScheme.primary
+                                    ),
                                     contentPadding = PaddingValues(0.dp),
                                     onClick = { /*TODO*/ }) {
-                                    Icon(modifier=Modifier.fillMaxSize(), imageVector = Icons.Filled.Info, contentDescription = "Vedi dettagli specie")
+                                    Icon(
+                                        modifier = Modifier.fillMaxSize(),
+                                        imageVector = Icons.Filled.Info,
+                                        contentDescription = "Vedi dettagli specie"
+                                    )
                                 }
                             }
 
@@ -1406,4 +1460,13 @@ fun SightingScreen(
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StatsScreen(
+    modifier: Modifier = Modifier
+) {
+    Text(text = "Mettere le statistiche")
+
 }

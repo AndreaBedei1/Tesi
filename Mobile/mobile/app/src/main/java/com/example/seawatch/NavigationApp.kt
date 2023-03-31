@@ -1,6 +1,7 @@
 package com.example.seawatch
 
 import android.content.SharedPreferences
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.node.modifierElementOf
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +33,7 @@ sealed class NavigationScreen(val name: String) {
     object ProfileSettings:NavigationScreen("Impostazioni Profilo")
     object Profile:NavigationScreen("Profilo")
     object AddSighting:NavigationScreen("Aggiungi")
+    object Stats: NavigationScreen("Statistiche")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,11 +75,18 @@ fun NavigationApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
     val currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
+    val configuration = LocalConfiguration.current
+    var h = 0
+    if (configuration.orientation==ORIENTATION_LANDSCAPE){
+        h = 50
+    } else {
+        h = 60
+    }
     Scaffold(
         topBar = {
             if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
                 TopAppBar(
-                    title = { Text(text =  currentScreen) },
+                    title = { Text(text =  currentScreen, modifier = Modifier.padding(8.dp)) },
                     navigationIcon = {
                         if(currentScreen != NavigationScreen.Home.name){
                             IconButton(onClick = { navController.navigateUp() }) {
@@ -84,6 +94,7 @@ fun NavigationApp(
                             }
                         }
                     },
+                    modifier = Modifier.height(h.dp),
                     actions = {
                         if (currentScreen == NavigationScreen.Settings.name || currentScreen == NavigationScreen.DisplaySettings.name || currentScreen == NavigationScreen.SecuritySettings.name || currentScreen == NavigationScreen.ProfileSettings.name) {
                             IconButton(onClick = { navController.navigate(NavigationScreen.LogIn.name) }) {
@@ -113,15 +124,19 @@ fun NavigationApp(
         },
         bottomBar = {
             if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name){
-                var selectedItem by remember { mutableStateOf(2) }
+                if (configuration.orientation==ORIENTATION_LANDSCAPE){
+                    h = 50
+                } else {
+                    h = 60
+                }
                 BottomAppBar (
-                    modifier = Modifier.height(65.dp)
+                    modifier = Modifier.height(h.dp)
                 ){
 
                     NavigationBarItem(
                         icon = { Icon(painter = painterResource(id = R.drawable.baseline_bar_chart_24), contentDescription = "Statistiche", modifier = Modifier.size(30.dp)) },
-                        selected = selectedItem == 0,
-                        onClick = { selectedItem = 0 }
+                        selected = currentScreen == NavigationScreen.Stats.name,
+                        onClick = {navController.navigate(NavigationScreen.Stats.name) }
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Filled.Settings, contentDescription = "Impostazioni", modifier = Modifier.size(30.dp)) },
@@ -160,6 +175,16 @@ fun NavigationApp(
 
                 ) {
                     Icon(imageVector = Icons.Filled.Add, "Edit profile")
+                }
+
+            } else if(currentScreen == NavigationScreen.AddSighting.name){
+                FloatingActionButton(
+                    shape= RoundedCornerShape(50.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = { navController.navigate(NavigationScreen.Home.name) },
+
+                    ) {
+                    Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
                 }
 
             }
@@ -225,6 +250,9 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.AddSighting.name){
             SightingScreen()
+        }
+        composable(route = NavigationScreen.Stats.name){
+            StatsScreen()
         }
     }
 }
