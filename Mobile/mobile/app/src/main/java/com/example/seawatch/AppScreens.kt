@@ -1188,44 +1188,238 @@ fun SightingScreen(
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
-            Row (
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(backGround)
-            ) {
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .padding(horizontal = hig),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+            Column(modifier=Modifier.background(backGround)) {
+                Card(
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxSize(),
+                    border = BorderStroke(2.dp, Color.Black)
                 ) {
-                    items(1) { element ->
-                        //Spacer(modifier = Modifier.height(hig))
+                    Row(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                    ) {
+                        LazyColumn(
+                            modifier = modifier
+                                .fillMaxSize()
+                                .padding(horizontal = hig),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            items(1) { element ->
+                                Row() {
+                                    Column(
+                                        modifier = Modifier.width(configuration.screenWidthDp.dp / 2)
+                                    ) {
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        Row() {
+                                            Column() {
+                                                Text(
+                                                    text = "Utente:",
+                                                    style = MaterialTheme.typography.titleLarge
+                                                )
+                                                Spacer(modifier = Modifier.height(3.dp))
+                                                Text(
+                                                    text = "Data:",
+                                                    style = MaterialTheme.typography.titleLarge
+                                                )
+                                            }
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Spacer(modifier = Modifier.height(6.dp))
+                                                Text(
+                                                    text = "Nome e cognome",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.height(10.dp))
+                                                Text(
+                                                    text = data,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                            }
+                                        }
+                                        // Numero Esemplari
+                                        OutlinedTextField(
+                                            value = numeroEsemplari,
+                                            onValueChange = { numeroEsemplari = it },
+                                            label = { Text("Numero Esemplari") },
+                                            keyboardOptions = KeyboardOptions.Default.copy(
+                                                keyboardType = KeyboardType.Number
+                                            ),
+                                            singleLine = true
+                                        )
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        Row(
+                                        ) {
+                                            OutlinedTextField(
+                                                value = posizione,
+                                                onValueChange = { posizione = it },
+                                                label = { Text("Posizione") },
+                                                keyboardOptions = KeyboardOptions.Default.copy(
+                                                    keyboardType = KeyboardType.Decimal
+                                                ),
+                                                singleLine = true,
+                                                trailingIcon = {
+                                                    IconButton(onClick = { }) {
+                                                        Icon(
+                                                            painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
+                                                            contentDescription = "GPS",
+                                                            tint = Color.Black
+                                                        )
+                                                    }
+                                                }
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        // Mare
+                                        OutlinedTextField(
+                                            value = mare,
+                                            onValueChange = { mare = it },
+                                            label = { Text("Mare") },
+                                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                                        )
+                                        // Vento
+                                        OutlinedTextField(
+                                            value = vento,
+                                            onValueChange = { vento = it },
+                                            label = { Text("Vento") },
+                                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                                        )
+                                    }
+                                    Column(modifier = Modifier.width(configuration.screenWidthDp.dp / 2)) {
+                                        Spacer(modifier = Modifier.height(12.dp))
+                                        ExposedDropdownMenuBox(
+                                            expanded = expanded,
+                                            onExpandedChange = { expanded = !expanded },
+                                            modifier = Modifier
+                                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                .border(
+                                                    1.dp,
+                                                    MaterialTheme.colorScheme.outline,
+                                                    RoundedCornerShape(2.dp)
+                                                )
+                                        ) {
+                                            TextField(
+                                                // The `menuAnchor` modifier must be passed to the text field for correctness.
+                                                modifier = Modifier.menuAnchor(),
+                                                readOnly = true,
+                                                value = selectedOptionText,
+                                                onValueChange = {},
+                                                label = { Text("Animale") },
+                                                trailingIcon = {
+                                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                                        expanded = expanded
+                                                    )
+                                                },
+                                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                            )
+                                            ExposedDropdownMenu(
+                                                expanded = expanded,
+                                                onDismissRequest = { expanded = false },
+                                            ) {
+                                                options.forEach { selectionOption ->
+                                                    DropdownMenuItem(
+                                                        text = { Text(selectionOption) },
+                                                        onClick = {
+                                                            selectedOptionText = selectionOption
+                                                            expanded = false
+                                                        },
+                                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        // Specie
+                                        Row() {
+                                            ExposedDropdownMenuBox(
+                                                modifier = Modifier
+                                                    .width(245.dp)
+                                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                    .border(
+                                                        1.dp,
+                                                        MaterialTheme.colorScheme.outline,
+                                                        RoundedCornerShape(2.dp)
+                                                    ),
+                                                expanded = expanded,
+                                                onExpandedChange = { expanded = !expanded },
+                                            ) {
+                                                TextField(
+                                                    // The `menuAnchor` modifier must be passed to the text field for correctness.
+                                                    modifier = Modifier.menuAnchor(),
+                                                    readOnly = true,
+                                                    value = selectedOptionTextSpecie,
+                                                    onValueChange = {},
+                                                    label = { Text("Specie") },
+                                                    trailingIcon = {
+                                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                                            expanded = expandedSpecie
+                                                        )
+                                                    },
+                                                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                                )
+                                                ExposedDropdownMenu(
+                                                    expanded = expandedSpecie,
+                                                    onDismissRequest = { expanded = false },
+                                                ) {
+                                                    optionsSpecie.forEach { selectionOptionSpecie ->
+                                                        DropdownMenuItem(
+                                                            text = { Text(selectionOptionSpecie) },
+                                                            onClick = {
+                                                                selectedOptionText =
+                                                                    selectionOptionSpecie
+                                                                expanded = false
+                                                            },
+                                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                            Button(
+                                                modifier = Modifier
+                                                    .size(35.dp)
+                                                    .padding(0.dp)
+                                                    .align(Alignment.CenterVertically),
+                                                colors = ButtonDefaults.buttonColors(
+                                                    MaterialTheme.colorScheme.secondaryContainer,
+                                                    MaterialTheme.colorScheme.primary
+                                                ),
+                                                contentPadding = PaddingValues(0.dp),
+                                                onClick = { /*TODO*/ }) {
+                                                Icon(
+                                                    modifier = Modifier.fillMaxSize(),
+                                                    imageVector = Icons.Filled.Info,
+                                                    contentDescription = "Vedi dettagli specie"
+                                                )
+                                            }
+                                        }
+                                        // Note
+                                        OutlinedTextField(
+                                            value = note,
+                                            onValueChange = { note = it },
+                                            label = { Text("Note") }
+                                        )
 
-                    }
-                }
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .background(backGround),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    items(1) { element ->
+                                        // Submit button
+                                        Button(
+                                            modifier = Modifier.padding(vertical = 16.dp).align(Alignment.CenterHorizontally),
+                                            onClick = {
+                                                // Do something with the data
+                                            },
+                                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
 
-                    }
-                }
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .padding(horizontal = hig)
-                        .background(backGround),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    items(1) { element ->
-
+                                        ) {
+                                            Icon(painterResource(id =R.drawable.baseline_camera_alt_24), contentDescription = "Foto")
+                                            Spacer(modifier = Modifier.width(3.dp))
+                                            Text(text = "AGGIUNGI")
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1409,8 +1603,6 @@ fun SightingScreen(
                                     )
                                 }
                             }
-
-
                             Spacer(modifier = Modifier.height(3.dp))
                             // Mare
                             OutlinedTextField(
