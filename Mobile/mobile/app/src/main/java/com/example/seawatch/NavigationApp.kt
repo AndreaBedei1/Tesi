@@ -25,6 +25,7 @@ sealed class NavigationScreen(val name: String) {
     object Profile:NavigationScreen("Profilo")
     object AddSighting:NavigationScreen("Aggiungi")
     object Stats: NavigationScreen("Statistiche")
+    object ViewSighting:NavigationScreen("Avvistamento")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,13 +110,18 @@ private fun NavigationGraph(
             )
         }
         composable(route = NavigationScreen.Home.name){
-            HomeScreen()
+            HomeScreen(
+                goToSighting = { navController.navigate(NavigationScreen.ViewSighting.name)}
+            )
         }
         composable(route = NavigationScreen.AddSighting.name){
             SightingScreen()
         }
         composable(route = NavigationScreen.Stats.name){
             StatsScreen()
+        }
+        composable(route = NavigationScreen.ViewSighting.name){
+            SightingViewScreen(owner = false)
         }
     }
 }
