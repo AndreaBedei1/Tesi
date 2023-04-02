@@ -282,7 +282,9 @@ fun SignUpScreen(
                             onValueChange = { name = it },
                             label = { Text("Nome") },
                             singleLine = true,
-                            placeholder = { Text("Mario") }
+                            placeholder = { Text("Mario") },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
@@ -290,7 +292,9 @@ fun SignUpScreen(
                             onValueChange = { surname = it },
                             label = { Text("Cognome") },
                             singleLine = true,
-                            placeholder = { Text("Rossi") }
+                            placeholder = { Text("Rossi") },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
@@ -299,7 +303,9 @@ fun SignUpScreen(
                             label = { Text("Email") },
                             singleLine = true,
                             placeholder = { Text("esempio@provider.com") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
@@ -324,7 +330,9 @@ fun SignUpScreen(
                                         )
                                     }
                                 }
-                            }
+                            },
+                            modifier = Modifier.background(backGround),
+                            colors = TextFieldDefaults.outlinedTextFieldColors()
                         )
                     }
                 }
@@ -377,7 +385,9 @@ fun SignUpScreen(
                         onValueChange = { name = it },
                         label = { Text("Nome") },
                         singleLine = true,
-                        placeholder = { Text("Mario") }
+                        placeholder = { Text("Mario") },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     TextField(
@@ -385,7 +395,9 @@ fun SignUpScreen(
                         onValueChange = { surname = it },
                         label = { Text("Cognome") },
                         singleLine = true,
-                        placeholder = { Text("Rossi") }
+                        placeholder = { Text("Rossi") },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     TextField(
@@ -394,7 +406,9 @@ fun SignUpScreen(
                         label = { Text("Email") },
                         singleLine = true,
                         placeholder = { Text("esempio@provider.com") },
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     TextField(
@@ -419,7 +433,9 @@ fun SignUpScreen(
                                     )
                                 }
                             }
-                        }
+                        },
+                        modifier = Modifier.background(backGround),
+                        colors = TextFieldDefaults.outlinedTextFieldColors()
                     )
                     Spacer(modifier = Modifier.height(med))
                     Button(
@@ -799,8 +815,6 @@ fun Profile(
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var nome by rememberSaveable { mutableStateOf("") }
-    var cognome by rememberSaveable { mutableStateOf("") }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -813,7 +827,7 @@ fun Profile(
                     modifier = modifier
                         .fillMaxHeight()
                         .size(
-                            width = configuration.screenWidthDp.dp / 2,
+                            width = configuration.screenWidthDp.dp / 3,
                             height = configuration.screenHeightDp.dp
                         )
                         .padding(horizontal = hig),
@@ -835,12 +849,24 @@ fun Profile(
                     verticalArrangement = Arrangement.Center
                 ) {
                     items(1) { element ->
-                        Spacer(modifier = Modifier.height(min-5.dp))
-                        Text(text="Mail: example@provider.com", textDecoration = TextDecoration.Underline)
-                        Spacer(modifier = Modifier.height(min))
-                        Text(text="Nome: Mario", textDecoration = TextDecoration.Underline)
-                        Spacer(modifier = Modifier.height(min))
-                        Text(text="Cognome: Rossi", textDecoration = TextDecoration.Underline)
+                        Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
+                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                                Spacer(modifier = Modifier.height(min))
+                                Text(text="Nome:", style = MaterialTheme.typography.titleLarge)
+                                Spacer(modifier = Modifier.height(min))
+                                Text(text="Cognome:", style = MaterialTheme.typography.titleLarge)
+                                Spacer(modifier = Modifier.height(min))
+                                Text(text="Mail:", style = MaterialTheme.typography.titleLarge)
+                            }
+                            Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                                Spacer(modifier = Modifier.height(min+5.dp))
+                                Text(text="Mario", style = MaterialTheme.typography.bodyLarge)
+                                Spacer(modifier = Modifier.height(min+6.dp))
+                                Text(text="Rossi", style = MaterialTheme.typography.bodyLarge)
+                                Spacer(modifier = Modifier.height(min+6.dp))
+                                Text(text="andreabedei@libero.it", textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                            }
+                        }
                     }
                 }
             }
@@ -858,12 +884,24 @@ fun Profile(
                         painter = painterResource(R.drawable.sea),
                         contentDescription = "Immagine Profilo"
                     )
-                    Spacer(modifier = Modifier.height(min))
-                    Text(text="Mail: example@provider.com", textDecoration = TextDecoration.Underline)
-                    Spacer(modifier = Modifier.height(min))
-                    Text(text="Nome: Mario", textDecoration = TextDecoration.Underline)
-                    Spacer(modifier = Modifier.height(min))
-                    Text(text="Cognome: Rossi", textDecoration = TextDecoration.Underline)
+                    Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
+                            Spacer(modifier = Modifier.height(min))
+                            Text(text="Nome:", style = MaterialTheme.typography.titleLarge)
+                            Spacer(modifier = Modifier.height(min))
+                            Text(text="Cognome:", style = MaterialTheme.typography.titleLarge)
+                            Spacer(modifier = Modifier.height(min))
+                            Text(text="Mail:", style = MaterialTheme.typography.titleLarge)
+                        }
+                        Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
+                            Spacer(modifier = Modifier.height(min+5.dp))
+                            Text(text="Mario", style = MaterialTheme.typography.bodyLarge)
+                            Spacer(modifier = Modifier.height(min+6.dp))
+                            Text(text="Rossi", style = MaterialTheme.typography.bodyLarge)
+                            Spacer(modifier = Modifier.height(min+6.dp))
+                            Text(text="andreabedei@libero.it", textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                        }
+                    }
                 }
             }
         }
@@ -907,7 +945,8 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .padding(10.dp)
                                         .size(width = 180.dp, height = 150.dp),
-                                    border= BorderStroke(2.dp,Color.Black)
+                                    border= BorderStroke(2.dp,Color.Black),
+                                    colors = CardDefaults.outlinedCardColors()
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
                                     Column(
@@ -961,7 +1000,8 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .padding(10.dp)
                                         .size(width = 180.dp, height = 150.dp),
-                                    border= BorderStroke(2.dp,Color.Black)
+                                    border= BorderStroke(2.dp,Color.Black),
+                                    colors = CardDefaults.outlinedCardColors()
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
                                     Column(
@@ -1035,12 +1075,12 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.height(min/2))
                     for(i in 1..20){
-                        Row(horizontalArrangement = Arrangement.Center) {
+                        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
                             Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Card(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
-                                        .padding(12.dp)
+                                        .padding(10.dp)
                                         .fillMaxWidth(),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors()
@@ -1165,26 +1205,23 @@ fun SightingScreen(
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var utente by remember { mutableStateOf("") }
+    var utente by remember { mutableStateOf("Mario Rossi") }
     val currentDateTime = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.ITALIAN)
     val formattedDateTime = currentDateTime.format(formatter)
-    var data by remember { mutableStateOf(formattedDateTime) }
-    var numeroEsemplari by remember { mutableStateOf("") }
-    var latitudine by remember { mutableStateOf("") }
-    var longitudine by remember { mutableStateOf("") }
-    var posizione by remember { mutableStateOf("") }
-    var animale by remember { mutableStateOf("") }
-    var specie by remember { mutableStateOf("") }
-    var mare by remember { mutableStateOf("") }
-    var vento by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
+    var data by rememberSaveable { mutableStateOf(formattedDateTime) }
+    var numeroEsemplari by rememberSaveable { mutableStateOf("") }
+    var posizione by rememberSaveable { mutableStateOf("") }
+    var mare by rememberSaveable { mutableStateOf("") }
+    var vento by rememberSaveable { mutableStateOf("") }
+    var note by rememberSaveable { mutableStateOf("") }
     val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var selectedOptionText by rememberSaveable { mutableStateOf("") }
     val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")
-    var expandedSpecie by remember { mutableStateOf(false) }
-    var selectedOptionTextSpecie by remember { mutableStateOf("") }
+    var expandedSpecie by rememberSaveable { mutableStateOf(false) }
+    var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
+
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -1231,7 +1268,7 @@ fun SightingScreen(
                                             ) {
                                                 Spacer(modifier = Modifier.height(6.dp))
                                                 Text(
-                                                    text = "Nome e cognome",
+                                                    text = utente,
                                                     style = MaterialTheme.typography.bodyLarge
                                                 )
                                                 Spacer(modifier = Modifier.height(10.dp))
@@ -1344,8 +1381,8 @@ fun SightingScreen(
                                                         MaterialTheme.colorScheme.outline,
                                                         RoundedCornerShape(2.dp)
                                                     ),
-                                                expanded = expanded,
-                                                onExpandedChange = { expanded = !expanded },
+                                                expanded = expandedSpecie,
+                                                onExpandedChange = { expandedSpecie = !expandedSpecie },
                                             ) {
                                                 TextField(
                                                     // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -1369,9 +1406,9 @@ fun SightingScreen(
                                                         DropdownMenuItem(
                                                             text = { Text(selectionOptionSpecie) },
                                                             onClick = {
-                                                                selectedOptionText =
+                                                                selectedOptionTextSpecie =
                                                                     selectionOptionSpecie
-                                                                expanded = false
+                                                                expandedSpecie = false
                                                             },
                                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                                         )
@@ -1405,7 +1442,9 @@ fun SightingScreen(
 
                                         // Submit button
                                         Button(
-                                            modifier = Modifier.padding(vertical = 16.dp).align(Alignment.CenterHorizontally),
+                                            modifier = Modifier
+                                                .padding(vertical = 16.dp)
+                                                .align(Alignment.CenterHorizontally),
                                             onClick = {
                                                 // Do something with the data
                                             },
@@ -1552,8 +1591,8 @@ fun SightingScreen(
                                             MaterialTheme.colorScheme.outline,
                                             RoundedCornerShape(2.dp)
                                         ),
-                                    expanded = expanded,
-                                    onExpandedChange = { expanded = !expanded },
+                                    expanded = expandedSpecie,
+                                    onExpandedChange = { expandedSpecie = !expandedSpecie },
                                 ) {
                                     TextField(
                                         // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -1571,14 +1610,14 @@ fun SightingScreen(
                                     )
                                     ExposedDropdownMenu(
                                         expanded = expandedSpecie,
-                                        onDismissRequest = { expanded = false },
+                                        onDismissRequest = { expandedSpecie = false },
                                     ) {
                                         optionsSpecie.forEach { selectionOptionSpecie ->
                                             DropdownMenuItem(
                                                 text = {Text(selectionOptionSpecie)},
                                                 onClick = {
-                                                    selectedOptionText = selectionOptionSpecie
-                                                    expanded = false
+                                                    selectedOptionTextSpecie = selectionOptionSpecie
+                                                    expandedSpecie = false
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )

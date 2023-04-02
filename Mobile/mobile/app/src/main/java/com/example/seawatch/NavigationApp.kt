@@ -1,6 +1,7 @@
 package com.example.seawatch
 
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -43,9 +44,9 @@ fun NavigationApp(
     val configuration = LocalConfiguration.current
     var barHeight = 0
     if (configuration.orientation==ORIENTATION_LANDSCAPE){
-        barHeight = 50
+        barHeight = 47
     } else {
-        barHeight = 60
+        barHeight = 55
     }
     Scaffold(
         topBar = {
@@ -57,7 +58,7 @@ fun NavigationApp(
         floatingActionButton = {
             CustomFAB(currentScreen, navController)
         },
-        floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name) FabPosition.Center else FabPosition.End,
+        floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
         NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
