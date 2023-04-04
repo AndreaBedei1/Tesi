@@ -435,8 +435,6 @@ L'operazione di traduzione porta alla creazione dello schema logico:\\
 \caption{Schema logico finale.}
 \end{figure}
 
-\chapter{Documentazione Applicazione Mobile}
-
 \chapter{Documentazione Interfaccia Web}
 
 \section{Progettazione}
@@ -837,6 +835,103 @@ Per quanto riguarda le ferite, c'è la possibilità di aggiungerle, modificarle 
 \includegraphics[scale=0.90]{img_concettuale/ferita.png}
 \caption{Modale per l'aggiunta e modifica della ferita.}
 \end{figure}
+
+\chapter{Documentazione Applicazione Mobile}
+Per quanto riguarda l'applicazione mobile è stato scelto di realizzarla per il sistema operativo Android, In particolare l'applicazione è supportata da tutte le versioni dalla 8.0 a quella più recente.
+
+\section{Tecnologie utilizzate}
+ L'app mobile è stata creata utilizzando un set di strumenti moderni tra cui: Kotlin, Jetpack Compose e Material3. Grazie ad essi si è potuto scrivere codice UI in modo semplice e dichiarativo, ottenendo un'interfaccia utente reattiva con le linee guida di Material3.
+
+ \subsection{Kotlin}
+ Kotlin è definito come un linguaggio di programmazione ad alto livello, funzionale e orientato agli oggetti, sviluppato principalmente da JetBrains.\\
+
+Kotlin è stato progettato per essere interoperabile con Java, il che significa che gli sviluppatori possono utilizzare nel loro codice librerie Java esistenti. In aggiunta, Kotlin offre molte nuove funzionalità, ad esempio la null safety e la sintassi più concisa e leggibile.\\
+
+Kotlin è stato creato per semplificare la scrittura di codice e ridurre gli errori comuni, come la NullPointerException. Inoltre, offre espressività e flessibilità rispetto a Java, il che lo rende una scelta popolare per gli sviluppatori Android.
+
+ \subsection{Jetpack Compose}
+ Jetpack Compose è un framework UI per lo sviluppo di applicazioni Android. Compose permette agli sviluppatori di creare codice UI in modo dichiarativo e reattivo, semplificando la creazione di interfacce utente belle e performanti.\\
+Il framework è basato sul linguaggio di programmazione Kotlin e offre un insieme di componenti UI predefiniti e personalizzabili, chiamati composable. Essi possono essere combinati tra loro per creare interfacce utente complesse.\\
+Inoltre, Jetpack Compose permette agli sviluppatori di scrivere codice UI con un livello di astrazione più alto. Un esempio: gli sviluppatori possono scrivere il codice per definire l'aspetto visivo dell'applicazione in un unico file, senza dover gestire la separazione tra codice XML e codice Java/Kotlin.\\
+Grazie a queste funzionalità, il framework semplifica il processo di sviluppo e manutenzione, offrendo una soluzione moderna e performante per la creazione di interfacce utente reattive e coerenti con le linee guida di Material Design.
+
+ \subsection{Material Design 3}
+Material Design 3 è l'ultima versione della libreria di design sviluppata da Google per creare interfacce utente su piattaforme diverse, tra cui Android, iOS e il web.\\
+La libreria si concentra sull'idea di elementi tangibili, cioè elementi di design che sembrano essere fatti di carta, inchiostro e superfici. Essa utilizza colori vivaci, forme geometriche chiare e transizioni fluide per creare un'esperienza utente coinvolgente e intuitiva.\\
+Material Design 3 offre una vasta gamma di componenti UI predefiniti e personalizzabili, ad esempio: bottoni, icone, card, modali, per aiutare gli sviluppatori a creare interfacce utente di alta qualità.\\
+Inoltre, Material Design 3 fornisce un sistema di tipografia flessibile, che consente di personalizzare l'aspetto dei testi dell'interfaccia utente.\\
+Il risultato finale è visto come un'interfaccia utente moderna, pulita e coerente, che migliora la user-experience e favorisce l'usability dell'applicazione.
+
+\section{Mockup}
+Il primo passo nella realizzazione dell'applicazione è stato quello della creazione dei mockup. Per realizzarli si è utilizzato il software di progettazione Balsamicq. Sono stati realizzati i modelli si è richiesta l'approvazione del committente. Di seguito si riportano i principali prototipi di interfacce utente.
+
+\subsection{Login e Registrazione}
+Nella fase di registrazione l'utente è obbligato a inserire i dati obbligatori ed eventuali dati facoltativi. Una volta registrato, si potrà effettuare l'accesso mediante credenziali oppure mediante riconoscimento delle impronte digitali.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.30]{img_concettuale/RegistrazioneMobile.png}
+\caption{Prototipo activity di registrazione.}
+\end{figure}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.30]{img_concettuale/LoginMobile.png}
+\caption{Prototipo activity di login.}
+\end{figure}
+
+\subsection{Homepage}
+La schermata principale dell'applicativo si compone di una mappa in cui vengono raffigurati tutti gli avvistamenti i quali con dei marker di colori diversi a seconda dell'animale che è stato individuato. A ciascun avvistamento corrisponde una card nella quale sono presenti i dati più importanti della rilevazione, la foto dell'utente che l'ha eseguita e la possibilità di mettere nei preferiti l'avvistamento. In aggiunta nella seguente schermata sono stati aggiunti due menù uno superiore e uno inferiore. Nel primo menù è presente il nome della pagina e la possibilità di filtrare i risultati per preferiti oppure per il tipo di animale avvistato. Invece, il secondo permette la navigazione all'interno dell'applicazione. Nello specifico nella schermate delle impostazioni, statistiche, profilo o tornare alla homepage. In fine, nella pagina è presente un FAB col simbolo del + per aggiungere un nuovo avvistamento.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.40]{img_concettuale/Home_mob.png}
+\caption{Prototipo activity Homepage.}
+\end{figure}
+
+
+\subsection{Avvistamento}
+Per quanto riguarda l'avvistamento, si avrà la mappa con la posizione dell'avvistamento segnalata da un marker, tutte le informazioni e immagini relative all'avvistamento modificabili solamente dall'utente che ha eseguito l'avvistamento, per tutti gli altri saranno visibili in sola lettura. Ci sarà la possibilità di avere maggiori informazioni sul tipo di specie a cui è riferito l'avvistamento grazie a un popup che comparirà in rilievo se l'utente preme il pulsante informazioni. Infine nel menù superiore è presente un pulsante per tornare alla schermata precedente.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/Avv_mob.png}
+\caption{Prototipo activity di visualizzazione dell'avvistamento per altri utenti non creatori.}
+\end{figure}
+
+\subsection{Aggiungi avvistamento}
+Questa activity è uguale a quella della visione dell'avvistamento per chi ha creato l'avvistamento. Nella seguente schermata sono presenti i campi per inserire i dati dell'avvistamento, un bottone per caricare foto fatte sul momento oppure immagini della galleria. In aggiunta premendo il pulsante per le coordinate esse utilizzando il GPS del dispositivo vengono prese automaticamente e visibili all'utente. Una volta completati i campi, in particolare quelli obbligatori l'utente può caricare l'avvistamento attraverso l'apposito FAB situato a fianco.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/Agg_avv_mob.png}
+\caption{Prototipo activity di aggiunta di un avvistamento.}
+\end{figure}
+
+\subsection{Statistiche}
+Nell'applicativo mobile si è deciso di aggiungere un'ulteriore funzionalità rispetto all'applicativo web, cioè una Activity per le statistiche. Nella seguente pagina si ha avranno diverse statistiche con relativi grafici degli avvistamenti, in particolare il numero degli avvistamenti, il numero di avvistamenti per ciascun animale o specie. Il numero di avvistamenti in un determinato lasso temporale.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.50]{img_concettuale/stat_mob.png}
+\caption{Prototipo activity di statistiche della piattaforma.}
+\end{figure}
+
+\subsection{Impostazioni}
+Nella pagina delle impostazioni si possono modificare le informazioni del proprio profilo, modificare la password e anche il tema dell'applicazione se deve essere chiaro o scuro, tale preferenza viene salvata e memorizzata dall'app. Infine nella barra superiore compare il pulsante per effettuare il Logout o tornare alla schermata precedente.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.29]{img_concettuale/Imp_mob.png}
+\caption{Prototipo activity delle impostazioni.}
+\end{figure}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.28]{img_concettuale/Imp_tema_mob.png}
+\caption{Prototipo activity delle impostazioni sul tema, con salvataggio.}
+\end{figure}
+
+
+\section{Librerie esterne utilizzate}
+
+\section{Activity}
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
 Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individuare la specie.
@@ -1349,26 +1444,32 @@ La funzione prende in input la posizione di un'immagine, la carica, la converte 
 
 \subsubsection{Predizione delle immagini}
 \begin{lstlisting}[caption={Codice della predizione delle immagini.}, label={lst:Immagini_predizione}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
-args = sys.argv[1:]
-for arg in args:
-    img='/percorso/img/temp/'+arg
+import os
+folder_path = "./foto"
+file_list = []
+# Scandisce tutti i file nella cartella
+for filename in os.listdir(folder_path):
+    file_path = os.path.join(folder_path, filename)
+    if os.path.isfile(file_path):
+        file_list.append(file_path)
+for arg in file_list:
+    img=arg
     pic=load_img(img, target_size=(224,224,3))
     ris = ris + output(img) + "-"
 print(ris)
 \end{lstlisting}
-Questa funzione legge gli argomenti passati da riga di comando da uno script bash, cioè il nome di una o più immagini. Per ogni immagine, carica l'immagine dal percorso specificato, elabora l'immagine utilizzando la funzione "output" e restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
+Le foto vengono passate dentro al contenitore Docker e inserite nella cartella relativa. Attraverso le funzioni di una libreria di sistema vengono catturate le immagini presenti e per ciascuna si elabora l'immagine utilizzando la funzione "output" la quale restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
 
-\section{Integrazione dell'algoritmo di riconoscimento}
+\section{Integrazione algoritmo di riconoscimento}
 Il sistema che permette di identificare la specie in un avvistamento è stato integrato con un bottone nella pagina di ogni singolo avvistamento. Quando questo viene premuto viene aperto un modale e inviate delle sottoimmagini dell'avvistamento. Per la precisione, se sono presenti solo delle foto senza nessuna sottoimmagine, vengono inviate le foto intere, ma questo non permetterà un'alta precisione visto che il sistema è addestrato solo con singole immagini. Se invece l'utente ha creato delle sottoimmagini dell'avvistamento, queste sottoimmagini verranno ritagliate e inviate singolarmente all'algoritmo. Esso processerà tutte le immagini che gli sono state inviate e risponderà con le possibili soluzioni. Se invece non sono presenti immagini il sistema darà un errore.\\
-Per utilizzare le librerie di machine learning citate sopra il sistema è stato spostato su un computer sul quale è attivo il server web con sistema operativo Ubuntu 18.04, nel quale è stato installato un ambiente virtuale Anaconda. Esso è un ambiente di sviluppo isolato, dove è possibile creare e gestire pacchetti Python e le relative dipendenze. Questo significa che esso può contenere una versione specifica di Python, nel nostro caso la 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
-Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vengono passati i nomi delle foto, il quale a sua volta attiverà l'ambiente virtuale e farà partire lo script.
+Per utilizzare le librerie di machine learning citate sopra il sistema è stato spostato su un server web dell'università con sistema operativo Linux, nel quale è stato installato Docker. Esso è una piattaforma open source che consente di creare e gestire applicazioni in modo indipendente dal sistema operativo sottostante. In pratica, Docker consente di creare degli ambienti virtuali isolati, che includono tutti i componenti necessari per far funzionare un'applicazione, come librerie, dipendenze e configurazioni. Nel nostro caso è stato scelto di utilizzare un container con all'interno un sistema operativo Linux Ubuntu 18.04. Nel quale è stato installato la versione specifica di Python 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
+Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vene passato il nome della cartella contenente le immagini. Il quale a sua volta attiverà il contenitore Docker passandogli i file e farà partire lo script.
 \begin{lstlisting}[caption={Codice script bash.}, label={lst:script_bash}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 #!/bin/bash
-source ~/.bashrc
-eval "$('/percorso/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-conda activate amb
-cd "/percorso/Riconoscimento"
-python3 check.py "$@"
+cd ../../../../ric
+percorso="/var/www/html/Sito/img/temp/"$@
+echo $percorso
+docker run -v ${percorso}:/Ric/foto --rm ric_sea
 \end{lstlisting}
 
 \chapter{Documentazione Test}
