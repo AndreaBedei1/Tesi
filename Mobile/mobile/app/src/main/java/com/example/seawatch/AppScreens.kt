@@ -1,5 +1,7 @@
 package com.example.seawatch
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.webkit.WebView
 import androidx.compose.foundation.BorderStroke
@@ -44,7 +46,8 @@ import java.util.*
 fun LoginScreen(
     goToHome: () -> Unit,
     goToSignUp:() ->Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedPrefForLOgin:SharedPreferences
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -138,7 +141,12 @@ fun LoginScreen(
                 ) {
                     items(1) { element ->
                         Button(
-                            onClick = { goToHome() },
+                            onClick = {
+                                with(sharedPrefForLOgin.edit()){
+                                    putString("USER", mail)
+                                    apply()
+                                }
+                                goToHome() },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = modifier.widthIn(min = 200.dp)
                         ) {
@@ -211,7 +219,12 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.height(hig))
                     Button(
-                        onClick = { goToHome() },
+                        onClick = {
+                            with(sharedPrefForLOgin.edit()){
+                                putString("USER", mail)
+                                apply()
+                            }
+                            goToHome() },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                         modifier = modifier.widthIn(min = 250.dp)
                     ) {

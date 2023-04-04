@@ -1,5 +1,6 @@
 package com.example.seawatch
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,7 @@ class MainActivity : ComponentActivity() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContent {
             val theme by settingsViewModel.theme.collectAsState(initial = "")
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val radioOptions = listOf(getString(R.string.light_theme), getString(R.string.dark_theme))
-                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
+                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin)
                 }
             }
         }

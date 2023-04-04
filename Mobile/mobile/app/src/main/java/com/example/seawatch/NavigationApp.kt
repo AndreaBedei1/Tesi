@@ -1,5 +1,7 @@
 package com.example.seawatch
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.foundation.layout.*
@@ -34,14 +36,21 @@ fun NavigationApp(
     navController: NavHostController = rememberNavController(),
     radioOptions: List<String>,
     theme: String,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    sharedPrefForLogin: SharedPreferences
 
 ) {
-
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
+    val lastUser=sharedPrefForLogin.getString("USER", "")
+    var currentScreen:String
+    if(lastUser==""){
+        currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
+    } else{
+        currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.Home.name
+    }
     // Get the name of the current screen
-    val currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
+
     val configuration = LocalConfiguration.current
     var barHeight = 0
     if (configuration.orientation==ORIENTATION_LANDSCAPE){
@@ -51,7 +60,7 @@ fun NavigationApp(
     }
     Scaffold(
         topBar = {
-            CustomTopBar(currentScreen=currentScreen, navController=navController, barHeight=barHeight)
+            CustomTopBar(currentScreen=currentScreen, navController=navController, barHeight=barHeight, sharedPrefForLogin=sharedPrefForLogin)
         },
         bottomBar = {
             CustomBottomBar(currentScreen, configuration, barHeight, navController)
@@ -62,7 +71,7 @@ fun NavigationApp(
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
+        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin)
     }
 }
 
@@ -73,17 +82,19 @@ private fun NavigationGraph(
     modifier: Modifier = Modifier,
     radioOptions: List<String>,
     theme: String,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    sharedPrefForLogin:SharedPreferences
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationScreen.LogIn.name,
+        startDestination = if(sharedPrefForLogin.getString("USER", "")=="") NavigationScreen.LogIn.name else NavigationScreen.Home.name,
         modifier = modifier.padding(innerPadding)
     ) {
         composable(route = NavigationScreen.LogIn.name) {
             LoginScreen(
                 goToHome = { navigateToHome(navController)},
-                goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) }
+                goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
+                sharedPrefForLOgin=sharedPrefForLogin
             )
         }
         composable(route = NavigationScreen.Settings.name) {

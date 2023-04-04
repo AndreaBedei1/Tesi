@@ -1,5 +1,6 @@
 package com.example.seawatch
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -18,7 +19,7 @@ import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeight:Int){
+fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeight:Int, sharedPrefForLogin:SharedPreferences){
     var showFilterDialog by remember { mutableStateOf(false) }
     var favoriteFilter by remember { mutableStateOf(false) }
     val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
@@ -53,7 +54,12 @@ fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeig
                         modifier = Modifier.fillMaxHeight().padding(0.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { navController.navigate(NavigationScreen.LogIn.name) }) {
+                        IconButton(onClick = {
+                            with(sharedPrefForLogin.edit()){
+                                putString("USER", "")
+                                apply()
+                            }
+                            navController.navigate(NavigationScreen.LogIn.name) }) {
                             Icon(
                                 Icons.Filled.ExitToApp,
                                 contentDescription = "Esci",

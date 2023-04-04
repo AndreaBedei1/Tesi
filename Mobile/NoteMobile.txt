@@ -14,3 +14,6 @@ Comunicazione con databse online con volley
 Notifiche in app o push, prima idea è fare notifiche push (stile whatsapp) che le riceve il creatore di un avvistamrnto se questo viene modificato in cui se si apre riporta all'avvistamento modificato
 Funzionalità facoltative: tensorflow per riconoscimento automatico da smartphone.
 
+COSE OPZIONALI FATTE
+Utente ricordato dopo login (se riapre l'app non deve riloggarsi)
+
