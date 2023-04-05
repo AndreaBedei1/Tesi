@@ -88,14 +88,14 @@ private fun NavigationGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = if(sharedPrefForLogin.getString("USER", "")=="") NavigationScreen.LogIn.name else NavigationScreen.Home.name,
+        startDestination = NavigationScreen.LogIn.name,
         modifier = modifier.padding(innerPadding)
     ) {
         composable(route = NavigationScreen.LogIn.name) {
             LoginScreen(
                 goToHome = { navigateToHome(navController)},
                 goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
-                sharedPrefForLOgin=sharedPrefForLogin,
+                sharedPrefForLogin=sharedPrefForLogin,
                 goToOffline= { navController.navigate(NavigationScreen.AddSightingOffline.name) }
             )
         }

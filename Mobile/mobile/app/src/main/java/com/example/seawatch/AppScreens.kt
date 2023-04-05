@@ -1,9 +1,13 @@
 package com.example.seawatch
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.webkit.WebView
+import android.widget.Toast
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,19 +39,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
+var ok = true
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     goToHome: () -> Unit,
     goToSignUp:() ->Unit,
     modifier: Modifier = Modifier,
-    sharedPrefForLOgin:SharedPreferences,
+    sharedPrefForLogin:SharedPreferences,
     goToOffline: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -55,9 +65,51 @@ fun LoginScreen(
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var mail by rememberSaveable { mutableStateOf("") }
+    var mail by rememberSaveable { mutableStateOf(sharedPrefForLogin.getString("USER", "").toString()) }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
+    val biometricManager = BiometricManager.from(LocalContext.current)
+    val executor = ContextCompat.getMainExecutor(LocalContext.current)
+    val context = LocalContext.current as FragmentActivity
+
+
+    if(sharedPrefForLogin.getString("USER", "")!="" && ok ){
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Login con impronta digitale")
+                    .setSubtitle("Utilizza l'impronta digitale per accedere")
+                    .setDescription("Posiziona il dito sull'impronta digitale")
+                    .setNegativeButtonText("Annulla")
+                    .build()
+
+                val biometricPrompt = BiometricPrompt(context, executor, object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                        goToHome()
+                        ok = false
+                    }
+
+                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                        Toast.makeText(context, "Errore impronta digitale", Toast.LENGTH_LONG).show()
+                        ok = false
+                    }
+                })
+                biometricPrompt.authenticate(promptInfo)
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                // Il dispositivo non supporta il riconoscimento biometrico
+                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                // Il riconoscimento biometrico non è al momento disponibile
+                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                // Non ci sono impronte digitali registrate sul dispositivo
+                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
+            }
+        }
+    }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -140,10 +192,12 @@ fun LoginScreen(
                     items(1) { element ->
                         Button(
                             onClick = {
-                                with(sharedPrefForLOgin.edit()){
+                                /** TODO Prima controlla se l'utente esiste nel DB online con if */
+                                with(sharedPrefForLogin.edit()){
                                     putString("USER", mail)
                                     apply()
                                 }
+                                ok = false
                                 goToHome() },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = modifier.widthIn(min = 200.dp)
@@ -238,17 +292,17 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(med))
                     Button(
                         onClick = {
-                            with(sharedPrefForLOgin.edit()){
+                            with(sharedPrefForLogin.edit()){
                                 putString("USER", mail)
                                 apply()
                             }
+                            ok = false
                             goToHome() },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                         modifier = modifier.widthIn(min = 230.dp)
                     ) {
                         Text("ENTRA")
                     }
-
                     Spacer(modifier = Modifier.height(min))
                     Button(
                         onClick = { goToSignUp() },
@@ -3233,5 +3287,9 @@ fun InfoSpecie (showFilterInfoSpecie: Boolean, onCloseDialog: () -> Unit){
             confirmButton = {/** TODO */}
         )
     }
+}
+
+fun getImage(){
+
 }
 
