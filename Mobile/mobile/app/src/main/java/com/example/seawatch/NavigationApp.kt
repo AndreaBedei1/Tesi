@@ -28,6 +28,7 @@ sealed class NavigationScreen(val name: String) {
     object AddSighting:NavigationScreen("Aggiungi")
     object Stats: NavigationScreen("Statistiche")
     object ViewSighting:NavigationScreen("Avvistamento")
+    object AddSightingOffline:NavigationScreen("Avvistamento Offline")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,7 +95,8 @@ private fun NavigationGraph(
             LoginScreen(
                 goToHome = { navigateToHome(navController)},
                 goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
-                sharedPrefForLOgin=sharedPrefForLogin
+                sharedPrefForLOgin=sharedPrefForLogin,
+                goToOffline= { navController.navigate(NavigationScreen.AddSightingOffline.name) }
             )
         }
         composable(route = NavigationScreen.Settings.name) {
@@ -132,7 +134,10 @@ private fun NavigationGraph(
             StatsScreen()
         }
         composable(route = NavigationScreen.ViewSighting.name){
-            SightingViewScreen(owner = false)
+            SightingViewScreen(owner = true)
+        }
+        composable(route = NavigationScreen.AddSightingOffline.name){
+            SightingScreenOffline()
         }
     }
 }

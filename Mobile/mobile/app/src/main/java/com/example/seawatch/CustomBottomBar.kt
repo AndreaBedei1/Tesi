@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomBottomBar(currentScreen:String, configuration:Configuration, barHeight:Int, navController:NavHostController){
-    if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name){
+    if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name && currentScreen != NavigationScreen.AddSightingOffline.name){
         BottomAppBar (
             modifier = androidx.compose.ui.Modifier.height(barHeight.dp)
         ){

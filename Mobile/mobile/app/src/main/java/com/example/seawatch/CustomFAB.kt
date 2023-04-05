@@ -35,7 +35,7 @@ fun CustomFAB(currentScreen:String, navController:NavHostController){
             ) {
             Icon(imageVector = Icons.Filled.Add, "Edita profilo")
         }
-    } else if(currentScreen == NavigationScreen.AddSighting.name){
+    } else if(currentScreen == NavigationScreen.AddSighting.name || currentScreen == NavigationScreen.AddSightingOffline.name){
         //FAB per confermare l'aggiunta dell'avvistamento.
         FloatingActionButton(
             shape= RoundedCornerShape(50.dp),
