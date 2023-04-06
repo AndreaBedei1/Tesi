@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.biometric.BiometricManager
@@ -43,9 +44,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -1333,9 +1336,9 @@ fun SightingScreen(
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
     var utente by rememberSaveable { mutableStateOf("Mario Rossi") }
-    val currentDateTime = LocalDateTime.now()
+    val currentDateTimeClock = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.ITALIAN)
-    val formattedDateTime = currentDateTime.format(formatter)
+    val formattedDateTime = currentDateTimeClock.format(formatter)
     var data by rememberSaveable { mutableStateOf(formattedDateTime) }
     var numeroEsemplari by rememberSaveable { mutableStateOf("") }
     var posizione by rememberSaveable { mutableStateOf("") }
@@ -1350,6 +1353,9 @@ fun SightingScreen(
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
     val contex = LocalContext.current
+    val currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var count by rememberSaveable {mutableStateOf(0)}
+    var imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime.toString())
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -1571,13 +1577,13 @@ fun SightingScreen(
                                             label = { Text("Note") }
                                         )
 
-                                        // Submit button
                                         Button(
                                             modifier = Modifier
                                                 .padding(vertical = 16.dp)
                                                 .align(Alignment.CenterHorizontally),
                                             onClick = {
-                                                (contex as MainActivity).requestCameraPermission()
+                                                (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
+                                                count+=1
                                             },
                                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                         ) {
@@ -1585,7 +1591,11 @@ fun SightingScreen(
                                             Spacer(modifier = Modifier.width(3.dp))
                                             Text(text = "AGGIUNGI")
                                         }
+
                                     }
+                                }
+                                Row(horizontalArrangement = Arrangement.Center){
+                                    showImages(imagesUri = imagesList, contex)
                                 }
                             }
                         }
@@ -1799,17 +1809,18 @@ fun SightingScreen(
                             )
 
                             Button(
-                                onClick = {
-                                    (contex as MainActivity).requestCameraPermission()
-                                },
                                 modifier = Modifier.padding(vertical = 16.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                onClick = {
+                                    (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
+                                    count+=1
+                                }
                             ) {
-                                Text(text = "AGGIUNGI IMMAGINI")
+                                Icon(painterResource(id =R.drawable.baseline_camera_alt_24), contentDescription = "Foto")
+                                Spacer(modifier = Modifier.width(3.dp))
+                                Text(text = "AGGIUNGI")
                             }
-                            if((contex as MainActivity).imagesList != null){
-                                showImages(imagesUri = (contex as MainActivity).imagesList)
-                            }
+                            showImages(imagesUri = imagesList, contex)
                         }
                     }
                 }
@@ -1819,12 +1830,8 @@ fun SightingScreen(
 }
 
 @Composable
-fun showImages( imagesUri: List<Uri>?) {
-    val coroutineScope = rememberCoroutineScope()
+fun showImages( imagesUri: List<Uri>?, context: Context) {
     val uris = imagesUri ?: emptyList()
-    /**val intent = Intent(context, ImageDetailActivity::class.java)
-    intent.putExtra("imageUri", uri)
-    context.startActivity(intent)*/
     Column {
         for (uri in uris) {
             Card(
@@ -1838,7 +1845,7 @@ fun showImages( imagesUri: List<Uri>?) {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Column {
-                        val painter = LoadImageFromUri(uri.toString())
+                        val painter = rememberImagePainter(uri.toString())
                         Image(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1847,17 +1854,31 @@ fun showImages( imagesUri: List<Uri>?) {
                             contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
-                        Button(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(16.dp),
-                            onClick = {
-                                /**val intent = Intent(context, ImageDetailActivity::class.java)
-                                intent.putExtra("imageUri", uri)
-                                context.startActivity(intent)*/
+                        Row(){
+                            Button(
+                                modifier = Modifier
+                                    .padding(16.dp),
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                onClick = {
+                                    val intent = Intent(Intent.ACTION_VIEW)
+                                    intent.setDataAndType(uri, "image/*")
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    context.startActivity(intent)
+                                }
+                            ) {
+                                Text("VISUALIZZA")
                             }
-                        ) {
-                            Text("View Image")
+                            Button(
+                                modifier = Modifier
+                                    .padding(16.dp),
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error),
+                                onClick = {
+                                    context.contentResolver.delete(uri, null, null)
+                                    recreate((context as Activity))
+                                }
+                            ) {
+                                Text("ELIMINA")
+                            }
                         }
                     }
                 }
@@ -1865,17 +1886,6 @@ fun showImages( imagesUri: List<Uri>?) {
         }
     }
 }
-
-@Composable
-fun LoadImageFromUri(uri: String): Painter {
-    val painter = rememberImagePainter(uri)
-
-    return painter
-}
-
-
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

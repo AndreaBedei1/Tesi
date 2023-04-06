@@ -30,12 +30,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
 import com.example.seawatch.ui.theme.SeaWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
@@ -73,26 +78,26 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    private var name: String? = null
+    private var count: Int? = null
     fun capturePhoto() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, 200)
     }
-
-    var imagesList: List<Uri>? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
             val imageBitmap = data.extras?.get("data") as Bitmap
-            saveImageToGallery(imageBitmap)
-            imagesList = getAllSavedImages()
-            Toast.makeText(this, "Immagine salvata nella galleria", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.Main).launch {
+                saveImageToGallery(imageBitmap, name, count)
+                recreate()
+            }
         }
     }
 
-
-    private fun saveImageToGallery(image: Bitmap) {
+    private fun saveImageToGallery(image: Bitmap, label:String?, c:Int?) {
         val saveUri: Uri?
-        val filename = "${System.currentTimeMillis()}.jpg"
+        val filename = "$label$c.jpg"
 
         // Definisci il percorso della cartella di salvataggio dell'immagine
         val imagesCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -101,7 +106,7 @@ class MainActivity : FragmentActivity() {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         }
 
-        // Crea un contenuto Values ​​object per l'immagine
+        // Crea un contenuto Values object per l'immagine
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, filename)
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
@@ -119,7 +124,6 @@ class MainActivity : FragmentActivity() {
                 // Salva l'immagine nell'OutputStream
                 image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
             }
-            Toast.makeText(this, "Immagine salvata nella galleria", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -135,7 +139,9 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    public fun requestCameraPermission() {
+    public fun requestCameraPermission(id : String, c: Int) {
+        name = id
+        count = c
         when {
             ContextCompat.checkSelfPermission(
                 this,
@@ -161,17 +167,16 @@ class MainActivity : FragmentActivity() {
         when {
             ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 capturePhoto()
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                Toast.makeText(this, "Il permesso è necessario per accedere alla galleria", Toast.LENGTH_SHORT).show()
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            shouldShowRequestPermissionRationale(Manifest.permission.MANAGE_EXTERNAL_STORAGE) -> {
+                requestPermissionLauncher.launch(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
             }
             else -> {
                 // Il permesso non è stato ancora richiesto, richiedilo all'utente
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissionLauncher.launch(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
             }
         }
     }
@@ -180,12 +185,12 @@ class MainActivity : FragmentActivity() {
         if (isGranted) {
             capturePhoto()
         } else {
-            Toast.makeText(this, "Il permesso è necessario per accedere alla galleria", Toast.LENGTH_SHORT).show()
+            capturePhoto()
         }
     }
 
     /** Prendo tutte le immaigni salvate */
-    private fun getAllSavedImages(): List<Uri> {
+    public fun getAllSavedImages(label: String?): List<Uri> {
         val imagesList = mutableListOf<Uri>()
         val projection = arrayOf(
             MediaStore.Images.Media._ID,
@@ -194,12 +199,15 @@ class MainActivity : FragmentActivity() {
             MediaStore.Images.Media.WIDTH,
             MediaStore.Images.Media.HEIGHT
         )
-        val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
+        val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ?"
+        val selectionArgs = arrayOf("%$label%")
+        val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN}"
+        Toast.makeText(this, "$label", Toast.LENGTH_SHORT).show()
         applicationContext.contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             projection,
-            null,
-            null,
+            selection,
+            selectionArgs,
             sortOrder
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
