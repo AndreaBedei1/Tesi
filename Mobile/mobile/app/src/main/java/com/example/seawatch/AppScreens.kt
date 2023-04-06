@@ -2,18 +2,20 @@ package com.example.seawatch
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.net.Uri
+import android.provider.MediaStore
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -39,16 +41,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import coil.compose.rememberImagePainter
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
+
 
 var ok = true
 @OptIn(ExperimentalMaterial3Api::class)
@@ -1318,7 +1324,8 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SightingScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -1342,7 +1349,7 @@ fun SightingScreen(
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
-
+    val contex = LocalContext.current
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -1570,10 +1577,9 @@ fun SightingScreen(
                                                 .padding(vertical = 16.dp)
                                                 .align(Alignment.CenterHorizontally),
                                             onClick = {
-                                                // Do something with the data
+                                                (contex as MainActivity).requestCameraPermission()
                                             },
                                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-
                                         ) {
                                             Icon(painterResource(id =R.drawable.baseline_camera_alt_24), contentDescription = "Foto")
                                             Spacer(modifier = Modifier.width(3.dp))
@@ -1792,15 +1798,17 @@ fun SightingScreen(
                                 label = { Text("Note") }
                             )
 
-                            // Submit button
                             Button(
                                 onClick = {
-                                    // Do something with the data
+                                    (contex as MainActivity).requestCameraPermission()
                                 },
                                 modifier = Modifier.padding(vertical = 16.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             ) {
                                 Text(text = "AGGIUNGI IMMAGINI")
+                            }
+                            if((contex as MainActivity).imagesList != null){
+                                showImages(imagesUri = (contex as MainActivity).imagesList)
                             }
                         }
                     }
@@ -1809,6 +1817,65 @@ fun SightingScreen(
         }
     }
 }
+
+@Composable
+fun showImages( imagesUri: List<Uri>?) {
+    val coroutineScope = rememberCoroutineScope()
+    val uris = imagesUri ?: emptyList()
+    /**val intent = Intent(context, ImageDetailActivity::class.java)
+    intent.putExtra("imageUri", uri)
+    context.startActivity(intent)*/
+    Column {
+        for (uri in uris) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column {
+                        val painter = LoadImageFromUri(uri.toString())
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            painter = painter,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                        Button(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp),
+                            onClick = {
+                                /**val intent = Intent(context, ImageDetailActivity::class.java)
+                                intent.putExtra("imageUri", uri)
+                                context.startActivity(intent)*/
+                            }
+                        ) {
+                            Text("View Image")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadImageFromUri(uri: String): Painter {
+    val painter = rememberImagePainter(uri)
+
+    return painter
+}
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -2058,7 +2125,9 @@ fun SightingScreenOffline(
             }
         }
         else -> {
-            LazyColumn(modifier=Modifier.background(backGround).fillMaxSize()){
+            LazyColumn(modifier= Modifier
+                .background(backGround)
+                .fillMaxSize()){
                 items(1) { element ->
                     Card(
                         shape = MaterialTheme.shapes.medium,

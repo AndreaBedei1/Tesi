@@ -10,6 +10,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="geo" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent>
+    </queries>
 
     <application
         android:name=".SettingsApp"

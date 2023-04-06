@@ -2,6 +2,7 @@ package com.example.seawatch
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -16,15 +17,23 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import coil.compose.rememberImagePainter
 import com.example.seawatch.ui.theme.SeaWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,26 +56,20 @@ class MainActivity : FragmentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val radioOptions = listOf(getString(R.string.light_theme), getString(R.string.dark_theme))
-                    /**NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin)*/
-
-                    Button(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .padding(0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            MaterialTheme.colorScheme.secondaryContainer,
-                            MaterialTheme.colorScheme.primary
-                        ),
-                        contentPadding = PaddingValues(0.dp),
-                        onClick = { requestCameraPermission()   }) {
-                        Icon(
-                            modifier = Modifier.fillMaxSize(),
-                            imageVector = Icons.Filled.Info,
-                            contentDescription = "Vedi dettagli specie"
-                        )
-                    }
+                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin)
                 }
             }
+        }
+    }
+
+    fun showMap() {
+        val geoLocation = Uri.parse("geo:44.1391, 12.24315")
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = geoLocation
+        }
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
         }
     }
 
@@ -75,13 +78,17 @@ class MainActivity : FragmentActivity() {
         startActivityForResult(cameraIntent, 200)
     }
 
+    var imagesList: List<Uri>? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
             val imageBitmap = data.extras?.get("data") as Bitmap
             saveImageToGallery(imageBitmap)
+            imagesList = getAllSavedImages()
+            Toast.makeText(this, "Immagine salvata nella galleria", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun saveImageToGallery(image: Bitmap) {
         val saveUri: Uri?
@@ -128,7 +135,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    private fun requestCameraPermission() {
+    public fun requestCameraPermission() {
         when {
             ContextCompat.checkSelfPermission(
                 this,
@@ -176,4 +183,38 @@ class MainActivity : FragmentActivity() {
             Toast.makeText(this, "Il permesso è necessario per accedere alla galleria", Toast.LENGTH_SHORT).show()
         }
     }
+
+    /** Prendo tutte le immaigni salvate */
+    private fun getAllSavedImages(): List<Uri> {
+        val imagesList = mutableListOf<Uri>()
+        val projection = arrayOf(
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.DATE_TAKEN,
+            MediaStore.Images.Media.WIDTH,
+            MediaStore.Images.Media.HEIGHT
+        )
+        val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
+        applicationContext.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            null,
+            null,
+            sortOrder
+        )?.use { cursor ->
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            while (cursor.moveToNext()) {
+                val id = cursor.getLong(idColumn)
+                val contentUri = ContentUris.withAppendedId(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    id
+                )
+                imagesList.add(contentUri)
+            }
+        }
+        return imagesList
+    }
+
+
+
 }
