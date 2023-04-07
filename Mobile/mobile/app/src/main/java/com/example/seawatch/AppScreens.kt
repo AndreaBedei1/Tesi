@@ -200,6 +200,16 @@ fun LoginScreen(
                 ) {
                     items(1) { element ->
                         Button(
+                            onClick = { goToOffline() },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
+                            modifier = modifier.widthIn(min = 200.dp)
+                        ) {
+                            Text(" ACCEDI OFFLINE")
+                        }
+                        Spacer(modifier = Modifier.height(min))
+                        Text(text = "oppure", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier = Modifier.height(min))
+                        Button(
                             onClick = {
                                 /** TODO Prima controlla se l'utente esiste nel DB online con if */
                                 with(sharedPrefForLogin.edit()){
@@ -221,18 +231,6 @@ fun LoginScreen(
                         ) {
                             Text("CREA ACCOUNT")
                         }
-                        Spacer(modifier = Modifier.height(min))
-                        Text(text = "oppure", style = MaterialTheme.typography.titleLarge)
-                        Spacer(modifier = Modifier.height(min))
-                        Button(
-                            onClick = { goToOffline() },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
-                            modifier = modifier.widthIn(min = 200.dp)
-                        ) {
-                            Text(" ACCEDI OFFLINE")
-                        }
-                        Spacer(modifier = Modifier.height(min))
-
                     }
                 }
             }
@@ -616,7 +614,7 @@ fun DisplaySettings(
     settingsViewModel: SettingsViewModel
 ) {
     // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
-    Column(Modifier.selectableGroup()) {
+    Column(Modifier.selectableGroup().background(MaterialTheme.colorScheme.primaryContainer).fillMaxSize()) {
         radioOptions.forEach { text ->
             Row(
                 Modifier
@@ -1058,6 +1056,7 @@ fun HomeScreen(
                                         .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
+                                    elevation = CardDefaults.cardElevation(4.dp),
                                     onClick = {goToSighting()}
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
@@ -1114,6 +1113,7 @@ fun HomeScreen(
                                         .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
+                                    elevation = CardDefaults.cardElevation(4.dp),
                                     onClick = {goToSighting()}
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
@@ -1211,6 +1211,7 @@ fun HomeScreen(
                                         .fillMaxWidth(),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
+                                    elevation = CardDefaults.cardElevation(4.dp),
                                     onClick = {goToSighting()}
 
                                 ) {
@@ -1268,6 +1269,7 @@ fun HomeScreen(
                                         .fillMaxWidth(),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
+                                    elevation = CardDefaults.cardElevation(4.dp),
                                     onClick = {goToSighting()}
                                 ) {
                                     var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
@@ -1365,7 +1367,8 @@ fun SightingScreen(
                     modifier = Modifier
                         .padding(10.dp)
                         .fillMaxSize(),
-                    border = BorderStroke(2.dp, Color.Black)
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                    elevation = CardDefaults.cardElevation(4.dp)
                 ) {
                     Row(
                         modifier = modifier
@@ -1604,14 +1607,15 @@ fun SightingScreen(
             }
         }
         else -> {
-            LazyColumn(modifier=Modifier.background(backGround)){
+            LazyColumn(modifier=Modifier.background(backGround).fillMaxSize()){
                 items(1) { element ->
                     Card(
                         shape = MaterialTheme.shapes.medium,
                         modifier = Modifier
                             .padding(20.dp)
                             .fillMaxSize(),
-                        border = BorderStroke(2.dp, Color.Black)
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                        elevation = CardDefaults.cardElevation(4.dp)
                     ) {
                         /** Login verticale */
                         Column(
@@ -1832,11 +1836,11 @@ fun SightingScreen(
 @Composable
 fun showImages( imagesUri: List<Uri>?, context: Context) {
     val uris = imagesUri ?: emptyList()
-    Column {
+    Column (horizontalAlignment = Alignment.CenterHorizontally){
         for (uri in uris) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(500.dp)
                     .padding(16.dp),
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
@@ -1854,10 +1858,10 @@ fun showImages( imagesUri: List<Uri>?, context: Context) {
                             contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
-                        Row(){
+                        Row(horizontalArrangement = Arrangement.Center){
                             Button(
                                 modifier = Modifier
-                                    .padding(16.dp),
+                                    .padding(10.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                 onClick = {
                                     val intent = Intent(Intent.ACTION_VIEW)
@@ -1870,7 +1874,7 @@ fun showImages( imagesUri: List<Uri>?, context: Context) {
                             }
                             Button(
                                 modifier = Modifier
-                                    .padding(16.dp),
+                                    .padding(10.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error),
                                 onClick = {
                                     context.contentResolver.delete(uri, null, null)
@@ -1913,6 +1917,11 @@ fun SightingScreenOffline(
     val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
+    val contex = LocalContext.current
+    val cu by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var count by rememberSaveable {mutableStateOf(0)}
+    var imagesList =(contex as MainActivity).getAllSavedImages(cu.toString())
+
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -1922,7 +1931,8 @@ fun SightingScreenOffline(
                     modifier = Modifier
                         .padding(10.dp)
                         .fillMaxSize(),
-                    border = BorderStroke(2.dp, Color.Black)
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                    elevation = CardDefaults.cardElevation(4.dp)
                 ) {
                     Row(
                         modifier = modifier
@@ -2016,6 +2026,7 @@ fun SightingScreenOffline(
                                             label = { Text("Vento") },
                                             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                                         )
+                                        Spacer(modifier = Modifier.height(8.dp))
                                     }
                                     Column(modifier = Modifier.width(configuration.screenWidthDp.dp / 2)) {
                                         Spacer(modifier = Modifier.height(12.dp))
@@ -2117,7 +2128,8 @@ fun SightingScreenOffline(
                                                 .padding(vertical = 16.dp)
                                                 .align(Alignment.CenterHorizontally),
                                             onClick = {
-                                                // Do something with the data
+                                                (contex as MainActivity).requestCameraPermission(cu.toString(), count)
+                                                count+=1
                                             },
                                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
 
@@ -2127,6 +2139,9 @@ fun SightingScreenOffline(
                                             Text(text = "AGGIUNGI")
                                         }
                                     }
+                                }
+                                Row(horizontalArrangement = Arrangement.Center){
+                                    showImages(imagesUri = imagesList, contex)
                                 }
                             }
                         }
@@ -2144,7 +2159,8 @@ fun SightingScreenOffline(
                         modifier = Modifier
                             .padding(20.dp)
                             .fillMaxSize(),
-                        border = BorderStroke(2.dp, Color.Black)
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                        elevation = CardDefaults.cardElevation(4.dp)
                     ) {
                         /** Login verticale */
                         Column(
@@ -2322,13 +2338,17 @@ fun SightingScreenOffline(
                             // Submit button
                             Button(
                                 onClick = {
-                                    // Do something with the data
+                                    (contex as MainActivity).requestCameraPermission(cu.toString(), count)
+                                    count+=1
                                 },
                                 modifier = Modifier.padding(vertical = 16.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             ) {
-                                Text(text = "AGGIUNGI IMMAGINI")
+                                Icon(painterResource(id =R.drawable.baseline_camera_alt_24), contentDescription = "Foto")
+                                Spacer(modifier = Modifier.width(3.dp))
+                                Text(text = "AGGIUNGI")
                             }
+                            showImages(imagesUri = imagesList, contex)
                         }
                     }
                 }
@@ -2376,6 +2396,10 @@ fun SightingViewScreen(
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("Specie 1") }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
+    val contex = LocalContext.current
+    val cu by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var count by rememberSaveable {mutableStateOf(0)}
+    var imagesList =(contex as MainActivity).getAllSavedImages(cu.toString())
 
 
     when (configuration.orientation) {
@@ -2500,7 +2524,7 @@ fun SightingViewScreen(
                                     expanded = expanded,
                                     onExpandedChange = { expanded = !expanded },
                                     modifier = Modifier
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                                        .background(MaterialTheme.colorScheme.primaryContainer)
                                         .border(
                                             1.dp,
                                             MaterialTheme.colorScheme.outline,
@@ -2544,7 +2568,7 @@ fun SightingViewScreen(
                                     ExposedDropdownMenuBox(
                                         modifier = Modifier
                                             .width(245.dp)
-                                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                                            .background(MaterialTheme.colorScheme.primaryContainer)
                                             .border(
                                                 1.dp,
                                                 MaterialTheme.colorScheme.outline,
@@ -2596,7 +2620,7 @@ fun SightingViewScreen(
                                             .padding(0.dp)
                                             .align(Alignment.CenterVertically),
                                         colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.secondaryContainer,
+                                            MaterialTheme.colorScheme.primaryContainer,
                                             MaterialTheme.colorScheme.primary
                                         ),
                                         contentPadding = PaddingValues(0.dp),
@@ -2624,7 +2648,8 @@ fun SightingViewScreen(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            // Do something with the data
+                                            (contex as MainActivity).requestCameraPermission(cu.toString(), count)
+                                            count+=1
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -2643,7 +2668,7 @@ fun SightingViewScreen(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            // Do something with the data
+
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -2658,9 +2683,13 @@ fun SightingViewScreen(
                                         Text(text = "SALVA")
                                     }
                                 }
+                                Row(horizontalArrangement = Arrangement.Center){
+                                    showImages(imagesUri = imagesList, contex)
+                                }
                             }
                         }
                     }
+
                 } else {
                     Row(
                         modifier = modifier
@@ -2702,7 +2731,9 @@ fun SightingViewScreen(
                                     modifier = Modifier
                                         .padding(5.dp)
                                         .fillMaxSize(),
-                                    border = BorderStroke(2.dp, Color.Black))
+                                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                                    elevation = CardDefaults.cardElevation(4.dp)
+                                )
                                 {
                                     Row(modifier = modifier
                                         .fillMaxSize()
@@ -2955,7 +2986,7 @@ fun SightingViewScreen(
                                     expanded = expanded,
                                     onExpandedChange = { expanded = !expanded },
                                     modifier = Modifier
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                                        .background(MaterialTheme.colorScheme.primaryContainer)
                                         .border(
                                             1.dp,
                                             MaterialTheme.colorScheme.outline,
@@ -2999,7 +3030,7 @@ fun SightingViewScreen(
                                     ExposedDropdownMenuBox(
                                         modifier = Modifier
                                             .width(245.dp)
-                                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                                            .background(MaterialTheme.colorScheme.primaryContainer)
                                             .border(
                                                 1.dp,
                                                 MaterialTheme.colorScheme.outline,
@@ -3051,7 +3082,7 @@ fun SightingViewScreen(
                                             .padding(0.dp)
                                             .align(Alignment.CenterVertically),
                                         colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.secondaryContainer,
+                                            MaterialTheme.colorScheme.primaryContainer,
                                             MaterialTheme.colorScheme.primary
                                         ),
                                         contentPadding = PaddingValues(0.dp),
@@ -3079,7 +3110,8 @@ fun SightingViewScreen(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            // Do something with the data
+                                            (contex as MainActivity).requestCameraPermission(cu.toString(), count)
+                                            count+=1
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -3098,7 +3130,6 @@ fun SightingViewScreen(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            // Do something with the data
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -3113,6 +3144,7 @@ fun SightingViewScreen(
                                         Text(text = "SALVA")
                                     }
                                 }
+                                showImages(imagesUri = imagesList, contex)
                             }
                         }
                     }
@@ -3152,8 +3184,9 @@ fun SightingViewScreen(
                                     modifier = Modifier
                                         .padding(5.dp)
                                         .fillMaxWidth(),
-                                    border= BorderStroke(2.dp,Color.Black),
+                                    border= BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                                     colors = CardDefaults.outlinedCardColors(),
+                                    elevation = CardDefaults.cardElevation(4.dp)
                                 ){
                                     Row(modifier= Modifier
                                         .padding(0.dp)

@@ -202,7 +202,6 @@ class MainActivity : FragmentActivity() {
         val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ?"
         val selectionArgs = arrayOf("%$label%")
         val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN}"
-        Toast.makeText(this, "$label", Toast.LENGTH_SHORT).show()
         applicationContext.contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             projection,
