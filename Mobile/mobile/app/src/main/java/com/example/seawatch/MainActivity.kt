@@ -46,6 +46,10 @@ import kotlinx.coroutines.launch
 class MainActivity : FragmentActivity() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
+    val avvistamentiViewModel by viewModels<AvvistamentiViewModel> {
+        ViewModelFactory(repository=(application as SWApplication).repository)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +65,7 @@ class MainActivity : FragmentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val radioOptions = listOf(getString(R.string.light_theme), getString(R.string.dark_theme))
-                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin)
+                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel)
                 }
             }
         }

@@ -37,13 +37,13 @@ fun CustomFAB(currentScreen:String, navController:NavHostController){
         }
     } else if(currentScreen == NavigationScreen.AddSighting.name || currentScreen == NavigationScreen.AddSightingOffline.name){
         //FAB per confermare l'aggiunta dell'avvistamento.
-        FloatingActionButton(
+        /*FloatingActionButton(
             shape= RoundedCornerShape(50.dp),
             containerColor = MaterialTheme.colorScheme.primary,
             onClick = { navController.navigate(NavigationScreen.Home.name) },
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             ) {
             Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
-        }
+        }*/
     }
 }

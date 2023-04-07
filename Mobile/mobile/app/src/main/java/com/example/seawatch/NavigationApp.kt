@@ -39,6 +39,7 @@ fun NavigationApp(
     theme: String,
     settingsViewModel: SettingsViewModel,
     sharedPrefForLogin: SharedPreferences,
+    avvistamentiViewModel: AvvistamentiViewModel
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -71,7 +72,7 @@ fun NavigationApp(
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin )
+        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel)
     }
 }
 
@@ -84,6 +85,7 @@ private fun NavigationGraph(
     theme: String,
     settingsViewModel: SettingsViewModel,
     sharedPrefForLogin:SharedPreferences,
+    avvistamentiViewModel: AvvistamentiViewModel
 ) {
     NavHost(
         navController = navController,
