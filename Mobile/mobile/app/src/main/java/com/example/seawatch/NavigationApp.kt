@@ -90,7 +90,7 @@ private fun NavigationGraph(
     NavHost(
         navController = navController,
         startDestination = NavigationScreen.LogIn.name,
-        modifier = modifier.padding(innerPadding)
+        modifier = modifier.padding(innerPadding),
     ) {
         composable(route = NavigationScreen.LogIn.name) {
             LoginScreen(
@@ -129,8 +129,7 @@ private fun NavigationGraph(
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
-            SightingScreen(
-            )
+            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) })
         }
         composable(route = NavigationScreen.Stats.name){
             StatsScreen()
@@ -139,7 +138,7 @@ private fun NavigationGraph(
             SightingViewScreen(owner = true)
         }
         composable(route = NavigationScreen.AddSightingOffline.name){
-            SightingScreenOffline()
+            SightingScreenOffline(avvistamentiViewModel=avvistamentiViewModel, goToLogin = { navController.navigate(NavigationScreen.LogIn.name) })
         }
     }
 }

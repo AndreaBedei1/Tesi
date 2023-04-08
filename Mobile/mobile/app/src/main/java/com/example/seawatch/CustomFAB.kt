@@ -33,17 +33,7 @@ fun CustomFAB(currentScreen:String, navController:NavHostController){
             onClick = { navController.navigate(NavigationScreen.AddSighting.name) },
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
-            Icon(imageVector = Icons.Filled.Add, "Edita profilo")
+            Icon(imageVector = Icons.Filled.Add, "Passa a schermata per aggiungere un avvistamento")
         }
-    } else if(currentScreen == NavigationScreen.AddSighting.name || currentScreen == NavigationScreen.AddSightingOffline.name){
-        //FAB per confermare l'aggiunta dell'avvistamento.
-        /*FloatingActionButton(
-            shape= RoundedCornerShape(50.dp),
-            containerColor = MaterialTheme.colorScheme.primary,
-            onClick = { navController.navigate(NavigationScreen.Home.name) },
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            ) {
-            Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
-        }*/
     }
 }

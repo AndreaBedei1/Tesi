@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 
 var ok = true
+var em=""
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -195,6 +196,7 @@ fun LoginScreen(
                                     apply()
                                 }
                                 ok = false
+                                em=mail
                                 goToHome() },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = modifier.widthIn(min = 200.dp)
@@ -282,6 +284,7 @@ fun LoginScreen(
                                 apply()
                             }
                             ok = false
+                            em=mail
                             goToHome() },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                         modifier = modifier.widthIn(min = 230.dp)

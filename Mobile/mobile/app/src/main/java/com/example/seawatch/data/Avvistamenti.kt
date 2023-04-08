@@ -5,14 +5,14 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(tableName = "avvistamentiDaCaricare")
-data class AvvistamentiDaCaricare(@PrimaryKey var id:Int,
+data class AvvistamentiDaCaricare(@PrimaryKey var id:String,
                                var avvistatore:String,
                                var data:String,
-                               var numeroEsemplari:Int,
+                               var numeroEsemplari:String,
                                var posizione:String,
                                var animale:String,
                                var specie:String,
-                               var mare:Int,
-                               var vento:Int,
+                               var mare:String,
+                               var vento:String,
                                var note:String,
                                var immagini:String)
