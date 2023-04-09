@@ -80,7 +80,9 @@ fun SightingScreen(
                     Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
                 }
             }, floatingActionButtonPosition = FabPosition.End){paddingValues->
-                Column(modifier=Modifier.background(backGround).padding(paddingValues)) {
+                Column(modifier= Modifier
+                    .background(backGround)
+                    .padding(paddingValues)) {
                     Card(
                         shape = MaterialTheme.shapes.medium,
                         modifier = Modifier
@@ -367,7 +369,10 @@ fun SightingScreen(
                     Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
                 }
             }, floatingActionButtonPosition = FabPosition.End){paddingValues->
-                LazyColumn(modifier=Modifier.background(backGround).padding(paddingValues).fillMaxSize()){
+                LazyColumn(modifier= Modifier
+                    .background(backGround)
+                    .padding(paddingValues)
+                    .fillMaxSize()){
                     items(1) { element ->
                         Card(
                             shape = MaterialTheme.shapes.medium,
@@ -672,7 +677,9 @@ fun SightingScreenOffline(
                     Icon(imageVector = Icons.Filled.Check, "Aggiungi avvistamento")
                 }
             }, floatingActionButtonPosition = FabPosition.End){paddingValues ->
-                Column(modifier= Modifier.background(backGround).padding(paddingValues)) {
+                Column(modifier= Modifier
+                    .background(backGround)
+                    .padding(paddingValues)) {
                     Card(
                         shape = MaterialTheme.shapes.medium,
                         modifier = Modifier
@@ -895,23 +902,13 @@ fun SightingScreenOffline(
                                             onDismissRequest = { showConfirmDialog = false; goToLogin() },
                                             title = { Text("AVVISO") },
                                             text = {
-                                                Column {
-                                                    Row(){
-                                                        Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di accedere e di premere l'apposito pulsante.")
-                                                    }
-                                                    Row(
-                                                        modifier = Modifier
-                                                            .padding(8.dp)
-                                                            .fillMaxWidth(),
-                                                        horizontalArrangement = Arrangement.End
-                                                    ) {
-                                                        TextButton(onClick = { showConfirmDialog = false; goToLogin() }) {
-                                                            Text("CHIUDI")
-                                                        }
-                                                    }
-                                                }
+                                                Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di accedere e di premere l'apposito pulsante.")
                                             },
-                                            confirmButton = {/** TODO */}
+                                            confirmButton = {
+                                                TextButton(onClick = { showConfirmDialog = false; goToLogin() }) {
+                                                    Text("CHIUDI")
+                                                }
+                                            }
                                         )
                                     }
                                 }
@@ -943,7 +940,8 @@ fun SightingScreenOffline(
                     Icon(imageVector = Icons.Filled.Check, "Aggiungi avvistamento")
                 }
             }, floatingActionButtonPosition = FabPosition.End){ innerPadding->
-                LazyColumn(modifier= Modifier.padding(innerPadding)
+                LazyColumn(modifier= Modifier
+                    .padding(innerPadding)
                     .background(backGround)
                     .fillMaxSize()){
                     items(1) { element ->
@@ -955,15 +953,6 @@ fun SightingScreenOffline(
                             border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                             elevation = CardDefaults.cardElevation(4.dp)
                         ) {
-                            /** Login verticale */
-                            /** Login verticale */
-
-                            /** Login verticale */
-                            /** Login verticale */
-                            /** Login verticale */
-                            /** Login verticale */
-                            /** Login verticale */
-
                             /** Login verticale */
                             Column(
                                 modifier = modifier
@@ -985,6 +974,7 @@ fun SightingScreenOffline(
                                             style = MaterialTheme.typography.titleLarge
                                         )
                                     }
+                                    Spacer(modifier = Modifier.width(3.dp))
                                     Column(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {

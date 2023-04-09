@@ -75,6 +75,7 @@ fun LoginScreen(
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         goToHome()
                         ok = false
+                        em=mail
                     }
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -225,7 +226,7 @@ fun LoginScreen(
                                         errorMessage = "Impossibile comunicare col server."
                                     }
 
-                                em=mail
+
                                     override fun onResponse(call: Call, response: Response) {
                                         val bodyKey = response.body?.string()
                                         val jsonObjectKey = JSONObject(bodyKey)
@@ -257,6 +258,7 @@ fun LoginScreen(
                                                             apply()
                                                         }
                                                         ok = false
+                                                        em=mail
                                                         (context as MainActivity).runOnUiThread {
                                                             goToHome()
                                                         }
@@ -352,7 +354,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(med))
                     Button(
                         onClick = {
-                            em=mail
+
                             val client = OkHttpClient()
                             val formBody = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
@@ -400,6 +402,7 @@ fun LoginScreen(
                                                         apply()
                                                     }
                                                     ok = false
+                                                    em=mail
                                                     (context as MainActivity).runOnUiThread {
                                                         goToHome()
                                                     }
