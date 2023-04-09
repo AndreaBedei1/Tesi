@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Log
 import android.webkit.WebView
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,10 +27,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import coil.compose.rememberImagePainter
+import okhttp3.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 import java.util.*
 
 
@@ -146,6 +153,7 @@ fun HomeScreen(
     val med = configuration.screenHeightDp.dp / 20
     val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
+    val context = LocalContext.current
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
@@ -176,14 +184,30 @@ fun HomeScreen(
                     }
                 }
                 LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                    items(20){element->
-                        Spacer(modifier = Modifier.height(min/2))
+                    items(1){element->
+                        Row(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .background(backGround),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Button(
+                                modifier = Modifier
+                                    .padding(10.dp),
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                onClick = { }
+                            ) {
+                                Icon(painter = painterResource(id = R.drawable.baseline_cloud_upload_24), contentDescription = "Upload avvistamento locali")
+                                Spacer(modifier = Modifier.width(7.dp))
+                                Text("AVVISTAMENTI LOCALI")
+                            }
+                        }
                         Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                             Column() {
                                 Card(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
-                                        .padding(10.dp)
+                                        .padding(5.dp)
                                         .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
@@ -240,7 +264,7 @@ fun HomeScreen(
                                 Card(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
-                                        .padding(10.dp)
+                                        .padding(5.dp)
                                         .size(width = 180.dp, height = 150.dp),
                                     border= BorderStroke(2.dp,Color.Black),
                                     colors = CardDefaults.outlinedCardColors(),
@@ -307,7 +331,25 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(1) { element ->
-                    Spacer(modifier = Modifier.height(min))
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .background(backGround),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Button(
+                            modifier = Modifier
+                                .padding(10.dp),
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            onClick = {
+
+                            }
+                        ) {
+                            Icon(painter = painterResource(id = R.drawable.baseline_cloud_upload_24), contentDescription = "Upload avvistamento locali")
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Text("AVVISTAMENTI LOCALI")
+                        }
+                    }
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
