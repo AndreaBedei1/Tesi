@@ -35,6 +35,8 @@ import org.bouncycastle.crypto.params.KeyParameter
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.util.*
 
 var ok = true
 var em=""
@@ -79,23 +81,16 @@ fun LoginScreen(
                     }
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                        Toast.makeText(context, "Errore impronta digitale", Toast.LENGTH_LONG).show()
                         ok = false
                     }
                 })
                 biometricPrompt.authenticate(promptInfo)
             }
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                // Il dispositivo non supporta il riconoscimento biometrico
-                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                // Il riconoscimento biometrico non è al momento disponibile
-                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                // Non ci sono impronte digitali registrate sul dispositivo
-                // Qui si potrebbe mostrare un messaggio di errore o gestire la situazione in modo diverso
             }
         }
     }
@@ -436,6 +431,11 @@ fun LoginScreen(
     }
 }
 
+fun calculateSHA1Hash(): String {
+    val messageDigest = MessageDigest.getInstance("SHA-1")
+    val digest = messageDigest.digest(System.currentTimeMillis().toString().toByteArray(StandardCharsets.UTF_8))
+    return digest.fold("", { str, it -> str + "%02x".format(it) })
+}
 
 fun calculateHmacSha512(password: String, key: String): String {
     val hmac = HMac(SHA512Digest())
@@ -462,7 +462,10 @@ fun SignUpScreen(
     var name by rememberSaveable { mutableStateOf("") }
     var surname by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var key by rememberSaveable { mutableStateOf(calculateSHA1Hash()) }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
+    val context = LocalContext.current as FragmentActivity
+    var errorMessage by rememberSaveable { mutableStateOf("") }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                    /** SignUp Orizzontale */
@@ -565,7 +568,41 @@ fun SignUpScreen(
                 ) {
                     items(1) { element ->
                         Button(
-                            onClick = { goToLogin() },
+                            onClick = {
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("request", "aggiungiUtente")
+                                    .addFormDataPart("email", mail)
+                                    .addFormDataPart("nome", name)
+                                    .addFormDataPart("cognome", surname)
+                                    .addFormDataPart("password", calculateHmacSha512(password, key))
+                                    .addFormDataPart("key", key)
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_signup/signup_api.php")
+                                    .post(formBody)
+                                    .build()
+
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server."
+                                    }
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val jsonObject = JSONObject(body)
+                                        if(jsonObject.getString("state")=="true"){
+                                            (context as MainActivity).runOnUiThread {
+                                                goToLogin()
+                                            }
+
+                                        } else {
+                                            errorMessage =  jsonObject.getString("msg")
+                                        }
+                                    }
+                                })
+                            },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = modifier.widthIn(min = 200.dp)
                         ) {
@@ -658,7 +695,41 @@ fun SignUpScreen(
                     )
                     Spacer(modifier = Modifier.height(med))
                     Button(
-                        onClick = { goToLogin() },
+                        onClick = {
+                            val client = OkHttpClient()
+                            val formBody = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("request", "aggiungiUtente")
+                                .addFormDataPart("email", mail)
+                                .addFormDataPart("nome", name)
+                                .addFormDataPart("cognome", surname)
+                                .addFormDataPart("password", calculateHmacSha512(password, key))
+                                .addFormDataPart("key", key)
+                                .build()
+                            val request = Request.Builder()
+                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_signup/signup_api.php")
+                                .post(formBody)
+                                .build()
+
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    errorMessage = "Impossibile comunicare col server."
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val body = response.body?.string()
+                                    val jsonObject = JSONObject(body)
+                                    if(jsonObject.getString("state")=="true"){
+                                        (context as MainActivity).runOnUiThread {
+                                            goToLogin()
+                                        }
+
+                                    } else {
+                                        errorMessage =  jsonObject.getString("msg")
+                                    }
+                                }
+                            })
+                        },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                         modifier = modifier.widthIn(min = 250.dp)
                     ) {

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -31,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
+import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
 import okhttp3.*
 import org.json.JSONArray
@@ -142,6 +144,7 @@ fun Profile(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -154,6 +157,34 @@ fun HomeScreen(
     val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
     val context = LocalContext.current
+    var errorMessage by rememberSaveable { mutableStateOf("") }
+    var sightingAvv:JSONArray
+
+    val client = OkHttpClient()
+    val formBody = MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
+        .addFormDataPart("request", "aggiungiUtente")
+        .build()
+    val request = Request.Builder()
+        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
+        .post(formBody)
+        .build()
+
+    client.newCall(request).enqueue(object : Callback {
+        override fun onFailure(call: Call, e: IOException) {
+            errorMessage = "Impossibile comunicare col server."
+        }
+
+        override fun onResponse(call: Call, response: Response) {
+            val body = response.body?.string()
+            val jsonObject = JSONObject(body)
+            if(jsonObject.getString("state")=="true"){
+                sightingAvv=jsonObject.getJSONArray("")
+            } else {
+                errorMessage =  jsonObject.getString("msg")
+            }
+        }
+    })
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
@@ -374,125 +405,125 @@ fun HomeScreen(
                         style = MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier = Modifier.height(min/2))
-                    for(i in 1..20){
-                        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
-                            Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Card(
-                                    shape = MaterialTheme.shapes.medium,
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .fillMaxWidth(),
-                                    border= BorderStroke(2.dp,Color.Black),
-                                    colors = CardDefaults.outlinedCardColors(),
-                                    elevation = CardDefaults.cardElevation(4.dp),
-                                    onClick = {goToSighting()}
 
+                    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
+                        Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxWidth(),
+                                border= BorderStroke(2.dp,Color.Black),
+                                colors = CardDefaults.outlinedCardColors(),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                onClick = {goToSighting()}
+
+                            ) {
+                                var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp)
                                 ) {
-                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(12.dp)
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
+                                        Image(
+                                            painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                            contentDescription = "User Image",
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                                .clip(CircleShape)
+                                        )
+                                        Spacer(modifier = Modifier.width(med+30.dp))
+                                        IconButton(
+                                            onClick = { isFavorite = !isFavorite  },
+                                            modifier = Modifier.align(Alignment.CenterVertically)
                                         ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
-                                                contentDescription = "User Image",
-                                                modifier = Modifier
-                                                    .size(48.dp)
-                                                    .clip(CircleShape)
+                                            Icon(
+                                                imageVector = Icons.Default.Favorite,
+                                                contentDescription = "Favorite",
+                                                tint = if (isFavorite) Color.Red else LocalContentColor.current
                                             )
-                                            Spacer(modifier = Modifier.width(med+30.dp))
-                                            IconButton(
-                                                onClick = { isFavorite = !isFavorite  },
-                                                modifier = Modifier.align(Alignment.CenterVertically)
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Favorite,
-                                                    contentDescription = "Favorite",
-                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
-                                                )
-                                            }
                                         }
-                                        Spacer(modifier = Modifier.height(10.dp))
-                                        Text(
-                                            text = "Data",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = "Animale",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = "Utente",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
                                     }
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Text(
+                                        text = "Data",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Animale",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Utente",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
                                 }
                             }
-                            Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Card(
-                                    shape = MaterialTheme.shapes.medium,
+                        }
+                        Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                modifier = Modifier
+                                    .padding(12.dp)
+                                    .fillMaxWidth(),
+                                border= BorderStroke(2.dp,Color.Black),
+                                colors = CardDefaults.outlinedCardColors(),
+                                elevation = CardDefaults.cardElevation(4.dp),
+                                onClick = {goToSighting()}
+                            ) {
+                                var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                Column(
                                     modifier = Modifier
+                                        .fillMaxWidth()
                                         .padding(12.dp)
-                                        .fillMaxWidth(),
-                                    border= BorderStroke(2.dp,Color.Black),
-                                    colors = CardDefaults.outlinedCardColors(),
-                                    elevation = CardDefaults.cardElevation(4.dp),
-                                    onClick = {goToSighting()}
                                 ) {
-                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(12.dp)
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
+                                        Image(
+                                            painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
+                                            contentDescription = "User Image",
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                                .clip(CircleShape)
+                                        )
+                                        Spacer(modifier = Modifier.width(med+30.dp))
+                                        IconButton(
+                                            onClick = { isFavorite = !isFavorite  },
+                                            modifier = Modifier.align(Alignment.CenterVertically)
                                         ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
-                                                contentDescription = "User Image",
-                                                modifier = Modifier
-                                                    .size(48.dp)
-                                                    .clip(CircleShape)
+                                            Icon(
+                                                imageVector = Icons.Default.Favorite,
+                                                contentDescription = "Favorite",
+                                                tint = if (isFavorite) Color.Red else LocalContentColor.current
                                             )
-                                            Spacer(modifier = Modifier.width(med+30.dp))
-                                            IconButton(
-                                                onClick = { isFavorite = !isFavorite  },
-                                                modifier = Modifier.align(Alignment.CenterVertically)
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Favorite,
-                                                    contentDescription = "Favorite",
-                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
-                                                )
-                                            }
                                         }
-                                        Spacer(modifier = Modifier.height(13.dp))
-                                        Text(
-                                            text = "Data",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = "Animale",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = "Utente",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
                                     }
+                                    Spacer(modifier = Modifier.height(13.dp))
+                                    Text(
+                                        text = "Data",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Animale",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Utente",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
                                 }
                             }
                         }
                     }
+
                 }
             }
         }
