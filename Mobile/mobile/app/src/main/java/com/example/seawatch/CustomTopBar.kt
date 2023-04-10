@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,14 +18,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
+public var filterPref = false;
+public var filterAnima = "";
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeight:Int, sharedPrefForLogin:SharedPreferences){
-    var showFilterDialog by remember { mutableStateOf(false) }
-    var favoriteFilter by remember { mutableStateOf(false) }
-    val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
+    var showFilterDialog by rememberSaveable { mutableStateOf(false) }
+    var favoriteFilter by rememberSaveable { mutableStateOf(false) }
+    val options = listOf("", "Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var selectedOptionText by rememberSaveable { mutableStateOf("") }
     if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name) {
         TopAppBar(
             title = {
@@ -105,7 +109,6 @@ fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeig
                                             expanded = expanded,
                                             onExpandedChange = { expanded = !expanded },
                                             modifier = Modifier
-
                                                 .border(
                                                     1.dp,
                                                     MaterialTheme.colorScheme.outline,
@@ -151,7 +154,7 @@ fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeig
                                             TextButton(onClick = { showFilterDialog = false }) {
                                                 Text("Annulla")
                                             }
-                                            TextButton(onClick = { showFilterDialog = false }) {
+                                            TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText;}) {
                                                 Text("Applica")
                                             }
                                         }

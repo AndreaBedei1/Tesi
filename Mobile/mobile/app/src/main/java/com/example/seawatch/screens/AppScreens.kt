@@ -150,7 +150,7 @@ data class MarkerData(
     val latitude: String,
     val longitude: String,
     val data: String,
-    val aniamle: String,
+    val animale: String,
     val specie: String
 )
 
@@ -197,15 +197,27 @@ fun HomeScreen(
                 list = JSONArray(avvList)
                 var mkList = mutableListOf<MarkerData>()
                 for (i in 0..list.length() - 1 step 1) {
-                    mkList.add(
-                        MarkerData(
-                            (list.get(i) as JSONObject).get("Latid").toString(),
-                            (list.get(i) as JSONObject).get("Long").toString(),
-                            (list.get(i) as JSONObject).get("Data").toString(),
-                            (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                            (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                    if(filterAnima==""){
+                        mkList.add(
+                            MarkerData(
+                                (list.get(i) as JSONObject).get("Latid").toString(),
+                                (list.get(i) as JSONObject).get("Long").toString(),
+                                (list.get(i) as JSONObject).get("Data").toString(),
+                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                            )
                         )
-                    )
+                    } else {
+                        if((list.get(i) as JSONObject).get("Anima_Nome").toString() == filterAnima){
+                            MarkerData(
+                                (list.get(i) as JSONObject).get("Latid").toString(),
+                                (list.get(i) as JSONObject).get("Long").toString(),
+                                (list.get(i) as JSONObject).get("Data").toString(),
+                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                            )
+                        }
+                    }
                 }
                 markerDataJson = gson.toJson(mkList)
                 currentMarkerDataJson = markerDataJson
@@ -232,12 +244,19 @@ fun HomeScreen(
                                     // Imposta le opzioni WebView necessarie
                                     settings.javaScriptEnabled = true
                                     settings.domStorageEnabled = true
+
+                                    webViewClient = object : WebViewClient() {
+                                        override fun onPageFinished(view: WebView?, url: String?) {
+                                            super.onPageFinished(view, url)
+                                            view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                        }
+                                    }
                                 }
                             },
                             update = { webView ->
-                                // Carica la mappa Leaflet nel WebView
                                 webView.loadUrl("file:///android_asset/leaflet/index.html")
-                            }
+                            },
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
@@ -260,118 +279,148 @@ fun HomeScreen(
                                 Text("AVVISTAMENTI LOCALI")
                             }
                         }
+                        var list = JSONArray()
+                        if(avvList!=""){
+                            list = JSONArray(avvList)
+                        }
                         Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                             Column() {
-                                Card(
-                                    shape = MaterialTheme.shapes.medium,
-                                    modifier = Modifier
-                                        .padding(5.dp)
-                                        .size(width = 180.dp, height = 150.dp),
-                                    border= BorderStroke(2.dp,Color.Black),
-                                    colors = CardDefaults.outlinedCardColors(),
-                                    elevation = CardDefaults.cardElevation(4.dp),
-                                    onClick = {goToSighting()}
-                                ) {
-                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
-                                    Column(
+                                for (i in 0..list.length()-1 step 2) {
+                                    Card(
+                                        shape = MaterialTheme.shapes.medium,
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(10.dp)
+                                            .padding(5.dp)
+                                            .size(width = 180.dp, height = 160.dp),
+                                        border = BorderStroke(2.dp, Color.Black),
+                                        colors = CardDefaults.outlinedCardColors(),
+                                        elevation = CardDefaults.cardElevation(4.dp),
+                                        onClick = { goToSighting() }
                                     ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
+                                        var isFavorite by remember { mutableStateOf(false) }
+                                        /** Cambiare in base al DB */
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(12.dp)
                                         ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
-                                                contentDescription = "User Image",
-                                                modifier = Modifier
-                                                    .size(48.dp)
-                                                    .clip(CircleShape)
-                                            )
-                                            Spacer(modifier = Modifier.width(med+50.dp))
-                                            IconButton(
-                                                onClick = { isFavorite = !isFavorite  },
-                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
                                             ) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Favorite,
-                                                    contentDescription = "Favorite",
-                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                Image(
+                                                    painter = rememberImagePainter(
+                                                        data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                            i
+                                                        ) as JSONObject).get("Img").toString(),
+                                                    ),
+                                                    contentDescription = "Immagine del profilo",
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .clip(CircleShape)
                                                 )
+
+                                                Spacer(modifier = Modifier.width(med + 30.dp))
+                                                IconButton(
+                                                    onClick = { isFavorite = !isFavorite },
+                                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Favorite,
+                                                        contentDescription = "Favorite",
+                                                        tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                    )
+                                                }
                                             }
+                                            Spacer(modifier = Modifier.height(10.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Data")
+                                                    .toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Anima_Nome")
+                                                    .toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Nome")
+                                                    .toString() + " " + (list.get(i) as JSONObject).get(
+                                                    "Cognome"
+                                                ).toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
                                         }
-                                        Spacer(modifier = Modifier.height(5.dp))
-                                        Text(
-                                            text = "Data",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            text = "Animale",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            text = "Utente",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
                                     }
                                 }
                             }
                             Column() {
-                                Card(
-                                    shape = MaterialTheme.shapes.medium,
-                                    modifier = Modifier
-                                        .padding(5.dp)
-                                        .size(width = 180.dp, height = 150.dp),
-                                    border= BorderStroke(2.dp,Color.Black),
-                                    colors = CardDefaults.outlinedCardColors(),
-                                    elevation = CardDefaults.cardElevation(4.dp),
-                                    onClick = {goToSighting()}
-                                ) {
-                                    var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
-                                    Column(
+                                for (i in 1..list.length()-1 step 2) {
+                                    Card(
+                                        shape = MaterialTheme.shapes.medium,
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(10.dp)
+                                            .padding(5.dp)
+                                            .size(width = 180.dp, height = 160.dp),
+                                        border = BorderStroke(2.dp, Color.Black),
+                                        colors = CardDefaults.outlinedCardColors(),
+                                        elevation = CardDefaults.cardElevation(4.dp),
+                                        onClick = { goToSighting() }
                                     ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
+                                        var isFavorite by remember { mutableStateOf(false) }
+                                        /** Cambiare in base al DB */
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(12.dp)
                                         ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.baseline_supervised_user_circle_24),
-                                                contentDescription = "User Image",
-                                                modifier = Modifier
-                                                    .size(48.dp)
-                                                    .clip(CircleShape)
-                                            )
-                                            Spacer(modifier = Modifier.width(med+50.dp))
-                                            IconButton(
-                                                onClick = { isFavorite = !isFavorite  },
-                                                modifier = Modifier.align(Alignment.CenterVertically)
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
                                             ) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Favorite,
-                                                    contentDescription = "Favorite",
-                                                    tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                Image(
+                                                    painter = rememberImagePainter(
+                                                        data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                            i
+                                                        ) as JSONObject).get("Img").toString(),
+                                                    ),
+                                                    contentDescription = "Immagine del profilo",
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .clip(CircleShape)
                                                 )
+
+                                                Spacer(modifier = Modifier.width(med + 30.dp))
+                                                IconButton(
+                                                    onClick = { isFavorite = !isFavorite },
+                                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Favorite,
+                                                        contentDescription = "Favorite",
+                                                        tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                    )
+                                                }
                                             }
+                                            Spacer(modifier = Modifier.height(10.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Data")
+                                                    .toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Anima_Nome")
+                                                    .toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = (list.get(i) as JSONObject).get("Nome")
+                                                    .toString() + " " + (list.get(i) as JSONObject).get(
+                                                    "Cognome"
+                                                ).toString(),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
                                         }
-                                        Spacer(modifier = Modifier.height(5.dp))
-                                        Text(
-                                            text = "Data",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            text = "Animale",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            text = "Utente",
-                                            style = MaterialTheme.typography.titleMedium
-                                        )
                                     }
                                 }
                             }
