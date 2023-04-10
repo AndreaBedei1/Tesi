@@ -10,12 +10,19 @@
 <body>
 <div id="mapid" style="height: 228px ;"></div>
 <script>
-        var map = L.map('mapid').setView([51.505, -0.09], 13);
+        var map = L.map('mapid').setView([44.2059, 12.4033], 10);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         }).addTo(map);
-        L.marker([51.5, -0.09]).addTo(map)
-            .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-    </script>
+
+
+        function addMarkers(markerData) {
+            var markers = JSON.parse(markerData);
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                L.marker([marker.latitude, marker.longitude]).addTo(map).bindPopup(marker.data+"<br />"+marker.animale+"<br />" + marker.specie);
+            }
+        }
+</script>
 </body>
 </html>
