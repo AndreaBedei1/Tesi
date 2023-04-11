@@ -15,6 +15,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.seawatch.data.Favourite
+import com.example.seawatch.data.FavouriteViewModel
 
 sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
@@ -39,7 +41,9 @@ fun NavigationApp(
     theme: String,
     settingsViewModel: SettingsViewModel,
     sharedPrefForLogin: SharedPreferences,
-    avvistamentiViewModel: AvvistamentiViewModel
+    avvistamentiViewModel: AvvistamentiViewModel,
+    favouriteViewModel: FavouriteViewModel,
+    listItems: List<Favourite>
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -72,7 +76,7 @@ fun NavigationApp(
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, barH = barHeight)
+        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, barH = barHeight, favouriteViewModel=favouriteViewModel, listItems=listItems)
     }
 }
 
@@ -86,7 +90,9 @@ private fun NavigationGraph(
     settingsViewModel: SettingsViewModel,
     sharedPrefForLogin:SharedPreferences,
     avvistamentiViewModel: AvvistamentiViewModel,
-    barH : Int
+    barH : Int,
+    favouriteViewModel: FavouriteViewModel,
+    listItems: List<Favourite>
 ) {
     NavHost(
         navController = navController,
@@ -127,7 +133,9 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.Home.name){
             HomeScreen(
                 goToSighting = { navController.navigate(NavigationScreen.ViewSighting.name)},
-                barHeight = barH
+                barHeight = barH,
+                favouriteViewModel = favouriteViewModel,
+                listItems=listItems
             )
         }
         composable(route = NavigationScreen.AddSighting.name){

@@ -7,11 +7,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.view.OrientationEventListener
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -35,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
+import com.example.seawatch.data.FavouriteViewModel
+import com.example.seawatch.data.FavouriteViewModelFactory
 import com.example.seawatch.ui.theme.SeaWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -46,18 +53,22 @@ import kotlinx.coroutines.launch
 class MainActivity : FragmentActivity() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
+
     val avvistamentiViewModel by viewModels<AvvistamentiViewModel> {
         ViewModelFactory(repository=(application as SWApplication).repository)
     }
 
+    val favouriteViewModel by viewModels<FavouriteViewModel> {
+        FavouriteViewModelFactory(repository=(application as SWApplication).repository2)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
-
         lateinit var logo: ImageView
         setContent {
             val theme by settingsViewModel.theme.collectAsState(initial = "")
+            val listItems by favouriteViewModel.all.collectAsState(initial = listOf())
             SeaWatchTheme(darkTheme = theme == getString(R.string.dark_theme)) {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -65,20 +76,18 @@ class MainActivity : FragmentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val radioOptions = listOf(getString(R.string.light_theme), getString(R.string.dark_theme))
-                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel)
+                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, favouriteViewModel=favouriteViewModel, listItems=listItems)
                 }
             }
         }
     }
 
-    fun showMap() {
-        val geoLocation = Uri.parse("geo:44.1391, 12.24315")
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = geoLocation
-        }
-
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
+    // Override del metodo onConfigurationChanged
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Esegui azioni in base alla rotazione dello schermo
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mapset=false
         }
     }
 

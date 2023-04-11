@@ -25,6 +25,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.seawatch.data.Favourite
+import com.example.seawatch.data.FavouriteViewModel
 import okhttp3.*
 import org.bouncycastle.crypto.digests.SHA512Digest
 import org.bouncycastle.crypto.macs.HMac
@@ -114,9 +116,9 @@ fun LoginScreen(
         )
     }
 
-
     LaunchedEffect(Unit) {
         if(!entrato) {
+
             entrato=true
             val client2 = OkHttpClient()
             val formBody2 = MultipartBody.Builder()
@@ -136,6 +138,7 @@ fun LoginScreen(
                     val body = response.body?.string()
                     val l = body.toString()
                     val list = JSONArray(l)
+                    animaList.add("")
                     for (i in 0..list.length() - 1 step 1) {
                         animaList.add((list.get(i) as JSONObject).get("descr_select").toString())
                     }

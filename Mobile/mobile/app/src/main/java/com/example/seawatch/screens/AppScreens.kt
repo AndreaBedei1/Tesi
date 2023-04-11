@@ -37,6 +37,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
+import com.example.seawatch.data.Favourite
+import com.example.seawatch.data.FavouriteViewModel
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -158,12 +160,17 @@ data class MarkerData(
     val specie: String
 )
 
+var mapset = false
+
+var fav = true
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     goToSighting: () -> Unit,
     barHeight: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    favouriteViewModel: FavouriteViewModel,
+    listItems:List<Favourite>
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
@@ -175,19 +182,31 @@ fun HomeScreen(
     var avvList by rememberSaveable { mutableStateOf("") }
     var isLoading by rememberSaveable { mutableStateOf(true) }
     var isFilter by rememberSaveable { mutableStateOf(false) }
+    var isAfter by rememberSaveable { mutableStateOf(true) }
     var showFilterDialog by rememberSaveable { mutableStateOf(false) }
     val options by rememberSaveable { mutableStateOf(animaList) }
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
     var filterPref by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
+    var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
 
+    if(fav){
+        fav=false
+        for (el in listItems) {
+            if (el.utente == em) {
+                listFavourite.add(el.avvistamento)
+            }
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Row(
-                        modifier = Modifier.fillMaxHeight().padding(0.dp),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(0.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Home")
@@ -196,8 +215,11 @@ fun HomeScreen(
                 modifier = Modifier.height(barHeight.dp),
                 actions = {
                     var favoriteFilter = filterPref
+                    var tmp by rememberSaveable { mutableStateOf(false) }
                     Row(
-                        modifier = Modifier.fillMaxHeight().padding(0.dp),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(0.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = { showFilterDialog = true }) {
@@ -220,8 +242,8 @@ fun HomeScreen(
                                             .fillMaxWidth()
                                     ) {
                                         Checkbox(
-                                            checked = filterPref,
-                                            onCheckedChange = {favoriteFilter = it },
+                                            checked = filterPref || tmp,
+                                            onCheckedChange = {favoriteFilter = it; tmp = !tmp },
                                             modifier = Modifier.padding(end = 8.dp)
                                         )
                                         Text("Solo preferiti")
@@ -293,10 +315,6 @@ fun HomeScreen(
         }
     ){ it ->
         LaunchedEffect(key1 = isLoading, key2 = isFilter) {
-            if (isFilter){
-                recreate(context as MainActivity)
-                isFilter=false
-            }
             if (isLoading) {
                 val client = OkHttpClient()
                 val formBody = MultipartBody.Builder()
@@ -320,6 +338,10 @@ fun HomeScreen(
                     }
                 })
             }
+            if(isFilter){
+                isFilter=false
+                isAfter=true
+            }
         }
 
         if (isLoading) {
@@ -330,7 +352,28 @@ fun HomeScreen(
                 confirmButton = {}
             )
         } else {
-            val list = JSONArray(avvList)
+
+            var list = JSONArray()
+            var temp = JSONArray(avvList)
+
+            for (i in 0 until temp.length() step 1) {
+                if (filterAnima == "" && !filterPref) {
+                    list.put(temp.get(i))
+                } else if (filterAnima != "" && !filterPref) {
+                    if((temp.get(i) as JSONObject).get("Anima_Nome").toString()==filterAnima){
+                        list.put(temp.get(i))
+                    }
+                } else if(filterAnima == "" && filterPref) {
+                    if((temp.get(i) as JSONObject).get("ID").toString() in listFavourite){
+                        list.put(temp.get(i))
+                    }
+                } else {
+                    if((temp.get(i) as JSONObject).get("Anima_Nome").toString()==filterAnima && (temp.get(i) as JSONObject).get("ID").toString() in listFavourite){
+                        list.put(temp.get(i))
+                    }
+                }
+            }
+
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
                     /** Homepage Orizzontale */
@@ -341,7 +384,9 @@ fun HomeScreen(
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2.3).dp)) {
                             Box(
-                                modifier = Modifier.fillMaxSize().padding(it),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(it),
                                 contentAlignment = Alignment.Center
                             ) {
                                 AndroidView(
@@ -356,32 +401,15 @@ fun HomeScreen(
                                                     super.onPageFinished(view, url)
                                                     var mkList = mutableListOf<MarkerData>()
                                                     for (i in 0..list.length() - 1 step 1) {
-                                                        if (filterAnima == "") {
-                                                            mkList.add(
-                                                                MarkerData(
-                                                                    (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                    (list.get(i) as JSONObject).get("Long").toString(),
-                                                                    (list.get(i) as JSONObject).get("Data").toString(),
-                                                                    (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                    (list.get(i) as JSONObject).get("Specie_Nome").toString()
-                                                                )
+                                                        mkList.add(
+                                                            MarkerData(
+                                                                (list.get(i) as JSONObject).get("Latid").toString(),
+                                                                (list.get(i) as JSONObject).get("Long").toString(),
+                                                                (list.get(i) as JSONObject).get("Data").toString(),
+                                                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
                                                             )
-                                                        } else {
-                                                            if ((list.get(i) as JSONObject).get("Anima_Nome").toString() == filterAnima
-                                                            ) {
-                                                                mkList.add(
-                                                                    MarkerData(
-                                                                        (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                        (list.get(i) as JSONObject).get("Long").toString(),
-                                                                        (list.get(i) as JSONObject).get("Data").toString(),
-                                                                        (list.get(i) as JSONObject).get("Anima_Nome")
-                                                                            .toString(),
-                                                                        (list.get(i) as JSONObject).get("Specie_Nome")
-                                                                            .toString()
-                                                                    )
-                                                                )
-                                                            }
-                                                        }
+                                                        )
                                                     }
                                                     val gson = Gson()
                                                     var markerDataJson = gson.toJson(mkList)
@@ -392,7 +420,31 @@ fun HomeScreen(
                                         }
                                     },
                                     update = { webView ->
-                                        webView.loadUrl("file:///android_asset/leaflet/index.html")
+                                        if(isAfter || true) {
+                                            if (!mapset) {
+                                                webView.loadUrl("file:///android_asset/leaflet/index.html")
+                                                mapset = true
+                                            } else {
+                                                webView?.evaluateJavascript("removeMarkers()", null)
+                                                var mkList = mutableListOf<MarkerData>()
+                                                for (i in 0..list.length() - 1 step 1) {
+                                                    mkList.add(
+                                                        MarkerData(
+                                                            (list.get(i) as JSONObject).get("Latid").toString(),
+                                                            (list.get(i) as JSONObject).get("Long").toString(),
+                                                            (list.get(i) as JSONObject).get("Data").toString(),
+                                                            (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                            (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                                                        )
+                                                    )
+                                                }
+                                                val gson = Gson()
+                                                var markerDataJson = gson.toJson(mkList)
+                                                var currentMarkerDataJson = markerDataJson
+                                                webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                            }
+                                            isAfter=false
+                                        }
                                     },
                                     modifier = Modifier.fillMaxSize()
                                 )
@@ -400,6 +452,7 @@ fun HomeScreen(
                         }
                         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                             items(1){element->
+                                Spacer(modifier = Modifier.height(40.dp))
                                 Row(
                                     modifier = modifier
                                         .fillMaxWidth()
@@ -430,8 +483,8 @@ fun HomeScreen(
                                                 elevation = CardDefaults.cardElevation(4.dp),
                                                 onClick = { goToSighting() }
                                             ) {
-                                                var isFavorite by remember { mutableStateOf(false) }
-                                                /** Cambiare in base al DB */
+
+                                                var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
                                                 Column(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -454,7 +507,16 @@ fun HomeScreen(
 
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
                                                         IconButton(
-                                                            onClick = { isFavorite = !isFavorite },
+                                                            onClick = {
+                                                                if(isFavorite){
+                                                                    favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
+                                                                    listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
+                                                                } else {
+                                                                    favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
+                                                                    listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
+                                                                }
+                                                                isFavorite = !isFavorite
+                                                            },
                                                             modifier = Modifier.align(Alignment.CenterVertically)
                                                         ) {
                                                             Icon(
@@ -500,8 +562,7 @@ fun HomeScreen(
                                                 elevation = CardDefaults.cardElevation(4.dp),
                                                 onClick = { goToSighting() }
                                             ) {
-                                                var isFavorite by remember { mutableStateOf(false) }
-                                                /** Cambiare in base al DB */
+                                                var isFavorite by rememberSaveable { mutableStateOf((list.get(i) as JSONObject).get("ID").toString() in listFavourite) }
                                                 Column(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -524,7 +585,16 @@ fun HomeScreen(
 
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
                                                         IconButton(
-                                                            onClick = { isFavorite = !isFavorite },
+                                                            onClick = {
+                                                                if(isFavorite){
+                                                                    favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
+                                                                    listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
+                                                                } else {
+                                                                    favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
+                                                                    listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
+                                                                }
+                                                                isFavorite = !isFavorite
+                                                            },
                                                             modifier = Modifier.align(Alignment.CenterVertically)
                                                         ) {
                                                             Icon(
@@ -572,6 +642,7 @@ fun HomeScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         items(1) { element ->
+                            Spacer(modifier = Modifier.height(50.dp))
                             Row(
                                 modifier = modifier
                                     .fillMaxWidth()
@@ -606,33 +677,15 @@ fun HomeScreen(
                                                     super.onPageFinished(view, url)
                                                     var mkList = mutableListOf<MarkerData>()
                                                     for (i in 0..list.length() - 1 step 1) {
-                                                        if (filterAnima == "") {
-                                                            mkList.add(
-                                                                MarkerData(
-                                                                    (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                    (list.get(i) as JSONObject).get("Long").toString(),
-                                                                    (list.get(i) as JSONObject).get("Data").toString(),
-                                                                    (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                    (list.get(i) as JSONObject).get("Specie_Nome").toString()
-                                                                )
+                                                        mkList.add(
+                                                            MarkerData(
+                                                                (list.get(i) as JSONObject).get("Latid").toString(),
+                                                                (list.get(i) as JSONObject).get("Long").toString(),
+                                                                (list.get(i) as JSONObject).get("Data").toString(),
+                                                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
                                                             )
-                                                        } else {
-                                                            if ((list.get(i) as JSONObject).get("Anima_Nome")
-                                                                    .toString() == filterAnima
-                                                            ) {
-                                                                mkList.add(
-                                                                    MarkerData(
-                                                                        (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                        (list.get(i) as JSONObject).get("Long").toString(),
-                                                                        (list.get(i) as JSONObject).get("Data").toString(),
-                                                                        (list.get(i) as JSONObject).get("Anima_Nome")
-                                                                            .toString(),
-                                                                        (list.get(i) as JSONObject).get("Specie_Nome")
-                                                                            .toString()
-                                                                    )
-                                                                )
-                                                            }
-                                                        }
+                                                        )
                                                     }
                                                     val gson = Gson()
                                                     var markerDataJson = gson.toJson(mkList)
@@ -643,7 +696,31 @@ fun HomeScreen(
                                         }
                                     },
                                     update = { webView ->
-                                        webView.loadUrl("file:///android_asset/leaflet/index.html")
+                                        if(isAfter || true) {
+                                            if (!mapset) {
+                                                webView.loadUrl("file:///android_asset/leaflet/index.html")
+                                                mapset = true
+                                            } else {
+                                                webView?.evaluateJavascript("removeMarkers()", null)
+                                                var mkList = mutableListOf<MarkerData>()
+                                                for (i in 0..list.length() - 1 step 1) {
+                                                    mkList.add(
+                                                        MarkerData(
+                                                            (list.get(i) as JSONObject).get("Latid").toString(),
+                                                            (list.get(i) as JSONObject).get("Long").toString(),
+                                                            (list.get(i) as JSONObject).get("Data").toString(),
+                                                            (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                            (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                                                        )
+                                                    )
+                                                }
+                                                val gson = Gson()
+                                                var markerDataJson = gson.toJson(mkList)
+                                                var currentMarkerDataJson = markerDataJson
+                                                webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                            }
+                                            isAfter=false
+                                        }
                                     },
                                     modifier = Modifier.fillMaxSize()
                                 )
@@ -668,7 +745,7 @@ fun HomeScreen(
                                             onClick = {goToSighting()}
 
                                         ) {
-                                            var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                            var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -689,7 +766,16 @@ fun HomeScreen(
 
                                                     Spacer(modifier = Modifier.width(med+30.dp))
                                                     IconButton(
-                                                        onClick = { isFavorite = !isFavorite  },
+                                                        onClick = {
+                                                            if(isFavorite){
+                                                                favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
+                                                                listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
+                                                            } else {
+                                                                favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
+                                                                listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
+                                                            }
+                                                            isFavorite = !isFavorite
+                                                      },
                                                         modifier = Modifier.align(Alignment.CenterVertically)
                                                     ) {
                                                         Icon(
@@ -731,7 +817,7 @@ fun HomeScreen(
                                             onClick = {goToSighting()}
 
                                         ) {
-                                            var isFavorite by remember { mutableStateOf(false) } /** Cambiare in base al DB */
+                                            var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -751,7 +837,16 @@ fun HomeScreen(
                                                     )
                                                     Spacer(modifier = Modifier.width(med+30.dp))
                                                     IconButton(
-                                                        onClick = { isFavorite = !isFavorite  },
+                                                        onClick = {
+                                                            if(isFavorite){
+                                                                favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
+                                                                listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
+                                                            } else {
+                                                                favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
+                                                                listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
+                                                            }
+                                                            isFavorite = !isFavorite
+                                                        },
                                                         modifier = Modifier.align(Alignment.CenterVertically)
                                                     ) {
                                                         Icon(
@@ -788,8 +883,6 @@ fun HomeScreen(
         }
     }
 }
-
-
 
 @Composable
 fun showImages( imagesUri: List<Uri>?, context: Context) {
