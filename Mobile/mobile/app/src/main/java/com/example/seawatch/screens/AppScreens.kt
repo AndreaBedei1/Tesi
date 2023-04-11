@@ -242,7 +242,7 @@ fun HomeScreen(
                                             .fillMaxWidth()
                                     ) {
                                         Checkbox(
-                                            checked = filterPref || tmp,
+                                            checked =  tmp,
                                             onCheckedChange = {favoriteFilter = it; tmp = !tmp },
                                             modifier = Modifier.padding(end = 8.dp)
                                         )
