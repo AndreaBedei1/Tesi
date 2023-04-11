@@ -225,7 +225,4 @@ class MainActivity : FragmentActivity() {
         }
         return imagesList
     }
-
-
-
 }

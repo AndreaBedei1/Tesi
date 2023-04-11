@@ -12,11 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -32,6 +29,7 @@ import okhttp3.*
 import org.bouncycastle.crypto.digests.SHA512Digest
 import org.bouncycastle.crypto.macs.HMac
 import org.bouncycastle.crypto.params.KeyParameter
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -40,6 +38,8 @@ import java.util.*
 
 var ok = true
 var em=""
+var entrato = false
+var avvistamenti = ""
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -112,6 +112,36 @@ fun LoginScreen(
                 }
             }
         )
+    }
+
+
+    LaunchedEffect(Unit) {
+        if(!entrato) {
+            entrato=true
+            val client2 = OkHttpClient()
+            val formBody2 = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("request", "slcSpecie")
+                .build()
+            val request2 = Request.Builder()
+                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                .post(formBody2)
+                .build()
+
+            client2.newCall(request2).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    val l = body.toString()
+                    val list = JSONArray(l)
+                    for (i in 0..list.length() - 1 step 1) {
+                        animaList.add((list.get(i) as JSONObject).get("descr_select").toString())
+                    }
+                }
+            })
+        }
     }
 
     when (configuration.orientation) {

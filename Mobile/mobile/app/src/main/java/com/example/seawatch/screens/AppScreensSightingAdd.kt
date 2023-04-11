@@ -23,6 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import okhttp3.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -49,10 +53,10 @@ fun SightingScreen(
     var mare by rememberSaveable { mutableStateOf("") }
     var vento by rememberSaveable { mutableStateOf("") }
     var note by rememberSaveable { mutableStateOf("") }
-    val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
+    val options by rememberSaveable { mutableStateOf(animaList) }
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
-    val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")
+    var optionsSpecie by rememberSaveable { mutableStateOf(mutableListOf<String>()) }
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
@@ -220,6 +224,33 @@ fun SightingScreen(
                                                             text = { Text(selectionOption) },
                                                             onClick = {
                                                                 selectedOptionText = selectionOption
+                                                                val client = OkHttpClient()
+                                                                val formBody = MultipartBody.Builder()
+                                                                    .setType(MultipartBody.FORM)
+                                                                    .addFormDataPart("selector", selectionOption)
+                                                                    .addFormDataPart("request", "slcSottospecie")
+                                                                    .build()
+                                                                val request = Request.Builder()
+                                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                                                                    .post(formBody)
+                                                                    .build()
+
+                                                                client.newCall(request).enqueue(object :
+                                                                    Callback {
+                                                                    override fun onFailure(call: Call, e: IOException) {
+
+                                                                    }
+
+                                                                    override fun onResponse(call: Call, response: Response) {
+                                                                        val body = response.body?.string()
+                                                                        val l = body.toString()
+                                                                        val list = JSONArray(l)
+                                                                        for (i in 0..list.length() - 1 step 1) {
+                                                                            specieList.add((list.get(i) as JSONObject).get("descr_select").toString())
+                                                                        }
+                                                                        optionsSpecie=specieList
+                                                                    }
+                                                                })
                                                                 expanded = false
                                                             },
                                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -645,7 +676,7 @@ fun SightingScreenOffline(
     var mare by rememberSaveable { mutableStateOf("") }
     var vento by rememberSaveable { mutableStateOf("") }
     var note by rememberSaveable { mutableStateOf("") }
-    val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
+    val options = listOf("Sconosciuto", "Altro", "Balena", "Delfino", "Foca", "Razza", "Squalo", "Tartaruga", "Tonno")
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
     val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")

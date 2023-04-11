@@ -72,7 +72,7 @@ fun NavigationApp(
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel)
+        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, barH = barHeight)
     }
 }
 
@@ -85,7 +85,8 @@ private fun NavigationGraph(
     theme: String,
     settingsViewModel: SettingsViewModel,
     sharedPrefForLogin:SharedPreferences,
-    avvistamentiViewModel: AvvistamentiViewModel
+    avvistamentiViewModel: AvvistamentiViewModel,
+    barH : Int
 ) {
     NavHost(
         navController = navController,
@@ -125,7 +126,8 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.Home.name){
             HomeScreen(
-                goToSighting = { navController.navigate(NavigationScreen.ViewSighting.name)}
+                goToSighting = { navController.navigate(NavigationScreen.ViewSighting.name)},
+                barHeight = barH
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
