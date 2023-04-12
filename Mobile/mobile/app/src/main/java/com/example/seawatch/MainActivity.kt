@@ -82,15 +82,6 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    // Override del metodo onConfigurationChanged
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        // Esegui azioni in base alla rotazione dello schermo
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mapset=false
-        }
-    }
-
     private var name: String? = null
     private var count: Int? = null
     fun capturePhoto() {

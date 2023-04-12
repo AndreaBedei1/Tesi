@@ -10,6 +10,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +35,7 @@ sealed class NavigationScreen(val name: String) {
     object AddSightingOffline:NavigationScreen("Avvistamento Offline")
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationApp(
@@ -48,6 +51,7 @@ fun NavigationApp(
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     val lastUser=sharedPrefForLogin.getString("USER", "")
+    val profileViewModel: ProfileViewModel = viewModel()
     var currentScreen:String
     if(lastUser==""){
         currentScreen = backStackEntry?.destination?.route ?: NavigationScreen.LogIn.name
@@ -68,7 +72,7 @@ fun NavigationApp(
             CustomTopBar(currentScreen=currentScreen, navController=navController, barHeight=barHeight, sharedPrefForLogin=sharedPrefForLogin)
         },
         bottomBar = {
-            CustomBottomBar(currentScreen, configuration, barHeight, navController)
+            CustomBottomBar(currentScreen, configuration, barHeight, navController, profileViewModel)
         },
         floatingActionButton = {
             CustomFAB(currentScreen, navController)
@@ -76,7 +80,18 @@ fun NavigationApp(
         floatingActionButtonPosition = if(currentScreen == NavigationScreen.Home.name && configuration.orientation==ORIENTATION_PORTRAIT) FabPosition.Center else FabPosition.End,
 
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, barH = barHeight, favouriteViewModel=favouriteViewModel, listItems=listItems)
+        NavigationGraph(navController,
+            innerPadding,
+            radioOptions = radioOptions,
+            theme = theme,
+            settingsViewModel =  settingsViewModel,
+            sharedPrefForLogin=sharedPrefForLogin,
+            avvistamentiViewModel=avvistamentiViewModel,
+            barH = barHeight,
+            favouriteViewModel=favouriteViewModel,
+            listItems=listItems,
+            profileViewModel=profileViewModel
+        )
     }
 }
 
@@ -92,7 +107,8 @@ private fun NavigationGraph(
     avvistamentiViewModel: AvvistamentiViewModel,
     barH : Int,
     favouriteViewModel: FavouriteViewModel,
-    listItems: List<Favourite>
+    listItems: List<Favourite>,
+    profileViewModel: ProfileViewModel
 ) {
     NavHost(
         navController = navController,
@@ -123,7 +139,9 @@ private fun NavigationGraph(
             SecuritySettings()
         }
         composable(route = NavigationScreen.Profile.name) {
-            Profile()
+            Profile(
+                profileViewModel = profileViewModel
+            )
         }
         composable(route = NavigationScreen.SignUp.name) {
             SignUpScreen(
@@ -135,7 +153,9 @@ private fun NavigationGraph(
                 goToSighting = { navController.navigate(NavigationScreen.ViewSighting.name)},
                 barHeight = barH,
                 favouriteViewModel = favouriteViewModel,
-                listItems=listItems
+                listItems=listItems,
+                goToProfile = {navController.navigate(NavigationScreen.Profile.name)},
+                profileViewModel = profileViewModel
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
@@ -150,6 +170,16 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.AddSightingOffline.name){
             SightingScreenOffline(avvistamentiViewModel=avvistamentiViewModel, goToLogin = { navController.navigate(NavigationScreen.LogIn.name) })
         }
+    }
+}
+
+class ProfileViewModel:ViewModel(){
+    private var _mail = ""
+    val mail
+        get() = _mail
+
+    fun set(mail:String){
+        _mail = mail
     }
 }
 

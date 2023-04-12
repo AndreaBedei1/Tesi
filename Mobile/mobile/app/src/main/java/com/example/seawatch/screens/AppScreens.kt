@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.util.Log
 import android.webkit.WebView
@@ -48,17 +49,85 @@ import java.util.*
 
 var animaList = mutableListOf<String>()
 var specieList = mutableListOf<String>()
-
+var entratoRete = false
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Profile(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileViewModel: ProfileViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
+    var nome by rememberSaveable { mutableStateOf("") }
+    var cognome by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var profilo by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+    var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    if (errorMessage.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = "" },
+            title = { Text(text = "Attenzione") },
+            text = { Text(text = errorMessage) },
+            confirmButton = {
+                Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
+
+
+    if (isNetworkAvailable(context)) {
+        val client = OkHttpClient()
+        val formBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("user", profileViewModel.mail)
+            .addFormDataPart("request", "getUserInfoMob")
+            .build()
+        val request = Request.Builder()
+            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+            .post(formBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                val msg = JSONArray(body.toString())
+                profilo = try {
+                    "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
+                        "Img"
+                    ).toString()
+                } catch (e: Exception) {
+                    "R.drawable.sea"
+                }
+                try {
+                    nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                    cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                    email = profileViewModel.mail
+                } catch (e: Exception) {
+                }
+            }
+        })
+    } else {
+        if (em == profileViewModel.mail) {
+            // Prendo i dati dal database locale anche nome e cognome
+            email = em
+        } else {
+            if(!entratoRete) {
+                errorMessage =
+                    "Errore di connessione impossibile prendere i dati dell'utente richiesto."
+            }
+            entratoRete = true
+        }
+    }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
@@ -80,8 +149,13 @@ fun Profile(
                 ) {
                     items(1) { element ->
                         Image(
-                            painter = painterResource(R.drawable.sea),
-                            contentDescription = "Immagine Profilo"
+                            painter = rememberImagePainter(
+                                data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
+                            ),
+                            contentDescription = "Immagine del profilo",
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(CircleShape)
                         )
                     }
                 }
@@ -104,18 +178,18 @@ fun Profile(
                             }
                             Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
                                 Spacer(modifier = Modifier.height(min+5.dp))
-                                Text(text="Mario", style = MaterialTheme.typography.bodyLarge)
+                                Text(text=nome, style = MaterialTheme.typography.bodyLarge)
                                 Spacer(modifier = Modifier.height(min+6.dp))
-                                Text(text="Rossi", style = MaterialTheme.typography.bodyLarge)
+                                Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
                                 Spacer(modifier = Modifier.height(min+6.dp))
-                                Text(text="andreabedei@libero.it", textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                                Text(text=email, textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
                             }
                         }
                     }
                 }
             }
         }
-        else -> {                                                   /** Login verticale */
+        else -> {                                                   /** Profilo verticale */
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
@@ -125,8 +199,13 @@ fun Profile(
                 items(1) { element ->
                     Spacer(modifier = Modifier.height(hig))
                     Image(
-                        painter = painterResource(R.drawable.sea),
-                        contentDescription = "Immagine Profilo"
+                        painter = rememberImagePainter(
+                            data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo} ,
+                        ),
+                        contentDescription = "Immagine del profilo",
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(CircleShape)
                     )
                     Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
@@ -139,11 +218,11 @@ fun Profile(
                         }
                         Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
                             Spacer(modifier = Modifier.height(min+5.dp))
-                            Text(text="Mario", style = MaterialTheme.typography.bodyLarge)
+                            Text(text=nome, style = MaterialTheme.typography.bodyLarge)
                             Spacer(modifier = Modifier.height(min+6.dp))
-                            Text(text="Rossi", style = MaterialTheme.typography.bodyLarge)
+                            Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
                             Spacer(modifier = Modifier.height(min+6.dp))
-                            Text(text="andreabedei@libero.it", textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                            Text(text=email, textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }
@@ -167,10 +246,12 @@ var fav = true
 @Composable
 fun HomeScreen(
     goToSighting: () -> Unit,
+    goToProfile: () -> Unit,
     barHeight: Int,
     modifier: Modifier = Modifier,
     favouriteViewModel: FavouriteViewModel,
-    listItems:List<Favourite>
+    listItems:List<Favourite>,
+    profileViewModel: ProfileViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
@@ -454,23 +535,6 @@ fun HomeScreen(
                         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                             items(1){element->
                                 Spacer(modifier = Modifier.height(40.dp))
-                                Row(
-                                    modifier = modifier
-                                        .fillMaxWidth()
-                                        .background(backGround),
-                                    horizontalArrangement = Arrangement.Center
-                                ){
-                                    Button(
-                                        modifier = Modifier
-                                            .padding(10.dp),
-                                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                                        onClick = { }
-                                    ) {
-                                        Icon(painter = painterResource(id = R.drawable.baseline_cloud_upload_24), contentDescription = "Upload avvistamento locali")
-                                        Spacer(modifier = Modifier.width(7.dp))
-                                        Text("AVVISTAMENTI LOCALI")
-                                    }
-                                }
                                 Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                                     Column() {
                                         for (i in 0..list.length()-1 step 2) {
@@ -494,18 +558,25 @@ fun HomeScreen(
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Image(
-                                                            painter = rememberImagePainter(
-                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                    i
-                                                                ) as JSONObject).get("Img").toString(),
-                                                            ),
-                                                            contentDescription = "Immagine del profilo",
+                                                        Box(
                                                             modifier = Modifier
                                                                 .size(48.dp)
                                                                 .clip(CircleShape)
-                                                        )
-
+                                                                .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                        ) {
+                                                            Image(
+                                                                painter = rememberImagePainter(
+                                                                    data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                                        i
+                                                                    ) as JSONObject).get("Img")
+                                                                        .toString(),
+                                                                ),
+                                                                contentDescription = "Immagine del profilo",
+                                                                modifier = Modifier
+                                                                    .size(48.dp)
+                                                                    .clip(CircleShape)
+                                                            )
+                                                        }
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
                                                         IconButton(
                                                             onClick = {
@@ -572,18 +643,25 @@ fun HomeScreen(
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Image(
-                                                            painter = rememberImagePainter(
-                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                    i
-                                                                ) as JSONObject).get("Img").toString(),
-                                                            ),
-                                                            contentDescription = "Immagine del profilo",
+                                                        Box(
                                                             modifier = Modifier
                                                                 .size(48.dp)
                                                                 .clip(CircleShape)
-                                                        )
-
+                                                                .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                        ) {
+                                                            Image(
+                                                                painter = rememberImagePainter(
+                                                                    data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                                        i
+                                                                    ) as JSONObject).get("Img")
+                                                                        .toString(),
+                                                                ),
+                                                                contentDescription = "Immagine del profilo",
+                                                                modifier = Modifier
+                                                                    .size(48.dp)
+                                                                    .clip(CircleShape)
+                                                            )
+                                                        }
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
                                                         IconButton(
                                                             onClick = {
@@ -644,25 +722,6 @@ fun HomeScreen(
                     ) {
                         items(1) { element ->
                             Spacer(modifier = Modifier.height(50.dp))
-                            Row(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .background(backGround),
-                                horizontalArrangement = Arrangement.Center
-                            ){
-                                Button(
-                                    modifier = Modifier
-                                        .padding(10.dp),
-                                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                                    onClick = {
-
-                                    }
-                                ) {
-                                    Icon(painter = painterResource(id = R.drawable.baseline_cloud_upload_24), contentDescription = "Upload avvistamento locali")
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                    Text("AVVISTAMENTI LOCALI")
-                                }
-                            }
                             Box(
                                 modifier = Modifier.fillMaxSize()
                             ) {
@@ -755,16 +814,25 @@ fun HomeScreen(
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    Image(
-                                                        painter = rememberImagePainter(
-                                                            data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/"+(list.get(i) as JSONObject).get("Img").toString(),
-                                                        ),
-                                                        contentDescription = "Immagine del profilo",
+                                                    Box(
                                                         modifier = Modifier
                                                             .size(48.dp)
                                                             .clip(CircleShape)
-                                                    )
-
+                                                            .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                    ) {
+                                                        Image(
+                                                            painter = rememberImagePainter(
+                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                                    i
+                                                                ) as JSONObject).get("Img")
+                                                                    .toString(),
+                                                            ),
+                                                            contentDescription = "Immagine del profilo",
+                                                            modifier = Modifier
+                                                                .size(48.dp)
+                                                                .clip(CircleShape)
+                                                        )
+                                                    }
                                                     Spacer(modifier = Modifier.width(med+30.dp))
                                                     IconButton(
                                                         onClick = {
@@ -827,15 +895,25 @@ fun HomeScreen(
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    Image(
-                                                        painter = rememberImagePainter(
-                                                            data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/"+(list.get(i) as JSONObject).get("Img").toString(),
-                                                        ),
-                                                        contentDescription = "Immagine del profilo",
+                                                    Box(
                                                         modifier = Modifier
-                                                            .size(40.dp)
+                                                            .size(48.dp)
                                                             .clip(CircleShape)
-                                                    )
+                                                            .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                    ) {
+                                                        Image(
+                                                            painter = rememberImagePainter(
+                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
+                                                                    i
+                                                                ) as JSONObject).get("Img")
+                                                                    .toString(),
+                                                            ),
+                                                            contentDescription = "Immagine del profilo",
+                                                            modifier = Modifier
+                                                                .size(48.dp)
+                                                                .clip(CircleShape)
+                                                        )
+                                                    }
                                                     Spacer(modifier = Modifier.width(med+30.dp))
                                                     IconButton(
                                                         onClick = {

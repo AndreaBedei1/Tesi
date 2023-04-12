@@ -1,11 +1,16 @@
 package com.example.seawatch
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,7 +25,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.rememberImagePainter
 import okhttp3.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
@@ -79,7 +89,11 @@ fun DisplaySettings(
     settingsViewModel: SettingsViewModel
 ) {
     // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
-    Column(Modifier.selectableGroup().background(MaterialTheme.colorScheme.primaryContainer).fillMaxSize()) {
+    Column(
+        Modifier
+            .selectableGroup()
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .fillMaxSize()) {
         radioOptions.forEach { text ->
             Row(
                 Modifier
@@ -126,6 +140,19 @@ fun SecuritySettings(
     var confirmPassword by rememberSaveable { mutableStateOf("") }
     var confirmPasswordHidden by rememberSaveable { mutableStateOf(true) }
     var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    if (errorMessage.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = "" },
+            title = { Text(text = "Aggiornamento") },
+            text = { Text(text = errorMessage) },
+            confirmButton = {
+                Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = modifier
@@ -217,27 +244,68 @@ fun SecuritySettings(
             Spacer(modifier = Modifier.height(med))
             Button(
                 onClick = {
-                    val client = OkHttpClient()
-                    val formBody = MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("request", "tbl_avvistamenti")
-                        .build()
-                    val request = Request.Builder()
-                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
-                        .post(formBody)
-                        .build()
+                    if(newPassword==confirmPassword){
+                        errorMessage="Attendi..."
+                        val client = OkHttpClient()
+                        val formBody = MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("user", em)
+                            .addFormDataPart("request", "getKeyMob")
+                            .build()
+                        val request = Request.Builder()
+                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                            .post(formBody)
+                            .build()
 
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            errorMessage = "Impossibile comunicare col server."
-                        }
+                        client.newCall(request).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                errorMessage = "Impossibile comunicare col server, controllare la connessione."
+                            }
 
-                        override fun onResponse(call: Call, response: Response) {
-                            val body = response.body?.string()
-                            val msg = body.toString()
+                            override fun onResponse(call: Call, response: Response) {
+                                val body = response.body?.string()
+                                val msg = body.toString()
+                                val jsn = JSONObject(msg)
 
-                        }
-                    })
+                                val oldP = calculateHmacSha512(oldPassword, jsn.get("key").toString())
+                                val nPwd = calculateHmacSha512(newPassword, jsn.get("key").toString())
+                                // Dopo aver preso la chiave di criptaggio salvo la nuova password
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("old", oldP)
+                                    .addFormDataPart("new", nPwd)
+                                    .addFormDataPart("user", em)
+                                    .addFormDataPart("request", "changePwdMob")
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                    .post(formBody)
+                                    .build()
+
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server, controllare la connessione."
+                                    }
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val msg = body.toString()
+                                        if(JSONObject(msg).get("stato").toString()=="true"){
+                                            errorMessage="Modifica avvenuta con successo."
+                                            oldPassword=""
+                                            newPassword=""
+                                            confirmPassword=""
+                                        } else {
+                                            errorMessage = "La vecchia password non è corretta!"
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        errorMessage = "Le ultime due password non corrispondono."
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                 modifier = modifier.widthIn(min = 250.dp)
@@ -260,6 +328,52 @@ fun ProfileSettings(
     val backGround = MaterialTheme.colorScheme.primaryContainer
     var nome by rememberSaveable { mutableStateOf("") }
     var cognome by rememberSaveable { mutableStateOf("") }
+    var profilo by rememberSaveable { mutableStateOf("R.drawable.sea") }
+    val context = LocalContext.current
+    var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    if (errorMessage.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = "" },
+            title = { Text(text = "Attenzione") },
+            text = { Text(text = errorMessage) },
+            confirmButton = {
+                Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
+
+    if(isNetworkAvailable(context)) {
+        val client = OkHttpClient()
+        val formBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("user", em)
+            .addFormDataPart("request", "getUserInfoMob")
+            .build()
+        val request = Request.Builder()
+            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+            .post(formBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                val msg = JSONArray(body.toString())
+                profilo = try {
+                    "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
+                        "Img"
+                    ).toString()
+                } catch (e: Exception) {
+                    "R.drawable.sea"
+                }
+            }
+        })
+    }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** profile orizzontale */
@@ -281,8 +395,13 @@ fun ProfileSettings(
                 ) {
                     items(1) { element ->
                         Image(
-                            painter = painterResource(R.drawable.sea),
-                            contentDescription = "Immagine Profilo"
+                            painter = rememberImagePainter(
+                                data = profilo,
+                            ),
+                            contentDescription = "Immagine del profilo",
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(CircleShape)
                         )
                         Spacer(modifier = Modifier.height(med))
                         Button(
@@ -311,7 +430,8 @@ fun ProfileSettings(
                             singleLine = true,
                             placeholder = { Text("Mario") },
                             modifier = Modifier.background(backGround),
-                            colors = TextFieldDefaults.outlinedTextFieldColors()
+                            colors = TextFieldDefaults.outlinedTextFieldColors(),
+                            enabled = isNetworkAvailable(context)
                         )
                         Spacer(modifier = Modifier.height(min))
                         TextField(
@@ -321,11 +441,41 @@ fun ProfileSettings(
                             singleLine = true,
                             placeholder = { Text("Rossi") },
                             modifier = Modifier.background(backGround),
-                            colors = TextFieldDefaults.outlinedTextFieldColors()
+                            colors = TextFieldDefaults.outlinedTextFieldColors(),
+                            enabled = isNetworkAvailable(context)
                         )
                         Spacer(modifier = Modifier.height(hig+15.dp))
                         Button(
-                            onClick = { /** TODO */ },
+                            onClick = {
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("user", em)
+                                    .addFormDataPart("nome", nome)
+                                    .addFormDataPart("cognome", cognome)
+                                    .addFormDataPart("request", "setUserInfoMob")
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                    .post(formBody)
+                                    .build()
+
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server."
+                                    }
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val msg = JSONObject(body.toString())
+                                        if(msg.get("stato")=="true"){
+                                            errorMessage = "Cambiamento dati avvenuto con successo."
+                                        } else {
+                                            errorMessage = "Cambiamento dati non avvenuto."
+                                        }
+                                    }
+                                })
+                            },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             modifier = modifier.widthIn(min = 200.dp)
                         ) {
@@ -345,8 +495,13 @@ fun ProfileSettings(
                 items(1) { element ->
                     Spacer(modifier = Modifier.height(hig))
                     Image(
-                        painter = painterResource(R.drawable.sea),
-                        contentDescription = "Immagine Profilo"
+                        painter = rememberImagePainter(
+                            data = profilo,
+                        ),
+                        contentDescription = "Immagine del profilo",
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(CircleShape)
                     )
                     Spacer(modifier = Modifier.height(min))
                     Button(
@@ -364,7 +519,8 @@ fun ProfileSettings(
                         singleLine = true,
                         placeholder = { Text("Mario") },
                         modifier = Modifier.background(backGround),
-                        colors = TextFieldDefaults.outlinedTextFieldColors()
+                        colors = TextFieldDefaults.outlinedTextFieldColors(),
+                        enabled = isNetworkAvailable(context)
                     )
                     Spacer(modifier = Modifier.height(min))
                     TextField(
@@ -374,11 +530,41 @@ fun ProfileSettings(
                         singleLine = true,
                         placeholder = { Text("Rossi") },
                         modifier = Modifier.background(backGround),
-                        colors = TextFieldDefaults.outlinedTextFieldColors()
+                        colors = TextFieldDefaults.outlinedTextFieldColors(),
+                        enabled = isNetworkAvailable(context)
                     )
                     Spacer(modifier = Modifier.height(med))
                     Button(
-                        onClick = { /** TODO */ },
+                        onClick = {
+                            val client = OkHttpClient()
+                            val formBody = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("user", em)
+                                .addFormDataPart("nome", nome)
+                                .addFormDataPart("cognome", cognome)
+                                .addFormDataPart("request", "setUserInfoMob")
+                                .build()
+                            val request = Request.Builder()
+                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                .post(formBody)
+                                .build()
+
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    errorMessage = "Impossibile comunicare col server."
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val body = response.body?.string()
+                                    val msg = JSONObject(body.toString())
+                                    if(msg.get("stato")=="true"){
+                                        errorMessage = "Cambiamento dati avvenuto con successo."
+                                    } else {
+                                        errorMessage = "Cambiamento dati non avvenuto."
+                                    }
+                                }
+                            })
+                        },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                         modifier = modifier.widthIn(min = 200.dp)
                     ) {
@@ -388,4 +574,14 @@ fun ProfileSettings(
             }
         }
     }
+}
+
+fun isNetworkAvailable(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network = connectivityManager.activeNetwork
+    if (network != null) {
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+    }
+    return false
 }

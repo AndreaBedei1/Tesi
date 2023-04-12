@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomBottomBar(currentScreen:String, configuration:Configuration, barHeight:Int, navController:NavHostController){
+fun CustomBottomBar(currentScreen:String, configuration:Configuration, barHeight:Int, navController:NavHostController, profileViewModel: ProfileViewModel){
     if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name && currentScreen != NavigationScreen.AddSightingOffline.name){
         BottomAppBar (
             modifier = androidx.compose.ui.Modifier.height(barHeight.dp)
@@ -47,7 +47,7 @@ fun CustomBottomBar(currentScreen:String, configuration:Configuration, barHeight
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.Person, contentDescription = "Profilo", modifier = Modifier.size(30.dp)) },
                 selected = currentScreen == NavigationScreen.Profile.name,
-                onClick = {navController.navigate(NavigationScreen.Profile.name) }
+                onClick = {profileViewModel.set(em);navController.navigate(NavigationScreen.Profile.name) }
             )
         }
     }

@@ -167,6 +167,8 @@ fun LoginScreen(
                             painter = painterResource(R.drawable.sea),
                             contentDescription = "Immagine Logo"
                         )
+                        Spacer(modifier = Modifier.height(min))
+                        Text("ACCEDI", style = MaterialTheme.typography.titleLarge)
                     }
                 }
                 LazyColumn(
@@ -226,16 +228,6 @@ fun LoginScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     items(1) { element ->
-                        Button(
-                            onClick = { goToOffline() },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
-                            modifier = modifier.widthIn(min = 200.dp)
-                        ) {
-                            Text(" ACCEDI OFFLINE")
-                        }
-                        Spacer(modifier = Modifier.height(min))
-                        Text(text = "oppure", style = MaterialTheme.typography.titleLarge)
-                        Spacer(modifier = Modifier.height(min))
                         Button(
                             onClick = {
                                 val client = OkHttpClient()
@@ -332,16 +324,8 @@ fun LoginScreen(
                         contentDescription = "Immagine Logo"
                     )
                     Spacer(modifier = Modifier.height(med))
-                    Button(
-                        onClick = { goToOffline()} ,
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
-                        modifier = modifier.widthIn(min = 230.dp)
-                    ) {
-                        Text(" ACCEDI OFFLINE")
-                    }
-                    Spacer(modifier = Modifier.height(min/2))
-                    Text(text = "oppure", style = MaterialTheme.typography.titleLarge)
-                    Spacer(modifier = Modifier.height(min/2))
+                    Text("ACCEDI", style = MaterialTheme.typography.titleLarge)
+                    Spacer(modifier = Modifier.height(min))
                     TextField(
                         value = mail,
                         onValueChange = { mail = it },
