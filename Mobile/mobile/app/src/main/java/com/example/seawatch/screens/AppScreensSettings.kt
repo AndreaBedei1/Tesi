@@ -20,6 +20,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.runtime.mutableStateOf
+import okhttp3.*
+import java.io.IOException
 import java.util.*
 
 @Composable
@@ -123,6 +125,7 @@ fun SecuritySettings(
     var newPasswordHidden by rememberSaveable { mutableStateOf(true) }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
     var confirmPasswordHidden by rememberSaveable { mutableStateOf(true) }
+    var errorMessage by rememberSaveable { mutableStateOf("") }
 
     LazyColumn(
         modifier = modifier
@@ -213,7 +216,29 @@ fun SecuritySettings(
             )
             Spacer(modifier = Modifier.height(med))
             Button(
-                onClick = {  },
+                onClick = {
+                    val client = OkHttpClient()
+                    val formBody = MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("request", "tbl_avvistamenti")
+                        .build()
+                    val request = Request.Builder()
+                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
+                        .post(formBody)
+                        .build()
+
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            errorMessage = "Impossibile comunicare col server."
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val body = response.body?.string()
+                            val msg = body.toString()
+
+                        }
+                    })
+                },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                 modifier = modifier.widthIn(min = 250.dp)
             ) {

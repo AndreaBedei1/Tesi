@@ -169,7 +169,8 @@ fun SightingScreen(
                                                                 tint = Color.Black
                                                             )
                                                         }
-                                                    }
+                                                    },
+                                                    readOnly = true
                                                 )
                                             }
                                             Spacer(modifier = Modifier.height(3.dp))
@@ -473,7 +474,8 @@ fun SightingScreen(
                                                     tint = Color.Black
                                                 )
                                             }
-                                        }
+                                        },
+                                        readOnly = true
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(8.dp))

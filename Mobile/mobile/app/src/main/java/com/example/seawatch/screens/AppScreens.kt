@@ -190,6 +190,7 @@ fun HomeScreen(
     var filterPref by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
     var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
+    mapset = false
 
     if(fav){
         fav=false
