@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteDAO
+import com.example.seawatch.data.User
 import com.example.seawatch.data.UserDAO
 
-@Database(entities=[AvvistamentiDaCaricare::class, Favourite::class], version=3)
+@Database(entities=[AvvistamentiDaCaricare::class, Favourite::class, User::class], version=4)
 abstract class SWDatabase:RoomDatabase(){
     abstract fun avvistamentiDAO():AvvistamentiDAO
     abstract fun favouriteDAO(): FavouriteDAO

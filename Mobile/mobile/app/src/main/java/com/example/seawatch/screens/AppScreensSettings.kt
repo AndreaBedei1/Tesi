@@ -2,8 +2,11 @@ package com.example.seawatch
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -14,23 +17,29 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
+import com.example.seawatch.data.User
+import com.example.seawatch.data.UserViewModel
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
@@ -319,7 +328,8 @@ fun SecuritySettings(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSettings(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userViewModel: UserViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -331,6 +341,64 @@ fun ProfileSettings(
     var profilo by rememberSaveable { mutableStateOf("R.drawable.sea") }
     val context = LocalContext.current
     var errorMessage by rememberSaveable { mutableStateOf("") }
+    var currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
+
+
+    if(imagesList.isNotEmpty()){
+        val file = File(context.cacheDir, "image.jpg")
+        val outputStream = FileOutputStream(file)
+        lastImageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        Log.e("KEYYY", lastImageBitmap?.allocationByteCount.toString())
+        // restituisci l'URI del file temporaneo
+        if (file == null) {
+            errorMessage = "Errore nel caricamento locale del file"
+        } else {
+            val requestUrl = "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php" // Sostituisci con l'URL del server
+            val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user", em)
+                .addFormDataPart(
+                    "file",
+                    file.name,
+                    file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                )
+                .addFormDataPart("request", "addImageProfileMob")
+                .build()
+
+            val request = Request.Builder()
+                .url(requestUrl)
+                .post(requestBody)
+                .build()
+
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    errorMessage = e.toString()
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    Log.e("KEYYYCATTIVA", body.toString())
+                }
+            })
+        }
+
+        currentDateTime = System.currentTimeMillis().toString()
+        imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
+    }
+
+    val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+    for(elem in userItems){
+        if(elem.mail== em){
+            nome = elem.nome
+            cognome = elem.cognome
+            break
+        }
+    }
 
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
@@ -447,34 +515,38 @@ fun ProfileSettings(
                         Spacer(modifier = Modifier.height(hig+15.dp))
                         Button(
                             onClick = {
-                                val client = OkHttpClient()
-                                val formBody = MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("user", em)
-                                    .addFormDataPart("nome", nome)
-                                    .addFormDataPart("cognome", cognome)
-                                    .addFormDataPart("request", "setUserInfoMob")
-                                    .build()
-                                val request = Request.Builder()
-                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
-                                    .post(formBody)
-                                    .build()
+                                if (isNetworkAvailable(context)){
+                                    val client = OkHttpClient()
+                                    val formBody = MultipartBody.Builder()
+                                        .setType(MultipartBody.FORM)
+                                        .addFormDataPart("user", em)
+                                        .addFormDataPart("nome", nome)
+                                        .addFormDataPart("cognome", cognome)
+                                        .addFormDataPart("request", "setUserInfoMob")
+                                        .build()
+                                    val request = Request.Builder()
+                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                        .post(formBody)
+                                        .build()
 
-                                client.newCall(request).enqueue(object : Callback {
-                                    override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server."
-                                    }
-
-                                    override fun onResponse(call: Call, response: Response) {
-                                        val body = response.body?.string()
-                                        val msg = JSONObject(body.toString())
-                                        if(msg.get("stato")=="true"){
-                                            errorMessage = "Cambiamento dati avvenuto con successo."
-                                        } else {
-                                            errorMessage = "Cambiamento dati non avvenuto."
+                                    client.newCall(request).enqueue(object : Callback {
+                                        override fun onFailure(call: Call, e: IOException) {
+                                            errorMessage = "Impossibile comunicare col server."
                                         }
-                                    }
-                                })
+
+                                        override fun onResponse(call: Call, response: Response) {
+                                            val body = response.body?.string()
+                                            val msg = JSONObject(body.toString())
+                                            if(msg.get("stato")==true){
+                                                errorMessage = "Cambiamento dati avvenuto con successo."
+                                            } else {
+                                                errorMessage = "Cambiamento dati non avvenuto."
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    errorMessage = "Nessuna connessione riprovare quando si è collegati."
+                                }
                             },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             modifier = modifier.widthIn(min = 200.dp)
@@ -485,7 +557,9 @@ fun ProfileSettings(
                 }
             }
         }
-        else -> {                                                   /** profile verticale */
+        else -> {
+            /** profile verticale */
+            //showImages(imagesUri = imagesList, context = context )
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
@@ -505,7 +579,13 @@ fun ProfileSettings(
                     )
                     Spacer(modifier = Modifier.height(min))
                     Button(
-                        onClick = { /** TODO */ },
+                        onClick = {
+                             if( isNetworkAvailable(context)){
+                                 (context as MainActivity).requestCameraPermission(currentDateTime.toString())
+                             } else {
+                                 errorMessage="Nessuna connessione di rete"
+                             }
+                        },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                         modifier = modifier.widthIn(min = 150.dp)
                     ) {
@@ -536,34 +616,38 @@ fun ProfileSettings(
                     Spacer(modifier = Modifier.height(med))
                     Button(
                         onClick = {
-                            val client = OkHttpClient()
-                            val formBody = MultipartBody.Builder()
-                                .setType(MultipartBody.FORM)
-                                .addFormDataPart("user", em)
-                                .addFormDataPart("nome", nome)
-                                .addFormDataPart("cognome", cognome)
-                                .addFormDataPart("request", "setUserInfoMob")
-                                .build()
-                            val request = Request.Builder()
-                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
-                                .post(formBody)
-                                .build()
+                            if (isNetworkAvailable(context)){
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("user", em)
+                                    .addFormDataPart("nome", nome)
+                                    .addFormDataPart("cognome", cognome)
+                                    .addFormDataPart("request", "setUserInfoMob")
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                    .post(formBody)
+                                    .build()
 
-                            client.newCall(request).enqueue(object : Callback {
-                                override fun onFailure(call: Call, e: IOException) {
-                                    errorMessage = "Impossibile comunicare col server."
-                                }
-
-                                override fun onResponse(call: Call, response: Response) {
-                                    val body = response.body?.string()
-                                    val msg = JSONObject(body.toString())
-                                    if(msg.get("stato")=="true"){
-                                        errorMessage = "Cambiamento dati avvenuto con successo."
-                                    } else {
-                                        errorMessage = "Cambiamento dati non avvenuto."
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server."
                                     }
-                                }
-                            })
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val msg = JSONObject(body.toString())
+                                        if(msg.get("stato")==true){
+                                            errorMessage = "Cambiamento dati avvenuto con successo."
+                                        } else {
+                                            errorMessage = "Cambiamento dati non avvenuto."
+                                        }
+                                    }
+                                })
+                            } else {
+                                errorMessage = "Nessuna connessione riprovare quando si è collegati."
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                         modifier = modifier.widthIn(min = 200.dp)

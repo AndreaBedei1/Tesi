@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteViewModel
+import com.example.seawatch.data.UserViewModel
 
 sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
@@ -46,7 +47,8 @@ fun NavigationApp(
     sharedPrefForLogin: SharedPreferences,
     avvistamentiViewModel: AvvistamentiViewModel,
     favouriteViewModel: FavouriteViewModel,
-    listItems: List<Favourite>
+    listItems: List<Favourite>,
+    userViewModel: UserViewModel
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -90,7 +92,8 @@ fun NavigationApp(
             barH = barHeight,
             favouriteViewModel=favouriteViewModel,
             listItems=listItems,
-            profileViewModel=profileViewModel
+            profileViewModel=profileViewModel,
+            userViewModel=userViewModel
         )
     }
 }
@@ -108,7 +111,8 @@ private fun NavigationGraph(
     barH : Int,
     favouriteViewModel: FavouriteViewModel,
     listItems: List<Favourite>,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    userViewModel: UserViewModel
 ) {
     NavHost(
         navController = navController,
@@ -120,7 +124,8 @@ private fun NavigationGraph(
                 goToHome = { navigateToHome(navController)},
                 goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
                 sharedPrefForLogin=sharedPrefForLogin,
-                goToOffline= { navController.navigate(NavigationScreen.AddSightingOffline.name) }
+                goToOffline= { navController.navigate(NavigationScreen.AddSightingOffline.name) },
+                userViewModel = userViewModel
             )
         }
         composable(route = NavigationScreen.Settings.name) {
@@ -133,7 +138,9 @@ private fun NavigationGraph(
             DisplaySettings(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel)
         }
         composable(route = NavigationScreen.ProfileSettings.name){
-            ProfileSettings()
+            ProfileSettings(
+                userViewModel = userViewModel
+            )
         }
         composable(route = NavigationScreen.SecuritySettings.name) {
             SecuritySettings()

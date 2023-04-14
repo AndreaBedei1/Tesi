@@ -10,6 +10,7 @@ class SWApplication: Application() {
     private val database by lazy{
         SWDatabase.getDatabase(this)
     }
+
     val repository by lazy{
         AvvistamentiRepository(database.avvistamentiDAO())
     }
@@ -17,6 +18,7 @@ class SWApplication: Application() {
     val repository2 by lazy{
         FavouriteRepository(database.favouriteDAO())
     }
+
     val repository3 by lazy{
         UserRepository(database.userDAO())
     }

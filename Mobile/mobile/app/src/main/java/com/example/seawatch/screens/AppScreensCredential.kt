@@ -27,6 +27,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteViewModel
+import com.example.seawatch.data.User
+import com.example.seawatch.data.UserViewModel
 import okhttp3.*
 import org.bouncycastle.crypto.digests.SHA512Digest
 import org.bouncycastle.crypto.macs.HMac
@@ -49,7 +51,8 @@ fun LoginScreen(
     goToSignUp:() ->Unit,
     modifier: Modifier = Modifier,
     sharedPrefForLogin: SharedPreferences,
-    goToOffline: () -> Unit
+    goToOffline: () -> Unit,
+    userViewModel: UserViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -64,6 +67,7 @@ fun LoginScreen(
     val context = LocalContext.current as FragmentActivity
     var errorMessage by rememberSaveable { mutableStateOf("") }
 
+    val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
 
     if(sharedPrefForLogin.getString("USER", "")!="" && ok ){
         when (biometricManager.canAuthenticate()) {
@@ -219,6 +223,7 @@ fun LoginScreen(
                         )
                     }
                 }
+
                 LazyColumn(
                     modifier = modifier
                         .fillMaxHeight()
@@ -230,69 +235,97 @@ fun LoginScreen(
                     items(1) { element ->
                         Button(
                             onClick = {
-                                val client = OkHttpClient()
-                                val formBody = MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("request", "email")
-                                    .addFormDataPart("email", mail)
-                                    .build()
-                                val request = Request.Builder()
-                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
-                                    .post(formBody)
-                                    .build()
+                                if(isNetworkAvailable(context)){
+                                    val client = OkHttpClient()
+                                    val formBody = MultipartBody.Builder()
+                                        .setType(MultipartBody.FORM)
+                                        .addFormDataPart("request", "email")
+                                        .addFormDataPart("email", mail)
+                                        .build()
+                                    val request = Request.Builder()
+                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
+                                        .post(formBody)
+                                        .build()
 
-                                client.newCall(request).enqueue(object : Callback {
-                                    override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server."
-                                    }
+                                    client.newCall(request).enqueue(object : Callback {
+                                        override fun onFailure(call: Call, e: IOException) {
+                                            errorMessage = "Impossibile comunicare col server."
+                                        }
 
 
-                                    override fun onResponse(call: Call, response: Response) {
-                                        val bodyKey = response.body?.string()
-                                        val jsonObjectKey = JSONObject(bodyKey)
-                                        if(jsonObjectKey.getString("state")=="true"){
-                                            val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
-                                            val client = OkHttpClient()
-                                            val formBody = MultipartBody.Builder()
-                                                .setType(MultipartBody.FORM)
-                                                .addFormDataPart("request", "pwd")
-                                                .addFormDataPart("email", mail)
-                                                .addFormDataPart("password", pwdC)
-                                                .build()
-                                            val request = Request.Builder()
-                                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
-                                                .post(formBody)
-                                                .build()
+                                        override fun onResponse(call: Call, response: Response) {
+                                            val bodyKey = response.body?.string()
+                                            val jsonObjectKey = JSONObject(bodyKey)
+                                            if(jsonObjectKey.getString("state")=="true"){
+                                                val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
+                                                val client = OkHttpClient()
+                                                val formBody = MultipartBody.Builder()
+                                                    .setType(MultipartBody.FORM)
+                                                    .addFormDataPart("request", "pwd")
+                                                    .addFormDataPart("email", mail)
+                                                    .addFormDataPart("password", pwdC)
+                                                    .build()
+                                                val request = Request.Builder()
+                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
+                                                    .post(formBody)
+                                                    .build()
 
-                                            client.newCall(request).enqueue(object : Callback {
-                                                override fun onFailure(call: Call, e: IOException) {
-                                                    errorMessage = "Impossibile comunicare col server."
-                                                }
-
-                                                override fun onResponse(call: Call, response: Response) {
-                                                    val body = response.body?.string()
-                                                    val jsonObject = JSONObject(body)
-                                                    if(jsonObject.getString("state")=="true"){
-                                                        with(sharedPrefForLogin.edit()){
-                                                            putString("USER", mail)
-                                                            apply()
-                                                        }
-                                                        ok = false
-                                                        em=mail
-                                                        (context as MainActivity).runOnUiThread {
-                                                            goToHome()
-                                                        }
-
-                                                    } else {
-                                                        errorMessage =  jsonObject.getString("msg")
+                                                client.newCall(request).enqueue(object : Callback {
+                                                    override fun onFailure(call: Call, e: IOException) {
+                                                        errorMessage = "Impossibile comunicare col server."
                                                     }
+
+                                                    override fun onResponse(call: Call, response: Response) {
+                                                        val body = response.body?.string()
+                                                        val jsonObject = JSONObject(body)
+                                                        if(jsonObject.getString("state")=="true"){
+                                                            with(sharedPrefForLogin.edit()){
+                                                                putString("USER", mail)
+                                                                apply()
+                                                            }
+                                                            ok = false
+                                                            em=mail
+                                                            var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                            userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
+                                                            (context as MainActivity).runOnUiThread {
+                                                                goToHome()
+                                                            }
+                                                        } else {
+                                                            errorMessage =  jsonObject.getString("msg")
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                errorMessage =  jsonObjectKey.getString("msg")
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    var check = false
+                                    for (elem in userItems){
+                                        if(elem.mail==mail){
+                                            check=true
+                                            if(elem.password == calculateHmacSha512(password, elem.sale)){
+                                                with(sharedPrefForLogin.edit()){
+                                                    putString("USER", mail)
+                                                    apply()
                                                 }
-                                            })
-                                        } else {
-                                            errorMessage =  jsonObjectKey.getString("msg")
+                                                ok = false
+                                                em=mail
+                                                (context as MainActivity).runOnUiThread {
+                                                    goToHome()
+                                                }
+                                            } else {
+                                                errorMessage = "Password errata"
+                                            }
+                                            break
                                         }
                                     }
-                                }) },
+                                    if(!check){
+                                        errorMessage = "Nessuna connessione a internet e utente locale non presente, fare il primo accesso online."
+                                    }
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = modifier.widthIn(min = 200.dp)
                         ) {
@@ -366,69 +399,102 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(med))
                     Button(
                         onClick = {
+                            if(isNetworkAvailable(context)){
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("request", "email")
+                                    .addFormDataPart("email", mail)
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
+                                    .post(formBody)
+                                    .build()
 
-                            val client = OkHttpClient()
-                            val formBody = MultipartBody.Builder()
-                                .setType(MultipartBody.FORM)
-                                .addFormDataPart("request", "email")
-                                .addFormDataPart("email", mail)
-                                .build()
-                            val request = Request.Builder()
-                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
-                                .post(formBody)
-                                .build()
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server."
+                                    }
 
-                            client.newCall(request).enqueue(object : Callback {
-                                override fun onFailure(call: Call, e: IOException) {
-                                    errorMessage = "Impossibile comunicare col server."
-                                }
 
-                                override fun onResponse(call: Call, response: Response) {
-                                    val bodyKey = response.body?.string()
-                                    val jsonObjectKey = JSONObject(bodyKey)
-                                    if(jsonObjectKey.getString("state")=="true"){
-                                        val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
-                                        val client = OkHttpClient()
-                                        val formBody = MultipartBody.Builder()
-                                            .setType(MultipartBody.FORM)
-                                            .addFormDataPart("request", "pwd")
-                                            .addFormDataPart("email", mail)
-                                            .addFormDataPart("password", pwdC)
-                                            .build()
-                                        val request = Request.Builder()
-                                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
-                                            .post(formBody)
-                                            .build()
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val bodyKey = response.body?.string()
+                                        val jsonObjectKey = JSONObject(bodyKey)
+                                        if(jsonObjectKey.getString("state")=="true"){
+                                            val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
+                                            val client = OkHttpClient()
+                                            val formBody = MultipartBody.Builder()
+                                                .setType(MultipartBody.FORM)
+                                                .addFormDataPart("request", "pwd")
+                                                .addFormDataPart("email", mail)
+                                                .addFormDataPart("password", pwdC)
+                                                .build()
+                                            val request = Request.Builder()
+                                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_login/login_api.php")
+                                                .post(formBody)
+                                                .build()
 
-                                        client.newCall(request).enqueue(object : Callback {
-                                            override fun onFailure(call: Call, e: IOException) {
-                                                errorMessage = "Impossibile comunicare col server."
-                                            }
-
-                                            override fun onResponse(call: Call, response: Response) {
-                                                val body = response.body?.string()
-                                                val jsonObject = JSONObject(body)
-                                                if(jsonObject.getString("state")=="true"){
-                                                    with(sharedPrefForLogin.edit()){
-                                                        putString("USER", mail)
-                                                        apply()
-                                                    }
-                                                    ok = false
-                                                    em=mail
-                                                    (context as MainActivity).runOnUiThread {
-                                                        goToHome()
-                                                    }
-
-                                                } else {
-                                                    errorMessage =  jsonObject.getString("msg")
+                                            client.newCall(request).enqueue(object : Callback {
+                                                override fun onFailure(call: Call, e: IOException) {
+                                                    errorMessage = "Impossibile comunicare col server."
                                                 }
+
+                                                override fun onResponse(call: Call, response: Response) {
+                                                    val body = response.body?.string()
+                                                    val jsonObject = JSONObject(body)
+                                                    if(jsonObject.getString("state")=="true"){
+                                                        with(sharedPrefForLogin.edit()){
+                                                            putString("USER", mail)
+                                                            apply()
+                                                        }
+                                                        ok = false
+                                                        em=mail
+                                                        var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                        userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
+                                                        (context as MainActivity).runOnUiThread {
+                                                            goToHome()
+                                                        }
+                                                    } else {
+                                                        errorMessage =  jsonObject.getString("msg")
+                                                    }
+                                                }
+                                            })
+                                        } else {
+                                            errorMessage =  jsonObjectKey.getString("msg")
+                                        }
+                                    }
+                                })
+                            } else {
+                                var check = false
+                                for (elem in userItems) {
+                                    if (elem.mail == mail) {
+                                        check = true
+                                        if (elem.password == calculateHmacSha512(
+                                                password,
+                                                elem.sale
+                                            )
+                                        ) {
+                                            with(sharedPrefForLogin.edit()) {
+                                                putString("USER", mail)
+                                                apply()
                                             }
-                                        })
-                                    } else {
-                                        errorMessage =  jsonObjectKey.getString("msg")
+                                            ok = false
+                                            em = mail
+                                            (context as MainActivity).runOnUiThread {
+                                                goToHome()
+                                            }
+                                        } else {
+                                            errorMessage = "Password errata"
+                                        }
+                                        break
                                     }
                                 }
-                            }) },
+                                if (!check) {
+                                    errorMessage =
+                                        "Nessuna connessione a internet e utente locale non presente, fare il primo accesso online."
+                                }
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                         modifier = modifier.widthIn(min = 230.dp)
                     ) {

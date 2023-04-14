@@ -42,6 +42,8 @@ import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.FavouriteViewModel
 import com.example.seawatch.data.FavouriteViewModelFactory
+import com.example.seawatch.data.UserViewModel
+import com.example.seawatch.data.UserViewModelFactory
 import com.example.seawatch.ui.theme.SeaWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -49,6 +51,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+public var lastImageBitmap: Bitmap? = null
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
 
@@ -60,6 +63,10 @@ class MainActivity : FragmentActivity() {
 
     val favouriteViewModel by viewModels<FavouriteViewModel> {
         FavouriteViewModelFactory(repository=(application as SWApplication).repository2)
+    }
+
+    val userViewModel by viewModels<UserViewModel> {
+        UserViewModelFactory(repository=(application as SWApplication).repository3)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +83,16 @@ class MainActivity : FragmentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val radioOptions = listOf(getString(R.string.light_theme), getString(R.string.dark_theme))
-                    NavigationApp(radioOptions = radioOptions, theme = theme, settingsViewModel =  settingsViewModel, sharedPrefForLogin=sharedPrefForLogin, avvistamentiViewModel=avvistamentiViewModel, favouriteViewModel=favouriteViewModel, listItems=listItems)
+                    NavigationApp(radioOptions = radioOptions,
+                        theme = theme,
+                        settingsViewModel =  settingsViewModel,
+                        sharedPrefForLogin=sharedPrefForLogin,
+                        avvistamentiViewModel=avvistamentiViewModel,
+                        favouriteViewModel=favouriteViewModel,
+                        listItems=listItems,
+                        userViewModel=userViewModel
+
+                    )
                 }
             }
         }
@@ -84,6 +100,7 @@ class MainActivity : FragmentActivity() {
 
     private var name: String? = null
     private var count: Int? = null
+
     fun capturePhoto() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, 200)
@@ -91,9 +108,11 @@ class MainActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
-            val imageBitmap = data.extras?.get("data") as Bitmap
+            lastImageBitmap = data.extras?.get("data") as Bitmap
+
+            Log.e("KEYYY", lastImageBitmap?.allocationByteCount.toString())
             CoroutineScope(Dispatchers.Main).launch {
-                saveImageToGallery(imageBitmap, name, count)
+                saveImageToGallery(lastImageBitmap!!, name, count)
                 recreate()
             }
         }
@@ -143,7 +162,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    public fun requestCameraPermission(id : String, c: Int) {
+    public fun requestCameraPermission(id : String, c: Int=0) {
         name = id
         count = c
         when {
@@ -226,3 +245,5 @@ class MainActivity : FragmentActivity() {
         return imagesList
     }
 }
+
+
