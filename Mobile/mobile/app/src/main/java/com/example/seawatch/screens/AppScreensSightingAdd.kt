@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.seawatch.data.getAnimal
+import com.example.seawatch.data.getSpecieFromAniaml
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -53,10 +55,9 @@ fun SightingScreen(
     var mare by rememberSaveable { mutableStateOf("") }
     var vento by rememberSaveable { mutableStateOf("") }
     var note by rememberSaveable { mutableStateOf("") }
-    val options by rememberSaveable { mutableStateOf(animaList) }
+    val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
-    var optionsSpecie by rememberSaveable { mutableStateOf(mutableListOf<String>()) }
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("") }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
@@ -225,34 +226,6 @@ fun SightingScreen(
                                                             text = { Text(selectionOption) },
                                                             onClick = {
                                                                 selectedOptionText = selectionOption
-                                                                val client = OkHttpClient()
-                                                                val formBody = MultipartBody.Builder()
-                                                                    .setType(MultipartBody.FORM)
-                                                                    .addFormDataPart("selector", selectionOption)
-                                                                    .addFormDataPart("request", "slcSottospecie")
-                                                                    .build()
-                                                                val request = Request.Builder()
-                                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
-                                                                    .post(formBody)
-                                                                    .build()
-
-                                                                client.newCall(request).enqueue(object :
-                                                                    Callback {
-                                                                    override fun onFailure(call: Call, e: IOException) {
-
-                                                                    }
-
-                                                                    override fun onResponse(call: Call, response: Response) {
-                                                                        val body = response.body?.string()
-                                                                        val l = body.toString()
-                                                                        val list = JSONArray(l)
-                                                                        for (i in 0..list.length() - 1 step 1) {
-                                                                            specieList.add((list.get(i) as JSONObject).get("descr_select").toString())
-                                                                        }
-                                                                        optionsSpecie=specieList
-                                                                    }
-                                                                })
-                                                                expanded = false
                                                             },
                                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                                         )
@@ -292,7 +265,7 @@ fun SightingScreen(
                                                         expanded = expandedSpecie,
                                                         onDismissRequest = { expanded = false },
                                                     ) {
-                                                        optionsSpecie.forEach { selectionOptionSpecie ->
+                                                        getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                             DropdownMenuItem(
                                                                 text = { Text(selectionOptionSpecie) },
                                                                 onClick = {
@@ -554,11 +527,12 @@ fun SightingScreen(
                                             expanded = expandedSpecie,
                                             onDismissRequest = { expandedSpecie = false },
                                         ) {
-                                            optionsSpecie.forEach { selectionOptionSpecie ->
+                                            getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                 DropdownMenuItem(
-                                                    text = {Text(selectionOptionSpecie)},
+                                                    text = { Text(selectionOptionSpecie) },
                                                     onClick = {
-                                                        selectedOptionTextSpecie = selectionOptionSpecie
+                                                        selectedOptionTextSpecie =
+                                                            selectionOptionSpecie
                                                         expandedSpecie = false
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

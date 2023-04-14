@@ -353,7 +353,6 @@ fun ProfileSettings(
         lastImageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
         outputStream.flush()
         outputStream.close()
-        Log.e("KEYYY", lastImageBitmap?.allocationByteCount.toString())
         // restituisci l'URI del file temporaneo
         if (file == null) {
             errorMessage = "Errore nel caricamento locale del file"
@@ -383,23 +382,41 @@ fun ProfileSettings(
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string()
-                    Log.e("KEYYYCATTIVA", body.toString())
+                    val client = OkHttpClient()
+                    val formBody = MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("user", em)
+                        .addFormDataPart("request", "getUserInfoMob")
+                        .build()
+                    val request = Request.Builder()
+                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                        .post(formBody)
+                        .build()
+
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val body = response.body?.string()
+                            val msg = JSONArray(body.toString())
+                            profilo = try {
+                                "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
+                                    "Img"
+                                ).toString()
+                            } catch (e: Exception) {
+                                ""
+                            }
+                            nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                            cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                        }
+                    })
                 }
             })
         }
 
         currentDateTime = System.currentTimeMillis().toString()
         imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
-    }
-
-    val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
-    for(elem in userItems){
-        if(elem.mail== em){
-            nome = elem.nome
-            cognome = elem.cognome
-            break
-        }
     }
 
     if (errorMessage.isNotEmpty()) {
@@ -441,8 +458,19 @@ fun ProfileSettings(
                 } catch (e: Exception) {
                     ""
                 }
+                nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
             }
         })
+    } else {
+        val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+        for(elem in userItems){
+            if(elem.mail== em){
+                nome = elem.nome
+                cognome = elem.cognome
+                break
+            }
+        }
     }
 
     when (configuration.orientation) {
@@ -549,19 +577,6 @@ fun ProfileSettings(
                                             val msg = JSONObject(body.toString())
                                             if(msg.get("stato")==true){
                                                 errorMessage = "Cambiamento dati avvenuto con successo."
-                                                GlobalScope.launch {
-                                                    withContext(Dispatchers.IO) {
-                                                        userViewModel.setNameByMail(em, nome)
-                                                        userViewModel.setSurnameByMail(em, cognome)
-                                                        for(elem in userItems){
-                                                            if(elem.mail== em){
-                                                                nome = elem.nome
-                                                                cognome = elem.cognome
-                                                                break
-                                                            }
-                                                        }
-                                                    }
-                                                }
                                             } else {
                                                 errorMessage = "Cambiamento dati non avvenuto."
                                             }
@@ -666,19 +681,6 @@ fun ProfileSettings(
                                         val msg = JSONObject(body.toString())
                                         if(msg.get("stato")==true){
                                             errorMessage = "Cambiamento dati avvenuto con successo."
-                                            GlobalScope.launch {
-                                                withContext(Dispatchers.IO) {
-                                                    userViewModel.setNameByMail(em, nome)
-                                                    userViewModel.setSurnameByMail(em, cognome)
-                                                    for(elem in userItems){
-                                                        if(elem.mail== em){
-                                                            nome = elem.nome
-                                                            cognome = elem.cognome
-                                                            break
-                                                        }
-                                                    }
-                                                }
-                                            }
                                         } else {
                                             errorMessage = "Cambiamento dati non avvenuto."
                                         }

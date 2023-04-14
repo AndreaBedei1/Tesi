@@ -120,37 +120,6 @@ fun LoginScreen(
         )
     }
 
-    LaunchedEffect(Unit) {
-        if(!entrato) {
-
-            entrato=true
-            val client2 = OkHttpClient()
-            val formBody2 = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("request", "slcSpecie")
-                .build()
-            val request2 = Request.Builder()
-                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
-                .post(formBody2)
-                .build()
-
-            client2.newCall(request2).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string()
-                    val l = body.toString()
-                    val list = JSONArray(l)
-                    animaList.add("")
-                    for (i in 0..list.length() - 1 step 1) {
-                        animaList.add((list.get(i) as JSONObject).get("descr_select").toString())
-                    }
-                }
-            })
-        }
-    }
-
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
             Row (

@@ -39,10 +39,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
-import com.example.seawatch.data.Favourite
-import com.example.seawatch.data.FavouriteViewModel
-import com.example.seawatch.data.User
-import com.example.seawatch.data.UserViewModel
+import com.example.seawatch.data.*
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -50,8 +47,8 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
-var animaList = mutableListOf<String>()
-var specieList = mutableListOf<String>()
+
+
 var entratoRete = false
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -281,7 +278,7 @@ fun HomeScreen(
     var isFilter by rememberSaveable { mutableStateOf(false) }
     var isAfter by rememberSaveable { mutableStateOf(true) }
     var showFilterDialog by rememberSaveable { mutableStateOf(false) }
-    val options by rememberSaveable { mutableStateOf(animaList) }
+    val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
     var filterPref by rememberSaveable { mutableStateOf(false) }
