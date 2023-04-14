@@ -5,8 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
-import android.os.Environment
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -21,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -29,10 +28,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.User
 import com.example.seawatch.data.UserViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -338,7 +340,7 @@ fun ProfileSettings(
     val backGround = MaterialTheme.colorScheme.primaryContainer
     var nome by rememberSaveable { mutableStateOf("") }
     var cognome by rememberSaveable { mutableStateOf("") }
-    var profilo by rememberSaveable { mutableStateOf("R.drawable.sea") }
+    var profilo by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
     var errorMessage by rememberSaveable { mutableStateOf("") }
     var currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
@@ -437,7 +439,7 @@ fun ProfileSettings(
                         "Img"
                     ).toString()
                 } catch (e: Exception) {
-                    "R.drawable.sea"
+                    ""
                 }
             }
         })
@@ -462,18 +464,26 @@ fun ProfileSettings(
                     verticalArrangement = Arrangement.Center
                 ) {
                     items(1) { element ->
+                        val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                         Image(
                             painter = rememberImagePainter(
-                                data = profilo,
+                                data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
                             ),
                             contentDescription = "Immagine del profilo",
                             modifier = Modifier
-                                .size(200.dp)
+                                .size(180.dp)
                                 .clip(CircleShape)
+                                .scale(scale)
                         )
-                        Spacer(modifier = Modifier.height(med))
+                        Spacer(modifier = Modifier.height(med-10.dp))
                         Button(
-                            onClick = { /** TODO */ },
+                            onClick = {
+                                if( isNetworkAvailable(context)){
+                                    (context as MainActivity).requestCameraPermission(currentDateTime.toString())
+                                } else {
+                                    errorMessage="Nessuna connessione di rete"
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             modifier = modifier.widthIn(min = 150.dp)
                         ) {
@@ -539,6 +549,19 @@ fun ProfileSettings(
                                             val msg = JSONObject(body.toString())
                                             if(msg.get("stato")==true){
                                                 errorMessage = "Cambiamento dati avvenuto con successo."
+                                                GlobalScope.launch {
+                                                    withContext(Dispatchers.IO) {
+                                                        userViewModel.setNameByMail(em, nome)
+                                                        userViewModel.setSurnameByMail(em, cognome)
+                                                        for(elem in userItems){
+                                                            if(elem.mail== em){
+                                                                nome = elem.nome
+                                                                cognome = elem.cognome
+                                                                break
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             } else {
                                                 errorMessage = "Cambiamento dati non avvenuto."
                                             }
@@ -568,14 +591,17 @@ fun ProfileSettings(
             ) {
                 items(1) { element ->
                     Spacer(modifier = Modifier.height(hig))
+                    val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                     Image(
                         painter = rememberImagePainter(
-                            data = profilo,
+                            data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
                         ),
                         contentDescription = "Immagine del profilo",
                         modifier = Modifier
                             .size(200.dp)
                             .clip(CircleShape)
+                            .scale(scale)
+                            .fillMaxSize()
                     )
                     Spacer(modifier = Modifier.height(min))
                     Button(
@@ -640,6 +666,19 @@ fun ProfileSettings(
                                         val msg = JSONObject(body.toString())
                                         if(msg.get("stato")==true){
                                             errorMessage = "Cambiamento dati avvenuto con successo."
+                                            GlobalScope.launch {
+                                                withContext(Dispatchers.IO) {
+                                                    userViewModel.setNameByMail(em, nome)
+                                                    userViewModel.setSurnameByMail(em, cognome)
+                                                    for(elem in userItems){
+                                                        if(elem.mail== em){
+                                                            nome = elem.nome
+                                                            cognome = elem.cognome
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         } else {
                                             errorMessage = "Cambiamento dati non avvenuto."
                                         }

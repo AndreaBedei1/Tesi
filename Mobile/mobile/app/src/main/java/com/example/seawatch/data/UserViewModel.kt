@@ -19,4 +19,12 @@ class UserViewModel(private val repository: UserRepository): ViewModel() {
         repository.getUserByMail(mail)
     }
 
+    fun setNameByMail(mail:String, name:String)=viewModelScope.launch {
+        repository.setNameUserByMail(mail, name)
+    }
+
+    fun setSurnameByMail(mail:String, cognome:String)=viewModelScope.launch {
+        repository.setSurnameUserByMail(mail, cognome)
+    }
+
 }

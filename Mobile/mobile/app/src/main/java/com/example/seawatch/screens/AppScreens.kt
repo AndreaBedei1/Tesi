@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +41,8 @@ import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteViewModel
+import com.example.seawatch.data.User
+import com.example.seawatch.data.UserViewModel
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -54,7 +57,8 @@ var entratoRete = false
 @Composable
 fun Profile(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    userViewModel: UserViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -117,10 +121,18 @@ fun Profile(
             }
         })
     } else {
-        if (em == profileViewModel.mail) {
-            // Prendo i dati dal database locale anche nome e cognome
-            email = em
-        } else {
+        val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+        var b = true
+        email = em
+        for(elem in userItems){
+            if(elem.mail == em){
+                nome = elem.nome
+                cognome = elem.cognome
+                b=false
+                break
+            }
+        }
+        if (b) {
             if(!entratoRete) {
                 errorMessage =
                     "Errore di connessione impossibile prendere i dati dell'utente richiesto."
@@ -130,7 +142,7 @@ fun Profile(
     }
 
     when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Login orizzontale */
+        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Profilo orizzontale */
             Row (
                 modifier = modifier
                     .fillMaxSize()
@@ -148,6 +160,7 @@ fun Profile(
                     verticalArrangement = Arrangement.Center
                 ) {
                     items(1) { element ->
+                        val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                         Image(
                             painter = rememberImagePainter(
                                 data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
@@ -156,6 +169,7 @@ fun Profile(
                             modifier = Modifier
                                 .size(200.dp)
                                 .clip(CircleShape)
+                                .scale(scale)
                         )
                     }
                 }
@@ -198,6 +212,7 @@ fun Profile(
             ) {
                 items(1) { element ->
                     Spacer(modifier = Modifier.height(hig))
+                    val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                     Image(
                         painter = rememberImagePainter(
                             data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo} ,
@@ -206,6 +221,7 @@ fun Profile(
                         modifier = Modifier
                             .size(200.dp)
                             .clip(CircleShape)
+                            .scale(scale)
                     )
                     Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
@@ -496,7 +512,10 @@ fun HomeScreen(
                                                     val gson = Gson()
                                                     var markerDataJson = gson.toJson(mkList)
                                                     var currentMarkerDataJson = markerDataJson
-                                                    view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    try {
+                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    } catch (e: Exception) {
+                                                    }
                                                 }
                                             }
                                         }
@@ -523,7 +542,10 @@ fun HomeScreen(
                                                 val gson = Gson()
                                                 var markerDataJson = gson.toJson(mkList)
                                                 var currentMarkerDataJson = markerDataJson
-                                                webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                try {
+                                                    webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                } catch (e: Exception) {
+                                                }
                                             }
                                             isAfter=false
                                         }
@@ -564,6 +586,7 @@ fun HomeScreen(
                                                                 .clip(CircleShape)
                                                                 .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
                                                         ) {
+                                                            val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
                                                             Image(
                                                                 painter = rememberImagePainter(
                                                                     data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
@@ -575,6 +598,7 @@ fun HomeScreen(
                                                                 modifier = Modifier
                                                                     .size(48.dp)
                                                                     .clip(CircleShape)
+                                                                    .scale(scale)
                                                             )
                                                         }
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
@@ -649,6 +673,7 @@ fun HomeScreen(
                                                                 .clip(CircleShape)
                                                                 .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
                                                         ) {
+                                                            val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
                                                             Image(
                                                                 painter = rememberImagePainter(
                                                                     data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
@@ -660,6 +685,7 @@ fun HomeScreen(
                                                                 modifier = Modifier
                                                                     .size(48.dp)
                                                                     .clip(CircleShape)
+                                                                    .scale(scale)
                                                             )
                                                         }
                                                         Spacer(modifier = Modifier.width(med + 30.dp))
@@ -750,7 +776,10 @@ fun HomeScreen(
                                                     val gson = Gson()
                                                     var markerDataJson = gson.toJson(mkList)
                                                     var currentMarkerDataJson = markerDataJson
-                                                    view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    try {
+                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    } catch (e: Exception) {
+                                                    }
                                                 }
                                             }
                                         }
@@ -777,7 +806,10 @@ fun HomeScreen(
                                                 val gson = Gson()
                                                 var markerDataJson = gson.toJson(mkList)
                                                 var currentMarkerDataJson = markerDataJson
-                                                webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                try {
+                                                    webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                } catch (e: Exception) {
+                                                }
                                             }
                                             isAfter=false
                                         }
@@ -820,6 +852,7 @@ fun HomeScreen(
                                                             .clip(CircleShape)
                                                             .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
                                                     ) {
+                                                        val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
                                                         Image(
                                                             painter = rememberImagePainter(
                                                                 data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
@@ -831,6 +864,7 @@ fun HomeScreen(
                                                             modifier = Modifier
                                                                 .size(48.dp)
                                                                 .clip(CircleShape)
+                                                                .scale(scale)
                                                         )
                                                     }
                                                     Spacer(modifier = Modifier.width(med+30.dp))
@@ -901,6 +935,7 @@ fun HomeScreen(
                                                             .clip(CircleShape)
                                                             .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
                                                     ) {
+                                                        val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
                                                         Image(
                                                             painter = rememberImagePainter(
                                                                 data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
@@ -912,6 +947,7 @@ fun HomeScreen(
                                                             modifier = Modifier
                                                                 .size(48.dp)
                                                                 .clip(CircleShape)
+                                                                .scale(scale)
                                                         )
                                                     }
                                                     Spacer(modifier = Modifier.width(med+30.dp))

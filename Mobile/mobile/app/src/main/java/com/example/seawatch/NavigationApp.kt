@@ -147,7 +147,8 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.Profile.name) {
             Profile(
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                userViewModel = userViewModel
             )
         }
         composable(route = NavigationScreen.SignUp.name) {

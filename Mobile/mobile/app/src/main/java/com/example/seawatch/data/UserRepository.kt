@@ -20,4 +20,14 @@ class UserRepository(private val userDAO: UserDAO) {
     suspend fun getUserByMail(mail:String){
         userDAO.getUserByMail(mail)
     }
+
+    @WorkerThread
+    suspend fun setSurnameUserByMail(mail:String, cognome:String){
+        userDAO.setSurnameUserByMail(mail, cognome)
+    }
+
+    @WorkerThread
+    suspend fun setNameUserByMail(mail:String, nome:String){
+        userDAO.setNameUserByMail(mail, nome)
+    }
 }
