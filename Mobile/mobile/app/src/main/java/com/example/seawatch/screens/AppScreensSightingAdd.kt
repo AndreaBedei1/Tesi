@@ -77,8 +77,8 @@ fun SightingScreen(
                         for (elemento in imagesList){
                             immagini=immagini+elemento+";"
                         }
-                        val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
-                        avvistamentiViewModel.insert(a)
+                       /* val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
+                        avvistamentiViewModel.insert(a)*/
                         showConfirmDialog=true },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
@@ -244,7 +244,7 @@ fun SightingScreen(
                                                             MaterialTheme.colorScheme.outline,
                                                             RoundedCornerShape(2.dp)
                                                         ),
-                                                    expanded = expandedSpecie,
+                                                    expanded = expandedSpecie && selectedOptionText!="",
                                                     onExpandedChange = { expandedSpecie = !expandedSpecie },
                                                 ) {
                                                     TextField(
@@ -367,8 +367,8 @@ fun SightingScreen(
                         for (elemento in imagesList){
                             immagini=immagini+elemento+";"
                         }
-                        val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
-                        avvistamentiViewModel.insert(a)
+                        /*val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
+                        avvistamentiViewModel.insert(a)*/
                         showConfirmDialog=true },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
@@ -507,7 +507,7 @@ fun SightingScreen(
                                                 MaterialTheme.colorScheme.outline,
                                                 RoundedCornerShape(2.dp)
                                             ),
-                                        expanded = expandedSpecie,
+                                        expanded = expandedSpecie && selectedOptionText!="",
                                         onExpandedChange = { expandedSpecie = !expandedSpecie },
                                     ) {
                                         TextField(
