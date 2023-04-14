@@ -51,7 +51,6 @@ fun LoginScreen(
     goToSignUp:() ->Unit,
     modifier: Modifier = Modifier,
     sharedPrefForLogin: SharedPreferences,
-    goToOffline: () -> Unit,
     userViewModel: UserViewModel
 ) {
     val configuration = LocalConfiguration.current
