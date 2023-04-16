@@ -20,6 +20,6 @@ data class AvvistamentiDaCaricare(@PrimaryKey var id:String,
                                 var immagine3:ByteArray? = null,
                                 var immagine4:ByteArray? = null,
                                 var immagine5:ByteArray? = null,
-                                var caricato:Boolean
+                                var caricato:Boolean = false
                                ) {
 }

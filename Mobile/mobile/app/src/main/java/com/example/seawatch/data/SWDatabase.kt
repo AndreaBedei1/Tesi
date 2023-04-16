@@ -9,11 +9,12 @@ import com.example.seawatch.data.FavouriteDAO
 import com.example.seawatch.data.User
 import com.example.seawatch.data.UserDAO
 
-@Database(entities=[AvvistamentiDaCaricare::class, Favourite::class, User::class], version=5)
+@Database(entities=[AvvistamentiDaCaricare::class, Favourite::class, User::class, AvvistamentiDaVedere::class], version=5)
 abstract class SWDatabase:RoomDatabase(){
     abstract fun avvistamentiDAO():AvvistamentiDAO
     abstract fun favouriteDAO(): FavouriteDAO
     abstract fun userDAO(): UserDAO
+    abstract fun avvistamentiViewDAO(): AvvistamentiViewDAO
     companion object{
         @Volatile
         private var INSTANCE:SWDatabase?=null

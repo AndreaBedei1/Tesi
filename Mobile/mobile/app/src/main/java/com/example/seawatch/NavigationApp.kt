@@ -47,7 +47,8 @@ fun NavigationApp(
     avvistamentiViewModel: AvvistamentiViewModel,
     favouriteViewModel: FavouriteViewModel,
     listItems: List<Favourite>,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -92,7 +93,8 @@ fun NavigationApp(
             favouriteViewModel=favouriteViewModel,
             listItems=listItems,
             profileViewModel=profileViewModel,
-            userViewModel=userViewModel
+            userViewModel=userViewModel,
+            avvistamentiViewViewModel=avvistamentiViewViewModel
         )
     }
 }
@@ -111,7 +113,8 @@ private fun NavigationGraph(
     favouriteViewModel: FavouriteViewModel,
     listItems: List<Favourite>,
     profileViewModel: ProfileViewModel,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
     NavHost(
         navController = navController,
@@ -123,7 +126,8 @@ private fun NavigationGraph(
                 goToHome = { navigateToHome(navController)},
                 goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
                 sharedPrefForLogin=sharedPrefForLogin,
-                userViewModel = userViewModel
+                userViewModel = userViewModel,
+                avvistamentiViewViewModel= avvistamentiViewViewModel
             )
         }
         composable(route = NavigationScreen.Settings.name) {
@@ -161,7 +165,10 @@ private fun NavigationGraph(
                 favouriteViewModel = favouriteViewModel,
                 listItems=listItems,
                 goToProfile = {navController.navigate(NavigationScreen.Profile.name)},
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                avvistamentiViewViewModel= avvistamentiViewViewModel,
+                avvistamentiViewModel = avvistamentiViewModel,
+                userViewModel = userViewModel
             )
         }
         composable(route = NavigationScreen.AddSighting.name){

@@ -1,6 +1,10 @@
 package com.example.seawatch
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.seawatch.data.Sighting
+import com.example.seawatch.data.bitmapToByteArray
 import com.example.seawatch.data.getAnimal
 import com.example.seawatch.data.getSpecieFromAniaml
 import okhttp3.*
@@ -66,6 +72,22 @@ fun SightingScreen(
     var count by rememberSaveable {mutableStateOf(0)}
     var imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime.toString())
     var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
+    val sighting = Sighting(currentDateTime, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
+    var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    if (errorMessage.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = "" },
+            title = { Text(text = "Aggiornamento") },
+            text = { Text(text = errorMessage) },
+            confirmButton = {
+                Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
+
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
@@ -73,13 +95,49 @@ fun SightingScreen(
                 FloatingActionButton(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = { var immagini=""
-                        for (elemento in imagesList){
-                            immagini=immagini+elemento+";"
+                    onClick = {
+                        for( image in imagesList){
+                            val bitmap: Bitmap? = BitmapFactory.decodeStream(contex.contentResolver.openInputStream(image))
+                            if(bitmap==null){
+                                errorMessage = "Impossibile caricare le foto dalla memoria del sistema."
+                                break
+                            }
+                            if(sighting.image1==null){
+                                sighting.image1 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            } else if(sighting.image2==null){
+                                sighting.image2 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image3==null){
+                                sighting.image3 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image4==null){
+                                sighting.image4 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image5==null){
+                                sighting.image5 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }
                         }
-                       /* val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
-                        avvistamentiViewModel.insert(a)*/
-                        showConfirmDialog=true },
+                        val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)
+                        avvistamentiViewModel.insert(a)
+                        showConfirmDialog=true
+                    },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
                     Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
@@ -104,7 +162,7 @@ fun SightingScreen(
                             LazyColumn(
                                 modifier = modifier
                                     .fillMaxSize()
-                                    .padding(horizontal = hig),
+                                    .padding(horizontal = hig, vertical = 3.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
@@ -117,7 +175,7 @@ fun SightingScreen(
                                             Row() {
                                                 Column() {
                                                     Text(
-                                                        text = "Utente:",
+                                                        text = "Utente:  ",
                                                         style = MaterialTheme.typography.titleLarge
                                                     )
                                                     Spacer(modifier = Modifier.height(3.dp))
@@ -332,23 +390,13 @@ fun SightingScreen(
                                             onDismissRequest = { showConfirmDialog = false; goToHome() },
                                             title = { Text("AVVISO") },
                                             text = {
-                                                Column {
-                                                    Row(){
-                                                        Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di premere l'apposito pulsante.")
-                                                    }
-                                                    Row(
-                                                        modifier = Modifier
-                                                            .padding(8.dp)
-                                                            .fillMaxWidth(),
-                                                        horizontalArrangement = Arrangement.End
-                                                    ) {
-                                                        TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
-                                                            Text("CHIUDI")
-                                                        }
-                                                    }
-                                                }
+                                                Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di premere l'apposito pulsante.")
                                             },
-                                            confirmButton = {/** TODO */}
+                                            confirmButton = {
+                                                TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
+                                                    Text("CHIUDI")
+                                                }
+                                            }
                                         )
                                     }
                                 }
@@ -363,13 +411,49 @@ fun SightingScreen(
                 FloatingActionButton(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = { var immagini=""
-                        for (elemento in imagesList){
-                            immagini=immagini+elemento+";"
+                    onClick = {
+                        for( image in imagesList){
+                            val bitmap: Bitmap? = BitmapFactory.decodeStream(contex.contentResolver.openInputStream(image))
+                            if(bitmap==null){
+                                errorMessage = "Impossibile caricare le foto dalla memoria del sistema."
+                                break
+                            }
+                            if(sighting.image1==null){
+                                sighting.image1 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            } else if(sighting.image2==null){
+                                sighting.image2 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image3==null){
+                                sighting.image3 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image4==null){
+                                sighting.image4 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }else if(sighting.image5==null){
+                                sighting.image5 = bitmap?.let {
+                                    bitmapToByteArray(
+                                        it
+                                    )
+                                }
+                            }
                         }
-                        /*val a=AvvistamentiDaCaricare(System.currentTimeMillis().toString(), utente, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note, immagini)
-                        avvistamentiViewModel.insert(a)*/
-                        showConfirmDialog=true },
+                        val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)
+                        avvistamentiViewModel.insert(a)
+                        showConfirmDialog=true
+                    },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
                     Icon(imageVector = Icons.Filled.Check, "Conferma aggiunta avvistamento")
@@ -399,7 +483,7 @@ fun SightingScreen(
                                 Row() {
                                     Column() {
                                         Text(
-                                            text = "Utente:",
+                                            text = "Utente:  ",
                                             style = MaterialTheme.typography.titleLarge
                                         )
                                         Spacer(modifier = Modifier.height(3.dp))
@@ -590,8 +674,12 @@ fun SightingScreen(
                                     modifier = Modifier.padding(vertical = 16.dp),
                                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                     onClick = {
-                                        (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
-                                        count+=1
+                                        if(imagesList.count()<5){
+                                            (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
+                                            count+=1
+                                        } else {
+                                            errorMessage = "Non si possono caricare più di 5 foto."
+                                        }
                                     }
                                 ) {
                                     Icon(painterResource(id =R.drawable.baseline_camera_alt_24), contentDescription = "Foto")
@@ -604,23 +692,13 @@ fun SightingScreen(
                                         onDismissRequest = { showConfirmDialog = false; goToHome() },
                                         title = { Text("AVVISO") },
                                         text = {
-                                            Column {
-                                                Row(){
-                                                    Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di accedere e di premere l'apposito pulsante.")
-                                                }
-                                                Row(
-                                                    modifier = Modifier
-                                                        .padding(8.dp)
-                                                        .fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.End
-                                                ) {
-                                                    TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
-                                                        Text("CHIUDI")
-                                                    }
-                                                }
-                                            }
+                                            Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di accedere e di premere l'apposito pulsante.")
                                         },
-                                        confirmButton = {/** TODO */}
+                                        confirmButton = {
+                                            TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
+                                                Text("CHIUDI")
+                                            }
+                                        }
                                     )
                                 }
                             }

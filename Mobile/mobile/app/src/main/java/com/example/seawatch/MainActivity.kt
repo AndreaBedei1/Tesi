@@ -69,6 +69,10 @@ class MainActivity : FragmentActivity() {
         UserViewModelFactory(repository=(application as SWApplication).repository3)
     }
 
+    val avvistamentiViewViewModel by viewModels<AvvistamentiViewViewModel> {
+        AvvistamentiViewModelFactory(repository=(application as SWApplication).repository4)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
@@ -90,8 +94,8 @@ class MainActivity : FragmentActivity() {
                         avvistamentiViewModel=avvistamentiViewModel,
                         favouriteViewModel=favouriteViewModel,
                         listItems=listItems,
-                        userViewModel=userViewModel
-
+                        userViewModel=userViewModel,
+                        avvistamentiViewViewModel=avvistamentiViewViewModel
                     )
                 }
             }

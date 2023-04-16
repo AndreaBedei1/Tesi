@@ -22,4 +22,8 @@ class SWApplication: Application() {
     val repository3 by lazy{
         UserRepository(database.userDAO())
     }
+
+    val repository4 by lazy{
+        AvvistamentiViewRepository(database.avvistamentiViewDAO())
+    }
 }

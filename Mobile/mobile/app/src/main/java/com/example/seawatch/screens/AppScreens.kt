@@ -244,6 +244,17 @@ fun Profile(
     }
 }
 
+@Composable
+fun takeDatasList (avvistamentiViewModel: AvvistamentiViewModel, avvistamentiViewViewModel: AvvistamentiViewViewModel): List<AvvistamentiDaVedere>{
+    val temp: List<AvvistamentiDaVedere> by avvistamentiViewViewModel.all.collectAsState(initial = listOf())
+    val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
+    val l = mutableListOf<AvvistamentiDaVedere>()
+    for(e in tempAvvLocali){
+        l.add(AvvistamentiDaVedere(e.id, e.avvistatore, e.data, e.numeroEsemplari, e.posizione, e.posizione, e.animale, e.specie, e.mare, e.vento, e.note, "profilo.jpg", "nome", "cognome", false))
+    }
+    return l + temp
+}
+
 data class MarkerData(
     val latitude: String,
     val longitude: String,
@@ -264,7 +275,10 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     favouriteViewModel: FavouriteViewModel,
     listItems:List<Favourite>,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel,
+    avvistamentiViewModel : AvvistamentiViewModel,
+    userViewModel: UserViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
@@ -273,10 +287,6 @@ fun HomeScreen(
     val backGround = MaterialTheme.colorScheme.primaryContainer
     val context = LocalContext.current
     var errorMessage by rememberSaveable { mutableStateOf("") }
-    var avvList by rememberSaveable { mutableStateOf("") }
-    var isLoading by rememberSaveable { mutableStateOf(true) }
-    var isFilter by rememberSaveable { mutableStateOf(false) }
-    var isAfter by rememberSaveable { mutableStateOf(true) }
     var showFilterDialog by rememberSaveable { mutableStateOf(false) }
     val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -284,6 +294,7 @@ fun HomeScreen(
     var filterPref by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
     var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
+
     mapset = false
 
     if(fav){
@@ -397,7 +408,7 @@ fun HomeScreen(
                                     TextButton(onClick = { showFilterDialog = false }) {
                                         Text("Annulla")
                                     }
-                                    TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText; isFilter=true }) {
+                                    TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText}) {
                                         Text("Applica")
 
                                     }
@@ -409,130 +420,62 @@ fun HomeScreen(
             )
         }
     ){ it ->
-        LaunchedEffect(key1 = isLoading, key2 = isFilter) {
-            if (isLoading) {
-                val client = OkHttpClient()
-                val formBody = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("request", "tbl_avvistamenti")
-                    .build()
-                val request = Request.Builder()
-                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
-                    .post(formBody)
-                    .build()
+        var list = mutableListOf<AvvistamentiDaVedere>()
+        val temp = takeDatasList(avvistamentiViewModel, avvistamentiViewViewModel)
 
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        errorMessage = "Impossibile comunicare col server."
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val body = response.body?.string()
-                        avvList = body.toString()
-                        isLoading = false
-                    }
-                })
-            }
-            if(isFilter){
-                isFilter=false
-                isAfter=true
+        for (e in temp){
+            if (filterAnima == "" && !filterPref) {
+                list.add(e)
+            } else if (filterAnima != "" && !filterPref) {
+                if(e.animale==filterAnima){
+                    list.add(e)
+                }
+            } else if(filterAnima == "" && filterPref) {
+                if(e.id in listFavourite){
+                    list.add(e)
+                }
+            } else {
+                if(e.animale==filterAnima && e.id in listFavourite){
+                    list.add(e)
+                }
             }
         }
 
-        if (isLoading) {
-            AlertDialog(
-                onDismissRequest = { isLoading = false },
-                title = { Text(text = "Caricamento...") },
-                text = { Text(text = "Attendi che i dati vengano caricati.") },
-                confirmButton = {}
-            )
-        } else {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                /** Homepage Orizzontale */
+                Row(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .background(backGround)
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2.3).dp)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(it),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AndroidView(
+                                factory = { context ->
+                                    WebView(context).apply {
+                                        // Imposta le opzioni WebView necessarie
+                                        settings.javaScriptEnabled = true
+                                        settings.domStorageEnabled = true
+                                        loadUrl("file:///android_asset/leaflet/index.html")
 
-            var list = JSONArray()
-            var temp = JSONArray(avvList)
-
-            for (i in 0 until temp.length() step 1) {
-                if (filterAnima == "" && !filterPref) {
-                    list.put(temp.get(i))
-                } else if (filterAnima != "" && !filterPref) {
-                    if((temp.get(i) as JSONObject).get("Anima_Nome").toString()==filterAnima){
-                        list.put(temp.get(i))
-                    }
-                } else if(filterAnima == "" && filterPref) {
-                    if((temp.get(i) as JSONObject).get("ID").toString() in listFavourite){
-                        list.put(temp.get(i))
-                    }
-                } else {
-                    if((temp.get(i) as JSONObject).get("Anima_Nome").toString()==filterAnima && (temp.get(i) as JSONObject).get("ID").toString() in listFavourite){
-                        list.put(temp.get(i))
-                    }
-                }
-            }
-
-            when (configuration.orientation) {
-                Configuration.ORIENTATION_LANDSCAPE -> {
-                    /** Homepage Orizzontale */
-                    Row(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .background(backGround)
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2.3).dp)) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(it),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                AndroidView(
-                                    factory = { context ->
-                                        WebView(context).apply {
-                                            // Imposta le opzioni WebView necessarie
-                                            settings.javaScriptEnabled = true
-                                            settings.domStorageEnabled = true
-
-                                            webViewClient = object : WebViewClient() {
-                                                override fun onPageFinished(view: WebView?, url: String?) {
-                                                    super.onPageFinished(view, url)
-                                                    var mkList = mutableListOf<MarkerData>()
-                                                    for (i in 0..list.length() - 1 step 1) {
-                                                        mkList.add(
-                                                            MarkerData(
-                                                                (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                (list.get(i) as JSONObject).get("Long").toString(),
-                                                                (list.get(i) as JSONObject).get("Data").toString(),
-                                                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
-                                                            )
-                                                        )
-                                                    }
-                                                    val gson = Gson()
-                                                    var markerDataJson = gson.toJson(mkList)
-                                                    var currentMarkerDataJson = markerDataJson
-                                                    try {
-                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                    } catch (e: Exception) {
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    update = { webView ->
-                                        if(isAfter || true) {
-                                            if (!mapset) {
-                                                webView.loadUrl("file:///android_asset/leaflet/index.html")
-                                                mapset = true
-                                            } else {
-                                                webView?.evaluateJavascript("removeMarkers()", null)
+                                        webViewClient = object : WebViewClient() {
+                                            override fun onPageFinished(view: WebView?, url: String?) {
+                                                super.onPageFinished(view, url)
                                                 var mkList = mutableListOf<MarkerData>()
-                                                for (i in 0..list.length() - 1 step 1) {
+                                                for (e in list) {
                                                     mkList.add(
                                                         MarkerData(
-                                                            (list.get(i) as JSONObject).get("Latid").toString(),
-                                                            (list.get(i) as JSONObject).get("Long").toString(),
-                                                            (list.get(i) as JSONObject).get("Data").toString(),
-                                                            (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                            (list.get(i) as JSONObject).get("Specie_Nome").toString()
+                                                            e.latid,
+                                                            e.long,
+                                                            e.data,
+                                                            e.animale,
+                                                            e.specie
                                                         )
                                                     )
                                                 }
@@ -540,384 +483,319 @@ fun HomeScreen(
                                                 var markerDataJson = gson.toJson(mkList)
                                                 var currentMarkerDataJson = markerDataJson
                                                 try {
-                                                    webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
                                                 } catch (e: Exception) {
                                                 }
                                             }
-                                            isAfter=false
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxSize()
-                                )
-                            }
-                        }
-                        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                            items(1){element->
-                                Spacer(modifier = Modifier.height(40.dp))
-                                Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
-                                    Column() {
-                                        for (i in 0..list.length()-1 step 2) {
-                                            Card(
-                                                shape = MaterialTheme.shapes.medium,
-                                                modifier = Modifier
-                                                    .padding(5.dp)
-                                                    .size(width = 180.dp, height = 160.dp),
-                                                border = BorderStroke(2.dp, Color.Black),
-                                                colors = CardDefaults.outlinedCardColors(),
-                                                elevation = CardDefaults.cardElevation(4.dp),
-                                                onClick = { goToSighting() }
-                                            ) {
-
-                                                var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
-                                                Column(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .padding(12.dp)
-                                                ) {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically
-                                                    ) {
-                                                        Box(
-                                                            modifier = Modifier
-                                                                .size(48.dp)
-                                                                .clip(CircleShape)
-                                                                .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
-                                                        ) {
-                                                            val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
-                                                            Image(
-                                                                painter = rememberImagePainter(
-                                                                    data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                        i
-                                                                    ) as JSONObject).get("Img")
-                                                                        .toString(),
-                                                                ),
-                                                                contentDescription = "Immagine del profilo",
-                                                                modifier = Modifier
-                                                                    .size(48.dp)
-                                                                    .clip(CircleShape)
-                                                                    .scale(scale)
-                                                            )
-                                                        }
-                                                        Spacer(modifier = Modifier.width(med + 30.dp))
-                                                        IconButton(
-                                                            onClick = {
-                                                                if(isFavorite){
-                                                                    favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
-                                                                    listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
-                                                                } else {
-                                                                    favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
-                                                                    listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
-                                                                }
-                                                                isFavorite = !isFavorite
-                                                            },
-                                                            modifier = Modifier.align(Alignment.CenterVertically)
-                                                        ) {
-                                                            Icon(
-                                                                imageVector = Icons.Default.Favorite,
-                                                                contentDescription = "Favorite",
-                                                                tint = if (isFavorite) Color.Red else LocalContentColor.current
-                                                            )
-                                                        }
-                                                    }
-                                                    Spacer(modifier = Modifier.height(10.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Data")
-                                                            .toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Anima_Nome")
-                                                            .toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Nome")
-                                                            .toString() + " " + (list.get(i) as JSONObject).get(
-                                                            "Cognome"
-                                                        ).toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                }
-                                            }
                                         }
                                     }
-                                    Column() {
-                                        for (i in 1..list.length()-1 step 2) {
-                                            Card(
-                                                shape = MaterialTheme.shapes.medium,
-                                                modifier = Modifier
-                                                    .padding(5.dp)
-                                                    .size(width = 180.dp, height = 160.dp),
-                                                border = BorderStroke(2.dp, Color.Black),
-                                                colors = CardDefaults.outlinedCardColors(),
-                                                elevation = CardDefaults.cardElevation(4.dp),
-                                                onClick = { goToSighting() }
-                                            ) {
-                                                var isFavorite by rememberSaveable { mutableStateOf((list.get(i) as JSONObject).get("ID").toString() in listFavourite) }
-                                                Column(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .padding(12.dp)
-                                                ) {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically
-                                                    ) {
-                                                        Box(
-                                                            modifier = Modifier
-                                                                .size(48.dp)
-                                                                .clip(CircleShape)
-                                                                .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
-                                                        ) {
-                                                            val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
-                                                            Image(
-                                                                painter = rememberImagePainter(
-                                                                    data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                        i
-                                                                    ) as JSONObject).get("Img")
-                                                                        .toString(),
-                                                                ),
-                                                                contentDescription = "Immagine del profilo",
-                                                                modifier = Modifier
-                                                                    .size(48.dp)
-                                                                    .clip(CircleShape)
-                                                                    .scale(scale)
-                                                            )
-                                                        }
-                                                        Spacer(modifier = Modifier.width(med + 30.dp))
-                                                        IconButton(
-                                                            onClick = {
-                                                                if(isFavorite){
-                                                                    favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
-                                                                    listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
-                                                                } else {
-                                                                    favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
-                                                                    listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
-                                                                }
-                                                                isFavorite = !isFavorite
-                                                            },
-                                                            modifier = Modifier.align(Alignment.CenterVertically)
-                                                        ) {
-                                                            Icon(
-                                                                imageVector = Icons.Default.Favorite,
-                                                                contentDescription = "Favorite",
-                                                                tint = if (isFavorite) Color.Red else LocalContentColor.current
-                                                            )
-                                                        }
-                                                    }
-                                                    Spacer(modifier = Modifier.height(10.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Data")
-                                                            .toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Anima_Nome")
-                                                            .toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    Text(
-                                                        text = (list.get(i) as JSONObject).get("Nome")
-                                                            .toString() + " " + (list.get(i) as JSONObject).get(
-                                                            "Cognome"
-                                                        ).toString(),
-                                                        style = MaterialTheme.typography.titleMedium
-                                                    )
-                                                }
-                                            }
-                                        }
+                                },
+                                update = { webView ->
+                                    webView?.evaluateJavascript("removeMarkers()", null)
+                                    var mkList = mutableListOf<MarkerData>()
+                                    for (e in list) {
+                                        mkList.add(
+                                            MarkerData(
+                                                e.latid,
+                                                e.long,
+                                                e.data,
+                                                e.animale,
+                                                e.specie
+                                            )
+                                        )
                                     }
-                                }
-                            }
-                        }
-                    }
-                }
-                else -> {
-                    /** Homepage verticale*/
-                    LazyColumn(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .background(backGround),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        items(1) { element ->
-                            Spacer(modifier = Modifier.height(50.dp))
-                            Box(
+                                    val gson = Gson()
+                                    var markerDataJson = gson.toJson(mkList)
+                                    var currentMarkerDataJson = markerDataJson
+                                    try {
+                                        webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                    } catch (e: Exception) {
+                                    }
+                                },
                                 modifier = Modifier.fillMaxSize()
-                            ) {
-                                AndroidView(
-                                    factory = { context ->
-                                        WebView(context).apply {
-                                            // Imposta le opzioni WebView necessarie
-                                            settings.javaScriptEnabled = true
-                                            settings.domStorageEnabled = true
-
-                                            webViewClient = object : WebViewClient() {
-                                                override fun onPageFinished(view: WebView?, url: String?) {
-                                                    super.onPageFinished(view, url)
-                                                    var mkList = mutableListOf<MarkerData>()
-                                                    for (i in 0..list.length() - 1 step 1) {
-                                                        mkList.add(
-                                                            MarkerData(
-                                                                (list.get(i) as JSONObject).get("Latid").toString(),
-                                                                (list.get(i) as JSONObject).get("Long").toString(),
-                                                                (list.get(i) as JSONObject).get("Data").toString(),
-                                                                (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                (list.get(i) as JSONObject).get("Specie_Nome").toString()
-                                                            )
-                                                        )
-                                                    }
-                                                    val gson = Gson()
-                                                    var markerDataJson = gson.toJson(mkList)
-                                                    var currentMarkerDataJson = markerDataJson
-                                                    try {
-                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                    } catch (e: Exception) {
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    update = { webView ->
-                                        if(isAfter || true) {
-                                            if (!mapset) {
-                                                webView.loadUrl("file:///android_asset/leaflet/index.html")
-                                                mapset = true
-                                            } else {
-                                                webView?.evaluateJavascript("removeMarkers()", null)
-                                                var mkList = mutableListOf<MarkerData>()
-                                                for (i in 0..list.length() - 1 step 1) {
-                                                    mkList.add(
-                                                        MarkerData(
-                                                            (list.get(i) as JSONObject).get("Latid").toString(),
-                                                            (list.get(i) as JSONObject).get("Long").toString(),
-                                                            (list.get(i) as JSONObject).get("Data").toString(),
-                                                            (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                            (list.get(i) as JSONObject).get("Specie_Nome").toString()
-                                                        )
-                                                    )
-                                                }
-                                                val gson = Gson()
-                                                var markerDataJson = gson.toJson(mkList)
-                                                var currentMarkerDataJson = markerDataJson
-                                                try {
-                                                    webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                } catch (e: Exception) {
-                                                }
-                                            }
-                                            isAfter=false
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxSize()
-                                )
-                            }
+                            )
+                        }
+                    }
+                    LazyColumn(modifier = modifier.padding(vertical = 10.dp),horizontalAlignment = Alignment.CenterHorizontally) {
+                        items(1){element->
+                            Spacer(modifier = Modifier.height(30.dp))
                             Spacer(modifier = Modifier.height(min))
                             Text(
-                                text = "Avvistamenti Online",
+                                text = "Avvistamenti",
                                 style = MaterialTheme.typography.titleLarge
                             )
                             Spacer(modifier = Modifier.height(min/2))
-                            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
-                                Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    for (i in 0..list.length()-1 step 2){
-                                        Card(
-                                            shape = MaterialTheme.shapes.medium,
-                                            modifier = Modifier
-                                                .padding(10.dp)
-                                                .fillMaxWidth(),
-                                            border= BorderStroke(2.dp,Color.Black),
-                                            colors = CardDefaults.outlinedCardColors(),
-                                            elevation = CardDefaults.cardElevation(4.dp),
-                                            onClick = {goToSighting()}
+                            Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
+                                for(k in 0..1){
+                                    Column() {
+                                        for (i in k..list.count()-1 step 2) {
+                                            var nome by rememberSaveable { mutableStateOf(list.get(i).nome) }
+                                            var cognome by rememberSaveable { mutableStateOf(list.get(i).cognome) }
+                                            var img by rememberSaveable { mutableStateOf(list.get(i).img) }
+                                            if(!list.get(i).online){
+                                                if (isNetworkAvailable(context)) {
+                                                    val client = OkHttpClient()
+                                                    val formBody = MultipartBody.Builder()
+                                                        .setType(MultipartBody.FORM)
+                                                        .addFormDataPart("user", em)
+                                                        .addFormDataPart("request", "getUserInfoMob")
+                                                        .build()
+                                                    val request = Request.Builder()
+                                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                                        .post(formBody)
+                                                        .build()
 
-                                        ) {
-                                            var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
-                                            Column(
+                                                    client.newCall(request).enqueue(object : Callback {
+                                                        override fun onFailure(call: Call, e: IOException) {
+                                                        }
+
+                                                        override fun onResponse(call: Call, response: Response) {
+                                                            val body = response.body?.string()
+                                                            val msg = JSONArray(body.toString())
+                                                            try {
+                                                                nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                                                                cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                                                                img = (msg.get(0) as JSONObject).get("Img").toString()
+                                                            } catch (e: Exception) {
+                                                            }
+                                                        }
+                                                    })
+                                                } else {
+                                                    val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+                                                    for(elem in userItems){
+                                                        if(elem.mail == em){
+                                                            nome = elem.nome
+                                                            cognome = elem.cognome
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            Card(
+                                                shape = MaterialTheme.shapes.medium,
                                                 modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(12.dp)
+                                                    .padding(5.dp)
+                                                    .size(width = 180.dp, height = 160.dp),
+                                                border = BorderStroke(2.dp, Color.Black),
+                                                colors = CardDefaults.cardColors(containerColor = if(list.get(i).online){MaterialTheme.colorScheme.secondaryContainer} else {MaterialTheme.colorScheme.tertiaryContainer}),
+                                                elevation = CardDefaults.cardElevation(4.dp),
+                                                onClick = { goToSighting() }
                                             ) {
-                                                Row(
-                                                    verticalAlignment = Alignment.CenterVertically
+                                                var isFavorite =list.get(i).id in listFavourite
+                                                Column(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(12.dp)
                                                 ) {
-                                                    Box(
-                                                        modifier = Modifier
-                                                            .size(48.dp)
-                                                            .clip(CircleShape)
-                                                            .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
-                                                        Image(
-                                                            painter = rememberImagePainter(
-                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                    i
-                                                                ) as JSONObject).get("Img")
-                                                                    .toString(),
-                                                            ),
-                                                            contentDescription = "Immagine del profilo",
+                                                        Box(
                                                             modifier = Modifier
                                                                 .size(48.dp)
                                                                 .clip(CircleShape)
-                                                                .scale(scale)
-                                                        )
+                                                                .clickable {
+                                                                    profileViewModel.set(list.get(i).avvistatore)
+                                                                    goToProfile()
+                                                                }
+                                                        ) {
+                                                            val scale = if(img=="profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
+                                                            Image(
+                                                                painter = rememberImagePainter(
+                                                                    data = if(isNetworkAvailable(context)){
+                                                                        "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + img
+                                                                    } else {
+                                                                        R.drawable.profilo
+                                                                    },
+                                                                ),
+                                                                contentDescription = "Immagine del profilo",
+                                                                modifier = Modifier
+                                                                    .size(48.dp)
+                                                                    .clip(CircleShape)
+                                                                    .scale(scale)
+                                                            )
+                                                        }
+                                                        Spacer(modifier = Modifier.width(med + 30.dp))
+                                                        IconButton(
+                                                            onClick = {
+                                                                if(isFavorite){
+                                                                    favouriteViewModel.deletePref(list.get(i).id, em)
+                                                                    listFavourite.remove(list.get(i).id)
+                                                                } else {
+                                                                    favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, list.get(i).id))
+                                                                    listFavourite.add(list.get(i).id)
+                                                                }
+                                                                isFavorite = !isFavorite
+                                                            },
+                                                            modifier = Modifier.align(Alignment.CenterVertically)
+                                                        ) {
+                                                            Icon(
+                                                                imageVector = Icons.Default.Favorite,
+                                                                contentDescription = "Favorite",
+                                                                tint = if (isFavorite) Color.Red else LocalContentColor.current
+                                                            )
+                                                        }
                                                     }
-                                                    Spacer(modifier = Modifier.width(med+30.dp))
-                                                    IconButton(
-                                                        onClick = {
-                                                            if(isFavorite){
-                                                                favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
-                                                                listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
-                                                            } else {
-                                                                favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
-                                                                listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
-                                                            }
-                                                            isFavorite = !isFavorite
-                                                      },
-                                                        modifier = Modifier.align(Alignment.CenterVertically)
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = Icons.Default.Favorite,
-                                                            contentDescription = "Favorite",
-                                                            tint = if (isFavorite) Color.Red else LocalContentColor.current
-                                                        )
-                                                    }
+                                                    Spacer(modifier = Modifier.height(10.dp))
+                                                    Text(
+                                                        text = list.get(i).data,
+                                                        style = MaterialTheme.typography.titleMedium
+                                                    )
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    Text(
+                                                        text = list.get(i).animale,
+                                                        style = MaterialTheme.typography.titleMedium
+                                                    )
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    Text(
+                                                        text = nome + " " + cognome,
+                                                        style = MaterialTheme.typography.titleMedium
+                                                    )
                                                 }
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                Text(
-                                                    text =  (list.get(i) as JSONObject).get("Data").toString(),
-                                                    style = MaterialTheme.typography.titleMedium
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                Text(
-                                                    text = (list.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                    style = MaterialTheme.typography.titleMedium
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                Text(
-                                                    text = (list.get(i) as JSONObject).get("Nome").toString() +" "+ (list.get(i) as JSONObject).get("Cognome").toString(),
-                                                    style = MaterialTheme.typography.titleMedium
-                                                )
                                             }
                                         }
                                     }
                                 }
-                                Column(modifier=Modifier.width((configuration.screenWidthDp/2).dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    for (i in 1..list.length()-1 step 2){
+                            }
+                        }
+                    }
+                }
+            }
+            else -> {
+                /** Homepage verticale*/
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .background(backGround),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(1) { element ->
+                        Spacer(modifier = Modifier.height(50.dp))
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            AndroidView(
+                                factory = { context ->
+                                    WebView(context).apply {
+                                        // Imposta le opzioni WebView necessarie
+                                        settings.javaScriptEnabled = true
+                                        settings.domStorageEnabled = true
+                                        loadUrl("file:///android_asset/leaflet/index.html")
+
+                                        webViewClient = object : WebViewClient() {
+                                            override fun onPageFinished(view: WebView?, url: String?) {
+                                                super.onPageFinished(view, url)
+                                                var mkList = mutableListOf<MarkerData>()
+                                                for (e in list) {
+                                                    mkList.add(
+                                                        MarkerData(
+                                                            e.latid,
+                                                            e.long,
+                                                            e.data,
+                                                            e.animale,
+                                                            e.specie
+                                                        )
+                                                    )
+                                                }
+                                                val gson = Gson()
+                                                var markerDataJson = gson.toJson(mkList)
+                                                var currentMarkerDataJson = markerDataJson
+                                                try {
+                                                    view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                } catch (e: Exception) {
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                update = { webView ->
+                                    webView?.evaluateJavascript("removeMarkers()", null)
+                                    var mkList = mutableListOf<MarkerData>()
+                                    for (e in list) {
+                                        mkList.add(
+                                            MarkerData(
+                                                e.latid,
+                                                e.long,
+                                                e.data,
+                                                e.animale,
+                                                e.specie
+                                            )
+                                        )
+                                    }
+                                    val gson = Gson()
+                                    var markerDataJson = gson.toJson(mkList)
+                                    var currentMarkerDataJson = markerDataJson
+                                    try {
+                                        webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                    } catch (e: Exception) {
+                                    }
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(min))
+                        Text(
+                            text = "Avvistamenti",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Spacer(modifier = Modifier.height(min/2))
+                        Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
+                            for(k in 0..1){
+                                Column() {
+                                    for (i in k..list.count()-1 step 2) {
+                                        var nome by rememberSaveable { mutableStateOf(list.get(i).nome) }
+                                        var cognome by rememberSaveable { mutableStateOf(list.get(i).cognome) }
+                                        var img by rememberSaveable { mutableStateOf(list.get(i).img) }
+                                        if(!list.get(i).online){
+                                            if (isNetworkAvailable(context)) {
+                                                val client = OkHttpClient()
+                                                val formBody = MultipartBody.Builder()
+                                                    .setType(MultipartBody.FORM)
+                                                    .addFormDataPart("user", em)
+                                                    .addFormDataPart("request", "getUserInfoMob")
+                                                    .build()
+                                                val request = Request.Builder()
+                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                                    .post(formBody)
+                                                    .build()
+
+                                                client.newCall(request).enqueue(object : Callback {
+                                                    override fun onFailure(call: Call, e: IOException) {
+                                                    }
+
+                                                    override fun onResponse(call: Call, response: Response) {
+                                                        val body = response.body?.string()
+                                                        val msg = JSONArray(body.toString())
+                                                        try {
+                                                            nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                                                            cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                                                            img = (msg.get(0) as JSONObject).get("Img").toString()
+                                                        } catch (e: Exception) {
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+                                                for(elem in userItems){
+                                                    if(elem.mail == em){
+                                                        nome = elem.nome
+                                                        cognome = elem.cognome
+                                                        break
+                                                    }
+                                                }
+                                            }
+                                        }
                                         Card(
                                             shape = MaterialTheme.shapes.medium,
                                             modifier = Modifier
-                                                .padding(10.dp)
-                                                .fillMaxWidth(),
-                                            border= BorderStroke(2.dp,Color.Black),
-                                            colors = CardDefaults.outlinedCardColors(),
+                                                .padding(5.dp)
+                                                .size(width = 180.dp, height = 160.dp),
+                                            border = BorderStroke(2.dp, Color.Black),
+                                            colors = CardDefaults.cardColors(containerColor = if(list.get(i).online){MaterialTheme.colorScheme.secondaryContainer} else {MaterialTheme.colorScheme.tertiaryContainer}),
                                             elevation = CardDefaults.cardElevation(4.dp),
-                                            onClick = {goToSighting()}
-
+                                            onClick = { goToSighting() }
                                         ) {
-                                            var isFavorite =(list.get(i) as JSONObject).get("ID").toString() in listFavourite
+                                            var isFavorite =list.get(i).id in listFavourite
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -930,15 +808,19 @@ fun HomeScreen(
                                                         modifier = Modifier
                                                             .size(48.dp)
                                                             .clip(CircleShape)
-                                                            .clickable { profileViewModel.set((list.get(i) as JSONObject).get("Email").toString()); goToProfile() }
+                                                            .clickable {
+                                                                profileViewModel.set(list.get(i).avvistatore)
+                                                                goToProfile()
+                                                            }
                                                     ) {
-                                                        val scale = if((list.get(i) as JSONObject).get("Img").toString()=="profilo.jpg"){1.0f}else{1.8f}
+                                                        val scale = if(img=="profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                                                         Image(
                                                             painter = rememberImagePainter(
-                                                                data = "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (list.get(
-                                                                    i
-                                                                ) as JSONObject).get("Img")
-                                                                    .toString(),
+                                                                data = if(isNetworkAvailable(context)){
+                                                                    "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + img
+                                                                } else {
+                                                                    R.drawable.profilo
+                                                                },
                                                             ),
                                                             contentDescription = "Immagine del profilo",
                                                             modifier = Modifier
@@ -947,15 +829,15 @@ fun HomeScreen(
                                                                 .scale(scale)
                                                         )
                                                     }
-                                                    Spacer(modifier = Modifier.width(med+30.dp))
+                                                    Spacer(modifier = Modifier.width(med + 30.dp))
                                                     IconButton(
                                                         onClick = {
                                                             if(isFavorite){
-                                                                favouriteViewModel.deletePref((list.get(i) as JSONObject).get("ID").toString(), em)
-                                                                listFavourite.remove((list.get(i) as JSONObject).get("ID").toString())
+                                                                favouriteViewModel.deletePref(list.get(i).id, em)
+                                                                listFavourite.remove(list.get(i).id)
                                                             } else {
-                                                                favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, (list.get(i) as JSONObject).get("ID").toString()))
-                                                                listFavourite.add((list.get(i) as JSONObject).get("ID").toString())
+                                                                favouriteViewModel.insert(Favourite(System.currentTimeMillis().toString(), em, list.get(i).id))
+                                                                listFavourite.add(list.get(i).id)
                                                             }
                                                             isFavorite = !isFavorite
                                                         },
@@ -970,17 +852,17 @@ fun HomeScreen(
                                                 }
                                                 Spacer(modifier = Modifier.height(10.dp))
                                                 Text(
-                                                    text =  (list.get(i) as JSONObject).get("Data").toString(),
+                                                    text = list.get(i).data,
                                                     style = MaterialTheme.typography.titleMedium
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 Text(
-                                                    text = (list.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                    text = list.get(i).animale,
                                                     style = MaterialTheme.typography.titleMedium
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 Text(
-                                                    text = (list.get(i) as JSONObject).get("Nome").toString() +" "+ (list.get(i) as JSONObject).get("Cognome").toString(),
+                                                    text = nome + " " + cognome,
                                                     style = MaterialTheme.typography.titleMedium
                                                 )
                                             }
