@@ -82,7 +82,6 @@ fun Profile(
         )
     }
 
-
     if (isNetworkAvailable(context)) {
         val client = OkHttpClient()
         val formBody = MultipartBody.Builder()
@@ -250,7 +249,7 @@ fun takeDatasList (avvistamentiViewModel: AvvistamentiViewModel, avvistamentiVie
     val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
     val l = mutableListOf<AvvistamentiDaVedere>()
     for(e in tempAvvLocali){
-        l.add(AvvistamentiDaVedere(e.id, e.avvistatore, e.data, e.numeroEsemplari, e.posizione, e.posizione, e.animale, e.specie, e.mare, e.vento, e.note, "profilo.jpg", "nome", "cognome", false))
+        l.add(AvvistamentiDaVedere(e.id, e.avvistatore, e.data, e.numeroEsemplari, try{e.posizione.split(" ")[0]}catch (e: Exception){""}, try{e.posizione.split(" ")[1]}catch (e: Exception){""}, e.animale, e.specie, e.mare, e.vento, e.note, "profilo.jpg", "nome", "cognome", false))
     }
     return l + temp
 }
@@ -263,8 +262,7 @@ data class MarkerData(
     val specie: String
 )
 
-var mapset = false
-
+var sightingID: AvvistamentiDaVedere? = null
 var fav = true
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -295,7 +293,6 @@ fun HomeScreen(
     var filterAnima by rememberSaveable { mutableStateOf("") }
     var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
 
-    mapset = false
 
     if(fav){
         fav=false
@@ -537,7 +534,7 @@ fun HomeScreen(
                                                     val client = OkHttpClient()
                                                     val formBody = MultipartBody.Builder()
                                                         .setType(MultipartBody.FORM)
-                                                        .addFormDataPart("user", em)
+                                                        .addFormDataPart("user", list.get(i).avvistatore)
                                                         .addFormDataPart("request", "getUserInfoMob")
                                                         .build()
                                                     val request = Request.Builder()
@@ -556,6 +553,8 @@ fun HomeScreen(
                                                                 nome = (msg.get(0) as JSONObject).get("Nome").toString()
                                                                 cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
                                                                 img = (msg.get(0) as JSONObject).get("Img").toString()
+                                                                list.get(i).nome = nome
+                                                                list.get(i).cognome = cognome
                                                             } catch (e: Exception) {
                                                             }
                                                         }
@@ -563,11 +562,24 @@ fun HomeScreen(
                                                 } else {
                                                     val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
                                                     for(elem in userItems){
-                                                        if(elem.mail == em){
+                                                        if(elem.mail == list.get(i).avvistatore){
                                                             nome = elem.nome
                                                             cognome = elem.cognome
+                                                            list.get(i).nome = nome
+                                                            list.get(i).cognome = cognome
                                                             break
                                                         }
+                                                    }
+                                                }
+                                            } else {
+                                                val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+                                                for(elem in userItems){
+                                                    if(elem.mail == list.get(i).avvistatore){
+                                                        nome = elem.nome
+                                                        cognome = elem.cognome
+                                                        list.get(i).nome = nome
+                                                        list.get(i).cognome = cognome
+                                                        break
                                                     }
                                                 }
                                             }
@@ -579,7 +591,10 @@ fun HomeScreen(
                                                 border = BorderStroke(2.dp, Color.Black),
                                                 colors = CardDefaults.cardColors(containerColor = if(list.get(i).online){MaterialTheme.colorScheme.secondaryContainer} else {MaterialTheme.colorScheme.tertiaryContainer}),
                                                 elevation = CardDefaults.cardElevation(4.dp),
-                                                onClick = { goToSighting() }
+                                                onClick = {
+                                                    sightingID = list.get(i)
+                                                    goToSighting()
+                                                }
                                             ) {
                                                 var isFavorite =list.get(i).id in listFavourite
                                                 Column(
@@ -638,7 +653,7 @@ fun HomeScreen(
                                                     }
                                                     Spacer(modifier = Modifier.height(10.dp))
                                                     Text(
-                                                        text = list.get(i).data,
+                                                        text = list.get(i).data.substring(0,16),
                                                         style = MaterialTheme.typography.titleMedium
                                                     )
                                                     Spacer(modifier = Modifier.height(8.dp))
@@ -751,7 +766,7 @@ fun HomeScreen(
                                                 val client = OkHttpClient()
                                                 val formBody = MultipartBody.Builder()
                                                     .setType(MultipartBody.FORM)
-                                                    .addFormDataPart("user", em)
+                                                    .addFormDataPart("user", list.get(i).avvistatore)
                                                     .addFormDataPart("request", "getUserInfoMob")
                                                     .build()
                                                 val request = Request.Builder()
@@ -770,6 +785,8 @@ fun HomeScreen(
                                                             nome = (msg.get(0) as JSONObject).get("Nome").toString()
                                                             cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
                                                             img = (msg.get(0) as JSONObject).get("Img").toString()
+                                                            list.get(i).nome = nome
+                                                            list.get(i).cognome = cognome
                                                         } catch (e: Exception) {
                                                         }
                                                     }
@@ -777,11 +794,24 @@ fun HomeScreen(
                                             } else {
                                                 val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
                                                 for(elem in userItems){
-                                                    if(elem.mail == em){
+                                                    if(elem.mail == list.get(i).avvistatore){
                                                         nome = elem.nome
                                                         cognome = elem.cognome
+                                                        list.get(i).nome = nome
+                                                        list.get(i).cognome = cognome
                                                         break
                                                     }
+                                                }
+                                            }
+                                        } else {
+                                            val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
+                                            for(elem in userItems){
+                                                if(elem.mail == list.get(i).avvistatore){
+                                                    nome = elem.nome
+                                                    cognome = elem.cognome
+                                                    list.get(i).nome = nome
+                                                    list.get(i).cognome = cognome
+                                                    break
                                                 }
                                             }
                                         }
@@ -793,7 +823,10 @@ fun HomeScreen(
                                             border = BorderStroke(2.dp, Color.Black),
                                             colors = CardDefaults.cardColors(containerColor = if(list.get(i).online){MaterialTheme.colorScheme.secondaryContainer} else {MaterialTheme.colorScheme.tertiaryContainer}),
                                             elevation = CardDefaults.cardElevation(4.dp),
-                                            onClick = { goToSighting() }
+                                            onClick = {
+                                                sightingID = list.get(i)
+                                                goToSighting()
+                                            }
                                         ) {
                                             var isFavorite =list.get(i).id in listFavourite
                                             Column(
@@ -852,7 +885,7 @@ fun HomeScreen(
                                                 }
                                                 Spacer(modifier = Modifier.height(10.dp))
                                                 Text(
-                                                    text = list.get(i).data,
+                                                    text = list.get(i).data.substring(0,16),
                                                     style = MaterialTheme.typography.titleMedium
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))

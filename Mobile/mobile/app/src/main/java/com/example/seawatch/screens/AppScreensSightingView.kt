@@ -2,6 +2,7 @@ package com.example.seawatch
 
 import android.content.res.Configuration
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.seawatch.data.getAnimal
+import com.example.seawatch.data.getSpecieFromAniaml
+import com.google.gson.Gson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -31,31 +35,28 @@ import java.util.*
 @Composable
 fun SightingViewScreen(
     modifier: Modifier = Modifier,
-    owner: Boolean
 ) {
+    val elem = sightingID!!
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var utente by remember { mutableStateOf("Mario Rossi") }
-    val currentDateTime = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.ITALIAN)
-    val formattedDateTime = currentDateTime.format(formatter)
-    var data by rememberSaveable { mutableStateOf(formattedDateTime) }
-    var numeroEsemplari by rememberSaveable { mutableStateOf("3") }
-    var posizione by rememberSaveable { mutableStateOf("3") }
-    var mare by rememberSaveable { mutableStateOf("3") }
-    var vento by rememberSaveable { mutableStateOf("3") }
-    var note by rememberSaveable { mutableStateOf("3") }
-    val options = listOf("Animale 1", "Animale 2", "Animale 3", "Animale 4", "Animale 5")
+    var utente by remember { mutableStateOf(if(elem.nome==null|| elem.nome=="null"){""}else{elem.nome}+" "+if(elem.cognome==null|| elem.cognome=="null"){""}else{elem.cognome}) }
+    var data by rememberSaveable { mutableStateOf(if(elem.data==null|| elem.data=="null"){""}else{elem.data}) }
+    var numeroEsemplari by rememberSaveable { mutableStateOf(if(elem.numeroEsemplari==null|| elem.numeroEsemplari=="null"){""}else{elem.numeroEsemplari}) }
+    var posizione by rememberSaveable { mutableStateOf(if(elem.latid==null|| elem.latid=="null"){""}else{elem.latid}+" "+if(elem.long==null|| elem.long=="null"){""}else{elem.long}) }
+    var mare by rememberSaveable { mutableStateOf(if(elem.mare==null|| elem.mare=="null"){""}else{elem.mare}) }
+    var vento by rememberSaveable { mutableStateOf(if(elem.vento==null|| elem.vento=="null"){""}else{elem.vento}) }
+    var note by rememberSaveable { mutableStateOf(if(elem.note==null|| elem.note=="null"){""}else{elem.note}) }
+    val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var selectedOptionText by rememberSaveable { mutableStateOf("Animale 1") }
-    val optionsSpecie = listOf("Specie 1", "Specie 2", "Specie 3", "Specie 4", "Specie 5")
+    var selectedOptionText by rememberSaveable { mutableStateOf(if(elem.animale==null|| elem.animale=="null"){""}else{elem.animale}) }
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
-    var selectedOptionTextSpecie by rememberSaveable { mutableStateOf("Specie 1") }
+    var selectedOptionTextSpecie by rememberSaveable { mutableStateOf(if(elem.specie==null|| elem.specie=="null"){""}else{elem.specie}) }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
     val contex = LocalContext.current
+
     val cu by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
     var count by rememberSaveable {mutableStateOf(0)}
     var imagesList =(contex as MainActivity).getAllSavedImages(cu.toString())
@@ -64,7 +65,7 @@ fun SightingViewScreen(
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {                   /** SightingViewScreen orizzontale */
             Column(modifier=Modifier.background(backGround)) {
-                if(owner){
+                if(em==elem.avvistatore){
                     Row(
                         modifier = modifier
                             .fillMaxSize()
@@ -78,7 +79,9 @@ fun SightingViewScreen(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Box(
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center
                             ) {
                                 AndroidView(
                                     factory = { context ->
@@ -86,16 +89,41 @@ fun SightingViewScreen(
                                             // Imposta le opzioni WebView necessarie
                                             settings.javaScriptEnabled = true
                                             settings.domStorageEnabled = true
+                                            loadUrl("file:///android_asset/leaflet/index.html")
+
+                                            webViewClient = object : WebViewClient() {
+                                                override fun onPageFinished(view: WebView?, url: String?) {
+                                                    super.onPageFinished(view, url)
+                                                    try{
+                                                        var mkList = mutableListOf<MarkerData>()
+                                                        mkList.add(
+                                                            MarkerData(
+                                                                elem.latid,
+                                                                elem.long,
+                                                                elem.data,
+                                                                elem.animale,
+                                                                elem.specie
+                                                            )
+                                                        )
+                                                        val gson = Gson()
+                                                        var markerDataJson = gson.toJson(mkList)
+                                                        var currentMarkerDataJson = markerDataJson
+                                                        try {
+                                                            view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                        } catch (e: Exception) {
+                                                        }
+                                                    }catch (e: Exception){
+
+                                                    }
+                                                }
+                                            }
                                         }
-                                    },
-                                    update = { webView ->
-                                        // Carica la mappa Leaflet nel WebView
-                                        webView.loadUrl("file:///android_asset/leaflet/index.html")
                                     },
                                     modifier = Modifier.fillMaxSize()
                                 )
                             }
                         }
+
                         LazyColumn(
                             modifier = Modifier.width(configuration.screenWidthDp.dp / 2)
                         ) {
@@ -212,9 +240,7 @@ fun SightingViewScreen(
                                             DropdownMenuItem(
                                                 text = { Text(selectionOption) },
                                                 onClick = {
-                                                    selectedOptionText =
-                                                        selectionOption
-                                                    expanded = false
+                                                    selectedOptionText = selectionOption
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )
@@ -233,10 +259,8 @@ fun SightingViewScreen(
                                                 MaterialTheme.colorScheme.outline,
                                                 RoundedCornerShape(2.dp)
                                             ),
-                                        expanded = expandedSpecie,
-                                        onExpandedChange = {
-                                            expandedSpecie = !expandedSpecie
-                                        },
+                                        expanded = expandedSpecie && selectedOptionText!="",
+                                        onExpandedChange = { expandedSpecie = !expandedSpecie },
                                     ) {
                                         TextField(
                                             // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -250,22 +274,18 @@ fun SightingViewScreen(
                                                     expanded = expandedSpecie
                                                 )
                                             },
+                                            enabled = selectedOptionText!="",
                                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                         )
                                         ExposedDropdownMenu(
-                                            expanded = expandedSpecie,
+                                            expanded = expandedSpecie && selectedOptionText!="",
                                             onDismissRequest = { expanded = false },
                                         ) {
-                                            optionsSpecie.forEach { selectionOptionSpecie ->
+                                            getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                 DropdownMenuItem(
-                                                    text = {
-                                                        Text(
-                                                            selectionOptionSpecie
-                                                        )
-                                                    },
+                                                    text = { Text(selectionOptionSpecie.name) },
                                                     onClick = {
-                                                        selectedOptionTextSpecie =
-                                                            selectionOptionSpecie
+                                                        selectedOptionTextSpecie = selectionOptionSpecie.name
                                                         expandedSpecie = false
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -279,10 +299,11 @@ fun SightingViewScreen(
                                             .padding(0.dp)
                                             .align(Alignment.CenterVertically),
                                         colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.primaryContainer,
+                                            MaterialTheme.colorScheme.secondaryContainer,
                                             MaterialTheme.colorScheme.primary
                                         ),
                                         contentPadding = PaddingValues(0.dp),
+                                        enabled = selectedOptionText!="",
                                         onClick = { showFilterInfoSpecie = true }) {
                                         Icon(
                                             modifier = Modifier.fillMaxSize(),
@@ -363,7 +384,9 @@ fun SightingViewScreen(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Box(
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center
                             ) {
                                 AndroidView(
                                     factory = { context ->
@@ -371,11 +394,32 @@ fun SightingViewScreen(
                                             // Imposta le opzioni WebView necessarie
                                             settings.javaScriptEnabled = true
                                             settings.domStorageEnabled = true
+                                            loadUrl("file:///android_asset/leaflet/index.html")
+
+                                            webViewClient = object : WebViewClient() {
+                                                override fun onPageFinished(view: WebView?, url: String?) {
+                                                    super.onPageFinished(view, url)
+                                                    try{
+                                                        var mkList = mutableListOf<MarkerData>()
+                                                        mkList.add(
+                                                            MarkerData(
+                                                                elem.latid,
+                                                                elem.long,
+                                                                elem.data,
+                                                                elem.animale,
+                                                                elem.specie
+                                                            )
+                                                        )
+                                                        val gson = Gson()
+                                                        var markerDataJson = gson.toJson(mkList)
+                                                        var currentMarkerDataJson = markerDataJson
+                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                    }catch (e: Exception){
+
+                                                    }
+                                                }
+                                            }
                                         }
-                                    },
-                                    update = { webView ->
-                                        // Carica la mappa Leaflet nel WebView
-                                        webView.loadUrl("file:///android_asset/leaflet/index.html")
                                     },
                                     modifier = Modifier.fillMaxSize()
                                 )
@@ -530,7 +574,7 @@ fun SightingViewScreen(
             Column(modifier= Modifier
                 .background(backGround)
                 .fillMaxSize()) {
-                if(owner){
+                if(elem.avvistatore==em){
                     Row(
                         modifier = modifier
                             .fillMaxSize()
@@ -545,7 +589,9 @@ fun SightingViewScreen(
                         ) {
                             items(1) { element ->
                                 Box(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.Center
                                 ) {
                                     AndroidView(
                                         factory = { context ->
@@ -553,11 +599,33 @@ fun SightingViewScreen(
                                                 // Imposta le opzioni WebView necessarie
                                                 settings.javaScriptEnabled = true
                                                 settings.domStorageEnabled = true
+                                                loadUrl("file:///android_asset/leaflet/index.html")
+
+                                                webViewClient = object : WebViewClient() {
+                                                    override fun onPageFinished(view: WebView?, url: String?) {
+                                                        super.onPageFinished(view, url)
+                                                        if(elem.latid!="" && elem.long!=""){
+                                                            var mkList = mutableListOf<MarkerData>()
+                                                            mkList.add(
+                                                                MarkerData(
+                                                                    elem.latid,
+                                                                    elem.long,
+                                                                    elem.data,
+                                                                    elem.animale,
+                                                                    elem.specie
+                                                                )
+                                                            )
+                                                            val gson = Gson()
+                                                            var markerDataJson = gson.toJson(mkList)
+                                                            var currentMarkerDataJson = markerDataJson
+                                                            try {
+                                                                view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                            } catch (e: Exception) {
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
-                                        },
-                                        update = { webView ->
-                                            // Carica la mappa Leaflet nel WebView
-                                            webView.loadUrl("file:///android_asset/leaflet/index.html")
                                         },
                                         modifier = Modifier.fillMaxSize()
                                     )
@@ -674,9 +742,7 @@ fun SightingViewScreen(
                                             DropdownMenuItem(
                                                 text = { Text(selectionOption) },
                                                 onClick = {
-                                                    selectedOptionText =
-                                                        selectionOption
-                                                    expanded = false
+                                                    selectedOptionText = selectionOption
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )
@@ -685,7 +751,7 @@ fun SightingViewScreen(
                                 }
                                 Spacer(modifier = Modifier.height(6.dp))
                                 // Specie
-                                Row() {
+                                Row {
                                     ExposedDropdownMenuBox(
                                         modifier = Modifier
                                             .width(245.dp)
@@ -695,10 +761,8 @@ fun SightingViewScreen(
                                                 MaterialTheme.colorScheme.outline,
                                                 RoundedCornerShape(2.dp)
                                             ),
-                                        expanded = expandedSpecie,
-                                        onExpandedChange = {
-                                            expandedSpecie = !expandedSpecie
-                                        },
+                                        expanded = expandedSpecie && selectedOptionText!="",
+                                        onExpandedChange = { expandedSpecie = !expandedSpecie },
                                     ) {
                                         TextField(
                                             // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -712,22 +776,18 @@ fun SightingViewScreen(
                                                     expanded = expandedSpecie
                                                 )
                                             },
+                                            enabled = selectedOptionText!="",
                                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                         )
                                         ExposedDropdownMenu(
-                                            expanded = expandedSpecie,
+                                            expanded = expandedSpecie && selectedOptionText!="",
                                             onDismissRequest = { expanded = false },
                                         ) {
-                                            optionsSpecie.forEach { selectionOptionSpecie ->
+                                            getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                 DropdownMenuItem(
-                                                    text = {
-                                                        Text(
-                                                            selectionOptionSpecie
-                                                        )
-                                                    },
+                                                    text = { Text(selectionOptionSpecie.name) },
                                                     onClick = {
-                                                        selectedOptionTextSpecie =
-                                                            selectionOptionSpecie
+                                                        selectedOptionTextSpecie = selectionOptionSpecie.name
                                                         expandedSpecie = false
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -741,10 +801,11 @@ fun SightingViewScreen(
                                             .padding(0.dp)
                                             .align(Alignment.CenterVertically),
                                         colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.primaryContainer,
+                                            MaterialTheme.colorScheme.secondaryContainer,
                                             MaterialTheme.colorScheme.primary
                                         ),
                                         contentPadding = PaddingValues(0.dp),
+                                        enabled = selectedOptionText!="",
                                         onClick = { showFilterInfoSpecie = true }) {
                                         Icon(
                                             modifier = Modifier.fillMaxSize(),
@@ -762,7 +823,6 @@ fun SightingViewScreen(
                                     onValueChange = { note = it },
                                     label = { Text("Note") }
                                 )
-
                                 Row() {
                                     // Submit button
                                     Button(
@@ -821,7 +881,9 @@ fun SightingViewScreen(
                         ) {
                             items(1) { element ->
                                 Box(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.Center
                                 ) {
                                     AndroidView(
                                         factory = { context ->
@@ -829,11 +891,33 @@ fun SightingViewScreen(
                                                 // Imposta le opzioni WebView necessarie
                                                 settings.javaScriptEnabled = true
                                                 settings.domStorageEnabled = true
+                                                loadUrl("file:///android_asset/leaflet/index.html")
+
+                                                webViewClient = object : WebViewClient() {
+                                                    override fun onPageFinished(view: WebView?, url: String?) {
+                                                        super.onPageFinished(view, url)
+                                                        if(elem.latid!="" && elem.long!=""){
+                                                            var mkList = mutableListOf<MarkerData>()
+                                                            mkList.add(
+                                                                MarkerData(
+                                                                    elem.latid,
+                                                                    elem.long,
+                                                                    elem.data,
+                                                                    elem.animale,
+                                                                    elem.specie
+                                                                )
+                                                            )
+                                                            val gson = Gson()
+                                                            var markerDataJson = gson.toJson(mkList)
+                                                            var currentMarkerDataJson = markerDataJson
+                                                            try {
+                                                                view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                            } catch (e: Exception) {
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
-                                        },
-                                        update = { webView ->
-                                            // Carica la mappa Leaflet nel WebView
-                                            webView.loadUrl("file:///android_asset/leaflet/index.html")
                                         },
                                         modifier = Modifier.fillMaxSize()
                                     )
