@@ -1,8 +1,26 @@
 package com.example.seawatch
 
+import android.Manifest
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.os.SystemClock
+import android.provider.MediaStore
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,11 +40,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
+import com.example.seawatch.data.bitmapToByteArray
+import com.example.seawatch.data.byteArrayToBitmap
 import com.example.seawatch.data.getAnimal
 import com.example.seawatch.data.getSpecieFromAniaml
 import com.google.gson.Gson
+import okhttp3.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -35,31 +68,193 @@ import java.util.*
 @Composable
 fun SightingViewScreen(
     modifier: Modifier = Modifier,
+    avvistamentiViewModel: AvvistamentiViewModel,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
     val elem = sightingID!!
     val configuration = LocalConfiguration.current
-    val min = configuration.screenHeightDp.dp/40
-    val med = configuration.screenHeightDp.dp/20
-    val hig = configuration.screenHeightDp.dp/10
+    val min = configuration.screenHeightDp.dp / 40
+    val med = configuration.screenHeightDp.dp / 20
+    val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var utente by remember { mutableStateOf(if(elem.nome==null|| elem.nome=="null"){""}else{elem.nome}+" "+if(elem.cognome==null|| elem.cognome=="null"){""}else{elem.cognome}) }
-    var data by rememberSaveable { mutableStateOf(if(elem.data==null|| elem.data=="null"){""}else{elem.data}) }
-    var numeroEsemplari by rememberSaveable { mutableStateOf(if(elem.numeroEsemplari==null|| elem.numeroEsemplari=="null"){""}else{elem.numeroEsemplari}) }
-    var posizione by rememberSaveable { mutableStateOf(if(elem.latid==null|| elem.latid=="null"){""}else{elem.latid}+" "+if(elem.long==null|| elem.long=="null"){""}else{elem.long}) }
-    var mare by rememberSaveable { mutableStateOf(if(elem.mare==null|| elem.mare=="null"){""}else{elem.mare}) }
-    var vento by rememberSaveable { mutableStateOf(if(elem.vento==null|| elem.vento=="null"){""}else{elem.vento}) }
-    var note by rememberSaveable { mutableStateOf(if(elem.note==null|| elem.note=="null"){""}else{elem.note}) }
+    var utente by remember {
+        mutableStateOf(
+            if (elem.nome == null || elem.nome == "null") {
+                ""
+            } else {
+                elem.nome
+            } + " " + if (elem.cognome == null || elem.cognome == "null") {
+                ""
+            } else {
+                elem.cognome
+            }
+        )
+    }
+    var data by rememberSaveable {
+        mutableStateOf(
+            if (elem.data == null || elem.data == "null") {
+                ""
+            } else {
+                elem.data
+            }
+        )
+    }
+    var numeroEsemplari by rememberSaveable {
+        mutableStateOf(
+            if (elem.numeroEsemplari == null || elem.numeroEsemplari == "null") {
+                ""
+            } else {
+                elem.numeroEsemplari
+            }
+        )
+    }
+    var posizione by rememberSaveable {
+        mutableStateOf(
+            if (elem.latid == null || elem.latid == "null") {
+                ""
+            } else {
+                elem.latid
+            } + " " + if (elem.long == null || elem.long == "null") {
+                ""
+            } else {
+                elem.long
+            }
+        )
+    }
+    var mare by rememberSaveable {
+        mutableStateOf(
+            if (elem.mare == null || elem.mare == "null") {
+                ""
+            } else {
+                elem.mare
+            }
+        )
+    }
+    var vento by rememberSaveable {
+        mutableStateOf(
+            if (elem.vento == null || elem.vento == "null") {
+                ""
+            } else {
+                elem.vento
+            }
+        )
+    }
+    var note by rememberSaveable {
+        mutableStateOf(
+            if (elem.note == null || elem.note == "null") {
+                ""
+            } else {
+                elem.note
+            }
+        )
+    }
     val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var selectedOptionText by rememberSaveable { mutableStateOf(if(elem.animale==null|| elem.animale=="null"){""}else{elem.animale}) }
+    var selectedOptionText by rememberSaveable {
+        mutableStateOf(
+            if (elem.animale == null || elem.animale == "null") {
+                ""
+            } else {
+                elem.animale
+            }
+        )
+    }
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
-    var selectedOptionTextSpecie by rememberSaveable { mutableStateOf(if(elem.specie==null|| elem.specie=="null"){""}else{elem.specie}) }
+    var selectedOptionTextSpecie by rememberSaveable {
+        mutableStateOf(
+            if (elem.specie == null || elem.specie == "null") {
+                ""
+            } else {
+                elem.specie
+            }
+        )
+    }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
     val contex = LocalContext.current
+    var img1: Bitmap? by rememberSaveable { mutableStateOf(null) }
+    var img2: Bitmap? by rememberSaveable { mutableStateOf(null) }
+    var img3: Bitmap? by rememberSaveable { mutableStateOf(null) }
+    var img4: Bitmap? by rememberSaveable { mutableStateOf(null) }
+    var img5: Bitmap? by rememberSaveable { mutableStateOf(null) }
+    var avvDaCaricare: AvvistamentiDaCaricare? = null
 
-    val cu by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
-    var count by rememberSaveable {mutableStateOf(0)}
-    var imagesList =(contex as MainActivity).getAllSavedImages(cu.toString())
+
+    val cu by rememberSaveable { mutableStateOf(System.currentTimeMillis().toString()) }
+    var count by rememberSaveable { mutableStateOf(0) }
+    var imagesList = (contex as MainActivity).getAllSavedImages(cu.toString())
+    var errorMessage by rememberSaveable { mutableStateOf("") }
+    var immaginiOnline by rememberSaveable { mutableStateOf("") }
+
+    if (errorMessage.isNotEmpty()) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = "" },
+            title = { Text(text = "Attenzione") },
+            text = { Text(text = errorMessage) },
+            confirmButton = {
+                Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
+
+
+    if (isNetworkAvailable(contex)){
+        if (elem.online) {
+            val client = OkHttpClient()
+            val formBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", elem.id)
+                .addFormDataPart("request", "getImages")
+                .build()
+            val request = Request.Builder()
+                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                .post(formBody)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    val msg = body.toString()
+                    immaginiOnline = msg
+                }
+            })
+        } else {
+            if(em==elem.avvistatore){
+                val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
+                for(e in tempAvvLocali){
+                    if(e.id == elem.id){
+                        avvDaCaricare = e
+                        img1 = e.immagine1?.let { byteArrayToBitmap(it) }
+                        img2 = e.immagine2?.let { byteArrayToBitmap(it) }
+                        img3 = e.immagine3?.let { byteArrayToBitmap(it) }
+                        img4 = e.immagine4?.let { byteArrayToBitmap(it) }
+                        img5 = e.immagine5?.let { byteArrayToBitmap(it) }
+                    }
+                }
+            }
+        }
+    } else {
+        if(em==elem.avvistatore){
+            val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
+            for(e in tempAvvLocali){
+                Log.e("KEYYY", "entrato"+e.id+ elem.id)
+                if(e.id == elem.id){
+                    avvDaCaricare = e
+                    img1 = e.immagine1?.let { byteArrayToBitmap(it) }
+                    img2 = e.immagine2?.let { byteArrayToBitmap(it) }
+                    img3 = e.immagine3?.let { byteArrayToBitmap(it) }
+                    img4 = e.immagine4?.let { byteArrayToBitmap(it) }
+                    img5 = e.immagine5?.let { byteArrayToBitmap(it) }
+                }
+            }
+        } else {
+            errorMessage = "Attenzione essendo offline le immagini non possono essere caricate!"
+        }
+    }
 
 
     when (configuration.orientation) {
@@ -177,7 +372,7 @@ fun SightingViewScreen(
                                         ),
                                         singleLine = true,
                                         trailingIcon = {
-                                            IconButton(onClick = { }) {
+                                            IconButton(onClick = { }, enabled = false) {
                                                 Icon(
                                                     painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
                                                     contentDescription = "GPS",
@@ -241,6 +436,8 @@ fun SightingViewScreen(
                                                 text = { Text(selectionOption) },
                                                 onClick = {
                                                     selectedOptionText = selectionOption
+                                                    expanded = false
+                                                    selectedOptionTextSpecie=""
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )
@@ -322,14 +519,57 @@ fun SightingViewScreen(
                                     label = { Text("Note") }
                                 )
 
-                                Row() {
+                                Row {
                                     // Submit button
+                                    val context = LocalContext.current
+                                    val file = context.createImageFile()
+                                    val uri = FileProvider.getUriForFile(
+                                        Objects.requireNonNull(context),
+                                        context.packageName + ".provider", file
+                                    )
+
+                                    var capturedImageUri by remember {
+                                        mutableStateOf<Uri>(Uri.EMPTY)
+                                    }
+
+                                    val cameraLauncher =
+                                        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
+                                            capturedImageUri = uri
+                                        }
+
+                                    val permissionLauncher = rememberLauncherForActivityResult(
+                                        ActivityResultContracts.RequestPermission()
+                                    ) {
+                                        if (it) {
+                                            cameraLauncher.launch(uri)
+                                        } else {
+                                            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+
                                     Button(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            (contex as MainActivity).requestCameraPermission(cu.toString(), count)
-                                            count+=1
+                                            var somma = 0
+                                            if(img1!=null){somma+=1}
+                                            if(img2!=null){somma+=1}
+                                            if(img3!=null){somma+=1}
+                                            if(img4!=null){somma+=1}
+                                            if(img5!=null){somma+=1}
+
+                                            if(somma+count>=5){
+                                                errorMessage = "Non si possono caricare più di 5 foto."
+                                            } else {
+                                                val permissionCheckResult =
+                                                    ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                                                if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                                                    cameraLauncher.launch(uri)
+                                                    count+=1
+                                                } else {
+                                                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                                                }
+                                            }
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -343,12 +583,174 @@ fun SightingViewScreen(
                                         Spacer(modifier = Modifier.width(3.dp))
                                         Text(text = "AGGIUNGI")
                                     }
+
+
+                                    if (capturedImageUri.path?.isNotEmpty() == true) {
+                                        /**AsyncImage(model = ImageRequest.Builder(context)
+                                            .data(capturedImageUri)
+                                            .crossfade(true)
+                                            .build(), contentDescription = "image taken")*/
+                                        saveImage(context.applicationContext.contentResolver, capturedImageUri)
+                                        // COntrollare se online e el caso mandare subito la foto altrimenti inserire nelle variabili di sistema
+                                        val bitmap: Bitmap? = BitmapFactory.decodeStream(contex.contentResolver.openInputStream(capturedImageUri))
+                                        if(bitmap==null){
+                                            errorMessage = "Impossibile caricare le foto dalla memoria del sistema."
+                                        }
+                                        if(isNetworkAvailable(context) && elem.online){
+                                            // Carico la foto online
+                                        } else if(!elem.online){
+                                            if(img1==null){
+                                                img1 = bitmap
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.immagine1= bitmap?.let {
+                                                        bitmapToByteArray(
+                                                            it
+                                                        )
+                                                    }
+                                                }
+                                            } else if(img2==null){
+                                                img2 = bitmap
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.immagine2= bitmap?.let {
+                                                        bitmapToByteArray(
+                                                            it
+                                                        )
+                                                    }
+                                                }
+                                            }else if(img3==null){
+                                                img3 = bitmap
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.immagine3= bitmap?.let {
+                                                        bitmapToByteArray(
+                                                            it
+                                                        )
+                                                    }
+                                                }
+                                            }else if(img4==null){
+                                                img4 = bitmap
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.immagine4= bitmap?.let {
+                                                        bitmapToByteArray(
+                                                            it
+                                                        )
+                                                    }
+                                                }
+                                            }else if(img5==null){
+                                                img5 = bitmap
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.immagine5= bitmap?.let {
+                                                        bitmapToByteArray(
+                                                            it
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            errorMessage="Per problemi di rete non è possibile caricare altre foto "
+                                        }
+                                        capturedImageUri=Uri.EMPTY
+                                    }
                                     Spacer(modifier = Modifier.width(5.dp))
                                     Button(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
+                                            if(elem.online){
+                                                if(isNetworkAvailable(contex)) {
+                                                    val client = OkHttpClient()
+                                                    val formBody = MultipartBody.Builder()
+                                                        .setType(MultipartBody.FORM)
+                                                        .addFormDataPart("id", elem.id)
+                                                        .addFormDataPart("specie", selectedOptionText)
+                                                        .addFormDataPart("sottospecie", selectedOptionTextSpecie)
+                                                        .addFormDataPart("esemplari", numeroEsemplari)
+                                                        .addFormDataPart("vento", vento)
+                                                        .addFormDataPart("mare", mare)
+                                                        .addFormDataPart("note", note)
+                                                        .addFormDataPart("latitudine", elem.latid)
+                                                        .addFormDataPart("longitudine", elem.long)
+                                                        .addFormDataPart("request", "saveDates")
+                                                        .build()
+                                                    val request = Request.Builder()
+                                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                                                        .post(formBody)
+                                                        .build()
 
+                                                    client.newCall(request)
+                                                        .enqueue(object : Callback {
+                                                            override fun onFailure(
+                                                                call: Call,
+                                                                e: IOException
+                                                            ) {
+                                                            }
+
+                                                            override fun onResponse(
+                                                                call: Call,
+                                                                response: Response
+                                                            ) {
+                                                                val body = response.body?.string()
+                                                                if(body.toString()=="true"){
+                                                                    if(isNetworkAvailable(contex)){
+                                                                        val client = OkHttpClient()
+                                                                        val formBody = MultipartBody.Builder()
+                                                                            .setType(MultipartBody.FORM)
+                                                                            .addFormDataPart("request", "tbl_avvistamenti")
+                                                                            .build()
+                                                                        val request = Request.Builder()
+                                                                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
+                                                                            .post(formBody)
+                                                                            .build()
+
+                                                                        client.newCall(request).enqueue(object : Callback {
+                                                                            override fun onFailure(call: Call, e: IOException) {
+                                                                            }
+
+                                                                            override fun onResponse(call: Call, response: Response) {
+                                                                                val body = response.body?.string()
+                                                                                var temp = JSONArray(body)
+
+                                                                                avvistamentiViewViewModel.deleteAll()
+                                                                                for (i in 0 until temp.length() step 1) {
+                                                                                    avvistamentiViewViewModel.insert(
+                                                                                        AvvistamentiDaVedere(
+                                                                                            (temp.get(i) as JSONObject).get("ID").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Email").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Data").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Numero_Esemplari").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Latid").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Long").toString() ,
+                                                                                            (temp.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Specie_Nome").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Mare").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Vento").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Note").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Img").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Nome").toString(),
+                                                                                            (temp.get(i) as JSONObject).get("Cognome").toString(),
+                                                                                            true
+                                                                                        )
+                                                                                    )
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                }
+                                                            }
+                                                        })
+                                                } else {
+                                                    errorMessage = "Errore di rete non si può aggiornare l'avvistamento online"
+                                                }
+                                            } else {
+                                                if (avvDaCaricare != null) {
+                                                    avvDaCaricare.animale=selectedOptionText
+                                                    avvDaCaricare.specie=selectedOptionTextSpecie
+                                                    avvDaCaricare.numeroEsemplari=numeroEsemplari
+                                                    avvDaCaricare.mare=mare
+                                                    avvDaCaricare.vento=vento
+                                                    avvDaCaricare.note=note
+                                                    avvistamentiViewModel.insert(avvDaCaricare)
+                                                }
+                                            }
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
@@ -364,12 +766,288 @@ fun SightingViewScreen(
                                     }
                                 }
                                 Row(horizontalArrangement = Arrangement.Center){
-                                    showImages(imagesUri = imagesList, contex)
+                                    if(elem.online){
+                                        Column (horizontalAlignment = Alignment.CenterHorizontally){
+                                            if(immaginiOnline!=""){
+                                                val jsn = JSONArray(immaginiOnline)
+                                                for(k in 0..jsn.length()-1) {
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .width(500.dp)
+                                                            .padding(16.dp),
+                                                        elevation = CardDefaults.cardElevation(4.dp)
+                                                    ) {
+                                                        Surface(
+                                                            modifier = Modifier.fillMaxWidth(),
+                                                            shape = RoundedCornerShape(8.dp)
+                                                        ) {
+                                                            Column {
+                                                                Image(
+                                                                    modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .height(200.dp),
+                                                                    painter = rememberImagePainter(data = if(isNetworkAvailable(contex)){"https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()} else {""}),
+                                                                    contentDescription = null,
+                                                                    contentScale = ContentScale.Crop
+                                                                )
+                                                                Row(horizontalArrangement = Arrangement.Center){
+                                                                    Button(
+                                                                        modifier = Modifier
+                                                                            .padding(10.dp),
+                                                                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                                                        onClick = {
+                                                                            try{
+                                                                                val intent = Intent(Intent.ACTION_VIEW)
+                                                                                intent.setDataAndType(Uri.parse("https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()), "image/*")
+                                                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                                                contex.startActivity(intent)
+                                                                            }catch (e:Exception){
+                                                                                errorMessage = "Operazione non supportata dal dispositivo"
+                                                                            }
+                                                                        }
+                                                                    ) {
+                                                                        Text("VISUALIZZA")
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                                            if (img1 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(img1),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        if (avvDaCaricare != null) {
+                                                                            avvDaCaricare.immagine1 =
+                                                                                null
+                                                                            avvistamentiViewModel.insert(
+                                                                                avvDaCaricare
+                                                                            )
+                                                                        }
+                                                                        img1 = null
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (img2 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(img2),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        if (avvDaCaricare != null) {
+                                                                            avvDaCaricare.immagine2 =
+                                                                                null
+                                                                            avvistamentiViewModel.insert(
+                                                                                avvDaCaricare
+                                                                            )
+                                                                        }
+                                                                        img2 = null
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (img3 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(img3),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        if (avvDaCaricare != null) {
+                                                                            avvDaCaricare.immagine3 =
+                                                                                null
+                                                                            avvistamentiViewModel.insert(
+                                                                                avvDaCaricare
+                                                                            )
+                                                                        }
+                                                                        img3 = null
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (img4 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(img4),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        if (avvDaCaricare != null) {
+                                                                            avvDaCaricare.immagine4 =
+                                                                                null
+                                                                            avvistamentiViewModel.insert(
+                                                                                avvDaCaricare
+                                                                            )
+                                                                        }
+                                                                        img4 = null
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (img5 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(img5),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        if (avvDaCaricare != null) {
+                                                                            avvDaCaricare.immagine5 =
+                                                                                null
+                                                                            avvistamentiViewModel.insert(
+                                                                                avvDaCaricare
+                                                                            )
+                                                                        }
+                                                                        img5 = null
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-
                 } else {
                     Row(
                         modifier = modifier
@@ -743,6 +1421,8 @@ fun SightingViewScreen(
                                                 text = { Text(selectionOption) },
                                                 onClick = {
                                                     selectedOptionText = selectionOption
+                                                    expanded = false
+                                                    selectedOptionTextSpecie=""
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )
@@ -1067,4 +1747,61 @@ fun SightingViewScreen(
             }
         }
     }
+}
+
+@Composable
+fun saveImage(contentResolver: ContentResolver, capturedImageUri: Uri) {
+    val saveUri: Uri?
+    val image = getBitmap(capturedImageUri, contentResolver)
+    val filename = "IMG_${SystemClock.uptimeMillis()}"
+    // Definisci il percorso della cartella di salvataggio dell'immagine
+    val imagesCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+    } else {
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+    }
+
+    // Crea un contenuto Values object per l'immagine
+    val contentValues = ContentValues().apply {
+        put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        put(MediaStore.Images.Media.WIDTH, image.width)
+        put(MediaStore.Images.Media.HEIGHT, image.height)
+    }
+
+    // Aggiungi l'immagine alla galleria
+    val resolver = LocalContext.current.contentResolver
+    val uri = resolver.insert(imagesCollection, contentValues)
+
+    uri?.let {
+        saveUri = it
+        resolver.openOutputStream(uri)?.use { outputStream ->
+            // Salva l'immagine nell'OutputStream
+            image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
+        }
+    }
+}
+
+fun Context.createImageFile(): File {
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+    return File.createTempFile(
+        imageFileName,
+        ".jpg",
+        externalCacheDir
+    )
+}
+
+private fun getBitmap(selectedPhotoUri: Uri, contentResolver: ContentResolver): Bitmap {
+    val bitmap = when {
+        Build.VERSION.SDK_INT < 28 -> MediaStore.Images.Media.getBitmap(
+            contentResolver,
+            selectedPhotoUri
+        )
+        else -> {
+            val source = ImageDecoder.createSource(contentResolver, selectedPhotoUri)
+            ImageDecoder.decodeBitmap(source)
+        }
+    }
+    return bitmap
 }

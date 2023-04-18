@@ -178,7 +178,7 @@ private fun NavigationGraph(
             StatsScreen()
         }
         composable(route = NavigationScreen.ViewSighting.name){
-            SightingViewScreen()
+            SightingViewScreen(avvistamentiViewModel = avvistamentiViewModel, avvistamentiViewViewModel = avvistamentiViewViewModel)
         }
     }
 }

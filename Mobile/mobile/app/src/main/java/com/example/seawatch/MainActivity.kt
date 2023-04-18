@@ -114,7 +114,6 @@ class MainActivity : FragmentActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
             lastImageBitmap = data.extras?.get("data") as Bitmap
 
-            Log.e("KEYYY", lastImageBitmap?.allocationByteCount.toString())
             CoroutineScope(Dispatchers.Main).launch {
                 saveImageToGallery(lastImageBitmap!!, name, count)
                 recreate()
@@ -159,7 +158,11 @@ class MainActivity : FragmentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            requestStoragePermission()
+            if(Build.VERSION.SDK_INT < 28){
+                requestStoragePermission()
+            } else {
+                capturePhoto()
+            }
         } else {
             // Il permesso è stato negato, mostra un messaggio all'utente
             Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera", Toast.LENGTH_SHORT).show()
@@ -174,11 +177,14 @@ class MainActivity : FragmentActivity() {
                 this,
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
-                requestStoragePermission()
+                if(Build.VERSION.SDK_INT < 28){
+                    requestStoragePermission()
+                } else {
+                    capturePhoto()
+                }
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
                 // L'utente ha negato il permesso in precedenza, mostra un messaggio con una spiegazione
-                Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera", Toast.LENGTH_SHORT).show()
                 requestPermissionLauncherCamera.launch(Manifest.permission.CAMERA)
             }
             else -> {
@@ -212,7 +218,7 @@ class MainActivity : FragmentActivity() {
         if (isGranted) {
             capturePhoto()
         } else {
-            capturePhoto()
+            Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera", Toast.LENGTH_SHORT).show()
         }
     }
 

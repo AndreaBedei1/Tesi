@@ -284,6 +284,8 @@ fun SightingScreen(
                                                             text = { Text(selectionOption) },
                                                             onClick = {
                                                                 selectedOptionText = selectionOption
+                                                                selectedOptionTextSpecie = ""
+                                                                expanded = false
                                                             },
                                                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                                         )
@@ -322,7 +324,7 @@ fun SightingScreen(
                                                     )
                                                     ExposedDropdownMenu(
                                                         expanded = expandedSpecie && selectedOptionText!="",
-                                                        onDismissRequest = { expanded = false },
+                                                        onDismissRequest = { expandedSpecie = false },
                                                     ) {
                                                         getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                             DropdownMenuItem(
@@ -572,6 +574,7 @@ fun SightingScreen(
                                                 text = { Text(selectionOption) },
                                                 onClick = {
                                                     selectedOptionText = selectionOption
+                                                    selectedOptionTextSpecie = ""
                                                     expanded = false
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
