@@ -1,5 +1,7 @@
 package com.example.seawatch
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -91,7 +93,9 @@ fun SightingScreen(
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
-            Scaffold(floatingActionButton = {
+            val snackbarHostState = remember { SnackbarHostState() }
+            Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) },
+                floatingActionButton = {
                 FloatingActionButton(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -409,6 +413,7 @@ fun SightingScreen(
             }
         }
         else -> {
+            val snackbarHostState = remember { SnackbarHostState() }
             Scaffold(floatingActionButton = {
                 FloatingActionButton(
                     shape= RoundedCornerShape(50.dp),
@@ -506,6 +511,12 @@ fun SightingScreen(
                                         Text(text = data, style = MaterialTheme.typography.bodyLarge)
                                     }
                                 }
+                                if (contex.showSnackBar.value) {
+                                    SnackBarComposable(snackbarHostState, contex, contex.showSnackBar)
+                                }
+                                if (contex.showAlertDialog.value) {
+                                    AlertDialogComposable(contex, contex.showAlertDialog)
+                                }
                                 // Numero Esemplari
                                 OutlinedTextField(
                                     value = numeroEsemplari,
@@ -527,7 +538,10 @@ fun SightingScreen(
                                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
                                         singleLine = true,
                                         trailingIcon = {
-                                            IconButton(onClick = { }) {
+                                            IconButton(onClick = {
+                                               contex.startLocationUpdates()
+                                                posizione=contex.location.value.latitude.toString()+" "+contex.location.value.longitude
+                                            }) {
                                                 Icon(
                                                     painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
                                                     contentDescription = "GPS",
@@ -708,6 +722,71 @@ fun SightingScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun AlertDialogComposable(
+    applicationContext: Context,
+    showAlertDialog: MutableState<Boolean>
+) {
+    AlertDialog(
+        onDismissRequest = {
+            showAlertDialog.value = false
+        },
+        title = {
+            Text(text = "GPS disabled")
+        },
+        text = {
+            Text(text = "GPS is turned off but is needed to get the coordinates")
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val intent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    if (intent.resolveActivity(applicationContext.packageManager) != null) {
+                        applicationContext.startActivity(intent)
+                    }
+                    showAlertDialog.value = false
+                }
+            ) {
+                Text("Turned on the GPS")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = { showAlertDialog.value = false  }
+            ) {
+                Text("Dismiss")
+            }
+        }
+    )
+}
+
+@Composable
+internal fun SnackBarComposable(
+    snackbarHostState: SnackbarHostState,
+    applicationContext: Context,
+    showSnackBar: MutableState<Boolean>
+) {
+    LaunchedEffect(snackbarHostState) {
+        val result = snackbarHostState.showSnackbar(
+            message = "Permission are needed to get your position",
+            actionLabel = "Go to settings"
+        )
+        when (result) {
+            SnackbarResult.ActionPerformed -> {
+                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", applicationContext.packageName, null)
+                }
+                if (intent.resolveActivity(applicationContext.packageManager) != null) {
+                    applicationContext.startActivity(intent)
+                }
+            }
+            SnackbarResult.Dismissed -> {
+                showSnackBar.value = false
             }
         }
     }

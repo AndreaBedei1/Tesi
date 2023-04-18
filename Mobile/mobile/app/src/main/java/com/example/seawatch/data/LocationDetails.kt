@@ -1,4 +1,3 @@
-package com.example.seawatch.data
+package com.example.seawatch
 
-class LocationDetails {
-}
+data class LocationDetails(val latitude: Double, val longitude: Double)

@@ -11,15 +11,18 @@ import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Bitmap
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.OrientationEventListener
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
@@ -45,6 +48,7 @@ import com.example.seawatch.data.FavouriteViewModelFactory
 import com.example.seawatch.data.UserViewModel
 import com.example.seawatch.data.UserViewModelFactory
 import com.example.seawatch.ui.theme.SeaWatchTheme
+import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,10 +77,51 @@ class MainActivity : FragmentActivity() {
         AvvistamentiViewModelFactory(repository=(application as SWApplication).repository4)
     }
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+
+    private var requestingLocationUpdates = false
+
+    private lateinit var locationPermissionRequest: ActivityResultLauncher<String>
+
+    public var showSnackBar = mutableStateOf(false)
+    public var showAlertDialog = mutableStateOf(false)
+    public val location = mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
         lateinit var logo: ImageView
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationPermissionRequest = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                startLocationUpdates()
+            } else {
+                showSnackBar.value = true
+            }
+        }
+
+        locationRequest =
+            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
+                setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+            }.build()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                location.value = LocationDetails(
+                    p0.locations.last().latitude,
+                    p0.locations.last().longitude
+                )
+                stopLocationUpdates()
+                requestingLocationUpdates = false
+            }
+        }
         setContent {
             val theme by settingsViewModel.theme.collectAsState(initial = "")
             val listItems by favouriteViewModel.all.collectAsState(initial = listOf())
@@ -254,6 +299,62 @@ class MainActivity : FragmentActivity() {
         }
         return imagesList
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (requestingLocationUpdates) startLocationUpdates()
+    }
+
+    public fun startLocationUpdates() {
+        requestingLocationUpdates = true
+        val permission = Manifest.permission.ACCESS_COARSE_LOCATION
+
+        when {
+            //permission already granted
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                val gpsEnabled = checkGPS()
+                if (gpsEnabled) {
+                    fusedLocationProviderClient.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        Looper.getMainLooper()
+                    )
+                } else {
+                    showAlertDialog.value = true
+                }
+
+            }
+            //permission already denied
+            shouldShowRequestPermissionRationale(permission) -> {
+                showSnackBar.value = true
+            }
+            else -> {
+                //first time: ask for permissions
+                locationPermissionRequest.launch(
+                    permission
+                )
+            }
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+    private fun checkGPS(): Boolean {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+
 }
 
 
