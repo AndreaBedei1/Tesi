@@ -50,10 +50,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import com.example.seawatch.data.bitmapToByteArray
-import com.example.seawatch.data.byteArrayToBitmap
-import com.example.seawatch.data.getAnimal
-import com.example.seawatch.data.getSpecieFromAniaml
+import com.example.seawatch.data.*
 import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -176,18 +173,14 @@ fun SightingViewScreen(
     }
     var showFilterInfoSpecie by rememberSaveable { mutableStateOf(false) }
     val contex = LocalContext.current
-    var img1: Bitmap? by rememberSaveable { mutableStateOf(null) }
-    var img2: Bitmap? by rememberSaveable { mutableStateOf(null) }
-    var img3: Bitmap? by rememberSaveable { mutableStateOf(null) }
-    var img4: Bitmap? by rememberSaveable { mutableStateOf(null) }
-    var img5: Bitmap? by rememberSaveable { mutableStateOf(null) }
-    var avvDaCaricare: AvvistamentiDaCaricare? = null
     var info by rememberSaveable { mutableStateOf(false) }
 
 
-    val cu by rememberSaveable { mutableStateOf(System.currentTimeMillis().toString()) }
-    var count by rememberSaveable { mutableStateOf(0) }
-    var imagesList = (contex as MainActivity).getAllSavedImages(cu.toString())
+    val currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var count by rememberSaveable {mutableStateOf(0)}
+    var imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime.toString())
+    val sighting = Sighting(elem.id, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
+
     var errorMessage by rememberSaveable { mutableStateOf("") }
     var immaginiOnline by rememberSaveable { mutableStateOf("") }
 
@@ -233,12 +226,18 @@ fun SightingViewScreen(
                 val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
                 for(e in tempAvvLocali){
                     if(e.id == elem.id){
-                        avvDaCaricare = e
-                        img1 = e.immagine1?.let { byteArrayToBitmap(it) }
-                        img2 = e.immagine2?.let { byteArrayToBitmap(it) }
-                        img3 = e.immagine3?.let { byteArrayToBitmap(it) }
-                        img4 = e.immagine4?.let { byteArrayToBitmap(it) }
-                        img5 = e.immagine5?.let { byteArrayToBitmap(it) }
+                        count = 0
+                        sighting.image1 = e.immagine1
+                        sighting.image2= e.immagine2
+                        sighting.image3 = e.immagine3
+                        sighting.image4 = e.immagine4
+                        sighting.image5 = e.immagine5
+                        if(sighting.image1 != null) {count+=1}
+                        if(sighting.image2 != null) {count+=1}
+                        if(sighting.image3 != null) {count+=1}
+                        if(sighting.image4 != null) {count+=1}
+                        if(sighting.image5 != null) {count+=1}
+                        break
                     }
                 }
             }
@@ -248,12 +247,18 @@ fun SightingViewScreen(
             val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
             for(e in tempAvvLocali){
                 if(e.id == elem.id){
-                    avvDaCaricare = e
-                    img1 = e.immagine1?.let { byteArrayToBitmap(it) }
-                    img2 = e.immagine2?.let { byteArrayToBitmap(it) }
-                    img3 = e.immagine3?.let { byteArrayToBitmap(it) }
-                    img4 = e.immagine4?.let { byteArrayToBitmap(it) }
-                    img5 = e.immagine5?.let { byteArrayToBitmap(it) }
+                    count = 0
+                    sighting.image1 = e.immagine1
+                    sighting.image2= e.immagine2
+                    sighting.image3 = e.immagine3
+                    sighting.image4 = e.immagine4
+                    sighting.image5 = e.immagine5
+                    if(sighting.image1 != null) {count+=1}
+                    if(sighting.image2 != null) {count+=1}
+                    if(sighting.image3 != null) {count+=1}
+                    if(sighting.image4 != null) {count+=1}
+                    if(sighting.image5 != null) {count+=1}
+                    break
                 }
             }
         } else {
@@ -266,9 +271,10 @@ fun SightingViewScreen(
 
 
     when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {                   /** SightingViewScreen orizzontale */
-            Column(modifier=Modifier.background(backGround)) {
-                if(em==elem.avvistatore){                       // Sono il proprietario
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            /** SightingViewScreen orizzontale */
+            Column(modifier = Modifier.background(backGround)) {
+                if (em == elem.avvistatore) {                       // Sono il proprietario
                     Row(
                         modifier = modifier
                             .fillMaxSize()
@@ -295,9 +301,12 @@ fun SightingViewScreen(
                                             loadUrl("file:///android_asset/leaflet/index.html")
 
                                             webViewClient = object : WebViewClient() {
-                                                override fun onPageFinished(view: WebView?, url: String?) {
+                                                override fun onPageFinished(
+                                                    view: WebView?,
+                                                    url: String?
+                                                ) {
                                                     super.onPageFinished(view, url)
-                                                    try{
+                                                    try {
                                                         var mkList = mutableListOf<MarkerData>()
                                                         mkList.add(
                                                             MarkerData(
@@ -312,10 +321,13 @@ fun SightingViewScreen(
                                                         var markerDataJson = gson.toJson(mkList)
                                                         var currentMarkerDataJson = markerDataJson
                                                         try {
-                                                            view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
+                                                            view?.evaluateJavascript(
+                                                                "addMarkers('$currentMarkerDataJson')",
+                                                                null
+                                                            )
                                                         } catch (e: Exception) {
                                                         }
-                                                    }catch (e: Exception){
+                                                    } catch (e: Exception) {
 
                                                     }
                                                 }
@@ -445,7 +457,7 @@ fun SightingViewScreen(
                                                 onClick = {
                                                     selectedOptionText = selectionOption
                                                     expanded = false
-                                                    selectedOptionTextSpecie=""
+                                                    selectedOptionTextSpecie = ""
                                                 },
                                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                             )
@@ -464,7 +476,7 @@ fun SightingViewScreen(
                                                 MaterialTheme.colorScheme.outline,
                                                 RoundedCornerShape(2.dp)
                                             ),
-                                        expanded = expandedSpecie && selectedOptionText!="",
+                                        expanded = expandedSpecie && selectedOptionText != "",
                                         onExpandedChange = { expandedSpecie = !expandedSpecie },
                                     ) {
                                         TextField(
@@ -479,18 +491,19 @@ fun SightingViewScreen(
                                                     expanded = expandedSpecie
                                                 )
                                             },
-                                            enabled = selectedOptionText!="",
+                                            enabled = selectedOptionText != "",
                                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                         )
                                         ExposedDropdownMenu(
-                                            expanded = expandedSpecie && selectedOptionText!="",
+                                            expanded = expandedSpecie && selectedOptionText != "",
                                             onDismissRequest = { expanded = false },
                                         ) {
                                             getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
                                                 DropdownMenuItem(
                                                     text = { Text(selectionOptionSpecie.name) },
                                                     onClick = {
-                                                        selectedOptionTextSpecie = selectionOptionSpecie.name
+                                                        selectedOptionTextSpecie =
+                                                            selectionOptionSpecie.name
                                                         expandedSpecie = false
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -508,7 +521,7 @@ fun SightingViewScreen(
                                             MaterialTheme.colorScheme.primary
                                         ),
                                         contentPadding = PaddingValues(0.dp),
-                                        enabled = selectedOptionText!="",
+                                        enabled = selectedOptionText != "",
                                         onClick = { showFilterInfoSpecie = true }) {
                                         Icon(
                                             modifier = Modifier.fillMaxSize(),
@@ -516,7 +529,7 @@ fun SightingViewScreen(
                                             contentDescription = "Vedi dettagli specie"
                                         )
                                     }
-                                    InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
+                                    InfoSpecie(showFilterInfoSpecie = showFilterInfoSpecie) {
                                         showFilterInfoSpecie = false
                                     }
                                 }
@@ -528,81 +541,29 @@ fun SightingViewScreen(
                                 )
 
                                 Row {
-                                    // Submit button
-                                    val context = LocalContext.current
-                                    var file = context.createImageFile()
-                                    var uri = FileProvider.getUriForFile(
-                                        Objects.requireNonNull(context),
-                                        context.packageName + ".provider", file
-                                    )
-
-                                    var capturedImageUri by remember {
-                                        mutableStateOf<Uri>(Uri.EMPTY)
-                                    }
-
-                                    val cameraLauncher =
-                                        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
-                                            capturedImageUri = uri
-                                        }
-
-                                    val permissionLauncher = rememberLauncherForActivityResult(
-                                        ActivityResultContracts.RequestPermission()
-                                    ) {
-                                        if (it) {
-                                            cameraLauncher.launch(uri)
-                                        } else {
-                                            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-
                                     Button(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            if (!isNetworkAvailable(context) && elem.online) {
+                                            if (!isNetworkAvailable(contex) && elem.online) {
                                                 errorMessage =
                                                     "Aggiungere l'immagine all'avvistamento online quando si è connessi alla rete"
                                             } else {
-                                                var somma = 0
-                                                if (img1 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img2 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img3 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img4 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img5 != null) {
-                                                    somma += 1
-                                                }
-
-                                                if (somma + count >= 5) {
-                                                    errorMessage =
-                                                        "Non si possono caricare più di 5 foto."
+                                                if (count <= 5) {
+                                                    (contex as MainActivity).requestCameraPermission(
+                                                        currentDateTime.toString(),
+                                                        count
+                                                    )
+                                                    count += 1
                                                 } else {
-                                                    val permissionCheckResult =
-                                                        ContextCompat.checkSelfPermission(
-                                                            context,
-                                                            Manifest.permission.CAMERA
-                                                        )
-                                                    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-                                                        cameraLauncher.launch(uri)
-                                                        count += 1
-                                                    } else {
-                                                        permissionLauncher.launch(Manifest.permission.CAMERA)
-                                                    }
+                                                    errorMessage = "Puoi caricare al massimo 5 foto"
                                                 }
                                             }
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
                                         ),
-
-                                        ) {
+                                    ) {
                                         Icon(
                                             painterResource(id = R.drawable.baseline_camera_alt_24),
                                             contentDescription = "Foto"
@@ -610,192 +571,29 @@ fun SightingViewScreen(
                                         Spacer(modifier = Modifier.width(3.dp))
                                         Text(text = "AGGIUNGI")
                                     }
-
-                                    if (capturedImageUri.path?.isNotEmpty() == true) {
-                                        Log.e("KEYYY", "ENtrato3")
-                                        if(!saveImage(context.applicationContext.contentResolver, capturedImageUri)){
-                                            capturedImageUri=Uri.EMPTY
-                                        } else {
-                                            val bitmap: Bitmap? = BitmapFactory.decodeStream(
-                                                contex.contentResolver.openInputStream(
-                                                    capturedImageUri
-                                                )
-                                            )
-                                            if (bitmap == null) {
-                                                errorMessage =
-                                                    "Impossibile caricare le foto dalla memoria del sistema."
-                                            } else if (isNetworkAvailable(context) && elem.online) { // Carico le nuove foto online
-                                                val file = File(context.cacheDir, "image.jpg")
-                                                val outputStream = FileOutputStream(file)
-                                                bitmap?.compress(
-                                                    Bitmap.CompressFormat.JPEG,
-                                                    90,
-                                                    outputStream
-                                                )
-                                                outputStream.flush()
-                                                outputStream.close()
-                                                // restituisci l'URI del file temporaneo
-                                                if (file == null) {
-                                                    errorMessage =
-                                                        "Errore nel caricamento locale del file"
-                                                } else {
-                                                    val requestUrl =
-                                                        "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
-                                                    val requestBody = MultipartBody.Builder()
-                                                        .setType(MultipartBody.FORM)
-                                                        .addFormDataPart("id", elem.id)
-                                                        .addFormDataPart(
-                                                            "file",
-                                                            file.name,
-                                                            file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                                                        )
-                                                        .addFormDataPart("request", "addImage")
-                                                        .build()
-
-                                                    val request = Request.Builder()
-                                                        .url(requestUrl)
-                                                        .post(requestBody)
-                                                        .build()
-
-                                                    val client = OkHttpClient()
-
-                                                    client.newCall(request)
-                                                        .enqueue(object : Callback {
-                                                            override fun onFailure(
-                                                                call: Call,
-                                                                e: IOException
-                                                            ) {
-                                                                errorMessage = e.toString()
-                                                            }
-
-                                                            override fun onResponse(
-                                                                call: Call,
-                                                                response: Response
-                                                            ) {
-                                                                val body = response.body?.string()
-
-                                                                if (JSONObject(body).get("state")
-                                                                        .toString() == "true"
-                                                                ) {
-                                                                    val client = OkHttpClient()
-                                                                    val formBody =
-                                                                        MultipartBody.Builder()
-                                                                            .setType(MultipartBody.FORM)
-                                                                            .addFormDataPart(
-                                                                                "id",
-                                                                                elem.id
-                                                                            )
-                                                                            .addFormDataPart(
-                                                                                "request",
-                                                                                "getImages"
-                                                                            )
-                                                                            .build()
-                                                                    val request = Request.Builder()
-                                                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
-                                                                        .post(formBody)
-                                                                        .build()
-
-                                                                    client.newCall(request)
-                                                                        .enqueue(object : Callback {
-                                                                            override fun onFailure(
-                                                                                call: Call,
-                                                                                e: IOException
-                                                                            ) {
-                                                                                errorMessage =
-                                                                                    "Impossibile caricare la pagina"
-                                                                            }
-
-                                                                            override fun onResponse(
-                                                                                call: Call,
-                                                                                response: Response
-                                                                            ) {
-                                                                                val body =
-                                                                                    response.body?.string()
-                                                                                val msg =
-                                                                                    body.toString()
-                                                                                immaginiOnline = msg
-                                                                            }
-                                                                        })
-                                                                } else {
-                                                                    errorMessage =
-                                                                        "Errore durante il caricamento dell'immagine"
-                                                                }
-                                                            }
-                                                        })
-                                                }
-                                            } else if (!elem.online) {
-                                                if (img1 == null) {
-                                                    img1 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine1 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img2 == null) {
-                                                    img2 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine2 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img3 == null) {
-                                                    img3 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine3 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img4 == null) {
-                                                    img4 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine4 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img5 == null) {
-                                                    img5 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine5 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                }
-                                            } else {
-                                                errorMessage =
-                                                    "Per problemi di rete non è possibile caricare altre foto "
-                                            }
-                                            capturedImageUri = Uri.EMPTY
-                                        }
-                                    }
                                     Spacer(modifier = Modifier.width(5.dp))
                                     Button(
                                         modifier = Modifier
                                             .padding(vertical = 16.dp),
                                         onClick = {
-                                            if(elem.online){
-                                                if(isNetworkAvailable(contex)) {
+                                            if (elem.online) {
+                                                if (isNetworkAvailable(contex)) {
                                                     val client = OkHttpClient()
                                                     val formBody = MultipartBody.Builder()
                                                         .setType(MultipartBody.FORM)
                                                         .addFormDataPart("id", elem.id)
-                                                        .addFormDataPart("specie", selectedOptionText)
-                                                        .addFormDataPart("sottospecie", selectedOptionTextSpecie)
-                                                        .addFormDataPart("esemplari", numeroEsemplari)
+                                                        .addFormDataPart(
+                                                            "specie",
+                                                            selectedOptionText
+                                                        )
+                                                        .addFormDataPart(
+                                                            "sottospecie",
+                                                            selectedOptionTextSpecie
+                                                        )
+                                                        .addFormDataPart(
+                                                            "esemplari",
+                                                            numeroEsemplari
+                                                        )
                                                         .addFormDataPart("vento", vento)
                                                         .addFormDataPart("mare", mare)
                                                         .addFormDataPart("note", note)
@@ -821,67 +619,297 @@ fun SightingViewScreen(
                                                                 response: Response
                                                             ) {
                                                                 val body = response.body?.string()
-                                                                if(body.toString()=="true"){
-                                                                    if(isNetworkAvailable(contex)){
+                                                                if (body.toString() == "true") {
+                                                                    if (isNetworkAvailable(contex)) {
                                                                         val client = OkHttpClient()
-                                                                        val formBody = MultipartBody.Builder()
-                                                                            .setType(MultipartBody.FORM)
-                                                                            .addFormDataPart("request", "tbl_avvistamenti")
-                                                                            .build()
-                                                                        val request = Request.Builder()
-                                                                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
-                                                                            .post(formBody)
-                                                                            .build()
+                                                                        val formBody =
+                                                                            MultipartBody.Builder()
+                                                                                .setType(
+                                                                                    MultipartBody.FORM
+                                                                                )
+                                                                                .addFormDataPart(
+                                                                                    "request",
+                                                                                    "tbl_avvistamenti"
+                                                                                )
+                                                                                .build()
+                                                                        val request =
+                                                                            Request.Builder()
+                                                                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
+                                                                                .post(formBody)
+                                                                                .build()
 
-                                                                        client.newCall(request).enqueue(object : Callback {
-                                                                            override fun onFailure(call: Call, e: IOException) {
-                                                                            }
-
-                                                                            override fun onResponse(call: Call, response: Response) {
-                                                                                val body = response.body?.string()
-                                                                                var temp = JSONArray(body)
-
-                                                                                avvistamentiViewViewModel.deleteAll()
-                                                                                for (i in 0 until temp.length() step 1) {
-                                                                                    avvistamentiViewViewModel.insert(
-                                                                                        AvvistamentiDaVedere(
-                                                                                            (temp.get(i) as JSONObject).get("ID").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Email").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Data").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Numero_Esemplari").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Latid").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Long").toString() ,
-                                                                                            (temp.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Specie_Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Mare").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Vento").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Note").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Img").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Cognome").toString(),
-                                                                                            true
-                                                                                        )
-                                                                                    )
+                                                                        client.newCall(request)
+                                                                            .enqueue(object :
+                                                                                Callback {
+                                                                                override fun onFailure(
+                                                                                    call: Call,
+                                                                                    e: IOException
+                                                                                ) {
                                                                                 }
-                                                                            }
-                                                                        })
+
+                                                                                override fun onResponse(
+                                                                                    call: Call,
+                                                                                    response: Response
+                                                                                ) {
+                                                                                    val body =
+                                                                                        response.body?.string()
+                                                                                    var temp =
+                                                                                        JSONArray(
+                                                                                            body
+                                                                                        )
+
+                                                                                    avvistamentiViewViewModel.deleteAll()
+                                                                                    for (i in 0 until temp.length() step 1) {
+                                                                                        avvistamentiViewViewModel.insert(
+                                                                                            AvvistamentiDaVedere(
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "ID"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Email"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Data"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Numero_Esemplari"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Latid"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Long"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Anima_Nome"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Specie_Nome"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Mare"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Vento"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Note"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Img"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Nome"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                (temp.get(
+                                                                                                    i
+                                                                                                ) as JSONObject).get(
+                                                                                                    "Cognome"
+                                                                                                )
+                                                                                                    .toString(),
+                                                                                                true
+                                                                                            )
+                                                                                        )
+                                                                                    }
+                                                                                }
+                                                                            })
                                                                     }
                                                                 }
                                                             }
                                                         })
+                                                    for (image in imagesList) {
+                                                        val bitmap: Bitmap? =
+                                                            BitmapFactory.decodeStream(
+                                                                contex.contentResolver.openInputStream(
+                                                                    image
+                                                                )
+                                                            )
+                                                        if (bitmap == null) {
+                                                            errorMessage =
+                                                                "Impossibile caricare le foto dalla memoria del sistema."
+                                                            break
+                                                        }
+                                                        val file =
+                                                            File(contex.cacheDir, "image.jpg")
+                                                        val outputStream = FileOutputStream(file)
+                                                        bitmap?.compress(
+                                                            Bitmap.CompressFormat.JPEG,
+                                                            100,
+                                                            outputStream
+                                                        )
+                                                        outputStream.flush()
+                                                        outputStream.close()
+                                                        // restituisci l'URI del file temporaneo
+                                                        if (file == null) {
+                                                            errorMessage =
+                                                                "Errore nel caricamento locale del file"
+                                                        } else {
+                                                            val requestUrl =
+                                                                "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
+                                                            val requestBody =
+                                                                MultipartBody.Builder()
+                                                                    .setType(MultipartBody.FORM)
+                                                                    .addFormDataPart(
+                                                                        "id",
+                                                                        elem.id
+                                                                    )
+                                                                    .addFormDataPart(
+                                                                        "file",
+                                                                        file.name,
+                                                                        file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                                                                    )
+                                                                    .addFormDataPart(
+                                                                        "request",
+                                                                        "addImage"
+                                                                    )
+                                                                    .build()
+
+                                                            val request = Request.Builder()
+                                                                .url(requestUrl)
+                                                                .post(requestBody)
+                                                                .build()
+
+                                                            val client = OkHttpClient()
+
+                                                            client.newCall(request)
+                                                                .enqueue(object : Callback {
+                                                                    override fun onFailure(
+                                                                        call: Call,
+                                                                        e: IOException
+                                                                    ) {
+                                                                        errorMessage =
+                                                                            e.toString()
+                                                                    }
+
+                                                                    override fun onResponse(
+                                                                        call: Call,
+                                                                        response: Response
+                                                                    ) {
+                                                                        val body =
+                                                                            response.body?.string()
+
+                                                                        if (JSONObject(body).get(
+                                                                                "state"
+                                                                            )
+                                                                                .toString() == "true"
+                                                                        ) {
+                                                                            errorMessage =
+                                                                                "Immagine caricata con successo"
+                                                                        } else {
+                                                                            errorMessage =
+                                                                                "Errore durante il caricamento delle immagini"
+                                                                        }
+                                                                    }
+                                                                })
+                                                        }
+                                                    }
                                                 } else {
-                                                    errorMessage = "Errore di rete non si può aggiornare l'avvistamento online"
+                                                    errorMessage =
+                                                        "Errore di rete non si può aggiornare l'avvistamento online"
                                                 }
                                             } else {
-                                                if (avvDaCaricare != null) {
-                                                    avvDaCaricare.animale=selectedOptionText
-                                                    avvDaCaricare.specie=selectedOptionTextSpecie
-                                                    avvDaCaricare.numeroEsemplari=numeroEsemplari
-                                                    avvDaCaricare.mare=mare
-                                                    avvDaCaricare.vento=vento
-                                                    avvDaCaricare.note=note
-                                                    avvistamentiViewModel.insert(avvDaCaricare)
+                                                for (image in imagesList) {
+                                                    val bitmap: Bitmap? =
+                                                        BitmapFactory.decodeStream(
+                                                            contex.contentResolver.openInputStream(
+                                                                image
+                                                            )
+                                                        )
+                                                    if (bitmap == null) {
+                                                        errorMessage =
+                                                            "Impossibile caricare le foto dalla memoria del sistema."
+                                                        break
+                                                    }
+                                                    if (sighting.image1 == null) {
+                                                        sighting.image1 = bitmap?.let {
+                                                            bitmapToByteArray(
+                                                                it
+                                                            )
+                                                        }
+                                                    } else if (sighting.image2 == null) {
+                                                        sighting.image2 = bitmap?.let {
+                                                            bitmapToByteArray(
+                                                                it
+                                                            )
+                                                        }
+                                                    } else if (sighting.image3 == null) {
+                                                        sighting.image3 = bitmap?.let {
+                                                            bitmapToByteArray(
+                                                                it
+                                                            )
+                                                        }
+                                                    } else if (sighting.image4 == null) {
+                                                        sighting.image4 = bitmap?.let {
+                                                            bitmapToByteArray(
+                                                                it
+                                                            )
+                                                        }
+                                                    } else if (sighting.image5 == null) {
+                                                        sighting.image5 = bitmap?.let {
+                                                            bitmapToByteArray(
+                                                                it
+                                                            )
+                                                        }
+                                                    }
                                                 }
+                                                val a = AvvistamentiDaCaricare(
+                                                    sighting.id,
+                                                    sighting.user,
+                                                    sighting.date,
+                                                    sighting.numberOfSamples,
+                                                    sighting.position,
+                                                    sighting.animal,
+                                                    sighting.specie,
+                                                    sighting.sea,
+                                                    sighting.wind,
+                                                    sighting.notes,
+                                                    sighting.image1,
+                                                    sighting.image2,
+                                                    sighting.image3,
+                                                    sighting.image4,
+                                                    sighting.image5,
+                                                    false
+                                                )
+                                                avvistamentiViewModel.insert(a)
                                             }
                                         },
                                         colors = ButtonDefaults.buttonColors(
@@ -897,12 +925,13 @@ fun SightingViewScreen(
                                         Text(text = "SALVA")
                                     }
                                 }
-                                Row(horizontalArrangement = Arrangement.Center){
-                                    if(elem.online){
-                                        Column (horizontalAlignment = Alignment.CenterHorizontally){
-                                            if(immaginiOnline!=""){
+                                showImages(imagesUri = imagesList, context = contex)
+                                Row(horizontalArrangement = Arrangement.Center) {
+                                    if (elem.online) {
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                            if (immaginiOnline != "") {
                                                 val jsn = JSONArray(immaginiOnline)
-                                                for(k in 0..jsn.length()-1) {
+                                                for (k in 0..jsn.length() - 1) {
                                                     Card(
                                                         modifier = Modifier
                                                             .width(500.dp)
@@ -919,24 +948,51 @@ fun SightingViewScreen(
                                                                         .fillMaxWidth()
                                                                         .height(200.dp),
                                                                     painter = rememberAsyncImagePainter(
-                                                                        model = if(isNetworkAvailable(contex)){"https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()} else {""}
+                                                                        model = if (isNetworkAvailable(
+                                                                                contex
+                                                                            )
+                                                                        ) {
+                                                                            "https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(
+                                                                                k
+                                                                            ) as JSONObject).get("Img")
+                                                                                .toString()
+                                                                        } else {
+                                                                            ""
+                                                                        }
                                                                     ),
                                                                     contentDescription = null,
                                                                     contentScale = ContentScale.Crop
                                                                 )
-                                                                Row(horizontalArrangement = Arrangement.Center){
+                                                                Row(horizontalArrangement = Arrangement.Center) {
                                                                     Button(
                                                                         modifier = Modifier
                                                                             .padding(10.dp),
-                                                                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                                                        colors = ButtonDefaults.buttonColors(
+                                                                            MaterialTheme.colorScheme.primary
+                                                                        ),
                                                                         onClick = {
-                                                                            try{
-                                                                                val intent = Intent(Intent.ACTION_VIEW)
-                                                                                intent.setDataAndType(Uri.parse("https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()), "image/*")
-                                                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                                                contex.startActivity(intent)
-                                                                            }catch (e:Exception){
-                                                                                errorMessage = "Operazione non supportata dal dispositivo"
+                                                                            try {
+                                                                                val intent =
+                                                                                    Intent(Intent.ACTION_VIEW)
+                                                                                intent.setDataAndType(
+                                                                                    Uri.parse(
+                                                                                        "https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(
+                                                                                            k
+                                                                                        ) as JSONObject).get(
+                                                                                            "Img"
+                                                                                        ).toString()
+                                                                                    ),
+                                                                                    "image/*"
+                                                                                )
+                                                                                intent.addFlags(
+                                                                                    Intent.FLAG_ACTIVITY_NEW_TASK
+                                                                                )
+                                                                                contex.startActivity(
+                                                                                    intent
+                                                                                )
+                                                                            } catch (e: Exception) {
+                                                                                errorMessage =
+                                                                                    "Operazione non supportata dal dispositivo"
                                                                             }
                                                                         }
                                                                     ) {
@@ -950,8 +1006,134 @@ fun SightingViewScreen(
                                             }
                                         }
                                     } else {
-                                        Column (horizontalAlignment = Alignment.CenterHorizontally) {
-                                            if (img1 != null) {
+                                        Log.e("KEYYY", count.toString())
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                                            if (sighting.image1 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(
+                                                                    data = byteArrayToBitmap(sighting.image1!!)
+                                                                ),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        sighting.image1 = null
+                                                                        val a =
+                                                                            AvvistamentiDaCaricare(
+                                                                                sighting.id,
+                                                                                sighting.user,
+                                                                                sighting.date,
+                                                                                sighting.numberOfSamples,
+                                                                                sighting.position,
+                                                                                sighting.animal,
+                                                                                sighting.specie,
+                                                                                sighting.sea,
+                                                                                sighting.wind,
+                                                                                sighting.notes,
+                                                                                sighting.image1,
+                                                                                sighting.image2,
+                                                                                sighting.image3,
+                                                                                sighting.image4,
+                                                                                sighting.image5,
+                                                                                false
+                                                                            )
+                                                                        avvistamentiViewModel.insert(
+                                                                            a
+                                                                        )
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (sighting.image2 != null) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(500.dp)
+                                                        .padding(16.dp),
+                                                    elevation = CardDefaults.cardElevation(4.dp)
+                                                ) {
+                                                    Surface(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Column {
+                                                            Image(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(200.dp),
+                                                                painter = rememberImagePainter(
+                                                                    data = byteArrayToBitmap(sighting.image2!!)
+                                                                ),
+                                                                contentDescription = null,
+                                                                contentScale = ContentScale.Crop
+                                                            )
+                                                            Row(horizontalArrangement = Arrangement.Center) {
+                                                                Button(
+                                                                    modifier = Modifier
+                                                                        .padding(10.dp),
+                                                                    colors = ButtonDefaults.buttonColors(
+                                                                        MaterialTheme.colorScheme.error
+                                                                    ),
+                                                                    onClick = {
+                                                                        sighting.image2 = null
+                                                                        val a =
+                                                                            AvvistamentiDaCaricare(
+                                                                                sighting.id,
+                                                                                sighting.user,
+                                                                                sighting.date,
+                                                                                sighting.numberOfSamples,
+                                                                                sighting.position,
+                                                                                sighting.animal,
+                                                                                sighting.specie,
+                                                                                sighting.sea,
+                                                                                sighting.wind,
+                                                                                sighting.notes,
+                                                                                sighting.image1,
+                                                                                sighting.image2,
+                                                                                sighting.image3,
+                                                                                sighting.image4,
+                                                                                sighting.image5,
+                                                                                false
+                                                                            )
+                                                                        avvistamentiViewModel.insert(
+                                                                            a
+                                                                        )
+                                                                    }
+                                                                ) {
+                                                                    Text("ELIMINA")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (sighting.image3 != null) {
                                                 Card(
                                                     modifier = Modifier
                                                         .width(500.dp)
@@ -968,7 +1150,7 @@ fun SightingViewScreen(
                                                                     .fillMaxWidth()
                                                                     .height(200.dp),
                                                                 painter = rememberAsyncImagePainter(
-                                                                    img1
+                                                                    byteArrayToBitmap(sighting.image3!!)
                                                                 ),
                                                                 contentDescription = null,
                                                                 contentScale = ContentScale.Crop
@@ -981,14 +1163,29 @@ fun SightingViewScreen(
                                                                         MaterialTheme.colorScheme.error
                                                                     ),
                                                                     onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine1 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
+                                                                        sighting.image3 = null
+                                                                        val a =
+                                                                            AvvistamentiDaCaricare(
+                                                                                sighting.id,
+                                                                                sighting.user,
+                                                                                sighting.date,
+                                                                                sighting.numberOfSamples,
+                                                                                sighting.position,
+                                                                                sighting.animal,
+                                                                                sighting.specie,
+                                                                                sighting.sea,
+                                                                                sighting.wind,
+                                                                                sighting.notes,
+                                                                                sighting.image1,
+                                                                                sighting.image2,
+                                                                                sighting.image3,
+                                                                                sighting.image4,
+                                                                                sighting.image5,
+                                                                                false
                                                                             )
-                                                                        }
-                                                                        img1 = null
+                                                                        avvistamentiViewModel.insert(
+                                                                            a
+                                                                        )
                                                                     }
                                                                 ) {
                                                                     Text("ELIMINA")
@@ -998,7 +1195,7 @@ fun SightingViewScreen(
                                                     }
                                                 }
                                             }
-                                            if (img2 != null) {
+                                            if (sighting.image4 != null) {
                                                 Card(
                                                     modifier = Modifier
                                                         .width(500.dp)
@@ -1015,7 +1212,7 @@ fun SightingViewScreen(
                                                                     .fillMaxWidth()
                                                                     .height(200.dp),
                                                                 painter = rememberAsyncImagePainter(
-                                                                    img2
+                                                                    byteArrayToBitmap(sighting.image4!!)
                                                                 ),
                                                                 contentDescription = null,
                                                                 contentScale = ContentScale.Crop
@@ -1028,14 +1225,29 @@ fun SightingViewScreen(
                                                                         MaterialTheme.colorScheme.error
                                                                     ),
                                                                     onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine2 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
+                                                                        sighting.image4 = null
+                                                                        val a =
+                                                                            AvvistamentiDaCaricare(
+                                                                                sighting.id,
+                                                                                sighting.user,
+                                                                                sighting.date,
+                                                                                sighting.numberOfSamples,
+                                                                                sighting.position,
+                                                                                sighting.animal,
+                                                                                sighting.specie,
+                                                                                sighting.sea,
+                                                                                sighting.wind,
+                                                                                sighting.notes,
+                                                                                sighting.image1,
+                                                                                sighting.image2,
+                                                                                sighting.image3,
+                                                                                sighting.image4,
+                                                                                sighting.image5,
+                                                                                false
                                                                             )
-                                                                        }
-                                                                        img2 = null
+                                                                        avvistamentiViewModel.insert(
+                                                                            a
+                                                                        )
                                                                     }
                                                                 ) {
                                                                     Text("ELIMINA")
@@ -1045,52 +1257,7 @@ fun SightingViewScreen(
                                                     }
                                                 }
                                             }
-                                            if (img3 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberImagePainter(img3),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine3 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img3 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img4 != null) {
+                                            if (sighting.image5 != null) {
                                                 Card(
                                                     modifier = Modifier
                                                         .width(500.dp)
@@ -1107,7 +1274,7 @@ fun SightingViewScreen(
                                                                     .fillMaxWidth()
                                                                     .height(200.dp),
                                                                 painter = rememberAsyncImagePainter(
-                                                                    img4
+                                                                    byteArrayToBitmap(sighting.image5!!)
                                                                 ),
                                                                 contentDescription = null,
                                                                 contentScale = ContentScale.Crop
@@ -1120,61 +1287,29 @@ fun SightingViewScreen(
                                                                         MaterialTheme.colorScheme.error
                                                                     ),
                                                                     onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine4 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
+                                                                        sighting.image5 = null
+                                                                        val a =
+                                                                            AvvistamentiDaCaricare(
+                                                                                sighting.id,
+                                                                                sighting.user,
+                                                                                sighting.date,
+                                                                                sighting.numberOfSamples,
+                                                                                sighting.position,
+                                                                                sighting.animal,
+                                                                                sighting.specie,
+                                                                                sighting.sea,
+                                                                                sighting.wind,
+                                                                                sighting.notes,
+                                                                                sighting.image1,
+                                                                                sighting.image2,
+                                                                                sighting.image3,
+                                                                                sighting.image4,
+                                                                                sighting.image5,
+                                                                                false
                                                                             )
-                                                                        }
-                                                                        img4 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img5 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    img5
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine5 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img5 = null
+                                                                        avvistamentiViewModel.insert(
+                                                                            a
+                                                                        )
                                                                     }
                                                                 ) {
                                                                     Text("ELIMINA")
@@ -1217,9 +1352,12 @@ fun SightingViewScreen(
                                             loadUrl("file:///android_asset/leaflet/index.html")
 
                                             webViewClient = object : WebViewClient() {
-                                                override fun onPageFinished(view: WebView?, url: String?) {
+                                                override fun onPageFinished(
+                                                    view: WebView?,
+                                                    url: String?
+                                                ) {
                                                     super.onPageFinished(view, url)
-                                                    try{
+                                                    try {
                                                         var mkList = mutableListOf<MarkerData>()
                                                         mkList.add(
                                                             MarkerData(
@@ -1233,8 +1371,11 @@ fun SightingViewScreen(
                                                         val gson = Gson()
                                                         var markerDataJson = gson.toJson(mkList)
                                                         var currentMarkerDataJson = markerDataJson
-                                                        view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                    }catch (e: Exception){
+                                                        view?.evaluateJavascript(
+                                                            "addMarkers('$currentMarkerDataJson')",
+                                                            null
+                                                        )
+                                                    } catch (e: Exception) {
 
                                                     }
                                                 }
@@ -1258,10 +1399,11 @@ fun SightingViewScreen(
                                     elevation = CardDefaults.cardElevation(4.dp)
                                 )
                                 {
-                                    Row(modifier = modifier
-                                        .fillMaxSize()
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                                        .padding(10.dp)
+                                    Row(
+                                        modifier = modifier
+                                            .fillMaxSize()
+                                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                                            .padding(10.dp)
                                     )
                                     {
                                         Column() {
@@ -1362,7 +1504,7 @@ fun SightingViewScreen(
                                                         contentDescription = "Vedi dettagli specie"
                                                     )
                                                 }
-                                                InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
+                                                InfoSpecie(showFilterInfoSpecie = showFilterInfoSpecie) {
                                                     showFilterInfoSpecie = false
                                                 }
                                             }
@@ -1384,10 +1526,10 @@ fun SightingViewScreen(
                                         }
                                     }
                                 }
-                                Column (horizontalAlignment = Alignment.CenterHorizontally){
-                                    if(immaginiOnline!=""){
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    if (immaginiOnline != "") {
                                         val jsn = JSONArray(immaginiOnline)
-                                        for(k in 0..jsn.length()-1) {
+                                        for (k in 0..jsn.length() - 1) {
                                             Card(
                                                 modifier = Modifier
                                                     .width(500.dp)
@@ -1404,1193 +1546,46 @@ fun SightingViewScreen(
                                                                 .fillMaxWidth()
                                                                 .height(200.dp),
                                                             painter = rememberAsyncImagePainter(
-                                                                model = if(isNetworkAvailable(contex)){"https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()} else {""}
-                                                            ),
-                                                            contentDescription = null,
-                                                            contentScale = ContentScale.Crop
-                                                        )
-                                                        Row(horizontalArrangement = Arrangement.Center){
-                                                            Button(
-                                                                modifier = Modifier
-                                                                    .padding(10.dp),
-                                                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                                                                onClick = {
-                                                                    try{
-                                                                        val intent = Intent(Intent.ACTION_VIEW)
-                                                                        intent.setDataAndType(Uri.parse("https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()), "image/*")
-                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                                        contex.startActivity(intent)
-                                                                    }catch (e:Exception){
-                                                                        errorMessage = "Operazione non supportata dal dispositivo"
-                                                                    }
-                                                                }
-                                                            ) {
-                                                                Text("VISUALIZZA")
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else -> {                                                           /** SightingViewScreen verticale */
-            Column(modifier= Modifier
-                .background(backGround)
-                .fillMaxSize()) {
-                if(elem.avvistatore==em){
-                    Row(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .background(backGround)
-                    ) {
-                        LazyColumn(
-                            modifier = modifier
-                                .fillMaxSize()
-                                .padding(horizontal = min / 2),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            items(1) { element ->
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    AndroidView(
-                                        factory = { context ->
-                                            WebView(context).apply {
-                                                // Imposta le opzioni WebView necessarie
-                                                settings.javaScriptEnabled = true
-                                                settings.domStorageEnabled = true
-                                                loadUrl("file:///android_asset/leaflet/index.html")
-
-                                                webViewClient = object : WebViewClient() {
-                                                    override fun onPageFinished(view: WebView?, url: String?) {
-                                                        super.onPageFinished(view, url)
-                                                        try{
-                                                            var mkList = mutableListOf<MarkerData>()
-                                                            mkList.add(
-                                                                MarkerData(
-                                                                    elem.latid,
-                                                                    elem.long,
-                                                                    elem.data,
-                                                                    elem.animale,
-                                                                    elem.specie
-                                                                )
-                                                            )
-                                                            val gson = Gson()
-                                                            var markerDataJson = gson.toJson(mkList)
-                                                            var currentMarkerDataJson = markerDataJson
-                                                            try {
-                                                                view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                            } catch (e: Exception) {
-                                                            }
-                                                        }catch (e: Exception){
-
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                }
-                                Row() {
-                                    Column() {
-                                        Text(
-                                            text = "Utente:",
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
-                                        Spacer(modifier = Modifier.height(3.dp))
-                                        Text(
-                                            text = "Data:",
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
-                                    }
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        Spacer(modifier = Modifier.height(6.dp))
-                                        Text(
-                                            text = utente,
-                                            style = MaterialTheme.typography.bodyLarge
-                                        )
-                                        Spacer(modifier = Modifier.height(10.dp))
-                                        Text(
-                                            text = data,
-                                            style = MaterialTheme.typography.bodyLarge
-                                        )
-                                    }
-                                }
-                                // Numero Esemplari
-                                OutlinedTextField(
-                                    value = numeroEsemplari,
-                                    onValueChange = { numeroEsemplari = it },
-                                    label = { Text("Numero Esemplari") },
-                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                        keyboardType = KeyboardType.Number
-                                    ),
-                                    singleLine = true
-                                )
-                                Spacer(modifier = Modifier.height(3.dp))
-                                Row(
-                                ) {
-                                    OutlinedTextField(
-                                        value = posizione,
-                                        onValueChange = { posizione = it },
-                                        label = { Text("Posizione") },
-                                        keyboardOptions = KeyboardOptions.Default.copy(
-                                            keyboardType = KeyboardType.Decimal
-                                        ),
-                                        singleLine = true,
-                                        trailingIcon = {
-                                            IconButton(onClick = { }, enabled = false) {
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
-                                                    contentDescription = "GPS",
-                                                    tint = Color.Black
-                                                )
-                                            }
-                                        }
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(3.dp))
-                                // Mare
-                                OutlinedTextField(
-                                    value = mare,
-                                    onValueChange = { mare = it },
-                                    label = { Text("Mare") },
-                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                        keyboardType = KeyboardType.Number
-                                    )
-                                )
-                                // Vento
-                                OutlinedTextField(
-                                    value = vento,
-                                    onValueChange = { vento = it },
-                                    label = { Text("Vento") },
-                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                        keyboardType = KeyboardType.Number
-                                    )
-                                )
-                                Spacer(modifier = Modifier.height(12.dp))
-                                ExposedDropdownMenuBox(
-                                    expanded = expanded,
-                                    onExpandedChange = { expanded = !expanded },
-                                    modifier = Modifier
-                                        .background(MaterialTheme.colorScheme.primaryContainer)
-                                        .border(
-                                            1.dp,
-                                            MaterialTheme.colorScheme.outline,
-                                            RoundedCornerShape(2.dp)
-                                        )
-                                ) {
-                                    TextField(
-                                        // The `menuAnchor` modifier must be passed to the text field for correctness.
-                                        modifier = Modifier.menuAnchor(),
-                                        readOnly = true,
-                                        value = selectedOptionText,
-                                        onValueChange = {},
-                                        label = { Text("Animale") },
-                                        trailingIcon = {
-                                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                                expanded = expanded
-                                            )
-                                        },
-                                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                                    )
-                                    ExposedDropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false },
-                                    ) {
-                                        options.forEach { selectionOption ->
-                                            DropdownMenuItem(
-                                                text = { Text(selectionOption) },
-                                                onClick = {
-                                                    selectedOptionText = selectionOption
-                                                    expanded = false
-                                                    selectedOptionTextSpecie=""
-                                                },
-                                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                                            )
-                                        }
-                                    }
-                                }
-                                Spacer(modifier = Modifier.height(6.dp))
-                                // Specie
-                                Row {
-                                    ExposedDropdownMenuBox(
-                                        modifier = Modifier
-                                            .width(245.dp)
-                                            .background(MaterialTheme.colorScheme.primaryContainer)
-                                            .border(
-                                                1.dp,
-                                                MaterialTheme.colorScheme.outline,
-                                                RoundedCornerShape(2.dp)
-                                            ),
-                                        expanded = expandedSpecie && selectedOptionText!="",
-                                        onExpandedChange = { expandedSpecie = !expandedSpecie },
-                                    ) {
-                                        TextField(
-                                            // The `menuAnchor` modifier must be passed to the text field for correctness.
-                                            modifier = Modifier.menuAnchor(),
-                                            readOnly = true,
-                                            value = selectedOptionTextSpecie,
-                                            onValueChange = {},
-                                            label = { Text("Specie") },
-                                            trailingIcon = {
-                                                ExposedDropdownMenuDefaults.TrailingIcon(
-                                                    expanded = expandedSpecie
-                                                )
-                                            },
-                                            enabled = selectedOptionText!="",
-                                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                                        )
-                                        ExposedDropdownMenu(
-                                            expanded = expandedSpecie && selectedOptionText!="",
-                                            onDismissRequest = { expanded = false },
-                                        ) {
-                                            getSpecieFromAniaml(animal = selectedOptionText).forEach { selectionOptionSpecie ->
-                                                DropdownMenuItem(
-                                                    text = { Text(selectionOptionSpecie.name) },
-                                                    onClick = {
-                                                        selectedOptionTextSpecie = selectionOptionSpecie.name
-                                                        expandedSpecie = false
-                                                    },
-                                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Button(
-                                        modifier = Modifier
-                                            .size(35.dp)
-                                            .padding(0.dp)
-                                            .align(Alignment.CenterVertically),
-                                        colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.secondaryContainer,
-                                            MaterialTheme.colorScheme.primary
-                                        ),
-                                        contentPadding = PaddingValues(0.dp),
-                                        enabled = selectedOptionText!="",
-                                        onClick = { showFilterInfoSpecie = true }) {
-                                        Icon(
-                                            modifier = Modifier.fillMaxSize(),
-                                            imageVector = Icons.Filled.Info,
-                                            contentDescription = "Vedi dettagli specie"
-                                        )
-                                    }
-                                    InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
-                                        showFilterInfoSpecie = false
-                                    }
-                                }
-                                // Note
-                                OutlinedTextField(
-                                    value = note,
-                                    onValueChange = { note = it },
-                                    label = { Text("Note") }
-                                )
-
-                                Row {
-                                    // Submit button
-                                    val context = LocalContext.current
-                                    val file = context.createImageFile()
-                                    val uri = FileProvider.getUriForFile(
-                                        Objects.requireNonNull(context),
-                                        context.packageName + ".provider", file
-                                    )
-
-                                    var capturedImageUri by remember {
-                                        mutableStateOf<Uri>(Uri.EMPTY)
-                                    }
-
-                                    val cameraLauncher =
-                                        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
-                                            capturedImageUri = uri
-                                        }
-
-                                    val permissionLauncher = rememberLauncherForActivityResult(
-                                        ActivityResultContracts.RequestPermission()
-                                    ) {
-                                        if (it) {
-                                            cameraLauncher.launch(uri)
-                                        } else {
-                                            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-
-                                    Button(
-                                        modifier = Modifier
-                                            .padding(vertical = 16.dp),
-                                        onClick = {
-                                            if (!isNetworkAvailable(context) && elem.online) {
-                                                errorMessage =
-                                                    "Aggiungere l'immagine all'avvistamento online quando si è connessi alla rete"
-                                            } else {
-                                                var somma = 0
-                                                if (img1 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img2 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img3 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img4 != null) {
-                                                    somma += 1
-                                                }
-                                                if (img5 != null) {
-                                                    somma += 1
-                                                }
-
-                                                if (somma + count >= 5) {
-                                                    errorMessage =
-                                                        "Non si possono caricare più di 5 foto."
-                                                } else {
-                                                    val permissionCheckResult =
-                                                        ContextCompat.checkSelfPermission(
-                                                            context,
-                                                            Manifest.permission.CAMERA
-                                                        )
-                                                    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-                                                        cameraLauncher.launch(uri)
-                                                        count += 1
-                                                    } else {
-                                                        permissionLauncher.launch(Manifest.permission.CAMERA)
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.primary
-                                        ),
-
-                                        ) {
-                                        Icon(
-                                            painterResource(id = R.drawable.baseline_camera_alt_24),
-                                            contentDescription = "Foto"
-                                        )
-                                        Spacer(modifier = Modifier.width(3.dp))
-                                        Text(text = "AGGIUNGI")
-                                    }
-
-                                    if (capturedImageUri.path?.isNotEmpty() == true) {
-                                        if(!saveImage(context.applicationContext.contentResolver, capturedImageUri)){
-                                            capturedImageUri=Uri.EMPTY
-                                        } else {
-                                            val bitmap: Bitmap? = BitmapFactory.decodeStream(
-                                                contex.contentResolver.openInputStream(
-                                                    capturedImageUri
-                                                )
-                                            )
-                                            if (bitmap == null) {
-                                                errorMessage =
-                                                    "Impossibile caricare le foto dalla memoria del sistema."
-                                            } else if (isNetworkAvailable(context) && elem.online) { // Carico le nuove foto online
-                                                val file = File(context.cacheDir, "image.jpg")
-                                                val outputStream = FileOutputStream(file)
-                                                bitmap?.compress(
-                                                    Bitmap.CompressFormat.JPEG,
-                                                    90,
-                                                    outputStream
-                                                )
-                                                outputStream.flush()
-                                                outputStream.close()
-                                                // restituisci l'URI del file temporaneo
-                                                if (file == null) {
-                                                    errorMessage =
-                                                        "Errore nel caricamento locale del file"
-                                                } else {
-                                                    val requestUrl =
-                                                        "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
-                                                    val requestBody = MultipartBody.Builder()
-                                                        .setType(MultipartBody.FORM)
-                                                        .addFormDataPart("id", elem.id)
-                                                        .addFormDataPart(
-                                                            "file",
-                                                            file.name,
-                                                            file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                                                        )
-                                                        .addFormDataPart("request", "addImage")
-                                                        .build()
-
-                                                    val request = Request.Builder()
-                                                        .url(requestUrl)
-                                                        .post(requestBody)
-                                                        .build()
-
-                                                    val client = OkHttpClient()
-
-                                                    client.newCall(request)
-                                                        .enqueue(object : Callback {
-                                                            override fun onFailure(
-                                                                call: Call,
-                                                                e: IOException
-                                                            ) {
-                                                                errorMessage = e.toString()
-                                                            }
-
-                                                            override fun onResponse(
-                                                                call: Call,
-                                                                response: Response
-                                                            ) {
-                                                                val body = response.body?.string()
-
-                                                                if (JSONObject(body).get("state")
-                                                                        .toString() == "true"
+                                                                model = if (isNetworkAvailable(
+                                                                        contex
+                                                                    )
                                                                 ) {
-                                                                    val client = OkHttpClient()
-                                                                    val formBody =
-                                                                        MultipartBody.Builder()
-                                                                            .setType(MultipartBody.FORM)
-                                                                            .addFormDataPart(
-                                                                                "id",
-                                                                                elem.id
-                                                                            )
-                                                                            .addFormDataPart(
-                                                                                "request",
-                                                                                "getImages"
-                                                                            )
-                                                                            .build()
-                                                                    val request = Request.Builder()
-                                                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
-                                                                        .post(formBody)
-                                                                        .build()
-
-                                                                    client.newCall(request)
-                                                                        .enqueue(object : Callback {
-                                                                            override fun onFailure(
-                                                                                call: Call,
-                                                                                e: IOException
-                                                                            ) {
-                                                                                errorMessage =
-                                                                                    "Impossibile caricare la pagina"
-                                                                            }
-
-                                                                            override fun onResponse(
-                                                                                call: Call,
-                                                                                response: Response
-                                                                            ) {
-                                                                                val body =
-                                                                                    response.body?.string()
-                                                                                val msg =
-                                                                                    body.toString()
-                                                                                immaginiOnline = msg
-                                                                            }
-                                                                        })
+                                                                    "https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(
+                                                                        k
+                                                                    ) as JSONObject).get("Img")
+                                                                        .toString()
                                                                 } else {
-                                                                    errorMessage =
-                                                                        "Errore durante il caricamento dell'immagine"
+                                                                    ""
                                                                 }
-                                                            }
-                                                        })
-                                                }
-                                            } else if (!elem.online) {
-                                                if (img1 == null) {
-                                                    img1 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine1 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img2 == null) {
-                                                    img2 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine2 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img3 == null) {
-                                                    img3 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine3 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img4 == null) {
-                                                    img4 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine4 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                } else if (img5 == null) {
-                                                    img5 = bitmap
-                                                    if (avvDaCaricare != null) {
-                                                        avvDaCaricare.immagine5 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                        avvistamentiViewModel.insert(avvDaCaricare)
-                                                    }
-                                                }
-                                            } else {
-                                                errorMessage =
-                                                    "Per problemi di rete non è possibile caricare altre foto "
-                                            }
-                                            capturedImageUri = Uri.EMPTY
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                    Button(
-                                        modifier = Modifier
-                                            .padding(vertical = 16.dp),
-                                        onClick = {
-                                            if(elem.online){
-                                                if(isNetworkAvailable(contex)) {
-                                                    val client = OkHttpClient()
-                                                    val formBody = MultipartBody.Builder()
-                                                        .setType(MultipartBody.FORM)
-                                                        .addFormDataPart("id", elem.id)
-                                                        .addFormDataPart("specie", selectedOptionText)
-                                                        .addFormDataPart("sottospecie", selectedOptionTextSpecie)
-                                                        .addFormDataPart("esemplari", numeroEsemplari)
-                                                        .addFormDataPart("vento", vento)
-                                                        .addFormDataPart("mare", mare)
-                                                        .addFormDataPart("note", note)
-                                                        .addFormDataPart("latitudine", elem.latid)
-                                                        .addFormDataPart("longitudine", elem.long)
-                                                        .addFormDataPart("request", "saveDates")
-                                                        .build()
-                                                    val request = Request.Builder()
-                                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
-                                                        .post(formBody)
-                                                        .build()
-
-                                                    client.newCall(request)
-                                                        .enqueue(object : Callback {
-                                                            override fun onFailure(
-                                                                call: Call,
-                                                                e: IOException
-                                                            ) {
-                                                            }
-
-                                                            override fun onResponse(
-                                                                call: Call,
-                                                                response: Response
-                                                            ) {
-                                                                val body = response.body?.string()
-                                                                if(body.toString()=="true"){
-                                                                    if(isNetworkAvailable(contex)){
-                                                                        val client = OkHttpClient()
-                                                                        val formBody = MultipartBody.Builder()
-                                                                            .setType(MultipartBody.FORM)
-                                                                            .addFormDataPart("request", "tbl_avvistamenti")
-                                                                            .build()
-                                                                        val request = Request.Builder()
-                                                                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
-                                                                            .post(formBody)
-                                                                            .build()
-
-                                                                        client.newCall(request).enqueue(object : Callback {
-                                                                            override fun onFailure(call: Call, e: IOException) {
-                                                                            }
-
-                                                                            override fun onResponse(call: Call, response: Response) {
-                                                                                val body = response.body?.string()
-                                                                                var temp = JSONArray(body)
-
-                                                                                avvistamentiViewViewModel.deleteAll()
-                                                                                for (i in 0 until temp.length() step 1) {
-                                                                                    avvistamentiViewViewModel.insert(
-                                                                                        AvvistamentiDaVedere(
-                                                                                            (temp.get(i) as JSONObject).get("ID").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Email").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Data").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Numero_Esemplari").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Latid").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Long").toString() ,
-                                                                                            (temp.get(i) as JSONObject).get("Anima_Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Specie_Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Mare").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Vento").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Note").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Img").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Nome").toString(),
-                                                                                            (temp.get(i) as JSONObject).get("Cognome").toString(),
-                                                                                            true
-                                                                                        )
-                                                                                    )
-                                                                                }
-                                                                            }
-                                                                        })
-                                                                    }
-                                                                }
-                                                            }
-                                                        })
-                                                } else {
-                                                    errorMessage = "Errore di rete non si può aggiornare l'avvistamento online"
-                                                }
-                                            } else {
-                                                if (avvDaCaricare != null) {
-                                                    avvDaCaricare.animale=selectedOptionText
-                                                    avvDaCaricare.specie=selectedOptionTextSpecie
-                                                    avvDaCaricare.numeroEsemplari=numeroEsemplari
-                                                    avvDaCaricare.mare=mare
-                                                    avvDaCaricare.vento=vento
-                                                    avvDaCaricare.note=note
-                                                    avvistamentiViewModel.insert(avvDaCaricare)
-                                                }
-                                            }
-                                        },
-                                        colors = ButtonDefaults.buttonColors(
-                                            MaterialTheme.colorScheme.primary
-                                        ),
-
-                                        ) {
-                                        Icon(
-                                            painterResource(id = R.drawable.baseline_save_24),
-                                            contentDescription = "Salva"
-                                        )
-                                        Spacer(modifier = Modifier.width(3.dp))
-                                        Text(text = "SALVA")
-                                    }
-                                }
-                                Row(){
-                                    if(elem.online){
-                                        Column (horizontalAlignment = Alignment.CenterHorizontally){
-                                            if(immaginiOnline!=""){
-                                                val jsn = JSONArray(immaginiOnline)
-                                                for(k in 0..jsn.length()-1) {
-                                                    Card(
-                                                        modifier = Modifier
-                                                            .width(500.dp)
-                                                            .padding(16.dp),
-                                                        elevation = CardDefaults.cardElevation(4.dp)
-                                                    ) {
-                                                        Surface(
-                                                            modifier = Modifier.fillMaxWidth(),
-                                                            shape = RoundedCornerShape(8.dp)
-                                                        ) {
-                                                            Column {
-                                                                Image(
-                                                                    modifier = Modifier
-                                                                        .fillMaxWidth()
-                                                                        .height(200.dp),
-                                                                    painter = rememberAsyncImagePainter(
-                                                                        model = if(isNetworkAvailable(contex)){"https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()} else {""}
-                                                                    ),
-                                                                    contentDescription = null,
-                                                                    contentScale = ContentScale.Crop
-                                                                )
-                                                                Row(horizontalArrangement = Arrangement.Center){
-                                                                    Button(
-                                                                        modifier = Modifier
-                                                                            .padding(10.dp),
-                                                                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                                                                        onClick = {
-                                                                            try{
-                                                                                val intent = Intent(Intent.ACTION_VIEW)
-                                                                                intent.setDataAndType(Uri.parse("https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()), "image/*")
-                                                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                                                contex.startActivity(intent)
-                                                                            }catch (e:Exception){
-                                                                                errorMessage = "Operazione non supportata dal dispositivo"
-                                                                            }
-                                                                        }
-                                                                    ) {
-                                                                        Text("VISUALIZZA")
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        Column (horizontalAlignment = Alignment.CenterHorizontally) {
-                                            if (img1 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    img1
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine1 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img1 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img2 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    img2
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine2 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img2 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img3 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberImagePainter(img3),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine3 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img3 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img4 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    img4
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine4 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img4 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (img5 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    img5
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        if (avvDaCaricare != null) {
-                                                                            avvDaCaricare.immagine5 =
-                                                                                null
-                                                                            avvistamentiViewModel.insert(
-                                                                                avvDaCaricare
-                                                                            )
-                                                                        }
-                                                                        img5 = null
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    Row(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .background(backGround)
-                    ) {
-                        LazyColumn(
-                            modifier = modifier
-                                .fillMaxSize()
-                                .padding(horizontal = min / 2),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            items(1) { element ->
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    AndroidView(
-                                        factory = { context ->
-                                            WebView(context).apply {
-                                                // Imposta le opzioni WebView necessarie
-                                                settings.javaScriptEnabled = true
-                                                settings.domStorageEnabled = true
-                                                loadUrl("file:///android_asset/leaflet/index.html")
-
-                                                webViewClient = object : WebViewClient() {
-                                                    override fun onPageFinished(view: WebView?, url: String?) {
-                                                        super.onPageFinished(view, url)
-                                                        if(elem.latid!="" && elem.long!=""){
-                                                            var mkList = mutableListOf<MarkerData>()
-                                                            mkList.add(
-                                                                MarkerData(
-                                                                    elem.latid,
-                                                                    elem.long,
-                                                                    elem.data,
-                                                                    elem.animale,
-                                                                    elem.specie
-                                                                )
-                                                            )
-                                                            val gson = Gson()
-                                                            var markerDataJson = gson.toJson(mkList)
-                                                            var currentMarkerDataJson = markerDataJson
-                                                            try {
-                                                                view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                                            } catch (e: Exception) {
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                }
-                                Card(
-                                    shape = MaterialTheme.shapes.medium,
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .fillMaxWidth(),
-                                    border= BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
-                                    colors = CardDefaults.outlinedCardColors(),
-                                    elevation = CardDefaults.cardElevation(4.dp)
-                                ){
-                                    Row(modifier= Modifier
-                                        .padding(10.dp)
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                                        .fillMaxSize()) {
-                                        Column(modifier = Modifier
-                                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                                            .padding(5.dp)) {
-                                            Text(
-                                                text = "Utente:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Data:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "N. Esemplari:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Posizione:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Animale:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Specie:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Mare:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Vento:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "Note:",
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                        }
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            modifier = Modifier
-                                                .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                .padding(5.dp)
-                                        ) {
-                                            Spacer(modifier = Modifier.height(6.dp))
-                                            Text(
-                                                text = utente,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = data,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = numeroEsemplari,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = posizione,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = selectedOptionText,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Row {
-                                                Text(
-                                                    text = selectedOptionTextSpecie,
-                                                    style = MaterialTheme.typography.bodyLarge
-                                                )
-                                                Spacer(modifier = Modifier.width(5.dp))
-                                                Button(
-                                                    modifier = Modifier
-                                                        .size(20.dp)
-                                                        .padding(0.dp)
-                                                        .align(Alignment.CenterVertically),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        MaterialTheme.colorScheme.secondaryContainer,
-                                                        MaterialTheme.colorScheme.primary
-                                                    ),
-                                                    contentPadding = PaddingValues(0.dp),
-                                                    onClick = { showFilterInfoSpecie = true }) {
-                                                    Icon(
-                                                        modifier = Modifier.fillMaxSize(),
-                                                        imageVector = Icons.Filled.Info,
-                                                        contentDescription = "Vedi dettagli specie"
-                                                    )
-                                                }
-                                                InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
-                                                    showFilterInfoSpecie = false
-                                                }
-                                            }
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = mare,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = vento,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                            Spacer(modifier = Modifier.height(10.dp))
-                                            Text(
-                                                text = note,
-                                                style = MaterialTheme.typography.bodyLarge
-                                            )
-                                        }
-                                    }
-                                }
-                                Column (horizontalAlignment = Alignment.CenterHorizontally){
-                                    if(immaginiOnline!=""){
-                                        val jsn = JSONArray(immaginiOnline)
-                                        for(k in 0..jsn.length()-1) {
-                                            Card(
-                                                modifier = Modifier
-                                                    .width(500.dp)
-                                                    .padding(16.dp),
-                                                elevation = CardDefaults.cardElevation(4.dp)
-                                            ) {
-                                                Surface(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    shape = RoundedCornerShape(8.dp)
-                                                ) {
-                                                    Column {
-                                                        Image(
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .height(200.dp),
-                                                            painter = rememberAsyncImagePainter(
-                                                                model = if(isNetworkAvailable(contex)){"https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()} else {""}
                                                             ),
                                                             contentDescription = null,
                                                             contentScale = ContentScale.Crop
                                                         )
-                                                        Row(horizontalArrangement = Arrangement.Center){
+                                                        Row(horizontalArrangement = Arrangement.Center) {
                                                             Button(
                                                                 modifier = Modifier
                                                                     .padding(10.dp),
-                                                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                                                colors = ButtonDefaults.buttonColors(
+                                                                    MaterialTheme.colorScheme.primary
+                                                                ),
                                                                 onClick = {
-                                                                    try{
-                                                                        val intent = Intent(Intent.ACTION_VIEW)
-                                                                        intent.setDataAndType(Uri.parse("https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(k) as JSONObject).get("Img").toString()), "image/*")
+                                                                    try {
+                                                                        val intent =
+                                                                            Intent(Intent.ACTION_VIEW)
+                                                                        intent.setDataAndType(
+                                                                            Uri.parse(
+                                                                                "https://isi-seawatch.csr.unibo.it/Sito/img/avvistamenti/" + (jsn.get(
+                                                                                    k
+                                                                                ) as JSONObject).get(
+                                                                                    "Img"
+                                                                                ).toString()
+                                                                            ), "image/*"
+                                                                        )
                                                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                                                         contex.startActivity(intent)
-                                                                    }catch (e:Exception){
-                                                                        errorMessage = "Operazione non supportata dal dispositivo"
+                                                                    } catch (e: Exception) {
+                                                                        errorMessage =
+                                                                            "Operazione non supportata dal dispositivo"
                                                                     }
                                                                 }
                                                             ) {
@@ -2612,68 +1607,3 @@ fun SightingViewScreen(
     }
 }
 
-@Composable
-fun saveImage(contentResolver: ContentResolver, capturedImageUri: Uri): Boolean {
-    val saveUri: Uri?
-    val image = getBitmap(capturedImageUri, contentResolver)
-    if(image != null){
-        val filename = "IMG_${SystemClock.uptimeMillis()}"
-        // Definisci il percorso della cartella di salvataggio dell'immagine
-        val imagesCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-        } else {
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        }
-
-        // Crea un contenuto Values object per l'immagine
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.WIDTH, image.width)
-            put(MediaStore.Images.Media.HEIGHT, image.height)
-        }
-
-        // Aggiungi l'immagine alla galleria
-        val resolver = LocalContext.current.contentResolver
-        val uri = resolver.insert(imagesCollection, contentValues)
-
-        uri?.let {
-            saveUri = it
-            resolver.openOutputStream(uri)?.use { outputStream ->
-                // Salva l'immagine nell'OutputStream
-                image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
-            }
-        }
-        return true
-    } else {
-        return false
-    }
-}
-
-fun Context.createImageFile(): File {
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-    val imageFileName = "JPEG_" + timeStamp + "_"
-    return File.createTempFile(
-        imageFileName,
-        ".jpg",
-        externalCacheDir
-    )
-}
-
-private fun getBitmap(selectedPhotoUri: Uri, contentResolver: ContentResolver): Bitmap? {
-    try {
-        val bitmap = when {
-            Build.VERSION.SDK_INT < 28 -> MediaStore.Images.Media.getBitmap(
-                contentResolver,
-                selectedPhotoUri
-            )
-            else -> {
-                val source = ImageDecoder.createSource(contentResolver, selectedPhotoUri)
-                ImageDecoder.decodeBitmap(source)
-            }
-        }
-        return bitmap
-    } catch (e: Exception){
-        return null
-    }
-}

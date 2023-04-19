@@ -193,7 +193,7 @@ class MainActivity : FragmentActivity() {
             saveUri = it
             resolver.openOutputStream(uri)?.use { outputStream ->
                 // Salva l'immagine nell'OutputStream
-                image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
+                image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             }
         }
     }
