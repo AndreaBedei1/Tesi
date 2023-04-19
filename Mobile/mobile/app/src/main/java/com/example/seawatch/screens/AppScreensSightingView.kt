@@ -445,7 +445,8 @@ fun SightingViewScreen(
                                             keyboardType = KeyboardType.Decimal
                                         ),
                                         singleLine = true,
-                                        trailingIcon = {
+                                        readOnly = true
+                                        /*trailingIcon = {
                                             IconButton(onClick = { }, enabled = false) {
                                                 Icon(
                                                     painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
@@ -453,7 +454,7 @@ fun SightingViewScreen(
                                                     tint = Color.Black
                                                 )
                                             }
-                                        }
+                                        }*/
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(3.dp))

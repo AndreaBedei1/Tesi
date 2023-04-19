@@ -76,6 +76,8 @@ fun SightingScreen(
     var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
     val sighting = Sighting(currentDateTime, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
     var errorMessage by rememberSaveable { mutableStateOf("") }
+    var imageMessage by rememberSaveable { mutableStateOf(false) }
+    var alreadySeen by rememberSaveable { mutableStateOf(false) }
 
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
@@ -84,6 +86,19 @@ fun SightingScreen(
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
+
+    if (imageMessage) {
+        AlertDialog(
+            onDismissRequest = { imageMessage = false; alreadySeen=true },
+            title = { Text(text = "ATTENZIONE") },
+            text = { Text(text = "Le immagini che aggiungi saranno salvata anche sul tuo dispositivo dopo aver premuto il tasto Salva.") },
+            confirmButton = {
+                Button(onClick = { imageMessage=false;alreadySeen=true }) {
                     Text(text = "OK")
                 }
             }
@@ -353,6 +368,9 @@ fun SightingScreen(
                                                 onClick = {
                                                     (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
                                                     count+=1
+                                                    if(!alreadySeen){
+                                                        imageMessage=true
+                                                    }
                                                 },
                                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                             ) {
