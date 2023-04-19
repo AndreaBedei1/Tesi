@@ -101,41 +101,16 @@ fun SightingScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         for( image in imagesList){
-                            val bitmap: Bitmap? = BitmapFactory.decodeStream(contex.contentResolver.openInputStream(image))
-                            if(bitmap==null){
-                                errorMessage = "Impossibile caricare le foto dalla memoria del sistema."
-                                break
-                            }
-                            if(sighting.image1==null){
-                                sighting.image1 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            } else if(sighting.image2==null){
-                                sighting.image2 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image3==null){
-                                sighting.image3 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image4==null){
-                                sighting.image4 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image5==null){
-                                sighting.image5 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
+                            if(sighting.image1==""){
+                                sighting.image1 = image.toString()
+                            } else if(sighting.image2==""){
+                                sighting.image2 = image.toString()
+                            }else if(sighting.image3==""){
+                                sighting.image3 = image.toString()
+                            }else if(sighting.image4==""){
+                                sighting.image4 = image.toString()
+                            }else if(sighting.image5==""){
+                                sighting.image5 = image.toString()
                             }
                         }
                         val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)
@@ -420,41 +395,16 @@ fun SightingScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         for( image in imagesList){
-                            val bitmap: Bitmap? = BitmapFactory.decodeStream(contex.contentResolver.openInputStream(image))
-                            if(bitmap==null){
-                                errorMessage = "Impossibile caricare le foto dalla memoria del sistema."
-                                break
-                            }
-                            if(sighting.image1==null){
-                                sighting.image1 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            } else if(sighting.image2==null){
-                                sighting.image2 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image3==null){
-                                sighting.image3 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image4==null){
-                                sighting.image4 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
-                            }else if(sighting.image5==null){
-                                sighting.image5 = bitmap?.let {
-                                    bitmapToByteArray(
-                                        it
-                                    )
-                                }
+                            if(sighting.image1==""){
+                                sighting.image1 = image.toString()
+                            } else if(sighting.image2==""){
+                                sighting.image2 = image.toString()
+                            }else if(sighting.image3==""){
+                                sighting.image3 = image.toString()
+                            }else if(sighting.image4==""){
+                                sighting.image4 = image.toString()
+                            }else if(sighting.image5==""){
+                                sighting.image5 = image.toString()
                             }
                         }
                         val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)

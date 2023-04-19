@@ -12,11 +12,11 @@ class Sighting(id:String,
                mare:String,
                vento:String,
                note:String,
-               immagine1:ByteArray? = null,
-               immagine2:ByteArray? = null,
-               immagine3:ByteArray? = null,
-               immagine4:ByteArray? = null,
-               immagine5:ByteArray? = null,
+               immagine1:String = "",
+               immagine2:String = "",
+               immagine3:String = "",
+               immagine4:String = "",
+               immagine5:String = "",
                caricato:Boolean = false) {
     val id = id
     val date=data
@@ -35,11 +35,7 @@ class Sighting(id:String,
     var image5= immagine5
     var upload=caricato
 
-    fun AddToDatabase(){
-
-    }
-
     override fun toString(): String {
-        return "Sighting(date='$date', animal='$animal', user='$user', numberOfSamples='$numberOfSamples', position='$position', specie='$specie', sea='$sea', wind='$wind', notes='$notes', image1=${image1?.contentToString()}, image2=${image2?.contentToString()}, image3=${image3?.contentToString()}, image4=${image4?.contentToString()}, image5=${image5?.contentToString()})"
+        return "Sighting(date='$date', animal='$animal', user='$user', numberOfSamples='$numberOfSamples', position='$position', specie='$specie', sea='$sea', wind='$wind', notes='$notes')"
     }
 }

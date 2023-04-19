@@ -65,6 +65,60 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+@Composable
+fun drawLocalImages(img:String, contex:Context){
+    if (img != "") {
+        Card(
+            modifier = Modifier
+                .width(500.dp)
+                .padding(16.dp),
+            elevation = CardDefaults.cardElevation(4.dp)
+        ) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Column {
+                    val painter = rememberImagePainter(img)
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        painter = painter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                    Row(horizontalArrangement = Arrangement.Center){
+                        Button(
+                            modifier = Modifier
+                                .padding(10.dp),
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.setDataAndType(Uri.parse(img), "image/*")
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                contex.startActivity(intent)
+                            }
+                        ) {
+                            Text("VISUALIZZA")
+                        }
+                        Button(
+                            modifier = Modifier
+                                .padding(10.dp),
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error),
+                            onClick = {
+                                contex.contentResolver.delete(Uri.parse(img), null, null)
+                                ActivityCompat.recreate((contex as Activity))
+                            }
+                        ) {
+                            Text("ELIMINA")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -232,11 +286,11 @@ fun SightingViewScreen(
                         sighting.image3 = e.immagine3
                         sighting.image4 = e.immagine4
                         sighting.image5 = e.immagine5
-                        if(sighting.image1 != null) {count+=1}
-                        if(sighting.image2 != null) {count+=1}
-                        if(sighting.image3 != null) {count+=1}
-                        if(sighting.image4 != null) {count+=1}
-                        if(sighting.image5 != null) {count+=1}
+                        if(sighting.image1 != "") {count+=1}
+                        if(sighting.image2 != "") {count+=1}
+                        if(sighting.image3 != "") {count+=1}
+                        if(sighting.image4 != "") {count+=1}
+                        if(sighting.image5 != "") {count+=1}
                         break
                     }
                 }
@@ -253,11 +307,11 @@ fun SightingViewScreen(
                     sighting.image3 = e.immagine3
                     sighting.image4 = e.immagine4
                     sighting.image5 = e.immagine5
-                    if(sighting.image1 != null) {count+=1}
-                    if(sighting.image2 != null) {count+=1}
-                    if(sighting.image3 != null) {count+=1}
-                    if(sighting.image4 != null) {count+=1}
-                    if(sighting.image5 != null) {count+=1}
+                    if(sighting.image1 != "") {count+=1}
+                    if(sighting.image2 != "") {count+=1}
+                    if(sighting.image3 != "") {count+=1}
+                    if(sighting.image4 != "") {count+=1}
+                    if(sighting.image5 != "") {count+=1}
                     break
                 }
             }
@@ -847,48 +901,17 @@ fun SightingViewScreen(
                                                         "Errore di rete non si può aggiornare l'avvistamento online"
                                                 }
                                             } else {
-                                                for (image in imagesList) {
-                                                    val bitmap: Bitmap? =
-                                                        BitmapFactory.decodeStream(
-                                                            contex.contentResolver.openInputStream(
-                                                                image
-                                                            )
-                                                        )
-                                                    if (bitmap == null) {
-                                                        errorMessage =
-                                                            "Impossibile caricare le foto dalla memoria del sistema."
-                                                        break
-                                                    }
-                                                    if (sighting.image1 == null) {
-                                                        sighting.image1 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                    } else if (sighting.image2 == null) {
-                                                        sighting.image2 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                    } else if (sighting.image3 == null) {
-                                                        sighting.image3 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                    } else if (sighting.image4 == null) {
-                                                        sighting.image4 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
-                                                    } else if (sighting.image5 == null) {
-                                                        sighting.image5 = bitmap?.let {
-                                                            bitmapToByteArray(
-                                                                it
-                                                            )
-                                                        }
+                                                for( image in imagesList){
+                                                    if(sighting.image1==""){
+                                                        sighting.image1 = image.toString()
+                                                    } else if(sighting.image2==""){
+                                                        sighting.image2 = image.toString()
+                                                    }else if(sighting.image3==""){
+                                                        sighting.image3 = image.toString()
+                                                    }else if(sighting.image4==""){
+                                                        sighting.image4 = image.toString()
+                                                    }else if(sighting.image5==""){
+                                                        sighting.image5 = image.toString()
                                                     }
                                                 }
                                                 val a = AvvistamentiDaCaricare(
@@ -1006,319 +1029,13 @@ fun SightingViewScreen(
                                             }
                                         }
                                     } else {
-                                        Log.e("KEYYY", count.toString())
                                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                            drawLocalImages(sighting.image1, contex)
+                                            drawLocalImages(sighting.image2, contex)
+                                            drawLocalImages(sighting.image3, contex)
+                                            drawLocalImages(sighting.image4, contex)
+                                            drawLocalImages(sighting.image5, contex)
 
-                                            if (sighting.image1 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberImagePainter(
-                                                                    data = byteArrayToBitmap(sighting.image1!!)
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        sighting.image1 = null
-                                                                        val a =
-                                                                            AvvistamentiDaCaricare(
-                                                                                sighting.id,
-                                                                                sighting.user,
-                                                                                sighting.date,
-                                                                                sighting.numberOfSamples,
-                                                                                sighting.position,
-                                                                                sighting.animal,
-                                                                                sighting.specie,
-                                                                                sighting.sea,
-                                                                                sighting.wind,
-                                                                                sighting.notes,
-                                                                                sighting.image1,
-                                                                                sighting.image2,
-                                                                                sighting.image3,
-                                                                                sighting.image4,
-                                                                                sighting.image5,
-                                                                                false
-                                                                            )
-                                                                        avvistamentiViewModel.insert(
-                                                                            a
-                                                                        )
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (sighting.image2 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberImagePainter(
-                                                                    data = byteArrayToBitmap(sighting.image2!!)
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        sighting.image2 = null
-                                                                        val a =
-                                                                            AvvistamentiDaCaricare(
-                                                                                sighting.id,
-                                                                                sighting.user,
-                                                                                sighting.date,
-                                                                                sighting.numberOfSamples,
-                                                                                sighting.position,
-                                                                                sighting.animal,
-                                                                                sighting.specie,
-                                                                                sighting.sea,
-                                                                                sighting.wind,
-                                                                                sighting.notes,
-                                                                                sighting.image1,
-                                                                                sighting.image2,
-                                                                                sighting.image3,
-                                                                                sighting.image4,
-                                                                                sighting.image5,
-                                                                                false
-                                                                            )
-                                                                        avvistamentiViewModel.insert(
-                                                                            a
-                                                                        )
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (sighting.image3 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    byteArrayToBitmap(sighting.image3!!)
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        sighting.image3 = null
-                                                                        val a =
-                                                                            AvvistamentiDaCaricare(
-                                                                                sighting.id,
-                                                                                sighting.user,
-                                                                                sighting.date,
-                                                                                sighting.numberOfSamples,
-                                                                                sighting.position,
-                                                                                sighting.animal,
-                                                                                sighting.specie,
-                                                                                sighting.sea,
-                                                                                sighting.wind,
-                                                                                sighting.notes,
-                                                                                sighting.image1,
-                                                                                sighting.image2,
-                                                                                sighting.image3,
-                                                                                sighting.image4,
-                                                                                sighting.image5,
-                                                                                false
-                                                                            )
-                                                                        avvistamentiViewModel.insert(
-                                                                            a
-                                                                        )
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (sighting.image4 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    byteArrayToBitmap(sighting.image4!!)
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        sighting.image4 = null
-                                                                        val a =
-                                                                            AvvistamentiDaCaricare(
-                                                                                sighting.id,
-                                                                                sighting.user,
-                                                                                sighting.date,
-                                                                                sighting.numberOfSamples,
-                                                                                sighting.position,
-                                                                                sighting.animal,
-                                                                                sighting.specie,
-                                                                                sighting.sea,
-                                                                                sighting.wind,
-                                                                                sighting.notes,
-                                                                                sighting.image1,
-                                                                                sighting.image2,
-                                                                                sighting.image3,
-                                                                                sighting.image4,
-                                                                                sighting.image5,
-                                                                                false
-                                                                            )
-                                                                        avvistamentiViewModel.insert(
-                                                                            a
-                                                                        )
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if (sighting.image5 != null) {
-                                                Card(
-                                                    modifier = Modifier
-                                                        .width(500.dp)
-                                                        .padding(16.dp),
-                                                    elevation = CardDefaults.cardElevation(4.dp)
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Column {
-                                                            Image(
-                                                                modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(200.dp),
-                                                                painter = rememberAsyncImagePainter(
-                                                                    byteArrayToBitmap(sighting.image5!!)
-                                                                ),
-                                                                contentDescription = null,
-                                                                contentScale = ContentScale.Crop
-                                                            )
-                                                            Row(horizontalArrangement = Arrangement.Center) {
-                                                                Button(
-                                                                    modifier = Modifier
-                                                                        .padding(10.dp),
-                                                                    colors = ButtonDefaults.buttonColors(
-                                                                        MaterialTheme.colorScheme.error
-                                                                    ),
-                                                                    onClick = {
-                                                                        sighting.image5 = null
-                                                                        val a =
-                                                                            AvvistamentiDaCaricare(
-                                                                                sighting.id,
-                                                                                sighting.user,
-                                                                                sighting.date,
-                                                                                sighting.numberOfSamples,
-                                                                                sighting.position,
-                                                                                sighting.animal,
-                                                                                sighting.specie,
-                                                                                sighting.sea,
-                                                                                sighting.wind,
-                                                                                sighting.notes,
-                                                                                sighting.image1,
-                                                                                sighting.image2,
-                                                                                sighting.image3,
-                                                                                sighting.image4,
-                                                                                sighting.image5,
-                                                                                false
-                                                                            )
-                                                                        avvistamentiViewModel.insert(
-                                                                            a
-                                                                        )
-                                                                    }
-                                                                ) {
-                                                                    Text("ELIMINA")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
                                         }
                                     }
                                 }

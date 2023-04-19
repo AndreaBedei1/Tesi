@@ -15,11 +15,11 @@ data class AvvistamentiDaCaricare(@PrimaryKey var id:String,
                                 var mare:String,
                                 var vento:String,
                                 var note:String,
-                                var immagine1:ByteArray? = null,
-                                var immagine2:ByteArray? = null,
-                                var immagine3:ByteArray? = null,
-                                var immagine4:ByteArray? = null,
-                                var immagine5:ByteArray? = null,
+                                var immagine1:String = "",
+                                var immagine2:String = "",
+                                var immagine3:String = "",
+                                var immagine4:String = "",
+                                var immagine5:String = "",
                                 var caricato:Boolean = false
                                ) {
 }
