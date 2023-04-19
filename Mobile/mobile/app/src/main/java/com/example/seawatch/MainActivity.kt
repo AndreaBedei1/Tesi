@@ -54,6 +54,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 
 public var lastImageBitmap: Bitmap? = null
 @AndroidEntryPoint
@@ -93,6 +97,8 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
         lateinit var logo: ImageView
+
+        getDatesFromServer(avvistamentiViewViewModel, this)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -195,6 +201,53 @@ class MainActivity : FragmentActivity() {
                 // Salva l'immagine nell'OutputStream
                 image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             }
+        }
+    }
+
+    fun getDatesFromServer(avvistamentiViewViewModel: AvvistamentiViewViewModel, context:Context){
+        if(isNetworkAvailable(context)){
+            val client = OkHttpClient()
+            val formBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("request", "tbl_avvistamenti")
+                .build()
+            val request = Request.Builder()
+                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
+                .post(formBody)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    var temp = JSONArray(body)
+
+                    avvistamentiViewViewModel.deleteAll()
+                    for (i in 0 until temp.length() step 1) {
+                        avvistamentiViewViewModel.insert(
+                            AvvistamentiDaVedere(
+                                (temp.get(i) as JSONObject).get("ID").toString(),
+                                (temp.get(i) as JSONObject).get("Email").toString(),
+                                (temp.get(i) as JSONObject).get("Data").toString(),
+                                (temp.get(i) as JSONObject).get("Numero_Esemplari").toString(),
+                                (temp.get(i) as JSONObject).get("Latid").toString(),
+                                (temp.get(i) as JSONObject).get("Long").toString() ,
+                                (temp.get(i) as JSONObject).get("Anima_Nome").toString(),
+                                (temp.get(i) as JSONObject).get("Specie_Nome").toString(),
+                                (temp.get(i) as JSONObject).get("Mare").toString(),
+                                (temp.get(i) as JSONObject).get("Vento").toString(),
+                                (temp.get(i) as JSONObject).get("Note").toString(),
+                                (temp.get(i) as JSONObject).get("Img").toString(),
+                                (temp.get(i) as JSONObject).get("Nome").toString(),
+                                (temp.get(i) as JSONObject).get("Cognome").toString(),
+                                true
+                            )
+                        )
+                    }
+                }
+            })
         }
     }
 

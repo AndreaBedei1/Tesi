@@ -41,52 +41,7 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.*
 
-fun getDatesFromServer(avvistamentiViewViewModel: AvvistamentiViewViewModel, context:Context){
-    if(isNetworkAvailable(context)){
-        val client = OkHttpClient()
-        val formBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("request", "tbl_avvistamenti")
-            .build()
-        val request = Request.Builder()
-            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_sighting/sighting_api.php")
-            .post(formBody)
-            .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                var temp = JSONArray(body)
-
-                avvistamentiViewViewModel.deleteAll()
-                for (i in 0 until temp.length() step 1) {
-                    avvistamentiViewViewModel.insert(
-                        AvvistamentiDaVedere(
-                            (temp.get(i) as JSONObject).get("ID").toString(),
-                            (temp.get(i) as JSONObject).get("Email").toString(),
-                            (temp.get(i) as JSONObject).get("Data").toString(),
-                            (temp.get(i) as JSONObject).get("Numero_Esemplari").toString(),
-                            (temp.get(i) as JSONObject).get("Latid").toString(),
-                            (temp.get(i) as JSONObject).get("Long").toString() ,
-                            (temp.get(i) as JSONObject).get("Anima_Nome").toString(),
-                            (temp.get(i) as JSONObject).get("Specie_Nome").toString(),
-                            (temp.get(i) as JSONObject).get("Mare").toString(),
-                            (temp.get(i) as JSONObject).get("Vento").toString(),
-                            (temp.get(i) as JSONObject).get("Note").toString(),
-                            (temp.get(i) as JSONObject).get("Img").toString(),
-                            (temp.get(i) as JSONObject).get("Nome").toString(),
-                            (temp.get(i) as JSONObject).get("Cognome").toString(),
-                            true
-                        )
-                    )
-                }
-            }
-        })
-    }
-}
 
 var ok = true
 var em=""
@@ -115,7 +70,6 @@ fun LoginScreen(
     var errorMessage by rememberSaveable { mutableStateOf("") }
 
     val userItems: List<User> by userViewModel.all.collectAsState(initial = listOf())
-    getDatesFromServer(avvistamentiViewViewModel, context)
 
     if(sharedPrefForLogin.getString("USER", "")!="" && ok ){
         when (biometricManager.canAuthenticate()) {

@@ -524,7 +524,7 @@ fun HomeScreen(
                             Spacer(modifier = Modifier.height(min/2))
                             Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                                 for(k in 0..1){
-                                    Column() {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/4).dp)) {
                                         for (i in k..list.count()-1 step 2) {
                                             var nome by rememberSaveable { mutableStateOf(list.get(i).nome) }
                                             var cognome by rememberSaveable { mutableStateOf(list.get(i).cognome) }
@@ -756,7 +756,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(min/2))
                         Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
                             for(k in 0..1){
-                                Column() {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
                                     for (i in k..list.count()-1 step 2) {
                                         var nome by rememberSaveable { mutableStateOf(list.get(i).nome) }
                                         var cognome by rememberSaveable { mutableStateOf(list.get(i).cognome) }
