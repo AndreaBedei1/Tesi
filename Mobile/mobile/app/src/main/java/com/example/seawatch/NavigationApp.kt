@@ -172,7 +172,7 @@ private fun NavigationGraph(
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
-            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) })
+            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) }, avvistamentiViewViewModel = avvistamentiViewViewModel)
         }
         composable(route = NavigationScreen.Stats.name){
             StatsScreen()

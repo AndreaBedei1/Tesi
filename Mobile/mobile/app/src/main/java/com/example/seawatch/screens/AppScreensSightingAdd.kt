@@ -29,10 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.seawatch.data.Sighting
-import com.example.seawatch.data.bitmapToByteArray
-import com.example.seawatch.data.getAnimal
-import com.example.seawatch.data.getSpecieFromAniaml
+import com.example.seawatch.data.*
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -45,6 +42,7 @@ import java.util.*
 @Composable
 fun SightingScreen(
     avvistamentiViewModel: AvvistamentiViewModel,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel,
     goToHome:()->Unit,
     modifier: Modifier = Modifier,
     ) {
@@ -78,6 +76,7 @@ fun SightingScreen(
     var errorMessage by rememberSaveable { mutableStateOf("") }
     var imageMessage by rememberSaveable { mutableStateOf(false) }
     var alreadySeen by rememberSaveable { mutableStateOf(false) }
+    val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
 
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
@@ -105,7 +104,6 @@ fun SightingScreen(
         )
     }
 
-
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             val snackbarHostState = remember { SnackbarHostState() }
@@ -131,6 +129,11 @@ fun SightingScreen(
                         val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)
                         avvistamentiViewModel.insert(a)
                         showConfirmDialog=true
+                        uploadToServer(
+                            context = contex,
+                            tempAvvLocali = tempAvvLocali + listOf(a),
+                            avvistamentiViewViewModel = avvistamentiViewViewModel
+                        )
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
@@ -210,12 +213,13 @@ fun SightingScreen(
                                                     value = posizione,
                                                     onValueChange = { posizione = it },
                                                     label = { Text("Posizione") },
-                                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                                        keyboardType = KeyboardType.Decimal
-                                                    ),
+                                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
                                                     singleLine = true,
                                                     trailingIcon = {
-                                                        IconButton(onClick = { }) {
+                                                        IconButton(onClick = {
+                                                            contex.startLocationUpdates()
+                                                            posizione=contex.location.value.latitude.toString()+" "+contex.location.value.longitude
+                                                        }) {
                                                             Icon(
                                                                 painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
                                                                 contentDescription = "GPS",
@@ -677,7 +681,7 @@ fun SightingScreen(
                                         onDismissRequest = { showConfirmDialog = false; goToHome() },
                                         title = { Text("AVVISO") },
                                         text = {
-                                            Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di accedere e di premere l'apposito pulsante.")
+                                            Text(text="Avvistamento caricato localmente in maniera corretta! Appena sarà possibile verrà caricato online!")
                                         },
                                         confirmButton = {
                                             TextButton(onClick = { showConfirmDialog = false; goToHome() }) {

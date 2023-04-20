@@ -264,7 +264,7 @@ fun SightingViewScreen(
     var imageMessage by rememberSaveable { mutableStateOf(false) }
     var alreadySeen by rememberSaveable { mutableStateOf(false) }
 
-    val currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
+    var currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
     var count by rememberSaveable {mutableStateOf(0)}
     var imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime.toString())
     var sighting = Sighting(elem.id, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
@@ -925,10 +925,7 @@ fun SightingViewScreen(
                                                                         val body =
                                                                             response.body?.string()
 
-                                                                        if (JSONObject(body).get(
-                                                                                "state"
-                                                                            )
-                                                                                .toString() == "true"
+                                                                        if (JSONObject(body).get("state").toString() == "true"
                                                                         ) {
                                                                             errorMessage =
                                                                                 "Immagine caricata con successo"
@@ -940,6 +937,7 @@ fun SightingViewScreen(
                                                                 })
                                                         }
                                                     }
+                                                    currentDateTime=System.currentTimeMillis().toString()
                                                 } else {
                                                     errorMessage =
                                                         "Errore di rete non si può aggiornare l'avvistamento online"
@@ -1917,6 +1915,7 @@ fun SightingViewScreen(
                                                                 })
                                                         }
                                                     }
+                                                    currentDateTime=System.currentTimeMillis().toString()
                                                 } else {
                                                     errorMessage =
                                                         "Errore di rete non si può aggiornare l'avvistamento online"
