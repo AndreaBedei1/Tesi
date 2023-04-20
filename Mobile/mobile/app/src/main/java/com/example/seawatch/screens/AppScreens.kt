@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.drawable.Icon
 import android.net.Uri
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.*
@@ -15,9 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -37,7 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
-import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.*
@@ -291,9 +284,11 @@ fun HomeScreen(
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf("") }
     var filterPref by rememberSaveable { mutableStateOf(false) }
+    var isFiltersActive by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
     var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
     var mapSet by  rememberSaveable { mutableStateOf(false) }
+
 
 
     if(fav){
@@ -330,7 +325,8 @@ fun HomeScreen(
                         IconButton(onClick = { showFilterDialog = true }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_filter_alt_24),
-                                contentDescription = "Filtri"
+                                contentDescription = "Filtri",
+                                tint = if (isFiltersActive) Color.Red else Color.Black
                             )
                         }
                     }
@@ -404,12 +400,11 @@ fun HomeScreen(
                                         .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.End
                                 ) {
-                                    TextButton(onClick = { showFilterDialog = false }) {
+                                    TextButton(onClick = { showFilterDialog = false;if(filterPref || selectedOptionText!="") isFiltersActive=true else isFiltersActive=false }) {
                                         Text("Annulla")
                                     }
-                                    TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText}) {
+                                    TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText; if(filterPref || selectedOptionText!="") isFiltersActive=true else isFiltersActive=false}) {
                                         Text("Applica")
-
                                     }
                                 }
                             }
