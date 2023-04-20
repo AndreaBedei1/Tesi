@@ -166,7 +166,7 @@ class MainActivity : FragmentActivity() {
             lastImageBitmap = data.extras?.get("data") as Bitmap
 
             CoroutineScope(Dispatchers.Main).launch {
-                saveImageToGallery(lastImageBitmap!!, name, count)
+                saveImageToGallery(data.extras?.get("data") as Bitmap, name, count)
                 recreate()
             }
         }

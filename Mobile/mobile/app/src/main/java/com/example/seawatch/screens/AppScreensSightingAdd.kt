@@ -56,7 +56,7 @@ fun SightingScreen(
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.ITALIAN)
     val formattedDateTime = currentDateTimeClock.format(formatter)
     var data by rememberSaveable { mutableStateOf(formattedDateTime) }
-    var numeroEsemplari by rememberSaveable { mutableStateOf("") }
+    var numeroEsemplari by rememberSaveable { mutableStateOf("1") }
     var posizione by rememberSaveable { mutableStateOf("") }
     var mare by rememberSaveable { mutableStateOf("") }
     var vento by rememberSaveable { mutableStateOf("") }
@@ -113,27 +113,49 @@ fun SightingScreen(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
-                        for( image in imagesList){
-                            if(sighting.image1==""){
-                                sighting.image1 = image.toString()
-                            } else if(sighting.image2==""){
-                                sighting.image2 = image.toString()
-                            }else if(sighting.image3==""){
-                                sighting.image3 = image.toString()
-                            }else if(sighting.image4==""){
-                                sighting.image4 = image.toString()
-                            }else if(sighting.image5==""){
-                                sighting.image5 = image.toString()
+                        if(numeroEsemplari!="") {
+                            for (image in imagesList) {
+                                if (sighting.image1 == "") {
+                                    sighting.image1 = image.toString()
+                                } else if (sighting.image2 == "") {
+                                    sighting.image2 = image.toString()
+                                } else if (sighting.image3 == "") {
+                                    sighting.image3 = image.toString()
+                                } else if (sighting.image4 == "") {
+                                    sighting.image4 = image.toString()
+                                } else if (sighting.image5 == "") {
+                                    sighting.image5 = image.toString()
+                                }
                             }
+                            val a = AvvistamentiDaCaricare(
+                                sighting.id,
+                                sighting.user,
+                                sighting.date,
+                                sighting.numberOfSamples,
+                                sighting.position,
+                                sighting.animal,
+                                sighting.specie,
+                                sighting.sea,
+                                sighting.wind,
+                                sighting.notes,
+                                sighting.image1,
+                                sighting.image2,
+                                sighting.image3,
+                                sighting.image4,
+                                sighting.image5,
+                                false
+                            )
+                            avvistamentiViewModel.insert(a)
+                            showConfirmDialog = true
+                            uploadToServer(
+                                context = contex,
+                                tempAvvLocali = tempAvvLocali + listOf(a),
+                                avvistamentiViewViewModel = avvistamentiViewViewModel,
+                                avvistamentiViewModel = avvistamentiViewModel
+                            )
+                        } else {
+                            errorMessage = "Inserire il numero degli esemplari"
                         }
-                        val a=AvvistamentiDaCaricare(sighting.id, sighting.user, sighting.date, sighting.numberOfSamples, sighting.position, sighting.animal, sighting.specie, sighting.sea, sighting.wind, sighting.notes, sighting.image1, sighting.image2, sighting.image3, sighting.image4, sighting.image5, false)
-                        avvistamentiViewModel.insert(a)
-                        showConfirmDialog=true
-                        uploadToServer(
-                            context = contex,
-                            tempAvvLocali = tempAvvLocali + listOf(a),
-                            avvistamentiViewViewModel = avvistamentiViewViewModel
-                        )
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {

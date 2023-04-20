@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.FragmentActivity
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.*
 import com.google.gson.Gson
@@ -292,6 +293,7 @@ fun HomeScreen(
     var filterPref by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
     var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
+    var mapSet by  rememberSaveable { mutableStateOf(false) }
 
 
     if(fav){
@@ -479,6 +481,7 @@ fun HomeScreen(
                                                 val gson = Gson()
                                                 var markerDataJson = gson.toJson(mkList)
                                                 var currentMarkerDataJson = markerDataJson
+                                                mapSet=true
                                                 try {
                                                     view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
                                                 } catch (e: Exception) {
@@ -488,25 +491,30 @@ fun HomeScreen(
                                     }
                                 },
                                 update = { webView ->
-                                    webView?.evaluateJavascript("removeMarkers()", null)
-                                    var mkList = mutableListOf<MarkerData>()
-                                    for (e in list) {
-                                        mkList.add(
-                                            MarkerData(
-                                                e.latid,
-                                                e.long,
-                                                e.data,
-                                                e.animale,
-                                                e.specie
+                                    if(mapSet) {
+                                        try {
+                                            webView?.evaluateJavascript("removeMarkers()", null)
+                                            var mkList = mutableListOf<MarkerData>()
+                                            for (e in list) {
+                                                mkList.add(
+                                                    MarkerData(
+                                                        e.latid,
+                                                        e.long,
+                                                        e.data,
+                                                        e.animale,
+                                                        e.specie
+                                                    )
+                                                )
+                                            }
+                                            val gson = Gson()
+                                            var markerDataJson = gson.toJson(mkList)
+                                            var currentMarkerDataJson = markerDataJson
+                                            webView?.evaluateJavascript(
+                                                "addMarkers('$currentMarkerDataJson')",
+                                                null
                                             )
-                                        )
-                                    }
-                                    val gson = Gson()
-                                    var markerDataJson = gson.toJson(mkList)
-                                    var currentMarkerDataJson = markerDataJson
-                                    try {
-                                        webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                    } catch (e: Exception) {
+                                        } catch (e: Exception) {
+                                        }
                                     }
                                 },
                                 modifier = Modifier.fillMaxSize()
@@ -699,23 +707,24 @@ fun HomeScreen(
 
                                         webViewClient = object : WebViewClient() {
                                             override fun onPageFinished(view: WebView?, url: String?) {
-                                                super.onPageFinished(view, url)
-                                                var mkList = mutableListOf<MarkerData>()
-                                                for (e in list) {
-                                                    mkList.add(
-                                                        MarkerData(
-                                                            e.latid,
-                                                            e.long,
-                                                            e.data,
-                                                            e.animale,
-                                                            e.specie
-                                                        )
-                                                    )
-                                                }
-                                                val gson = Gson()
-                                                var markerDataJson = gson.toJson(mkList)
-                                                var currentMarkerDataJson = markerDataJson
                                                 try {
+                                                    super.onPageFinished(view, url)
+                                                    var mkList = mutableListOf<MarkerData>()
+                                                    for (e in list) {
+                                                        mkList.add(
+                                                            MarkerData(
+                                                                e.latid,
+                                                                e.long,
+                                                                e.data,
+                                                                e.animale,
+                                                                e.specie
+                                                            )
+                                                        )
+                                                    }
+                                                    val gson = Gson()
+                                                    var markerDataJson = gson.toJson(mkList)
+                                                    var currentMarkerDataJson = markerDataJson
+                                                    mapSet = true
                                                     view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
                                                 } catch (e: Exception) {
                                                 }
@@ -724,25 +733,30 @@ fun HomeScreen(
                                     }
                                 },
                                 update = { webView ->
-                                    webView?.evaluateJavascript("removeMarkers()", null)
-                                    var mkList = mutableListOf<MarkerData>()
-                                    for (e in list) {
-                                        mkList.add(
-                                            MarkerData(
-                                                e.latid,
-                                                e.long,
-                                                e.data,
-                                                e.animale,
-                                                e.specie
+                                    if(mapSet) {
+                                        try {
+                                            webView?.evaluateJavascript("removeMarkers()", null)
+                                            var mkList = mutableListOf<MarkerData>()
+                                            for (e in list) {
+                                                mkList.add(
+                                                    MarkerData(
+                                                        e.latid,
+                                                        e.long,
+                                                        e.data,
+                                                        e.animale,
+                                                        e.specie
+                                                    )
+                                                )
+                                            }
+                                            val gson = Gson()
+                                            var markerDataJson = gson.toJson(mkList)
+                                            var currentMarkerDataJson = markerDataJson
+                                            webView?.evaluateJavascript(
+                                                "addMarkers('$currentMarkerDataJson')",
+                                                null
                                             )
-                                        )
-                                    }
-                                    val gson = Gson()
-                                    var markerDataJson = gson.toJson(mkList)
-                                    var currentMarkerDataJson = markerDataJson
-                                    try {
-                                        webView?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
-                                    } catch (e: Exception) {
+                                        } catch (e: Exception) {
+                                        }
                                     }
                                 },
                                 modifier = Modifier.fillMaxSize()
@@ -927,7 +941,7 @@ fun showImages( imagesUri: List<Uri>?, context: Context) {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Column {
-                        val painter = rememberImagePainter(uri.toString())
+                        val painter = rememberAsyncImagePainter(uri.toString())
                         Image(
                             modifier = Modifier
                                 .fillMaxWidth()
