@@ -343,8 +343,8 @@ fun HomeScreen(
                                             .fillMaxWidth()
                                     ) {
                                         Checkbox(
-                                            checked =  tmp,
-                                            onCheckedChange = {favoriteFilter = it; tmp = !tmp },
+                                            checked =  filterPref,
+                                            onCheckedChange = { filterPref=it; if(filterPref || selectedOptionText!="") isFiltersActive=true else isFiltersActive=false },
                                             modifier = Modifier.padding(end = 8.dp)
                                         )
                                         Text("Solo preferiti")
@@ -385,6 +385,7 @@ fun HomeScreen(
                                                     onClick = {
                                                         selectedOptionText = selectionOption
                                                         expanded = false
+                                                        filterAnima=selectedOptionText; if(selectedOptionText!="" || filterPref) isFiltersActive=true else isFiltersActive=false
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                                 )
@@ -400,11 +401,8 @@ fun HomeScreen(
                                         .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.End
                                 ) {
-                                    TextButton(onClick = { showFilterDialog = false;if(filterPref || selectedOptionText!="") isFiltersActive=true else isFiltersActive=false }) {
-                                        Text("Annulla")
-                                    }
-                                    TextButton(onClick = { showFilterDialog = false; filterPref=favoriteFilter; filterAnima=selectedOptionText; if(filterPref || selectedOptionText!="") isFiltersActive=true else isFiltersActive=false}) {
-                                        Text("Applica")
+                                    TextButton(onClick = { showFilterDialog = false; }) {
+                                        Text("OK")
                                     }
                                 }
                             }
