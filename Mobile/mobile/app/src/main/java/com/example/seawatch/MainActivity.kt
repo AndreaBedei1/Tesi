@@ -43,17 +43,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
-import com.example.seawatch.data.FavouriteViewModel
-import com.example.seawatch.data.FavouriteViewModelFactory
-import com.example.seawatch.data.UserViewModel
-import com.example.seawatch.data.UserViewModelFactory
+import com.example.seawatch.data.*
 import com.example.seawatch.ui.theme.SeaWatchTheme
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -128,6 +123,12 @@ class MainActivity : FragmentActivity() {
                 requestingLocationUpdates = false
             }
         }
+        var coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        coroutineScope.launch {
+            val avvistamenti = runBlocking { avvistamentiViewModel.all.first() }
+            uploadToServer(applicationContext, avvistamenti, avvistamentiViewViewModel, avvistamentiViewModel)
+        }
+
         setContent {
             val theme by settingsViewModel.theme.collectAsState(initial = "")
             val listItems by favouriteViewModel.all.collectAsState(initial = listOf())
@@ -199,7 +200,7 @@ class MainActivity : FragmentActivity() {
             saveUri = it
             resolver.openOutputStream(uri)?.use { outputStream ->
                 // Salva l'immagine nell'OutputStream
-                image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
             }
         }
     }
