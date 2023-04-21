@@ -113,7 +113,7 @@ fun SightingScreen(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
-                        if(numeroEsemplari!="") {
+                        if(numeroEsemplari!="" && !imagesList.isEmpty() && posizione=="") {
                             for (image in imagesList) {
                                 if (sighting.image1 == "") {
                                     sighting.image1 = image.toString()
@@ -153,8 +153,12 @@ fun SightingScreen(
                                 avvistamentiViewViewModel = avvistamentiViewViewModel,
                                 avvistamentiViewModel = avvistamentiViewModel
                             )
-                        } else {
+                        } else if (numeroEsemplari=="") {
                             errorMessage = "Inserire il numero degli esemplari!"
+                        } else if (imagesList.isEmpty()){
+                            errorMessage="Si prega di inserire almeno un'immagine per l'avvistamento!"
+                        } else if (posizione==""){
+                            errorMessage="E' obbligatorio inserire anche la posizione dell'avvistamento! Si prega di inserirla!"
                         }
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -438,7 +442,7 @@ fun SightingScreen(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
-                        if(numeroEsemplari!="" && !imagesList.isEmpty()) {
+                        if(numeroEsemplari!="" && !imagesList.isEmpty() && posizione!="") {
                             for (image in imagesList) {
                                 if (sighting.image1 == "") {
                                     sighting.image1 = image.toString()
@@ -482,6 +486,8 @@ fun SightingScreen(
                             errorMessage = "Inserire il numero degli esemplari!"
                         } else if (imagesList.isEmpty()){
                             errorMessage="Si prega di inserire almeno un'immagine per l'avvistamento!"
+                        } else if (posizione==""){
+                            errorMessage="E' obbligatorio inserire anche la posizione dell'avvistamento! Si prega di inserirla!"
                         }
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
