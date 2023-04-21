@@ -9,6 +9,6 @@ class ViewModelFactory(private val repository:AvvistamentiRepository):ViewModelP
             @Suppress("UNCHECKED_CAST")
             return AvvistamentiViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Classe di ViewModel sconosciuta!")
     }
 }

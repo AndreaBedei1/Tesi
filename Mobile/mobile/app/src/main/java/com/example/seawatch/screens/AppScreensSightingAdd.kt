@@ -81,11 +81,11 @@ fun SightingScreen(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = { errorMessage = "" },
-            title = { Text(text = "Aggiornamento") },
+            title = { Text(text = "AGGIORNAMENTO") },
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
-                    Text(text = "OK")
+                    Text(text = "Ok")
                 }
             }
         )
@@ -95,10 +95,10 @@ fun SightingScreen(
         AlertDialog(
             onDismissRequest = { imageMessage = false; alreadySeen=true },
             title = { Text(text = "ATTENZIONE") },
-            text = { Text(text = "Le immagini che aggiungi saranno salvata anche sul tuo dispositivo dopo aver premuto il tasto Salva.") },
+            text = { Text(text = "Le immagini che aggiungi saranno salvate anche sul tuo dispositivo dopo aver premuto il tasto Salva!") },
             confirmButton = {
                 Button(onClick = { imageMessage=false;alreadySeen=true }) {
-                    Text(text = "OK")
+                    Text(text = "Ok")
                 }
             }
         )
@@ -154,7 +154,7 @@ fun SightingScreen(
                                 avvistamentiViewModel = avvistamentiViewModel
                             )
                         } else {
-                            errorMessage = "Inserire il numero degli esemplari"
+                            errorMessage = "Inserire il numero degli esemplari!"
                         }
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -415,7 +415,7 @@ fun SightingScreen(
                                             onDismissRequest = { showConfirmDialog = false; goToHome() },
                                             title = { Text("AVVISO") },
                                             text = {
-                                                Text(text="Avvistamento caricato localmente in maniera corretta! Per caricarlo online si prega di premere l'apposito pulsante.")
+                                                Text(text="Avvistamento caricato in maniera corretta! Se non si è connessi ad una rete il caricamento sarà caricato automaticamente online appena possibile!")
                                             },
                                             confirmButton = {
                                                 TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
@@ -479,9 +479,9 @@ fun SightingScreen(
                                 avvistamentiViewModel = avvistamentiViewModel
                             )
                         } else if(numeroEsemplari=="") {
-                            errorMessage = "Inserire il numero degli esemplari"
+                            errorMessage = "Inserire il numero degli esemplari!"
                         } else if (imagesList.isEmpty()){
-                            errorMessage="Si prega di inserire almeno un'immagine dell'avvistamento!"
+                            errorMessage="Si prega di inserire almeno un'immagine per l'avvistamento!"
                         }
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -718,7 +718,7 @@ fun SightingScreen(
                                             (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
                                             count+=1
                                         } else {
-                                            errorMessage = "Non si possono caricare più di 5 foto."
+                                            errorMessage = "Non è possibile caricare più di 5 foto!"
                                         }
                                     }
                                 ) {
@@ -732,7 +732,7 @@ fun SightingScreen(
                                         onDismissRequest = { showConfirmDialog = false; goToHome() },
                                         title = { Text("AVVISO") },
                                         text = {
-                                            Text(text="Avvistamento caricato localmente in maniera corretta! Appena sarà possibile verrà caricato online!")
+                                            Text(text="Avvistamento caricato in maniera corretta! Se non si è connessi ad una rete il caricamento sarà caricato automaticamente online appena possibile!")
                                         },
                                         confirmButton = {
                                             TextButton(onClick = { showConfirmDialog = false; goToHome() }) {
@@ -760,10 +760,10 @@ internal fun AlertDialogComposable(
             showAlertDialog.value = false
         },
         title = {
-            Text(text = "GPS disabled")
+            Text(text = "ERRORE GPS")
         },
         text = {
-            Text(text = "GPS is turned off but is needed to get the coordinates")
+            Text(text = "Il GPS è disabilitato ma è necessario per fornire la propria posizione! Si prega di attivarlo!")
         },
         confirmButton = {
             TextButton(
@@ -775,14 +775,14 @@ internal fun AlertDialogComposable(
                     showAlertDialog.value = false
                 }
             ) {
-                Text("Turned on the GPS")
+                Text("GPS attivato!")
             }
         },
         dismissButton = {
             TextButton(
                 onClick = { showAlertDialog.value = false  }
             ) {
-                Text("Dismiss")
+                Text("Annulla")
             }
         }
     )
@@ -796,8 +796,8 @@ internal fun SnackBarComposable(
 ) {
     LaunchedEffect(snackbarHostState) {
         val result = snackbarHostState.showSnackbar(
-            message = "Permission are needed to get your position",
-            actionLabel = "Go to settings"
+            message = "E' necessario accordare i permessi per fornire la propria posizione!",
+            actionLabel = "Vai alle impostazioni"
         )
         when (result) {
             SnackbarResult.ActionPerformed -> {

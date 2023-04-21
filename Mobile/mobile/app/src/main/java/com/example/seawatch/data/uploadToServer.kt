@@ -205,7 +205,7 @@ fun inviaRichieste(index: Int, tempAvvLocali: List<AvvistamentiDaCaricare> , con
             call: Call,
             e: IOException
         ) {
-            Log.e("KEYYY", "Errore caricamento avvistamento")
+            Log.e("KEYYY", "Errore caricamento avvistamento!")
             // passa alla successiva
             inviaRichieste(
                 index + 1,
@@ -313,11 +313,11 @@ fun invioImg(ind: Int, elem:AvvistamentiDaCaricare, context: Context){
                         }
                     })
                 } else {
-                    Log.e("KEYYY", "Errore un'immagine è null")
+                    Log.e("KEYYY", "Errore: un'immagine è null!")
                 }
             }
         }catch(e: Exception){
-            Log.e("KEYYY", "Eccezione immagini")
+            Log.e("KEYYY", "Eccezione immagini!")
             invioImg(ind+1, elem, context)
         }
     } else {

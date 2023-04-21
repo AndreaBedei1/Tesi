@@ -9,6 +9,6 @@ class UserViewModelFactory(private val repository: UserRepository): ViewModelPro
             @Suppress("UNCHECKED_CAST")
             return UserViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Classe di ViewModel sconosciuta!")
     }
 }

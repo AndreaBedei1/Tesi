@@ -75,7 +75,7 @@ fun LoginScreen(
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
                 val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Login con impronta digitale")
+                    .setTitle("LOGIN CON IMPRONTA DIGITALE")
                     .setSubtitle("Utilizza l'impronta digitale per accedere")
                     .setDescription("Posiziona il dito sull'impronta digitale")
                     .setNegativeButtonText("Annulla")
@@ -106,7 +106,7 @@ fun LoginScreen(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = {errorMessage=""},
-            title = { Text("Errore") },
+            title = { Text("ERRORE") },
             text = {
                 Text(
                     text = errorMessage,
@@ -220,7 +220,7 @@ fun LoginScreen(
 
                                     client.newCall(request).enqueue(object : Callback {
                                         override fun onFailure(call: Call, e: IOException) {
-                                            errorMessage = "Impossibile comunicare col server."
+                                            errorMessage = "Impossibile comunicare col server!"
                                         }
 
 
@@ -243,7 +243,7 @@ fun LoginScreen(
 
                                                 client.newCall(request).enqueue(object : Callback {
                                                     override fun onFailure(call: Call, e: IOException) {
-                                                        errorMessage = "Impossibile comunicare col server."
+                                                        errorMessage = "Impossibile comunicare col server!"
                                                     }
 
                                                     override fun onResponse(call: Call, response: Response) {
@@ -287,13 +287,13 @@ fun LoginScreen(
                                                     goToHome()
                                                 }
                                             } else {
-                                                errorMessage = "Password errata"
+                                                errorMessage = "Password errata!"
                                             }
                                             break
                                         }
                                     }
                                     if(!check){
-                                        errorMessage = "Nessuna connessione a internet e utente locale non presente, fare il primo accesso online."
+                                        errorMessage = "Impossibile accedere: nessuna connessione ad internet disponibile oppure utente non presente! Si prega di eseguire il primo accesso in presenza di rete!"
                                     }
                                 }
                             },
@@ -384,7 +384,7 @@ fun LoginScreen(
 
                                 client.newCall(request).enqueue(object : Callback {
                                     override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server."
+                                        errorMessage = "Impossibile comunicare col server!"
                                     }
 
 
@@ -407,7 +407,7 @@ fun LoginScreen(
 
                                             client.newCall(request).enqueue(object : Callback {
                                                 override fun onFailure(call: Call, e: IOException) {
-                                                    errorMessage = "Impossibile comunicare col server."
+                                                    errorMessage = "Impossibile comunicare col server!"
                                                 }
 
                                                 override fun onResponse(call: Call, response: Response) {
@@ -455,14 +455,14 @@ fun LoginScreen(
                                                 goToHome()
                                             }
                                         } else {
-                                            errorMessage = "Password errata"
+                                            errorMessage = "Password errata!"
                                         }
                                         break
                                     }
                                 }
                                 if (!check) {
                                     errorMessage =
-                                        "Nessuna connessione a internet e utente locale non presente, fare il primo accesso online."
+                                        "Impossibile accedere: nessuna connessione ad internet disponibile oppure utente non presente! Si prega di eseguire il primo accesso in presenza di rete!"
                                 }
                             }
                         },
@@ -640,7 +640,7 @@ fun SignUpScreen(
 
                                 client.newCall(request).enqueue(object : Callback {
                                     override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server."
+                                        errorMessage = "Impossibile comunicare col server!"
                                     }
 
                                     override fun onResponse(call: Call, response: Response) {
@@ -767,7 +767,7 @@ fun SignUpScreen(
 
                             client.newCall(request).enqueue(object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
-                                    errorMessage = "Impossibile comunicare col server."
+                                    errorMessage = "Impossibile comunicare col server!"
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {

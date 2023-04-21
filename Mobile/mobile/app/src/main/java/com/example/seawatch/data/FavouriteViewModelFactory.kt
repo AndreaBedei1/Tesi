@@ -9,6 +9,6 @@ class FavouriteViewModelFactory(private val repository: FavouriteRepository): Vi
             @Suppress("UNCHECKED_CAST")
             return FavouriteViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Classe di ViewModel sconosciuta!")
     }
 }

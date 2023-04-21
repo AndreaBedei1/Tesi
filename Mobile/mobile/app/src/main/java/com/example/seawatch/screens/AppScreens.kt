@@ -67,11 +67,11 @@ fun Profile(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = { errorMessage = "" },
-            title = { Text(text = "Attenzione") },
+            title = { Text(text = "ATTENZIONE") },
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
-                    Text(text = "OK")
+                    Text(text = "Ok")
                 }
             }
         )
@@ -126,7 +126,7 @@ fun Profile(
         if (b) {
             if(!entratoRete) {
                 errorMessage =
-                    "Errore di connessione impossibile prendere i dati dell'utente richiesto."
+                    "Errore di connessione: impossibile ottenere i dati dell'utente richiesto!"
             }
             entratoRete = true
         }

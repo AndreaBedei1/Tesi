@@ -155,7 +155,7 @@ fun SecuritySettings(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = { errorMessage = "" },
-            title = { Text(text = "Aggiornamento") },
+            title = { Text(text = "AVVISO") },
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
@@ -270,7 +270,7 @@ fun SecuritySettings(
 
                         client.newCall(request).enqueue(object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
-                                errorMessage = "Impossibile comunicare col server, controllare la connessione."
+                                errorMessage = "Impossibile comunicare col server: si prega di controllare la connessione!"
                             }
 
                             override fun onResponse(call: Call, response: Response) {
@@ -296,14 +296,14 @@ fun SecuritySettings(
 
                                 client.newCall(request).enqueue(object : Callback {
                                     override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server, controllare la connessione."
+                                        errorMessage = "Impossibile comunicare col server: si prega di controllare la connessione!"
                                     }
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val body = response.body?.string()
                                         val msg = body.toString()
                                         if(JSONObject(msg).get("stato").toString()=="true"){
-                                            errorMessage="Modifica avvenuta con successo."
+                                            errorMessage="Modifica avvenuta con successo!"
                                             oldPassword=""
                                             newPassword=""
                                             confirmPassword=""
@@ -315,13 +315,13 @@ fun SecuritySettings(
                             }
                         })
                     } else {
-                        errorMessage = "Le ultime due password non corrispondono."
+                        errorMessage = "Le ultime due password non corrispondono!"
                     }
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimaryContainer),
                 modifier = modifier.widthIn(min = 250.dp)
             ) {
-                Text("AGGIORNA PASSWRD")
+                Text("AGGIORNA PASSWORD")
             }
         }
     }
@@ -422,11 +422,11 @@ fun ProfileSettings(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = { errorMessage = "" },
-            title = { Text(text = "Attenzione") },
+            title = { Text(text = "ATTENZIONE   ") },
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
-                    Text(text = "OK")
+                    Text(text = "Ok")
                 }
             }
         )
@@ -509,7 +509,7 @@ fun ProfileSettings(
                                 if( isNetworkAvailable(context)){
                                     (context as MainActivity).requestCameraPermission(currentDateTime.toString())
                                 } else {
-                                    errorMessage="Nessuna connessione di rete"
+                                    errorMessage="Nessuna connessione disponibile!"
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
@@ -569,21 +569,21 @@ fun ProfileSettings(
 
                                     client.newCall(request).enqueue(object : Callback {
                                         override fun onFailure(call: Call, e: IOException) {
-                                            errorMessage = "Impossibile comunicare col server."
+                                            errorMessage = "Impossibile comunicare col server!"
                                         }
 
                                         override fun onResponse(call: Call, response: Response) {
                                             val body = response.body?.string()
                                             val msg = JSONObject(body.toString())
                                             if(msg.get("stato")==true){
-                                                errorMessage = "Cambiamento dati avvenuto con successo."
+                                                errorMessage = "Cambiamento dati avvenuto con successo!"
                                             } else {
-                                                errorMessage = "Cambiamento dati non avvenuto."
+                                                errorMessage = "Cambiamento dati non avvenuto!"
                                             }
                                         }
                                     })
                                 } else {
-                                    errorMessage = "Nessuna connessione riprovare quando si è collegati."
+                                    errorMessage = "Nessuna connessione: si prega di riprovare quando si è collegati!"
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
@@ -624,7 +624,7 @@ fun ProfileSettings(
                              if( isNetworkAvailable(context)){
                                  (context as MainActivity).requestCameraPermission(currentDateTime.toString())
                              } else {
-                                 errorMessage="Nessuna connessione di rete"
+                                 errorMessage="Nessuna connessione di rete!"
                              }
                         },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
@@ -673,21 +673,21 @@ fun ProfileSettings(
 
                                 client.newCall(request).enqueue(object : Callback {
                                     override fun onFailure(call: Call, e: IOException) {
-                                        errorMessage = "Impossibile comunicare col server."
+                                        errorMessage = "Impossibile comunicare col server!"
                                     }
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val body = response.body?.string()
                                         val msg = JSONObject(body.toString())
                                         if(msg.get("stato")==true){
-                                            errorMessage = "Cambiamento dati avvenuto con successo."
+                                            errorMessage = "Cambiamento dati avvenuto con successo!"
                                         } else {
-                                            errorMessage = "Cambiamento dati non avvenuto."
+                                            errorMessage = "Cambiamento dati non avvenuto!"
                                         }
                                     }
                                 })
                             } else {
-                                errorMessage = "Nessuna connessione riprovare quando si è collegati."
+                                errorMessage = "Nessuna connessione: si prega di riprovare quando si è collegati!"
                             }
                         },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),

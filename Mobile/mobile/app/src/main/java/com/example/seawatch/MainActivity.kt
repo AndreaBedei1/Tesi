@@ -264,7 +264,7 @@ class MainActivity : FragmentActivity() {
             }
         } else {
             // Il permesso è stato negato, mostra un messaggio all'utente
-            Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -317,7 +317,7 @@ class MainActivity : FragmentActivity() {
         if (isGranted) {
             capturePhoto()
         } else {
-            Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Il permesso è necessario per accedere alla fotocamera!", Toast.LENGTH_SHORT).show()
         }
     }
 

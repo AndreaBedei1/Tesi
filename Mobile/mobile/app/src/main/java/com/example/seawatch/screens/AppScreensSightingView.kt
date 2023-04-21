@@ -276,11 +276,11 @@ fun SightingViewScreen(
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
             onDismissRequest = { errorMessage = "" },
-            title = { Text(text = "Attenzione") },
+            title = { Text(text = "ATTENZIONE") },
             text = { Text(text = errorMessage) },
             confirmButton = {
                 Button(onClick = { errorMessage = "" }) {
-                    Text(text = "OK")
+                    Text(text = "Ok")
                 }
             }
         )
@@ -290,7 +290,7 @@ fun SightingViewScreen(
         AlertDialog(
             onDismissRequest = { imageMessage = false; alreadySeen=true },
             title = { Text(text = "ATTENZIONE") },
-            text = { Text(text = "Le immagini verranno aggiunte all'avvistamento solo dopo aver premuto il tasto Salva.") },
+            text = { Text(text = "Le immagini verranno aggiunte all'avvistamento solo dopo aver premuto il pulsante Salva!") },
             confirmButton = {
                 Button(onClick = { imageMessage=false;alreadySeen=true }) {
                     Text(text = "OK")
@@ -365,7 +365,7 @@ fun SightingViewScreen(
             }
         } else {
             if(!info) {
-                errorMessage = "Attenzione essendo offline le immagini non possono essere caricate!"
+                errorMessage = "Attenzione: essendo offline le immagini non possono essere caricate!"
                 info = true
             }
         }
@@ -642,7 +642,7 @@ fun SightingViewScreen(
                                         onClick = {
                                             if (!isNetworkAvailable(contex) && elem.online) {
                                                 errorMessage =
-                                                    "Aggiungere l'immagine all'avvistamento online quando si è connessi alla rete"
+                                                    "Impossibile aggiungere l'immagine all'avvistamento online: si prega di riprovare quando si è connessi alla rete!"
                                             } else {
                                                 if (count <= 5) {
                                                     (contex as MainActivity).requestCameraPermission(
@@ -654,7 +654,7 @@ fun SightingViewScreen(
                                                         imageMessage=true
                                                     }
                                                 } else {
-                                                    errorMessage = "Puoi caricare al massimo 5 foto"
+                                                    errorMessage = "Si prega di caricare al massimo 5 foto!"
                                                 }
                                             }
                                         },
@@ -863,7 +863,7 @@ fun SightingViewScreen(
                                                             )
                                                         if (bitmap == null) {
                                                             errorMessage =
-                                                                "Impossibile caricare le foto dalla memoria del sistema."
+                                                                "Impossibile caricare le foto dalla memoria del sistema!"
                                                             break
                                                         }
                                                         val file =
@@ -928,10 +928,10 @@ fun SightingViewScreen(
                                                                         if (JSONObject(body).get("state").toString() == "true"
                                                                         ) {
                                                                             errorMessage =
-                                                                                "Immagine caricata con successo"
+                                                                                "Immagine caricata con successo!"
                                                                         } else {
                                                                             errorMessage =
-                                                                                "Errore durante il caricamento delle immagini"
+                                                                                "Errore durante il caricamento delle immagini!"
                                                                         }
                                                                     }
                                                                 })
@@ -940,7 +940,7 @@ fun SightingViewScreen(
                                                     currentDateTime=System.currentTimeMillis().toString()
                                                 } else {
                                                     errorMessage =
-                                                        "Errore di rete non si può aggiornare l'avvistamento online"
+                                                        "Errore di rete: impossibile aggiornare l'avvistamento online!"
                                                 }
                                             } else {
                                                 for( image in imagesList){
@@ -1057,7 +1057,7 @@ fun SightingViewScreen(
                                                                                 )
                                                                             } catch (e: Exception) {
                                                                                 errorMessage =
-                                                                                    "Operazione non supportata dal dispositivo"
+                                                                                    "Operazione non supportata dal dispositivo!"
                                                                             }
                                                                         }
                                                                     ) {
@@ -1343,7 +1343,7 @@ fun SightingViewScreen(
                                                                         contex.startActivity(intent)
                                                                     } catch (e: Exception) {
                                                                         errorMessage =
-                                                                            "Operazione non supportata dal dispositivo"
+                                                                            "Operazione non supportata dal dispositivo!"
                                                                     }
                                                                 }
                                                             ) {
@@ -1617,7 +1617,7 @@ fun SightingViewScreen(
                                         onClick = {
                                             if (!isNetworkAvailable(contex) && elem.online) {
                                                 errorMessage =
-                                                    "Aggiungere l'immagine all'avvistamento online quando si è connessi alla rete"
+                                                    "Impossibile aggiungere l'immagine all'avvistamento online: si prega di riprovare quando si è connessi alla rete!"
                                             } else {
                                                 if (count <= 5) {
                                                     (contex as MainActivity).requestCameraPermission(
@@ -1629,7 +1629,7 @@ fun SightingViewScreen(
                                                         imageMessage=true
                                                     }
                                                 } else {
-                                                    errorMessage = "Puoi caricare al massimo 5 foto"
+                                                    errorMessage = "Si prega di caricare al massimo 5 foto!"
                                                 }
                                             }
                                         },
@@ -1838,7 +1838,7 @@ fun SightingViewScreen(
                                                             )
                                                         if (bitmap == null) {
                                                             errorMessage =
-                                                                "Impossibile caricare le foto dalla memoria del sistema."
+                                                                "Impossibile caricare le foto dalla memoria del sistema!"
                                                             break
                                                         }
                                                         val file =
@@ -1854,7 +1854,7 @@ fun SightingViewScreen(
                                                         // restituisci l'URI del file temporaneo
                                                         if (file == null) {
                                                             errorMessage =
-                                                                "Errore nel caricamento locale del file"
+                                                                "Errore nel caricamento locale del file!"
                                                         } else {
                                                             val requestUrl =
                                                                 "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
@@ -1906,10 +1906,10 @@ fun SightingViewScreen(
                                                                                 .toString() == "true"
                                                                         ) {
                                                                             errorMessage =
-                                                                                "Immagine caricata con successo"
+                                                                                "Immagine caricata con successo!"
                                                                         } else {
                                                                             errorMessage =
-                                                                                "Errore durante il caricamento delle immagini"
+                                                                                "Errore durante il caricamento delle immagini!"
                                                                         }
                                                                     }
                                                                 })
@@ -1918,7 +1918,7 @@ fun SightingViewScreen(
                                                     currentDateTime=System.currentTimeMillis().toString()
                                                 } else {
                                                     errorMessage =
-                                                        "Errore di rete non si può aggiornare l'avvistamento online"
+                                                        "Errore di rete: impossibile aggiornare l'avvistamento online!"
                                                 }
                                             } else {
                                                 for( image in imagesList){
@@ -2035,7 +2035,7 @@ fun SightingViewScreen(
                                                                                 )
                                                                             } catch (e: Exception) {
                                                                                 errorMessage =
-                                                                                    "Operazione non supportata dal dispositivo"
+                                                                                    "Operazione non supportata dal dispositivo!"
                                                                             }
                                                                         }
                                                                     ) {
@@ -2292,7 +2292,7 @@ fun SightingViewScreen(
                                                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                                                         contex.startActivity(intent)
                                                                     }catch (e:Exception){
-                                                                        errorMessage = "Operazione non supportata dal dispositivo"
+                                                                        errorMessage = "Operazione non supportata dal dispositivo!"
                                                                     }
                                                                 }
                                                             ) {
