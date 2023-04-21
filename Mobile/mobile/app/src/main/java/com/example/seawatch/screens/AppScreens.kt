@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -186,7 +187,18 @@ fun Profile(
                                 Spacer(modifier = Modifier.height(min+6.dp))
                                 Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
                                 Spacer(modifier = Modifier.height(min+6.dp))
-                                Text(text=email, textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                                Text(text=email,
+                                    modifier = Modifier.clickable(onClick = {
+                                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                            data = Uri.parse("mailto:$email")
+                                        }
+                                        if (intent.resolveActivity(context.packageManager) != null) {
+                                            context.startActivity(intent)
+                                        }
+                                    }),
+                                    color=Color.Blue,
+                                    textDecoration = TextDecoration.Underline,
+                                    style = MaterialTheme.typography.bodyLarge)
                             }
                         }
                     }
@@ -228,7 +240,18 @@ fun Profile(
                             Spacer(modifier = Modifier.height(min+6.dp))
                             Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
                             Spacer(modifier = Modifier.height(min+6.dp))
-                            Text(text=email, textDecoration = TextDecoration.Underline, style = MaterialTheme.typography.bodyLarge)
+                            Text(text=email,
+                                modifier = Modifier.clickable(onClick = {
+                                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                        data = Uri.parse("mailto:$email")
+                                    }
+                                    if (intent.resolveActivity(context.packageManager) != null) {
+                                        context.startActivity(intent)
+                                    }
+                                }),
+                                color=Color.Blue,
+                                textDecoration = TextDecoration.Underline,
+                                style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }
