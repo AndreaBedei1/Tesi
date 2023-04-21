@@ -314,6 +314,7 @@ fun HomeScreen(
 
 
 
+
     if(fav){
         fav=false
         for (el in listItems) {
@@ -944,6 +945,35 @@ fun HomeScreen(
 @Composable
 fun showImages( imagesUri: List<Uri>?, context: Context) {
     val uris = imagesUri ?: emptyList()
+    var sureDeleteImage by rememberSaveable { mutableStateOf(false) }
+    var uriToBeDeleted by rememberSaveable { mutableStateOf<Uri>(Uri.EMPTY) }
+    if(sureDeleteImage){
+        AlertDialog(
+            onDismissRequest = { sureDeleteImage = false },
+            title = { Text("AVVISO") },
+            text = { Text("Sei sicuro di voler eliminare l'immagine selezionata?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        sureDeleteImage = false;
+                        context.contentResolver.delete(uriToBeDeleted, null, null)
+                        uriToBeDeleted=Uri.EMPTY
+                        recreate((context as Activity)) },
+
+                ) {
+                    Text("Sì")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { sureDeleteImage = false }
+                ) {
+                    Text("No")
+                }
+            }
+        )
+    }
+
     Column (horizontalAlignment = Alignment.CenterHorizontally){
         for (uri in uris) {
             Card(
@@ -985,8 +1015,8 @@ fun showImages( imagesUri: List<Uri>?, context: Context) {
                                     .padding(10.dp),
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error),
                                 onClick = {
-                                    context.contentResolver.delete(uri, null, null)
-                                    recreate((context as Activity))
+                                    sureDeleteImage=true
+                                    uriToBeDeleted=uri
                                 }
                             ) {
                                 Text("ELIMINA")

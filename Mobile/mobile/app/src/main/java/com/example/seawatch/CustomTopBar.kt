@@ -24,6 +24,37 @@ import androidx.navigation.NavHostController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeight:Int, sharedPrefForLogin:SharedPreferences){
+    var sureExit by rememberSaveable { mutableStateOf(false) }
+    if(sureExit){
+        AlertDialog(
+            onDismissRequest = { sureExit = false },
+            title = { Text("AVVISO") },
+            text = { Text("Sei sicuro di voler uscire dall'applicazione e tornare nella schermata di login?") },
+            confirmButton = {
+                Button(
+                    onClick = {sureExit = false;
+                        with(sharedPrefForLogin.edit()){
+                            putString("USER", "")
+                            apply()
+                        }
+                        navController.navigate(NavigationScreen.LogIn.name)
+                              },
+                ) {
+                    Text("Sì")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        sureExit = false
+                    }
+                ) {
+                    Text("No")
+                }
+            }
+        )
+
+    }
     if(currentScreen != NavigationScreen.LogIn.name && currentScreen != NavigationScreen.SignUp.name && currentScreen != NavigationScreen.Home.name) {
         TopAppBar(
             title = {
@@ -54,11 +85,8 @@ fun CustomTopBar(currentScreen:String, navController: NavHostController, barHeig
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = {
-                            with(sharedPrefForLogin.edit()){
-                                putString("USER", "")
-                                apply()
-                            }
-                            navController.navigate(NavigationScreen.LogIn.name) }) {
+                            sureExit=true}
+                        ){
                             Icon(
                                 Icons.Filled.ExitToApp,
                                 contentDescription = "Esci",
