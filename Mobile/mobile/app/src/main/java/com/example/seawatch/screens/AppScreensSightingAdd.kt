@@ -438,7 +438,7 @@ fun SightingScreen(
                     shape= RoundedCornerShape(50.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
-                        if(numeroEsemplari!="") {
+                        if(numeroEsemplari!="" && !imagesList.isEmpty()) {
                             for (image in imagesList) {
                                 if (sighting.image1 == "") {
                                     sighting.image1 = image.toString()
@@ -478,8 +478,10 @@ fun SightingScreen(
                                 avvistamentiViewViewModel = avvistamentiViewViewModel,
                                 avvistamentiViewModel = avvistamentiViewModel
                             )
-                        } else {
+                        } else if(numeroEsemplari=="") {
                             errorMessage = "Inserire il numero degli esemplari"
+                        } else if (imagesList.isEmpty()){
+                            errorMessage="Si prega di inserire almeno un'immagine dell'avvistamento!"
                         }
                     },
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
