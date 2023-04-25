@@ -1,6 +1,8 @@
 package com.example.seawatch
 
 import android.app.Application
+import com.example.seawatch.data.DescriptionRepository
+import com.example.seawatch.data.DescriptionViewModel
 import com.example.seawatch.data.FavouriteRepository
 import com.example.seawatch.data.UserRepository
 import dagger.hilt.android.HiltAndroidApp
@@ -25,5 +27,9 @@ class SWApplication: Application() {
 
     val repository4 by lazy{
         AvvistamentiViewRepository(database.avvistamentiViewDAO())
+    }
+
+    val repository5 by lazy{
+        DescriptionRepository(database.descriptionDAO())
     }
 }

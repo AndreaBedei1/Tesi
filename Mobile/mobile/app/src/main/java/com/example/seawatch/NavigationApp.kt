@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.seawatch.data.DescriptionViewModel
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteViewModel
 import com.example.seawatch.data.UserViewModel
@@ -48,7 +49,8 @@ fun NavigationApp(
     favouriteViewModel: FavouriteViewModel,
     listItems: List<Favourite>,
     userViewModel: UserViewModel,
-    avvistamentiViewViewModel: AvvistamentiViewViewModel
+    avvistamentiViewViewModel: AvvistamentiViewViewModel,
+    descriptionViewModel:DescriptionViewModel
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -94,7 +96,8 @@ fun NavigationApp(
             listItems=listItems,
             profileViewModel=profileViewModel,
             userViewModel=userViewModel,
-            avvistamentiViewViewModel=avvistamentiViewViewModel
+            avvistamentiViewViewModel=avvistamentiViewViewModel,
+            descriptionViewModel=descriptionViewModel
         )
     }
 }
@@ -114,7 +117,8 @@ private fun NavigationGraph(
     listItems: List<Favourite>,
     profileViewModel: ProfileViewModel,
     userViewModel: UserViewModel,
-    avvistamentiViewViewModel: AvvistamentiViewViewModel
+    avvistamentiViewViewModel: AvvistamentiViewViewModel,
+    descriptionViewModel: DescriptionViewModel
 ) {
     NavHost(
         navController = navController,
@@ -172,13 +176,13 @@ private fun NavigationGraph(
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
-            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) }, avvistamentiViewViewModel = avvistamentiViewViewModel)
+            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) }, avvistamentiViewViewModel = avvistamentiViewViewModel, descriptionViewModel=descriptionViewModel)
         }
         composable(route = NavigationScreen.Stats.name){
             StatsScreen()
         }
         composable(route = NavigationScreen.ViewSighting.name){
-            SightingViewScreen(avvistamentiViewModel = avvistamentiViewModel, avvistamentiViewViewModel = avvistamentiViewViewModel)
+            SightingViewScreen(avvistamentiViewModel = avvistamentiViewModel, avvistamentiViewViewModel = avvistamentiViewViewModel, descriptionViewModel=descriptionViewModel)
         }
     }
 }

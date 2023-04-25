@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,8 +29,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import com.example.seawatch.data.*
+import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -38,6 +42,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SightingScreen(
@@ -45,6 +50,7 @@ fun SightingScreen(
     avvistamentiViewViewModel: AvvistamentiViewViewModel,
     goToHome:()->Unit,
     modifier: Modifier = Modifier,
+    descriptionViewModel: DescriptionViewModel
     ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -74,9 +80,82 @@ fun SightingScreen(
     var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
     val sighting = Sighting(currentDateTime, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
     var errorMessage by rememberSaveable { mutableStateOf("") }
+    var descriptionMessage by rememberSaveable { mutableStateOf("") }
     var imageMessage by rememberSaveable { mutableStateOf(false) }
     var alreadySeen by rememberSaveable { mutableStateOf(false) }
     val tempAvvLocali: List<AvvistamentiDaCaricare> by avvistamentiViewModel.all.collectAsState(initial = listOf())
+    val descrizioni:List<Description> by descriptionViewModel.all.collectAsState(initial = listOf())
+    if (showFilterInfoSpecie){
+        AlertDialog(
+            onDismissRequest = {showFilterInfoSpecie=false},
+            title = { Text("Dettagli") },
+            text = {
+                Column {
+                    Row{
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(5.dp)
+                        ) {
+                            items(1) { element ->
+                                Text(
+                                    text = descriptionMessage,
+                                    style = MaterialTheme.typography.titleLarge
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                /*Text(
+                                    text = "Prova123",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Dimensione:",
+                                    style = MaterialTheme.typography.titleLarge
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = "Lunghezza massima: 6,4 m maschio; età massima riportata: 36 anni.",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Descrizione:",
+                                    style = MaterialTheme.typography.titleLarge
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = "Distribuzione: Cosmopolita, prevalentemente anfitemperato. Atlantico occidentale: Terranova, Canada fino all'Argentina; anche nord del Golfo del Messico, Bahamas, Cuba e Piccole Antille. Atlantico orientale: Dalla Francia al Sudafrica, incluso il Mediterraneo. Oceano Indiano: Seychelles, Sudafrica; anche Reunion e Mauritius. Pacifico occidentale: dalla Siberia alla Nuova Zelanda e alle Isole Marshall; anche Australia meridionale. Pacifico centrale: Hawaii. Pacifico orientale: Alaska fino al Cile. Aspetto: Squalo di grandi dimensioni, a forma di fuso, con vistosi occhi neri, muso smussato e conico e denti grandi, triangolari e seghettati. L'origine della prima pinna dorsale si trova solitamente sopra i margini interni della pinna pettorale. Pinna caudale a forma di luna crescente. Colore da grigio piombo a marrone o nero sopra, più chiaro sui fianchi e bruscamente bianco sotto. Macchia nera alla base della pinna pettorale posteriore. Biologia: Abitante principalmente delle piattaforme continentali e insulari, ma può essere presente anche al largo di isole oceaniche lontane dalla terraferma. Spesso si avvicina alla linea di costa e penetra anche in baie poco profonde. Pelagico, capace di migrare attraverso le regioni oceaniche. Solitamente solitario o in coppia, ma può trovarsi in aggregazioni alimentari di 10 o più esemplari; non forma banchi. Si nutre di pesci ossei, squali, razze, foche, delfini e focene, uccelli marini, carogne, calamari, polpi e granchi e balene. Secondo alcuni esperti, attacca l'uomo scambiandolo per la sua normale preda. La maggior parte degli attacchi avviene negli estuari. La lunghezza massima totale ha dato adito a molte speculazioni e alcune misurazioni sono risultate dubbie. Forse fino a 6,4 m o più di lunghezza. Considerato il più grande predatore del mondo con un ampio spettro di prede. Stato di conservazione Lista Rossa IUCN Vulnerabile, vedi Lista Rossa IUCN (VU)",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Curiosità:",
+                                    style = MaterialTheme.typography.titleLarge
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = "Ciclo vitale e comportamento di accoppiamento: Presenta ovoviparità (viviparità aplacentare), con embrioni che si nutrono di altri ovuli prodotti dalla madre (oofagia) dopo l'assorbimento del sacco vitellino. Fino a 10, forse 14, piccoli nati a 120-150 cm.",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))*/
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = {showFilterInfoSpecie=false}) {
+                            Text("Chiudi")
+                        }
+                    }
+                }
+            },
+            confirmButton = {null}
+        )
+    }
 
     if (errorMessage.isNotEmpty()) {
         AlertDialog(
@@ -373,15 +452,27 @@ fun SightingScreen(
                                                     ),
                                                     contentPadding = PaddingValues(0.dp),
                                                     enabled = selectedOptionText!="",
-                                                    onClick = { showFilterInfoSpecie = true }) {
+                                                    onClick = {
+                                                        var entrato=false
+                                                        for(d in descrizioni){
+                                                            if (d.animale==selectedOptionText && d.specie==selectedOptionTextSpecie){
+                                                                entrato=true
+                                                                descriptionMessage=d.descrizione
+                                                                showFilterInfoSpecie = true;
+                                                                break
+                                                            }
+                                                            if(!entrato){
+                                                                descriptionMessage="Descrizione non disponbile!"
+                                                                showFilterInfoSpecie = true;
+                                                            }
+                                                        }
+
+                                                    }) {
                                                     Icon(
                                                         modifier = Modifier.fillMaxSize(),
                                                         imageVector = Icons.Filled.Info,
                                                         contentDescription = "Vedi dettagli specie"
                                                     )
-                                                }
-                                                InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
-                                                    showFilterInfoSpecie = false
                                                 }
                                             }
                                             // Note
@@ -682,15 +773,26 @@ fun SightingScreen(
                                         ),
                                         contentPadding = PaddingValues(0.dp),
                                         enabled = selectedOptionText!="",
-                                        onClick = { showFilterInfoSpecie = true }) {
+                                        onClick = {
+                                            var entrato=false
+                                            for(d in descrizioni){
+                                                if (d.animale.lowercase()==selectedOptionText.lowercase() && d.specie.lowercase()==selectedOptionTextSpecie.lowercase()){
+                                                    entrato=true
+                                                    descriptionMessage=d.descrizione
+                                                    showFilterInfoSpecie = true;
+                                                    break
+                                                }
+                                            }
+                                            if(!entrato){
+                                                descriptionMessage="Descrizione non disponbile!"
+                                                showFilterInfoSpecie = true;
+                                            }
+                                        }) {
                                         Icon(
                                             modifier = Modifier.fillMaxSize(),
                                             imageVector = Icons.Filled.Info,
                                             contentDescription = "Vedi dettagli specie"
                                         )
-                                    }
-                                    InfoSpecie(showFilterInfoSpecie =  showFilterInfoSpecie){
-                                        showFilterInfoSpecie = false
                                     }
                                 }
                                 Spacer(modifier = Modifier.height(3.dp))

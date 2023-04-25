@@ -76,6 +76,10 @@ class MainActivity : FragmentActivity() {
         AvvistamentiViewModelFactory(repository=(application as SWApplication).repository4)
     }
 
+    val descriptionViewModel by viewModels<DescriptionViewModel> {
+        DescriptionViewModelFactory(repository=(application as SWApplication).repository5)
+    }
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -89,6 +93,8 @@ class MainActivity : FragmentActivity() {
     public val location = mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        descriptionViewModel.deleteAll()
+        descriptionViewModel.populate()
         super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
         lateinit var logo: ImageView
@@ -147,7 +153,8 @@ class MainActivity : FragmentActivity() {
                         favouriteViewModel=favouriteViewModel,
                         listItems=listItems,
                         userViewModel=userViewModel,
-                        avvistamentiViewViewModel=avvistamentiViewViewModel
+                        avvistamentiViewViewModel=avvistamentiViewViewModel,
+                        descriptionViewModel=descriptionViewModel
                     )
                 }
             }
