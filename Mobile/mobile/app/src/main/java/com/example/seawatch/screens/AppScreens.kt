@@ -1069,7 +1069,154 @@ fun StatsScreen(
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
-            Text(text = "orizzontale")
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(1) { element ->
+                    Spacer(Modifier.height(min))
+                    Row(modifier = modifier.fillMaxWidth()) {
+                        Column(
+                            modifier = modifier
+                                .width((configuration.screenWidthDp / 2).dp)
+                                .padding(10.dp)
+                        ) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                border = BorderStroke(2.dp, Color.Black),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    contentColor = Color.White
+                                ),
+                                elevation = CardDefaults.cardElevation(40.dp)
+                            ) {
+                                Column() {
+                                    val animatedValue = animateFloatAsState(
+                                        targetValue = listaAvvistamenti.count().toFloat(),
+                                        animationSpec = TweenSpec(
+                                            durationMillis = 1500,
+                                            easing = LinearOutSlowInEasing
+                                        )
+                                    )
+                                    Text(
+                                        text = animatedValue.value.toInt().toString(),
+                                        fontSize = 48.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Text(
+                                        text = "avvistamenti",
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Spacer(modifier = modifier.height(5.dp))
+                                }
+
+                            }
+                        }
+                        Column(
+                            modifier = modifier
+                                .width((configuration.screenWidthDp / 2).dp)
+                                .padding(10.dp)
+                        ) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                border = BorderStroke(2.dp, Color.Black),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    contentColor = Color.White
+                                ),
+                                elevation = CardDefaults.cardElevation(40.dp)
+                            ) {
+                                Column() {
+                                    val animatedValue = animateFloatAsState(
+                                        targetValue = listaAvvistamenti.distinctBy { it.avvistatore }.size.toFloat(),
+                                        animationSpec = TweenSpec(
+                                            durationMillis = 1500,
+                                            easing = LinearOutSlowInEasing
+                                        )
+                                    )
+                                    Text(
+                                        text = animatedValue.value.toInt().toString(),
+                                        fontSize = 48.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Text(
+                                        text = "avvistatori",
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Spacer(modifier = modifier.height(5.dp))
+                                }
+                            }
+                        }
+                    }
+                    Column(modifier=modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        var mappaOccorrenze = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            val animale = avvistamento.animale
+                            if (mappaOccorrenze.containsKey(animale)) {
+                                mappaOccorrenze[animale] = mappaOccorrenze[animale]!! + 1
+                            } else {
+                                mappaOccorrenze[animale] = 1
+                            }
+                        }
+                        var mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var l= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaFinale){
+                            l.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.primary))
+                        }
+                        Spacer(modifier=modifier.height(min))
+                        Text(text="DISTRIBUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = l, padBy = 0f, startAtZero = true),
+                            modifier = Modifier.size(640.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+
+
+                        var mappaClassifica = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            val utente = avvistamento.avvistatore
+                            if (mappaClassifica.containsKey(utente)) {
+                                mappaClassifica[utente] = mappaClassifica[utente]!! + 1
+                            } else {
+                                mappaClassifica[utente] = 1
+                            }
+                        }
+                        var mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var lClassifica= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaFinaleClassifica){
+                            lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
+                        }
+                        Spacer(modifier=modifier.height(min+10.dp))
+                        Text(text="CLASSIFICA AVVISTATORI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = lClassifica, padBy = 0f),
+                            modifier = Modifier.size(640.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+                        Spacer(modifier=modifier.height(hig))
+                    }
+                }
+            }
         }
         else -> {
             LazyColumn(
