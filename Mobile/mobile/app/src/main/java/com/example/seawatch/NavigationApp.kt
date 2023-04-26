@@ -21,6 +21,7 @@ import com.example.seawatch.data.DescriptionViewModel
 import com.example.seawatch.data.Favourite
 import com.example.seawatch.data.FavouriteViewModel
 import com.example.seawatch.data.UserViewModel
+import com.example.seawatch.screens.NotifyScreen
 
 sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
@@ -34,6 +35,7 @@ sealed class NavigationScreen(val name: String) {
     object AddSighting:NavigationScreen("Aggiungi")
     object Stats: NavigationScreen("Statistiche")
     object ViewSighting:NavigationScreen("Avvistamento")
+    object Notify:NavigationScreen("Notifiche")
 }
 
 
@@ -183,6 +185,9 @@ private fun NavigationGraph(
         }
         composable(route = NavigationScreen.ViewSighting.name){
             SightingViewScreen(avvistamentiViewModel = avvistamentiViewModel, avvistamentiViewViewModel = avvistamentiViewViewModel, descriptionViewModel=descriptionViewModel)
+        }
+        composable(route = NavigationScreen.Notify.name){
+            NotifyScreen(goToSighting =  {navController.navigate(NavigationScreen.ViewSighting.name)}, avvistamentiViewViewModel = avvistamentiViewViewModel)
         }
     }
 }
