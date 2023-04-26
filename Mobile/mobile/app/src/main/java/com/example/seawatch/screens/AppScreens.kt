@@ -5,9 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,13 +31,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.FixedScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.*
+import com.github.tehras.charts.bar.BarChart
+import com.github.tehras.charts.bar.BarChartData
+import com.github.tehras.charts.bar.renderer.bar.SimpleBarDrawer
+import com.github.tehras.charts.bar.renderer.label.SimpleValueDrawer
+import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
+import com.github.tehras.charts.bar.renderer.yaxis.LabelFormatter
+import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
+import com.github.tehras.charts.piechart.PieChart
+import com.github.tehras.charts.piechart.PieChartData
+import com.github.tehras.charts.piechart.animation.simpleChartAnimation
+import com.github.tehras.charts.piechart.renderer.SimpleSliceDrawer
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -1039,11 +1058,168 @@ fun StatsScreen(
     modifier: Modifier = Modifier,
     avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
+    val configuration = LocalConfiguration.current
+    val min = configuration.screenHeightDp.dp / 40
+    val med = configuration.screenHeightDp.dp / 20
+    val hig = configuration.screenHeightDp.dp / 10
+    val backGround = MaterialTheme.colorScheme.primaryContainer
+    val listaAvvistamenti: List<AvvistamentiDaVedere> by avvistamentiViewViewModel.all.collectAsState(
+        initial = listOf()
+    )
 
-    Text(text = "Mettere le statistiche")
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            Text(text = "orizzontale")
+        }
+        else -> {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(backGround),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(1) { element ->
+                    Spacer(Modifier.height(min))
+                    Row(modifier = modifier.fillMaxWidth()) {
+                        Column(
+                            modifier = modifier
+                                .width((configuration.screenWidthDp / 2).dp)
+                                .padding(10.dp)
+                        ) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                border = BorderStroke(2.dp, Color.Black),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    contentColor = Color.White
+                                ),
+                                elevation = CardDefaults.cardElevation(40.dp)
+                            ) {
+                                Column() {
+                                    val animatedValue = animateFloatAsState(
+                                        targetValue = listaAvvistamenti.count().toFloat(),
+                                        animationSpec = TweenSpec(
+                                            durationMillis = 1500,
+                                            easing = LinearOutSlowInEasing
+                                        )
+                                    )
+                                    Text(
+                                        text = animatedValue.value.toInt().toString(),
+                                        fontSize = 48.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Text(
+                                        text = "avvistamenti",
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Spacer(modifier = modifier.height(5.dp))
+                                }
 
+                            }
+                        }
+                        Column(
+                            modifier = modifier
+                                .width((configuration.screenWidthDp / 2).dp)
+                                .padding(10.dp)
+                        ) {
+                            Card(
+                                shape = MaterialTheme.shapes.medium,
+                                border = BorderStroke(2.dp, Color.Black),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    contentColor = Color.White
+                                ),
+                                elevation = CardDefaults.cardElevation(40.dp)
+                            ) {
+                                Column() {
+                                    val animatedValue = animateFloatAsState(
+                                        targetValue = listaAvvistamenti.distinctBy { it.avvistatore }.size.toFloat(),
+                                        animationSpec = TweenSpec(
+                                            durationMillis = 1500,
+                                            easing = LinearOutSlowInEasing
+                                        )
+                                    )
+                                    Text(
+                                        text = animatedValue.value.toInt().toString(),
+                                        fontSize = 48.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Text(
+                                        text = "avvistatori",
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Spacer(modifier = modifier.height(5.dp))
+                                }
+                            }
+                        }
+                    }
+                    Column(modifier=modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        var mappaOccorrenze = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            val animale = avvistamento.animale
+                            if (mappaOccorrenze.containsKey(animale)) {
+                                mappaOccorrenze[animale] = mappaOccorrenze[animale]!! + 1
+                            } else {
+                                mappaOccorrenze[animale] = 1
+                            }
+                        }
+                        var mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var l= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaFinale){
+                            l.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.primary))
+                        }
+                        Spacer(modifier=modifier.height(min))
+                        Text(text="DISTRIBUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = l, padBy = 0f, startAtZero = true),
+                            modifier = Modifier.size(320.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+
+
+                        var mappaClassifica = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            val utente = avvistamento.avvistatore
+                            if (mappaClassifica.containsKey(utente)) {
+                                mappaClassifica[utente] = mappaClassifica[utente]!! + 1
+                            } else {
+                                mappaClassifica[utente] = 1
+                            }
+                        }
+                        var mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var lClassifica= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaFinaleClassifica){
+                            lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
+                        }
+                        Spacer(modifier=modifier.height(min+10.dp))
+                        Text(text="CLASSIFICA AVVISTATORI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = lClassifica, padBy = 0f),
+                            modifier = Modifier.size(320.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+                        Spacer(modifier=modifier.height(hig))
+                    }
+                }
+            }
+        }
+    }
 }
-
-
-
-

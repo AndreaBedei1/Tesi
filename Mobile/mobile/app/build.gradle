@@ -82,6 +82,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation "io.coil-kt:coil-compose:2.3.0"
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation "com.github.tehras:charts:0.2.4-alpha"
 }
 
 kapt {
