@@ -43,6 +43,13 @@ fun CustomBottomBar(currentScreen:String, configuration:Configuration, barHeight
                 onClick = {navController.navigate(NavigationScreen.Home.name) }
             )
 
+            // Elemento notifiche nella bottom bar.
+            NavigationBarItem(
+                icon = { Icon(painter = painterResource(id = R.drawable.baseline_notifications_24), contentDescription = "Notifiche", modifier = Modifier.size(30.dp)) },
+                selected = currentScreen == NavigationScreen.Settings.name,
+                onClick = {navController.navigate(NavigationScreen.Settings.name) }
+            )
+
             // Elemento profilo nella bottom bar.
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.Person, contentDescription = "Profilo", modifier = Modifier.size(30.dp)) },

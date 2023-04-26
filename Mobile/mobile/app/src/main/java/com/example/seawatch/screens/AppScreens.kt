@@ -1036,8 +1036,10 @@ fun showImages( imagesUri: List<Uri>?, context: Context) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
+
     Text(text = "Mettere le statistiche")
 
 }
