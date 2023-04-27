@@ -181,14 +181,14 @@ fun inviaRichieste(index: Int, tempAvvLocali: List<AvvistamentiDaCaricare> , con
         .addFormDataPart("note", elem.note)
         .addFormDataPart(
             "latitudine", try {
-                elem.posizione.split("")[0]
+                elem.posizione.split(" ")[0]
             } catch (e: Exception) {
                 ""
             }
         )
         .addFormDataPart(
             "longitudine", try {
-                elem.posizione.split("")[1]
+                elem.posizione.split(" ")[1]
             } catch (e: Exception) {
                 ""
             }

@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -17,11 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.seawatch.data.DescriptionViewModel
-import com.example.seawatch.data.Favourite
-import com.example.seawatch.data.FavouriteViewModel
-import com.example.seawatch.data.UserViewModel
+import com.example.seawatch.data.*
 import com.example.seawatch.screens.NotifyScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 
 sealed class NavigationScreen(val name: String) {
     object Home : NavigationScreen("Home")
@@ -52,7 +51,9 @@ fun NavigationApp(
     listItems: List<Favourite>,
     userViewModel: UserViewModel,
     avvistamentiViewViewModel: AvvistamentiViewViewModel,
-    descriptionViewModel:DescriptionViewModel
+    descriptionViewModel:DescriptionViewModel,
+    warningViewModel: WarningViewModel,
+    startLocationUpdates: () -> Unit
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -73,6 +74,7 @@ fun NavigationApp(
     } else {
         barHeight = 55
     }
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
             CustomTopBar(currentScreen=currentScreen, navController=navController, barHeight=barHeight, sharedPrefForLogin=sharedPrefForLogin)
@@ -99,8 +101,24 @@ fun NavigationApp(
             profileViewModel=profileViewModel,
             userViewModel=userViewModel,
             avvistamentiViewViewModel=avvistamentiViewViewModel,
-            descriptionViewModel=descriptionViewModel
+            descriptionViewModel=descriptionViewModel,
+            startLocationUpdates=startLocationUpdates
         )
+
+        val context = LocalContext.current
+        if (warningViewModel.showPermissionSnackBar.value) {
+            PermissionSnackBarComposable(snackbarHostState, context, warningViewModel)
+        }
+        if (warningViewModel.showGPSAlertDialog.value) {
+            GPSAlertDialogComposable(context, warningViewModel)
+        }
+        if (warningViewModel.showConnectivitySnackBar.value) {
+            ConnectivitySnackBarComposable(
+                snackbarHostState,
+                context,
+                warningViewModel
+            )
+        }
     }
 }
 
@@ -120,8 +138,10 @@ private fun NavigationGraph(
     profileViewModel: ProfileViewModel,
     userViewModel: UserViewModel,
     avvistamentiViewViewModel: AvvistamentiViewViewModel,
-    descriptionViewModel: DescriptionViewModel
+    descriptionViewModel: DescriptionViewModel,
+    startLocationUpdates: () -> Unit
 ) {
+    val placesViewModel = hiltViewModel<PlacesViewModel>()
     NavHost(
         navController = navController,
         startDestination = NavigationScreen.LogIn.name,
@@ -178,7 +198,14 @@ private fun NavigationGraph(
             )
         }
         composable(route = NavigationScreen.AddSighting.name){
-            SightingScreen(avvistamentiViewModel=avvistamentiViewModel, goToHome = { navController.navigate(NavigationScreen.Home.name) }, avvistamentiViewViewModel = avvistamentiViewViewModel, descriptionViewModel=descriptionViewModel)
+            SightingScreen(
+                avvistamentiViewModel=avvistamentiViewModel,
+                goToHome = { navController.navigate(NavigationScreen.Home.name) },
+                avvistamentiViewViewModel = avvistamentiViewViewModel,
+                descriptionViewModel=descriptionViewModel,
+                placesViewModel = placesViewModel,
+                startLocationUpdates = startLocationUpdates
+            )
         }
         composable(route = NavigationScreen.Stats.name){
             StatsScreen(avvistamentiViewViewModel = avvistamentiViewViewModel)

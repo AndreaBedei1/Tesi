@@ -10,6 +10,9 @@ import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
@@ -81,28 +84,39 @@ class MainActivity : FragmentActivity() {
         DescriptionViewModelFactory(repository=(application as SWApplication).repository5)
     }
 
+    public var showSnackBar = mutableStateOf(false)
+    public var showAlertDialog = mutableStateOf(false)
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+    val placesViewModel by viewModels<PlacesViewModel>()
 
-    private var requestingLocationUpdates = false
+    private var requestingLocationUpdates = mutableStateOf(false)
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<String>
 
-    public var showSnackBar = mutableStateOf(false)
-    public var showAlertDialog = mutableStateOf(false)
-    public val location = mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+    private lateinit var connectivityManager : ConnectivityManager
+
+    val warningViewModel by viewModels<WarningViewModel>()
+
+    val location = mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         descriptionViewModel.deleteAll()
         descriptionViewModel.populate()
-        super.onCreate(savedInstanceState)
         val sharedPrefForLogin=getPreferences(Context.MODE_PRIVATE)
-        lateinit var logo: ImageView
-
         getDatesFromServer(avvistamentiViewViewModel, this)
 
+
+
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         locationPermissionRequest = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -110,12 +124,12 @@ class MainActivity : FragmentActivity() {
             if (isGranted) {
                 startLocationUpdates()
             } else {
-                showSnackBar.value = true
+                warningViewModel.setPermissionSnackBarVisibility(true)
             }
         }
 
         locationRequest =
-            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
+            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 3000).apply {
                 setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
             }.build()
 
@@ -123,13 +137,29 @@ class MainActivity : FragmentActivity() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 location.value = LocationDetails(
-                    p0.locations.last().latitude,
-                    p0.locations.last().longitude
+                    p0.locations.first().latitude,
+                    p0.locations.first().longitude
                 )
                 stopLocationUpdates()
-                requestingLocationUpdates = false
+                placesViewModel.setGPSPlace(location.value)
+
             }
         }
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network : Network) {
+                if (requestingLocationUpdates.value) {
+                    placesViewModel.setGPSPlace(location.value)
+                    warningViewModel.setConnectivitySnackBarVisibility(false)
+                }
+            }
+
+            override fun onLost(network : Network) {
+                warningViewModel.setConnectivitySnackBarVisibility(true)
+            }
+        }
+
+
         var coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         coroutineScope.launch {
             val avvistamenti = runBlocking { avvistamentiViewModel.all.first() }
@@ -155,8 +185,13 @@ class MainActivity : FragmentActivity() {
                         listItems=listItems,
                         userViewModel=userViewModel,
                         avvistamentiViewViewModel=avvistamentiViewViewModel,
-                        descriptionViewModel=descriptionViewModel
+                        descriptionViewModel=descriptionViewModel,
+                        warningViewModel = warningViewModel,
+                        startLocationUpdates=::startLocationUpdates
                     )
+                }
+                if (requestingLocationUpdates.value) {
+                    connectivityManager.registerDefaultNetworkCallback(networkCallback)
                 }
             }
         }
@@ -173,7 +208,6 @@ class MainActivity : FragmentActivity() {
             Objects.requireNonNull(context),
             context.packageName + ".provider", tempFile!!
         )
-        Log.e("KEYYY", tempFile.toString())
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         startActivityForResult(cameraIntent, 200)
@@ -194,6 +228,7 @@ class MainActivity : FragmentActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == 200) {
             photoUri?.let {
                 saveImage((this as Context).applicationContext.contentResolver, it, name, count)
+                recreate()
             }
         }
     }
@@ -378,21 +413,44 @@ class MainActivity : FragmentActivity() {
         return imagesList
     }
 
+
     override fun onResume() {
         super.onResume()
-        if (requestingLocationUpdates) startLocationUpdates()
+        if (requestingLocationUpdates.value) startLocationUpdates()
     }
 
-    public fun startLocationUpdates() {
-        requestingLocationUpdates = true
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (requestingLocationUpdates.value)
+            (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+                .unregisterNetworkCallback(networkCallback)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (requestingLocationUpdates.value)
+            (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+                .registerDefaultNetworkCallback(networkCallback)
+    }
+
+    private fun startLocationUpdates() {
+        requestingLocationUpdates.value = true
         val permission = Manifest.permission.ACCESS_COARSE_LOCATION
 
         when {
             //permission already granted
-            ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED -> {
+            ContextCompat.checkSelfPermission (this, permission) == PackageManager.PERMISSION_GRANTED -> {
+                locationRequest =
+                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
+                        setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+                        setWaitForAccurateLocation(true)
+                    }.build()
+
                 val gpsEnabled = checkGPS()
                 if (gpsEnabled) {
                     fusedLocationProviderClient.requestLocationUpdates(
@@ -401,13 +459,12 @@ class MainActivity : FragmentActivity() {
                         Looper.getMainLooper()
                     )
                 } else {
-                    showAlertDialog.value = true
+                    warningViewModel.setGPSAlertDialogVisibility(true)
                 }
-
             }
             //permission already denied
             shouldShowRequestPermissionRationale(permission) -> {
-                showSnackBar.value = true
+                warningViewModel.setPermissionSnackBarVisibility(true)
             }
             else -> {
                 //first time: ask for permissions
@@ -423,16 +480,9 @@ class MainActivity : FragmentActivity() {
     }
 
     private fun checkGPS(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
-
-    override fun onPause() {
-        super.onPause()
-        stopLocationUpdates()
-    }
-
-
 }
 
 

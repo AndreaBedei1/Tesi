@@ -1,15 +1,12 @@
 package com.example.seawatch
 
 import android.app.Application
-import com.example.seawatch.data.DescriptionRepository
-import com.example.seawatch.data.DescriptionViewModel
-import com.example.seawatch.data.FavouriteRepository
-import com.example.seawatch.data.UserRepository
+import com.example.seawatch.data.*
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class SWApplication: Application() {
-    private val database by lazy{
+    val database by lazy{
         SWDatabase.getDatabase(this)
     }
 
