@@ -45,10 +45,19 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Prototipo activity di statistiche della piattaforma.}}{75}{}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Prototipo activity delle impostazioni.}}{76}{}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Prototipo activity delle impostazioni sul tema, con salvataggio.}}{76}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Activity di login.}}{78}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Activity di registrazione.}}{79}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Activity del profilo.}}{80}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Activity della Homepage.}}{81}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Activity di aggiunta di un avvistamento.}}{82}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Activity di visualizzazione di un avvistamento.}}{84}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Activity di impostazioni.}}{85}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Activity delle notifiche.}}{86}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Activity delle Statistiche.}}{87}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{88}{}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{102}{}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{103}{}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{107}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{99}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{113}{}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{114}{}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{118}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

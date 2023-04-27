@@ -847,12 +847,12 @@ Per quanto riguarda l'applicazione mobile è stato scelto di realizzarla per il 
 
 Kotlin è stato progettato per essere interoperabile con Java, il che significa che gli sviluppatori possono utilizzare nel loro codice librerie Java esistenti. In aggiunta, Kotlin offre molte nuove funzionalità, ad esempio la null safety e la sintassi più concisa e leggibile.\\
 
-Kotlin è stato creato per semplificare la scrittura di codice e ridurre gli errori comuni, come la NullPointerException. Inoltre, offre espressività e flessibilità rispetto a Java, il che lo rende una scelta popolare per gli sviluppatori Android.
+Esso è stato creato per semplificare la scrittura di codice e ridurre gli errori comuni, come la NullPointerException. Inoltre, offre espressività e flessibilità rispetto a Java, il che lo rende una scelta popolare per gli sviluppatori Android.
 
  \subsection{Jetpack Compose}
  Jetpack Compose è un framework UI per lo sviluppo di applicazioni Android. Compose permette agli sviluppatori di creare codice UI in modo dichiarativo e reattivo, semplificando la creazione di interfacce utente belle e performanti.\\
 Il framework è basato sul linguaggio di programmazione Kotlin e offre un insieme di componenti UI predefiniti e personalizzabili, chiamati composable. Essi possono essere combinati tra loro per creare interfacce utente complesse.\\
-Inoltre, Jetpack Compose permette agli sviluppatori di scrivere codice UI con un livello di astrazione più alto. Un esempio: gli sviluppatori possono scrivere il codice per definire l'aspetto visivo dell'applicazione in un unico file, senza dover gestire la separazione tra codice XML e codice Java/Kotlin.\\
+Inoltre, Jetpack Compose permette agli sviluppatori di scrivere codice UI con un livello di astrazione più alto. Un esempio: gli sviluppatori possono scrivere il codice per definire l'aspetto visivo dell'applicazione in un unico file, senza dover gestire la separazione tra codice XML e codice Kotlin.\\
 Grazie a queste funzionalità, il framework semplifica il processo di sviluppo e manutenzione, offrendo una soluzione moderna e performante per la creazione di interfacce utente reattive e coerenti con le linee guida di Material Design.
 
  \subsection{Material Design 3}
@@ -930,8 +930,114 @@ Nella pagina delle impostazioni si possono modificare le informazioni del propri
 
 
 \section{Librerie esterne utilizzate}
+Nel progetto sono state utilizzate le seguenti librerie esterne:
+\begin{itemize}
+    \item \textbf{Datastore-Preferences:} implementazione di DataStore per la memorizzazione dei dati di preferenza.
+    \item \textbf{Leaflet:} libreria JavaScript per la visualizzazione di mappe interattive.
+    \item \textbf{Biometric:} supporto per l'autenticazione biometrica su Android.
+    \item \textbf{Play-services-location:} API di localizzazione di Google Play Services.
+    \item \textbf{Room:}  libreria di persistenza di dati locali basata su SQLite.
+    \item \textbf{Okhttp3:} libreria per richieste HTTPS su Android.
+    \item \textbf{Castle:} Libreria crittografica per Java.
+    \item \textbf{Gson:} libreria per la conversione di oggetti Java in formato JSON e viceversa.
+    \item \textbf{Coil:} libreria per il caricamento e la visualizzazione di immagini su Android.
+    \item \textbf{Tehras-charts:} libreria di grafici per Android.
+\end{itemize}
+
+\newpage
+
 
 \section{Activity}
+In questa sezione vengono riportate e commentate le activity dell'applicazione finale. Per ciascuna di esse è stata creata sia la versione landscape che portrait al fine di ottimizzare al meglio l'esperienza utente. 
+
+\subsection{Login}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/accmob.jpg}
+\caption{Activity di login.}
+\end{figure}
+Nella pagina di login è possibile inserire l'email e la password negli appositi campi ed effettuare l'accesso attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita, oppure di creare un nuovo account. In aggiunta, al fine di facilitare la login all'utente, dopo al primo accesso viene memorizzata l'email e se il dispositivo dispone del sensore di impronte digitali si avrà la possibilità di accedere senza l'utilizzo della password. 
+
+\subsection{Registrazione}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.19]{img_concettuale/regmob.jpg}
+\caption{Activity di registrazione.}
+\end{figure}
+Nella pagina di registrazione è possibile inserire le informazioni negli appositi campi ed effettuare la registrazione attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita in modo tale che possa controllarne la correttezza. Una volta che l'utente si è registrato verrà portato nella pagina della login per effettuare l'accesso. Si ricorda che l'utente prima di essere operativo deve essere abilitato manualmente dagli amministratori al fine di politiche di sicurezza sui dati.
+
+\subsection{Profilo}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/prmob.jpg}
+\caption{Activity del profilo.}
+\end{figure}
+Nella seguente schermata si vede la foto dell'utente con le relative informazioni personali, in aggiunta premendo il link della mail si apre l'app di posta elettronica al fine di far comunicare due utenti. Il pulsante in basso a destra permette di andare nelle impostazioni al fine di modificare le informazioni del profilo.
+
+\newpage
+
+\subsection{Homepage}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/hommob.jpg}
+\caption{Activity della Homepage.}
+\end{figure}
+La pagina principale dell'applicazione è la più complessa, nella parte centrale è presente una mappa, con all'interno dei Marker al fine di segnalare la posizione degli avvistamenti, si ha la possibilità di interagire con essa, es: modificare la zoom su una determinata area, oppure vedere i dettagli di uno specifico avvistamento premendo il relativo Marker. Subito sotto è presente una griglia di avvistamenti, essa comprende tutti gli avvistamenti sia quelli presenti sul server remoto che quelli locali che verranno caricati in un secondo momento. Per differenziarli si è deciso di rappresentare le Card con colori diversi tra loro, in modo tale che l'utente possa capire se sono presenti ancora degli avvistamenti locali. Per ciascuno avvistamento si ha anche la possibilità di aggiungerlo ai preferiti e di visualizzare il profilo dell'utente che lo ha eseguito.
+Nulla barra in alto oltre al titolo della pagina si ha la possibilità di aprire una casella di dialogo al fine di selezionare dei filtri. Esiste il filtro per selezionare solo gli avvistamenti preferiti, oppure filtrare la lista di avvistamenti per animale.\\
+Nella parte bassa della schermata è presente la barra di navigazione, la quale porta alle altre pagine dell'applicazione. Invece, il pulsante centrale permette di aggiungere un nuovo avvistamento.
+
+\subsection{Aggiunta Avvistamento}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.19]{img_concettuale/aggmob.jpg}
+\caption{Activity di aggiunta di un avvistamento.}
+\end{figure}
+Nella seguente schermata si ha la possibilità di aggiungere tutti i dati dell'avvistamento effettuato. Il campo posizione viene riempito in modo automatico una volta che si è premuto il pulsante del GPS, in questo modo viene utilizzato il sensore GPS del telefono per richiedere le coordinate. Una volta scelto l'animale e la specie si ha la possibilità di richiedere delle informazioni dettagliate al fine di individuare al meglio la specie di appartenenza. In fondo alla schermata è presente un pulsante per aggiungere delle immagini (massimo 5) all'avvistamento corrente. Ogni immagine verrà salvata nella galleria del dispositivo e l'utente avrà la possibilità di visualizzarla o di eliminarla. Una volta completato l'inserimento si può premere il pulsante per caricare l'avvistamento. Se è presente una connessione a internet viene caricato direttamente online l'avvistamento con le relative immagini, altrimenti viene salvato tutto localmente e quando sarà presente connessione i dati verranno caricati online. Come si può notare, nella barra un altro di fianco al titolo è comparsa una freccia che permette all'utente di tornare nella schermata precedente.
+
+\newpage
+\subsection{Visualizzazione Avvistamento}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/vimob.jpg}
+\caption{Activity di visualizzazione di un avvistamento.}
+\end{figure}
+La seguente schermata è differente a seconda di chi è il creatore dell'avvistamento. Se il post è stato creato da un utente diverso da quello che lo sta visualizzando, tutti i campi compariranno in sola lettura come nell'immagine. Altrimenti, compare una schermata simile a quella dell'aggiunta di un avvistamento in cui si ha la possibilità di aggiungere foto o modificare i dati. Questo è possibile sia per avvistamenti locali che per avvistamenti online, ma per poter modificare avvistamenti online è necessaria una connessione a internet. Oltre alla mappa che fornisce la posizione dell'avvistamento, si ha la possibilità per ogni utente di richiedere informazioni sulla specie, se essa è presente. Nella parte sottostante si ha la possibilità di visualizzare tutte le immagini del relativo avvistamento. Attraverso un intent è possibile visualizzarle anche nella galleria.
+
+\subsection{Impostazioni}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/impmob.jpg}
+\caption{Activity di impostazioni.}
+\end{figure}
+La schermata è composta da tre bottoni ognuno dei quali è una schermata diversa. Attraverso il bottone del profilo si possono modificare tutti i campi relativi alle informazioni personali dell'avvistatore, tra cui nome e cognome, ma anche la foto profilo. Col pulsante display si ha possibilità di modificare la configurazione del display, ossia utilizzare il tema chiaro oppure il tema scuro. All'inizio l'app viene avviata nella modalità di configurazione del dispositivo, se l'utente invece cambia questa impostazione l'app mantiene in memoria la scelta fino a un successivo cambiamento. Infine il pulsante sicurezza permette all'utente di modificare la propria password. In tutte le schermate delle impostazioni si ha la possibilità di eseguire il logout, il quale disconnette l'utente e lo riporta alla pagina di login.
+
+\subsection{Notifiche}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/notmob.jpg}
+\caption{Activity delle notifiche.}
+\end{figure}
+La schermata permette di visualizzare tutte le notifiche che vengono inviate da un apposito bottone nel sito web. Nella notifica vengono comunicate informazioni su cambiamenti avvenuti nei dati degli avvistamenti che l'utente ha caricato. Premendo la notifica l'utente viene indirizzato al relativo avvistamento. Il pulsante rosso in alto permette di cancellare tutte le notifiche presenti. Quando ne arrivano delle nuove nella barra sottostante si può notare che cambia l'icona (da disattiva passa ad attiva).
+
+\subsection{Statistiche}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.20]{img_concettuale/statmob.jpg}
+\caption{Activity delle Statistiche.}
+\end{figure}
+Nella seguente schermata sono presenti diversi dati statistici, tra cui:
+\begin{itemize}
+    \item contatore del numero di avvistamenti
+    \item contatore del numero di avvistatori.
+    \item grafico con la distribuzione degli animali negli avvistamenti.
+    \item una classifica di avvistatori, per il numero di avvistamenti .
+    \item grafico con la distribuzione dei delfini negli avvistamenti.
+    \item grafico con il numero di avvistamenti negli ultimi giorni.
+\end{itemize}
+
+\section{Accessibilità e sicurezza}
+In tutto il progetto si è data estremamente importanza ad aspetti di sicurezza dell'app. Per ogni operazione considerata pericolosa da Android vengono richiesti i permessi all'utente con apposite schermate di dialogo. In aggiunta si è cercato di aiutare nel modo migliore possibile l'utente in fatto di user experience e si è dato molto peso all'accessibilità dell'applicazione anche per persone con disabilità, attraverso ad appositi attributi delle componenti delle schermate.
+
 
 \chapter{Documentazione Algoritmo Di Riconoscimento}
 Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo si è utilizzato un algoritmo di visione artificiale il quale, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individuare la specie.

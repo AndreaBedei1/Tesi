@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  4 APR 2023 12:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.26)  28 APR 2023 00:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,144 +769,201 @@ Package pdftex.def Info: img_concettuale/Imp_tema_mob.png  used on input line 9
 (pdftex.def)             Requested size: 75.03983pt x 139.32959pt.
  [75 <./img_concettuale/stat_mob.png>] [76 <./img_concettuale/Imp_mob.png> <./i
 mg_concettuale/Imp_tema_mob.png>] [77]
+<img_concettuale/accmob.jpg, id=342, 578.16pt x 1284.8pt>
+File: img_concettuale/accmob.jpg Graphic file (type jpg)
+<use img_concettuale/accmob.jpg>
+Package pdftex.def Info: img_concettuale/accmob.jpg  used on input line 956.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+ [78 <./img_concettuale/accmob.jpg>]
+<img_concettuale/regmob.jpg, id=346, 578.16pt x 1284.8pt>
+File: img_concettuale/regmob.jpg Graphic file (type jpg)
+<use img_concettuale/regmob.jpg>
+Package pdftex.def Info: img_concettuale/regmob.jpg  used on input line 964.
+(pdftex.def)             Requested size: 109.85153pt x 244.11453pt.
+ [79 <./img_concettuale/regmob.jpg>]
+<img_concettuale/prmob.jpg, id=350, 578.16pt x 1284.8pt>
+File: img_concettuale/prmob.jpg Graphic file (type jpg)
+<use img_concettuale/prmob.jpg>
+Package pdftex.def Info: img_concettuale/prmob.jpg  used on input line 972.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+ [80 <./img_concettuale/prmob.jpg>]
+<img_concettuale/hommob.jpg, id=354, 578.16pt x 1284.8pt>
+File: img_concettuale/hommob.jpg Graphic file (type jpg)
+<use img_concettuale/hommob.jpg>
+Package pdftex.def Info: img_concettuale/hommob.jpg  used on input line 982.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+ [81 <./img_concettuale/hommob.jpg>]
+<img_concettuale/aggmob.jpg, id=358, 578.16pt x 1284.8pt>
+File: img_concettuale/aggmob.jpg Graphic file (type jpg)
+<use img_concettuale/aggmob.jpg>
+Package pdftex.def Info: img_concettuale/aggmob.jpg  used on input line 992.
+(pdftex.def)             Requested size: 109.85153pt x 244.11453pt.
+
+[82 <./img_concettuale/aggmob.jpg>] [83]
+<img_concettuale/vimob.jpg, id=366, 578.16pt x 1284.8pt>
+File: img_concettuale/vimob.jpg Graphic file (type jpg)
+<use img_concettuale/vimob.jpg>
+Package pdftex.def Info: img_concettuale/vimob.jpg  used on input line 1001.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+ [84 <./img_concettuale/vimob.jpg>]
+<img_concettuale/impmob.jpg, id=370, 578.16pt x 1284.8pt>
+File: img_concettuale/impmob.jpg Graphic file (type jpg)
+<use img_concettuale/impmob.jpg>
+Package pdftex.def Info: img_concettuale/impmob.jpg  used on input line 1009.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+
+[85 <./img_concettuale/impmob.jpg>]
+<img_concettuale/notmob.jpg, id=374, 578.16pt x 1284.8pt>
+File: img_concettuale/notmob.jpg Graphic file (type jpg)
+<use img_concettuale/notmob.jpg>
+Package pdftex.def Info: img_concettuale/notmob.jpg  used on input line 1017.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+ [86 <./img_concettuale/notmob.jpg>]
+<img_concettuale/statmob.jpg, id=378, 578.16pt x 1284.8pt>
+File: img_concettuale/statmob.jpg Graphic file (type jpg)
+<use img_concettuale/statmob.jpg>
+Package pdftex.def Info: img_concettuale/statmob.jpg  used on input line 1025.
+(pdftex.def)             Requested size: 115.62994pt x 256.95544pt.
+
+[87 <./img_concettuale/statmob.jpg>] [88]
 Capitolo 5.
 
-Underfull \hbox (badness 10000) in paragraph at lines 940--941
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1047
 
  []
 
-[78
+[89
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 942--943
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1049
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 944--945
+Underfull \hbox (badness 10000) in paragraph at lines 1050--1051
 
  []
 
-[79] [80] [81] [82] [83]
+[90] [91] [92] [93] [94]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-016.
+122.
 
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-[84] [85] [86]
-<img_concettuale/numEsemp.png, id=371, 1339.1631pt x 712.5822pt>
+[95] [96] [97]
+<img_concettuale/numEsemp.png, id=415, 1339.1631pt x 712.5822pt>
 File: img_concettuale/numEsemp.png Graphic file (type png)
 <use img_concettuale/numEsemp.png>
-Package pdftex.def Info: img_concettuale/numEsemp.png  used on input line 1089.
+Package pdftex.def Info: img_concettuale/numEsemp.png  used on input line 1195.
 
 (pdftex.def)             Requested size: 348.1742pt x 185.267pt.
- [87] [88 <./img_concettuale/numEsemp.png>] [89]
-Underfull \hbox (badness 10000) in paragraph at lines 1131--1135
+ [98] [99 <./img_concettuale/numEsemp.png>] [100]
+Underfull \hbox (badness 10000) in paragraph at lines 1237--1241
 
  []
 
-[90]
-Overfull \hbox (5.60939pt too wide) in paragraph at lines 1146--1149
+[101]
+Overfull \hbox (5.60939pt too wide) in paragraph at lines 1252--1255
 \OT1/ptm/m/n/12 Questo co-di-ce crea due ge-ne-ra-to-ri di im-ma-gi-ni, uno chi
 a-ma-to train[]generator
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1146--1149
+Underfull \hbox (badness 10000) in paragraph at lines 1252--1255
 
  []
 
-[91] [92] [93]
-Overfull \hbox (59.88445pt too wide) in paragraph at lines 1204--1205
+[102] [103] [104]
+Overfull \hbox (59.88445pt too wide) in paragraph at lines 1310--1311
 \OT1/ptm/m/n/12 Flow. Il mo-del-lo vie-ne crea-to uti-liz-zan-do la fun-zio-ne 
 tf.keras.applications.MobileNetV2
  []
 
-[94]
-Underfull \hbox (badness 10000) in paragraph at lines 1210--1211
+[105]
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1317
 
- []
-
-[95]
-Underfull \hbox (badness 10000) in paragraph at lines 1222--1225
-
- []
-
-[96] [97]
-Underfull \hbox (badness 10000) in paragraph at lines 1240--1241
-
- []
-
-[98] [99] [100] [101]
-<img_concettuale/grpP.png, id=421, 373.395pt x 248.93pt>
-File: img_concettuale/grpP.png Graphic file (type png)
-<use img_concettuale/grpP.png>
-Package pdftex.def Info: img_concettuale/grpP.png  used on input line 1301.
-(pdftex.def)             Requested size: 220.30113pt x 146.86742pt.
- [102 <./img_concettuale/grpP.png>]
-<img_concettuale/grpPP.png, id=426, 379.4175pt x 248.93pt>
-File: img_concettuale/grpPP.png Graphic file (type png)
-<use img_concettuale/grpPP.png>
-Package pdftex.def Info: img_concettuale/grpPP.png  used on input line 1315.
-(pdftex.def)             Requested size: 265.59042pt x 174.2498pt.
- [103 <./img_concettuale/grpPP.png>] [104] [105]
-<img_concettuale/matConf.png, id=437, 1339.1631pt x 712.5822pt>
-File: img_concettuale/matConf.png Graphic file (type png)
-<use img_concettuale/matConf.png>
-Package pdftex.def Info: img_concettuale/matConf.png  used on input line 1359.
-(pdftex.def)             Requested size: 388.34735pt x 206.64354pt.
-
-Overfull \hbox (30.06027pt too wide) in paragraph at lines 1359--1360
- [][] 
  []
 
 [106]
-Overfull \hbox (6.18068pt too wide) in paragraph at lines 1367--1368
+Underfull \hbox (badness 10000) in paragraph at lines 1328--1331
+
+ []
+
+[107] [108]
+Underfull \hbox (badness 10000) in paragraph at lines 1346--1347
+
+ []
+
+[109] [110] [111] [112]
+<img_concettuale/grpP.png, id=465, 373.395pt x 248.93pt>
+File: img_concettuale/grpP.png Graphic file (type png)
+<use img_concettuale/grpP.png>
+Package pdftex.def Info: img_concettuale/grpP.png  used on input line 1407.
+(pdftex.def)             Requested size: 220.30113pt x 146.86742pt.
+ [113 <./img_concettuale/grpP.png>]
+<img_concettuale/grpPP.png, id=470, 379.4175pt x 248.93pt>
+File: img_concettuale/grpPP.png Graphic file (type png)
+<use img_concettuale/grpPP.png>
+Package pdftex.def Info: img_concettuale/grpPP.png  used on input line 1421.
+(pdftex.def)             Requested size: 265.59042pt x 174.2498pt.
+ [114 <./img_concettuale/grpPP.png>] [115] [116]
+<img_concettuale/matConf.png, id=481, 1339.1631pt x 712.5822pt>
+File: img_concettuale/matConf.png Graphic file (type png)
+<use img_concettuale/matConf.png>
+Package pdftex.def Info: img_concettuale/matConf.png  used on input line 1465.
+(pdftex.def)             Requested size: 388.34735pt x 206.64354pt.
+
+Overfull \hbox (30.06027pt too wide) in paragraph at lines 1465--1466
+ [][] 
+ []
+
+[117]
+Overfull \hbox (6.18068pt too wide) in paragraph at lines 1473--1474
 []|\OT1/ptm/b/n/12 Support| 
  []
 
-[107 <./img_concettuale/matConf.png>] [108] [109] [110] [111]
+[118 <./img_concettuale/matConf.png>] [119] [120] [121] [122]
 LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
-470.
+576.
 
 (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 )
-[112] [113]
+[123] [124]
 Capitolo 6.
-[114
+[125
 
-] [115] [116] [117] [118]
+] [126] [127] [128] [129]
 Capitolo 7.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1534--1535
+Underfull \hbox (badness 10000) in paragraph at lines 1640--1641
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1536--1537
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1643
 
  []
 
-[119
+[130
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1538--1539
+Underfull \hbox (badness 10000) in paragraph at lines 1644--1645
 
  []
 
-[120]
-Underfull \hbox (badness 10000) in paragraph at lines 1547--1548
+[131]
+Underfull \hbox (badness 10000) in paragraph at lines 1653--1654
 []\OT1/ptm/m/n/12 javascript-coder, Rein-tro-duc-tion To AJAX,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1549--1550
+Underfull \hbox (badness 10000) in paragraph at lines 1655--1656
 []\OT1/ptm/m/n/12 Antonio Gio-van-ni Schia-vo-ne, Ac-ces-si-bi-lit[]a,
  []
 
-[121
+[132
 
 ] (Tesi.aux)
 
@@ -914,10 +971,10 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 6250 strings out of 477843
- 101255 string characters out of 2823599
+ 6313 strings out of 477843
+ 103021 string characters out of 2823599
  492632 words of memory out of 3000000
- 25050 multiletter control sequences out of 15000+600000
+ 25104 multiletter control sequences out of 15000+600000
  492009 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,18n,62p,1511b,1667s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -933,9 +990,9 @@ ograms/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/andre/AppData/Local/
 Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/andre/AppData/Local/
 Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/andre/AppData/Local/
 Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Tesi.pdf (124 pages, 5724384 bytes).
+Output written on Tesi.pdf (135 pages, 6160037 bytes).
 PDF statistics:
- 542 PDF objects out of 1000 (max. 8388607)
+ 586 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 231 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 276 words of extra memory for PDF output out of 10000 (max. 10000000)
 
