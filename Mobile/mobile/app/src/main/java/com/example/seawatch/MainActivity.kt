@@ -2,20 +2,16 @@ package com.example.seawatch
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Looper
+import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.view.OrientationEventListener
@@ -41,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import coil.compose.rememberImagePainter
 import com.example.seawatch.data.*
@@ -52,7 +49,11 @@ import kotlinx.coroutines.flow.first
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 public var lastImageBitmap: Bitmap? = null
 @AndroidEntryPoint
@@ -163,53 +164,69 @@ class MainActivity : FragmentActivity() {
 
     private var name: String? = null
     private var count: Int? = null
+    private var photoUri: Uri? = null
 
     fun capturePhoto() {
+        val context = (this as Context)
+        val tempFile = context.createImageFile()
+        photoUri = FileProvider.getUriForFile(
+            Objects.requireNonNull(context),
+            context.packageName + ".provider", tempFile!!
+        )
+        Log.e("KEYYY", tempFile.toString())
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         startActivityForResult(cameraIntent, 200)
     }
+
+    fun Context.createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        return File.createTempFile(
+            imageFileName,
+            ".jpg",
+            externalCacheDir
+        )
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
-            lastImageBitmap = data.extras?.get("data") as Bitmap
-
-            CoroutineScope(Dispatchers.Main).launch {
-                saveImageToGallery(data.extras?.get("data") as Bitmap, name, count)
-                recreate()
+        if (resultCode == Activity.RESULT_OK && requestCode == 200) {
+            photoUri?.let {
+                saveImage((this as Context).applicationContext.contentResolver, it, name, count)
             }
         }
     }
 
-    private fun saveImageToGallery(image: Bitmap, label:String?, c:Int?) {
-        val saveUri: Uri?
+    fun saveImage(contentResolver: ContentResolver, capturedImageUri: Uri, label:String?, c:Int?) {
         val filename = "$label$c.jpg"
+        val bitmap = getBitmap(capturedImageUri, contentResolver)
+        Log.e("KEYYY",bitmap.byteCount.toString())
 
-        // Definisci il percorso della cartella di salvataggio dell'immagine
-        val imagesCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-        } else {
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        }
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
 
-        // Crea un contenuto Values object per l'immagine
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.WIDTH, image.width)
-            put(MediaStore.Images.Media.HEIGHT, image.height)
-        }
+        val imageUri =
+            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
-        // Aggiungi l'immagine alla galleria
-        val resolver = applicationContext.contentResolver
-        val uri = resolver.insert(imagesCollection, contentValues)
+        val outputStream = imageUri?.let { contentResolver.openOutputStream(it) }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream?.close()
+    }
 
-        uri?.let {
-            saveUri = it
-            resolver.openOutputStream(uri)?.use { outputStream ->
-                // Salva l'immagine nell'OutputStream
-                image.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
+    private fun getBitmap(selectedPhotoUri: Uri, contentResolver: ContentResolver): Bitmap {
+        val bitmap = when {
+            Build.VERSION.SDK_INT < 28 -> MediaStore.Images.Media.getBitmap(
+                contentResolver,
+                selectedPhotoUri
+            )
+            else -> {
+                val source = ImageDecoder.createSource(contentResolver, selectedPhotoUri)
+                ImageDecoder.decodeBitmap(source)
             }
         }
+        return bitmap
     }
 
     fun getDatesFromServer(avvistamentiViewViewModel: AvvistamentiViewViewModel, context:Context){
