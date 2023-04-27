@@ -48,8 +48,13 @@ import com.github.tehras.charts.bar.BarChartData
 import com.github.tehras.charts.bar.renderer.bar.SimpleBarDrawer
 import com.github.tehras.charts.bar.renderer.label.SimpleValueDrawer
 import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
+import com.github.tehras.charts.bar.renderer.xaxis.XAxisDrawer
 import com.github.tehras.charts.bar.renderer.yaxis.LabelFormatter
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
+import com.github.tehras.charts.line.LineChart
+import com.github.tehras.charts.line.LineChartData
+import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
+import com.github.tehras.charts.line.renderer.point.FilledCircularPointDrawer
 import com.github.tehras.charts.piechart.PieChart
 import com.github.tehras.charts.piechart.PieChartData
 import com.github.tehras.charts.piechart.animation.simpleChartAnimation
@@ -1087,7 +1092,7 @@ fun StatsScreen(
                                 shape = MaterialTheme.shapes.medium,
                                 border = BorderStroke(2.dp, Color.Black),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = Color.White
                                 ),
                                 elevation = CardDefaults.cardElevation(40.dp)
@@ -1127,7 +1132,7 @@ fun StatsScreen(
                                 shape = MaterialTheme.shapes.medium,
                                 border = BorderStroke(2.dp, Color.Black),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = Color.White
                                 ),
                                 elevation = CardDefaults.cardElevation(40.dp)
@@ -1201,7 +1206,7 @@ fun StatsScreen(
                         for(e in mappaFinaleClassifica){
                             lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
                         }
-                        Spacer(modifier=modifier.height(min+10.dp))
+                        Spacer(modifier=modifier.height(med))
                         Text(text="CLASSIFICA AVVISTATORI", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier=modifier.height(min))
                         BarChart(
@@ -1212,6 +1217,72 @@ fun StatsScreen(
                             xAxisDrawer = SimpleXAxisDrawer(),
                             yAxisDrawer = SimpleYAxisDrawer(),
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+                        var mappaDelfino = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            if(avvistamento.animale.lowercase()=="delfino"){
+                                var specie = avvistamento.specie
+                                if(specie==null || specie=="null"){
+                                    specie="?"
+                                }
+                                if (mappaDelfino.containsKey(specie)) {
+                                    mappaDelfino[specie] = mappaDelfino[specie]!! + 1
+                                } else {
+                                    mappaDelfino[specie] = 1
+                                }
+                            }
+                        }
+                        var mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var lDelfino= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaDelfinoFinale){
+                            lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
+                        }
+                        Spacer(modifier=modifier.height(med))
+                        Text(text="DISTRIBUZIONE DELFINI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = lDelfino, padBy = 0f, startAtZero = true),
+                            modifier = Modifier.size(640.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+                        var mappaDate = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            var data = avvistamento.data.substring(0..9)
+                            if (mappaDate.containsKey(data)) {
+                                mappaDate[data] = mappaDate[data]!! + 1
+                            } else {
+                                if(mappaDate.keys.count()<5){
+                                    mappaDate[data] = 1
+                                }
+                            }
+                        }
+                        var mappaDateFinale=mappaDate.toList().reversed().toMap()
+                        var lDate= mutableListOf<LineChartData.Point>()
+                        for(e in mappaDateFinale){
+                            lDate.add(LineChartData.Point(
+                                e.value.toFloat(),
+                                e.key))
+                        }
+                        Spacer(modifier=modifier.height(min+10.dp))
+                        Text(text="EVOLUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        var lab2=mutableListOf<String>()
+                        var lab= mappaDateFinale.keys.toList()
+                        for(e in lab){
+                            lab2.add(e.substring(0..4))
+                        }
+
+                        LineChart(
+                            linesChartData = listOf(LineChartData(points = lDate, padBy = 0f, startAtZero = true, lineDrawer = SolidLineDrawer(color=Color.Black))),
+                            modifier = Modifier.size(640.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            pointDrawer = FilledCircularPointDrawer(color=Color.Red),
+                            horizontalOffset = 0f,
+                            labels = lab2
                         )
                         Spacer(modifier=modifier.height(hig))
                     }
@@ -1237,7 +1308,7 @@ fun StatsScreen(
                                 shape = MaterialTheme.shapes.medium,
                                 border = BorderStroke(2.dp, Color.Black),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = Color.White
                                 ),
                                 elevation = CardDefaults.cardElevation(40.dp)
@@ -1277,7 +1348,7 @@ fun StatsScreen(
                                 shape = MaterialTheme.shapes.medium,
                                 border = BorderStroke(2.dp, Color.Black),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = Color.White
                                 ),
                                 elevation = CardDefaults.cardElevation(40.dp)
@@ -1363,7 +1434,84 @@ fun StatsScreen(
                             yAxisDrawer = SimpleYAxisDrawer(),
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
+
+
+
+
+                        var mappaDelfino = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            if(avvistamento.animale.lowercase()=="delfino"){
+                                var specie = avvistamento.specie
+                                if(specie==null || specie=="null"){
+                                    specie="?"
+                                }
+                                if (mappaDelfino.containsKey(specie)) {
+                                    mappaDelfino[specie] = mappaDelfino[specie]!! + 1
+                                } else {
+                                    mappaDelfino[specie] = 1
+                                }
+                            }
+                        }
+                        var mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        var lDelfino= mutableListOf<BarChartData.Bar>()
+                        for(e in mappaDelfinoFinale){
+                            lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
+                        }
+                        Spacer(modifier=modifier.height(min+10.dp))
+                        Text(text="DISTRIBUZIONE DELFINI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        BarChart(
+                            barChartData = BarChartData(bars = lDelfino, padBy = 0f, startAtZero = true),
+                            modifier = Modifier.size(320.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            barDrawer = SimpleBarDrawer(),
+                            xAxisDrawer = SimpleXAxisDrawer(),
+                            yAxisDrawer = SimpleYAxisDrawer(),
+                            labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
+                        )
+
+                        var mappaDate = mutableMapOf<String, Int>()
+                        for (avvistamento in listaAvvistamenti) {
+                            var data = avvistamento.data.substring(0..9)
+                            if (mappaDate.containsKey(data)) {
+                                mappaDate[data] = mappaDate[data]!! + 1
+                            } else {
+                                if(mappaDate.keys.count()<5){
+                                    mappaDate[data] = 1
+                                }
+                            }
+                        }
+                        var mappaDateFinale=mappaDate.toList().reversed().toMap()
+                        var lDate= mutableListOf<LineChartData.Point>()
+                        for(e in mappaDateFinale){
+                            lDate.add(LineChartData.Point(
+                                e.value.toFloat(),
+                                e.key))
+                        }
+                        Spacer(modifier=modifier.height(min+10.dp))
+                        Text(text="EVOLUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier=modifier.height(min))
+                        var lab2=mutableListOf<String>()
+                        var lab= mappaDateFinale.keys.toList()
+                        for(e in lab){
+                            lab2.add(e.substring(0..4))
+                        }
+
+                        LineChart(
+                            linesChartData = listOf(LineChartData(points = lDate, padBy = 0f, startAtZero = true, lineDrawer = SolidLineDrawer(color=Color.Black))),
+                            modifier = Modifier.size(320.dp, 270.dp),
+                            animation = simpleChartAnimation(),
+                            pointDrawer = FilledCircularPointDrawer(color=Color.Red),
+                            horizontalOffset = 0f,
+                            labels = lab2
+                        )
                         Spacer(modifier=modifier.height(hig))
+
+
+
+
+
+
                     }
                 }
             }
