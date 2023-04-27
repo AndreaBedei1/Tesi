@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -249,6 +250,70 @@ fun SecuritySettings(
                         }
                     }
                 },
+                keyboardActions = KeyboardActions(onDone = {
+                    if(newPassword==confirmPassword){
+                        errorMessage="Attendi..."
+                        val client = OkHttpClient()
+                        val formBody = MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("user", em)
+                            .addFormDataPart("request", "getKeyMob")
+                            .build()
+                        val request = Request.Builder()
+                            .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                            .post(formBody)
+                            .build()
+
+                        client.newCall(request).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                errorMessage = "Impossibile comunicare col server: si prega di controllare la connessione!"
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val body = response.body?.string()
+                                val msg = body.toString()
+                                val jsn = JSONObject(msg)
+
+                                val oldP = calculateHmacSha512(oldPassword, jsn.get("key").toString())
+                                val nPwd = calculateHmacSha512(newPassword, jsn.get("key").toString())
+                                // Dopo aver preso la chiave di criptaggio salvo la nuova password
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("old", oldP)
+                                    .addFormDataPart("new", nPwd)
+                                    .addFormDataPart("user", em)
+                                    .addFormDataPart("request", "changePwdMob")
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                    .post(formBody)
+                                    .build()
+
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server: si prega di controllare la connessione!"
+                                    }
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val msg = body.toString()
+                                        if(JSONObject(msg).get("stato").toString()=="true"){
+                                            errorMessage="Modifica avvenuta con successo!"
+                                            oldPassword=""
+                                            newPassword=""
+                                            confirmPassword=""
+                                        } else {
+                                            errorMessage = "La vecchia password non è corretta!"
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        errorMessage = "Le ultime due password non corrispondono!"
+                    }
+                }),
                 modifier = Modifier.background(backGround),
                 colors = TextFieldDefaults.outlinedTextFieldColors()
             )
@@ -548,7 +613,41 @@ fun ProfileSettings(
                             placeholder = { Text("Rossi") },
                             modifier = Modifier.background(backGround),
                             colors = TextFieldDefaults.outlinedTextFieldColors(),
-                            enabled = isNetworkAvailable(context)
+                            enabled = isNetworkAvailable(context),
+                            keyboardActions = KeyboardActions(onDone = {
+                                if (isNetworkAvailable(context)){
+                                    val client = OkHttpClient()
+                                    val formBody = MultipartBody.Builder()
+                                        .setType(MultipartBody.FORM)
+                                        .addFormDataPart("user", em)
+                                        .addFormDataPart("nome", nome)
+                                        .addFormDataPart("cognome", cognome)
+                                        .addFormDataPart("request", "setUserInfoMob")
+                                        .build()
+                                    val request = Request.Builder()
+                                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                        .post(formBody)
+                                        .build()
+
+                                    client.newCall(request).enqueue(object : Callback {
+                                        override fun onFailure(call: Call, e: IOException) {
+                                            errorMessage = "Impossibile comunicare col server!"
+                                        }
+
+                                        override fun onResponse(call: Call, response: Response) {
+                                            val body = response.body?.string()
+                                            val msg = JSONObject(body.toString())
+                                            if(msg.get("stato")==true){
+                                                errorMessage = "Cambiamento dati avvenuto con successo!"
+                                            } else {
+                                                errorMessage = "Cambiamento dati non avvenuto!"
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    errorMessage = "Nessuna connessione: si prega di riprovare quando si è collegati!"
+                                }
+                            }),
                         )
                         Spacer(modifier = Modifier.height(hig+15.dp))
                         Button(
@@ -652,7 +751,41 @@ fun ProfileSettings(
                         placeholder = { Text("Rossi") },
                         modifier = Modifier.background(backGround),
                         colors = TextFieldDefaults.outlinedTextFieldColors(),
-                        enabled = isNetworkAvailable(context)
+                        enabled = isNetworkAvailable(context),
+                        keyboardActions = KeyboardActions(onDone = {
+                            if (isNetworkAvailable(context)){
+                                val client = OkHttpClient()
+                                val formBody = MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("user", em)
+                                    .addFormDataPart("nome", nome)
+                                    .addFormDataPart("cognome", cognome)
+                                    .addFormDataPart("request", "setUserInfoMob")
+                                    .build()
+                                val request = Request.Builder()
+                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                    .post(formBody)
+                                    .build()
+
+                                client.newCall(request).enqueue(object : Callback {
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        errorMessage = "Impossibile comunicare col server!"
+                                    }
+
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body = response.body?.string()
+                                        val msg = JSONObject(body.toString())
+                                        if(msg.get("stato")==true){
+                                            errorMessage = "Cambiamento dati avvenuto con successo!"
+                                        } else {
+                                            errorMessage = "Cambiamento dati non avvenuto!"
+                                        }
+                                    }
+                                })
+                            } else {
+                                errorMessage = "Nessuna connessione: si prega di riprovare quando si è collegati!"
+                            }
+                        }),
                     )
                     Spacer(modifier = Modifier.height(med))
                     Button(
