@@ -726,6 +726,7 @@ fun SightingViewScreen(
                                         onClick = {
                                             if (elem.online) {
                                                 if (isNetworkAvailable(contex)) {
+                                                    errorMessage = "Caricamento dati attendere..."
                                                     val client = OkHttpClient()
                                                     val formBody = MultipartBody.Builder()
                                                         .setType(MultipartBody.FORM)
@@ -904,6 +905,9 @@ fun SightingViewScreen(
                                                                 }
                                                             }
                                                         })
+                                                    if(imagesList.isEmpty()){
+                                                        errorMessage = "Dati salvati con successo!"
+                                                    }
                                                     for (image in imagesList) {
                                                         val bitmap: Bitmap? =
                                                             BitmapFactory.decodeStream(
@@ -978,7 +982,7 @@ fun SightingViewScreen(
                                                                         if (JSONObject(body).get("state").toString() == "true"
                                                                         ) {
                                                                             errorMessage =
-                                                                                "Immagine caricata con successo!"
+                                                                                "Immagini e dati caricati con successo!"
                                                                         } else {
                                                                             errorMessage =
                                                                                 "Errore durante il caricamento delle immagini!"
@@ -1025,6 +1029,7 @@ fun SightingViewScreen(
                                                     false
                                                 )
                                                 avvistamentiViewModel.insert(a)
+                                                errorMessage = "Dati salvati con successo"
                                             }
                                         },
                                         colors = ButtonDefaults.buttonColors(
@@ -1725,6 +1730,7 @@ fun SightingViewScreen(
                                         onClick = {
                                             if (elem.online) {
                                                 if (isNetworkAvailable(contex)) {
+                                                    errorMessage = "Caricamento dati attendere..."
                                                     val client = OkHttpClient()
                                                     val formBody = MultipartBody.Builder()
                                                         .setType(MultipartBody.FORM)
@@ -1903,6 +1909,9 @@ fun SightingViewScreen(
                                                                 }
                                                             }
                                                         })
+                                                    if(imagesList.isEmpty()){
+                                                        errorMessage = "Dati salvati con successo!"
+                                                    }
                                                     for (image in imagesList) {
                                                         val bitmap: Bitmap? =
                                                             BitmapFactory.decodeStream(
@@ -1928,7 +1937,7 @@ fun SightingViewScreen(
                                                         // restituisci l'URI del file temporaneo
                                                         if (file == null) {
                                                             errorMessage =
-                                                                "Errore nel caricamento locale del file!"
+                                                                "Errore nel caricamento locale del file"
                                                         } else {
                                                             val requestUrl =
                                                                 "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
@@ -1974,13 +1983,10 @@ fun SightingViewScreen(
                                                                         val body =
                                                                             response.body?.string()
 
-                                                                        if (JSONObject(body).get(
-                                                                                "state"
-                                                                            )
-                                                                                .toString() == "true"
+                                                                        if (JSONObject(body).get("state").toString() == "true"
                                                                         ) {
                                                                             errorMessage =
-                                                                                "Immagine caricata con successo!"
+                                                                                "Immagini e dati caricati con successo!"
                                                                         } else {
                                                                             errorMessage =
                                                                                 "Errore durante il caricamento delle immagini!"
@@ -2027,6 +2033,7 @@ fun SightingViewScreen(
                                                     false
                                                 )
                                                 avvistamentiViewModel.insert(a)
+                                                errorMessage = "Dati salvati con successo"
                                             }
                                         },
                                         colors = ButtonDefaults.buttonColors(
