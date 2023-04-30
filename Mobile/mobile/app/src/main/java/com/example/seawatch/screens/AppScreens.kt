@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -31,34 +30,26 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.FixedScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat.recreate
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.seawatch.data.*
 import com.github.tehras.charts.bar.BarChart
 import com.github.tehras.charts.bar.BarChartData
 import com.github.tehras.charts.bar.renderer.bar.SimpleBarDrawer
 import com.github.tehras.charts.bar.renderer.label.SimpleValueDrawer
 import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
-import com.github.tehras.charts.bar.renderer.xaxis.XAxisDrawer
-import com.github.tehras.charts.bar.renderer.yaxis.LabelFormatter
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import com.github.tehras.charts.line.LineChart
 import com.github.tehras.charts.line.LineChartData
 import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
 import com.github.tehras.charts.line.renderer.point.FilledCircularPointDrawer
-import com.github.tehras.charts.piechart.PieChart
-import com.github.tehras.charts.piechart.PieChartData
 import com.github.tehras.charts.piechart.animation.simpleChartAnimation
-import com.github.tehras.charts.piechart.renderer.SimpleSliceDrawer
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -78,7 +69,6 @@ fun Profile(
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
-    val med = configuration.screenHeightDp.dp/20
     val hig = configuration.screenHeightDp.dp/10
     val backGround = MaterialTheme.colorScheme.primaryContainer
     var nome by rememberSaveable { mutableStateOf("") }
@@ -177,9 +167,7 @@ fun Profile(
                     items(1) { element ->
                         val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                         Image(
-                            painter = rememberImagePainter(
-                                data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
-                            ),
+                            painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
                             contentDescription = "Immagine del profilo",
                             modifier = Modifier
                                 .size(200.dp)
@@ -240,9 +228,7 @@ fun Profile(
                     Spacer(modifier = Modifier.height(hig))
                     val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                     Image(
-                        painter = rememberImagePainter(
-                            data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo} ,
-                        ),
+                        painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
                         contentDescription = "Immagine del profilo",
                         modifier = Modifier
                             .size(200.dp)
@@ -322,10 +308,8 @@ fun HomeScreen(
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
     val med = configuration.screenHeightDp.dp / 20
-    val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
     val context = LocalContext.current
-    var errorMessage by rememberSaveable { mutableStateOf("") }
     var showFilterDialog by rememberSaveable { mutableStateOf(false) }
     val options by rememberSaveable { mutableStateOf(getAnimal()) }
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -333,7 +317,7 @@ fun HomeScreen(
     var filterPref by rememberSaveable { mutableStateOf(false) }
     var isFiltersActive by rememberSaveable { mutableStateOf(false) }
     var filterAnima by rememberSaveable { mutableStateOf("") }
-    var listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
+    val listFavourite by rememberSaveable {mutableStateOf(mutableListOf<String>())}
     var mapSet by  rememberSaveable { mutableStateOf(false) }
 
 
@@ -362,8 +346,6 @@ fun HomeScreen(
                 },
                 modifier = Modifier.height(barHeight.dp),
                 actions = {
-                    var favoriteFilter = filterPref
-                    var tmp by rememberSaveable { mutableStateOf(false) }
                     Row(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -433,7 +415,8 @@ fun HomeScreen(
                                                     onClick = {
                                                         selectedOptionText = selectionOption
                                                         expanded = false
-                                                        filterAnima=selectedOptionText; if(selectedOptionText!="" || filterPref) isFiltersActive=true else isFiltersActive=false
+                                                        filterAnima=selectedOptionText; isFiltersActive =
+                                                        selectedOptionText!="" || filterPref
                                                     },
                                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                                                 )
@@ -460,7 +443,7 @@ fun HomeScreen(
             )
         }
     ){ it ->
-        var list = mutableListOf<AvvistamentiDaVedere>()
+        val list = mutableListOf<AvvistamentiDaVedere>()
         val temp = takeDatasList(avvistamentiViewModel, avvistamentiViewViewModel)
 
         for (e in temp){
@@ -507,7 +490,7 @@ fun HomeScreen(
                                         webViewClient = object : WebViewClient() {
                                             override fun onPageFinished(view: WebView?, url: String?) {
                                                 super.onPageFinished(view, url)
-                                                var mkList = mutableListOf<MarkerData>()
+                                                val mkList = mutableListOf<MarkerData>()
                                                 for (e in list) {
                                                     mkList.add(
                                                         MarkerData(
@@ -520,8 +503,8 @@ fun HomeScreen(
                                                     )
                                                 }
                                                 val gson = Gson()
-                                                var markerDataJson = gson.toJson(mkList)
-                                                var currentMarkerDataJson = markerDataJson
+                                                val markerDataJson = gson.toJson(mkList)
+                                                val currentMarkerDataJson = markerDataJson
                                                 mapSet=true
                                                 try {
                                                     view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
@@ -534,8 +517,8 @@ fun HomeScreen(
                                 update = { webView ->
                                     if(mapSet) {
                                         try {
-                                            webView?.evaluateJavascript("removeMarkers()", null)
-                                            var mkList = mutableListOf<MarkerData>()
+                                            webView.evaluateJavascript("removeMarkers()", null)
+                                            val mkList = mutableListOf<MarkerData>()
                                             for (e in list) {
                                                 mkList.add(
                                                     MarkerData(
@@ -548,9 +531,9 @@ fun HomeScreen(
                                                 )
                                             }
                                             val gson = Gson()
-                                            var markerDataJson = gson.toJson(mkList)
-                                            var currentMarkerDataJson = markerDataJson
-                                            webView?.evaluateJavascript(
+                                            val markerDataJson = gson.toJson(mkList)
+                                            val currentMarkerDataJson = markerDataJson
+                                            webView.evaluateJavascript(
                                                 "addMarkers('$currentMarkerDataJson')",
                                                 null
                                             )
@@ -575,7 +558,7 @@ fun HomeScreen(
                                 for(k in 0..1){
                                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/4).dp)) {
                                         for (i in k..list.count()-1 step 2) {
-                                            var nome by rememberSaveable { mutableStateOf(list.get(i).nome) }
+                                            var nome by rememberSaveable { mutableStateOf(list[i].nome) }
                                             var cognome by rememberSaveable { mutableStateOf(list.get(i).cognome) }
                                             var img by rememberSaveable { mutableStateOf(list.get(i).img) }
                                             if(!list.get(i).online){
@@ -665,12 +648,12 @@ fun HomeScreen(
                                                         ) {
                                                             val scale = if(img=="profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                                                             Image(
-                                                                painter = rememberImagePainter(
-                                                                    data = if(isNetworkAvailable(context)){
+                                                                painter = rememberAsyncImagePainter(
+                                                                    model = if(isNetworkAvailable(context)){
                                                                         "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + img
                                                                     } else {
                                                                         R.drawable.profilo
-                                                                    },
+                                                                    }
                                                                 ),
                                                                 contentDescription = "Immagine del profilo",
                                                                 modifier = Modifier
@@ -750,7 +733,7 @@ fun HomeScreen(
                                             override fun onPageFinished(view: WebView?, url: String?) {
                                                 try {
                                                     super.onPageFinished(view, url)
-                                                    var mkList = mutableListOf<MarkerData>()
+                                                    val mkList = mutableListOf<MarkerData>()
                                                     for (e in list) {
                                                         mkList.add(
                                                             MarkerData(
@@ -763,8 +746,8 @@ fun HomeScreen(
                                                         )
                                                     }
                                                     val gson = Gson()
-                                                    var markerDataJson = gson.toJson(mkList)
-                                                    var currentMarkerDataJson = markerDataJson
+                                                    val markerDataJson = gson.toJson(mkList)
+                                                    val currentMarkerDataJson = markerDataJson
                                                     mapSet = true
                                                     view?.evaluateJavascript("addMarkers('$currentMarkerDataJson')", null)
                                                 } catch (e: Exception) {
@@ -776,8 +759,8 @@ fun HomeScreen(
                                 update = { webView ->
                                     if(mapSet) {
                                         try {
-                                            webView?.evaluateJavascript("removeMarkers()", null)
-                                            var mkList = mutableListOf<MarkerData>()
+                                            webView.evaluateJavascript("removeMarkers()", null)
+                                            val mkList = mutableListOf<MarkerData>()
                                             for (e in list) {
                                                 mkList.add(
                                                     MarkerData(
@@ -790,9 +773,9 @@ fun HomeScreen(
                                                 )
                                             }
                                             val gson = Gson()
-                                            var markerDataJson = gson.toJson(mkList)
-                                            var currentMarkerDataJson = markerDataJson
-                                            webView?.evaluateJavascript(
+                                            val markerDataJson = gson.toJson(mkList)
+                                            val currentMarkerDataJson = markerDataJson
+                                            webView.evaluateJavascript(
                                                 "addMarkers('$currentMarkerDataJson')",
                                                 null
                                             )
@@ -903,12 +886,12 @@ fun HomeScreen(
                                                     ) {
                                                         val scale = if(img=="profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                                                         Image(
-                                                            painter = rememberImagePainter(
-                                                                data = if(isNetworkAvailable(context)){
+                                                            painter = rememberAsyncImagePainter(
+                                                                model = if(isNetworkAvailable(context)){
                                                                     "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + img
                                                                 } else {
                                                                     R.drawable.profilo
-                                                                },
+                                                                }
                                                             ),
                                                             contentDescription = "Immagine del profilo",
                                                             modifier = Modifier
@@ -1164,7 +1147,7 @@ fun StatsScreen(
                         }
                     }
                     Column(modifier=modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-                        var mappaOccorrenze = mutableMapOf<String, Int>()
+                        val mappaOccorrenze = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             val animale = avvistamento.animale
                             if (mappaOccorrenze.containsKey(animale)) {
@@ -1173,8 +1156,8 @@ fun StatsScreen(
                                 mappaOccorrenze[animale] = 1
                             }
                         }
-                        var mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var l= mutableListOf<BarChartData.Bar>()
+                        val mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val l= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinale){
                             l.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.primary))
                         }
@@ -1192,7 +1175,7 @@ fun StatsScreen(
                         )
 
 
-                        var mappaClassifica = mutableMapOf<String, Int>()
+                        val mappaClassifica = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             val utente = avvistamento.avvistatore
                             if (mappaClassifica.containsKey(utente)) {
@@ -1201,8 +1184,8 @@ fun StatsScreen(
                                 mappaClassifica[utente] = 1
                             }
                         }
-                        var mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var lClassifica= mutableListOf<BarChartData.Bar>()
+                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val lClassifica= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinaleClassifica){
                             lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
                         }
@@ -1218,11 +1201,11 @@ fun StatsScreen(
                             yAxisDrawer = SimpleYAxisDrawer(),
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
-                        var mappaDelfino = mutableMapOf<String, Int>()
+                        val mappaDelfino = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             if(avvistamento.animale.lowercase()=="delfino"){
                                 var specie = avvistamento.specie
-                                if(specie==null || specie=="null"){
+                                if(specie=="null"){
                                     specie="?"
                                 }
                                 if (mappaDelfino.containsKey(specie)) {
@@ -1232,8 +1215,8 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        var mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var lDelfino= mutableListOf<BarChartData.Bar>()
+                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val lDelfino= mutableListOf<BarChartData.Bar>()
                         for(e in mappaDelfinoFinale){
                             lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
                         }
@@ -1249,9 +1232,9 @@ fun StatsScreen(
                             yAxisDrawer = SimpleYAxisDrawer(),
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
-                        var mappaDate = mutableMapOf<String, Int>()
+                        val mappaDate = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
-                            var data = avvistamento.data.substring(0..9)
+                            val data = avvistamento.data.substring(0..9)
                             if (mappaDate.containsKey(data)) {
                                 mappaDate[data] = mappaDate[data]!! + 1
                             } else {
@@ -1260,8 +1243,8 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        var mappaDateFinale=mappaDate.toList().reversed().toMap()
-                        var lDate= mutableListOf<LineChartData.Point>()
+                        val mappaDateFinale=mappaDate.toList().reversed().toMap()
+                        val lDate= mutableListOf<LineChartData.Point>()
                         for(e in mappaDateFinale){
                             lDate.add(LineChartData.Point(
                                 e.value.toFloat(),
@@ -1270,8 +1253,8 @@ fun StatsScreen(
                         Spacer(modifier=modifier.height(min+10.dp))
                         Text(text="EVOLUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier=modifier.height(min))
-                        var lab2=mutableListOf<String>()
-                        var lab= mappaDateFinale.keys.toList()
+                        val lab2=mutableListOf<String>()
+                        val lab= mappaDateFinale.keys.toList()
                         for(e in lab){
                             lab2.add(e.substring(0..4))
                         }
@@ -1353,7 +1336,7 @@ fun StatsScreen(
                                 ),
                                 elevation = CardDefaults.cardElevation(40.dp)
                             ) {
-                                Column() {
+                                Column {
                                     val animatedValue = animateFloatAsState(
                                         targetValue = listaAvvistamenti.distinctBy { it.avvistatore }.size.toFloat(),
                                         animationSpec = TweenSpec(
@@ -1380,7 +1363,7 @@ fun StatsScreen(
                         }
                     }
                     Column(modifier=modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-                        var mappaOccorrenze = mutableMapOf<String, Int>()
+                        val mappaOccorrenze = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             val animale = avvistamento.animale
                             if (mappaOccorrenze.containsKey(animale)) {
@@ -1389,8 +1372,8 @@ fun StatsScreen(
                                 mappaOccorrenze[animale] = 1
                             }
                         }
-                        var mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var l= mutableListOf<BarChartData.Bar>()
+                        val mappaFinale=mappaOccorrenze.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val l= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinale){
                             l.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.primary))
                         }
@@ -1408,7 +1391,7 @@ fun StatsScreen(
                         )
 
 
-                        var mappaClassifica = mutableMapOf<String, Int>()
+                        val mappaClassifica = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             val utente = avvistamento.avvistatore
                             if (mappaClassifica.containsKey(utente)) {
@@ -1417,8 +1400,8 @@ fun StatsScreen(
                                 mappaClassifica[utente] = 1
                             }
                         }
-                        var mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var lClassifica= mutableListOf<BarChartData.Bar>()
+                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val lClassifica= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinaleClassifica){
                             lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
                         }
@@ -1435,14 +1418,11 @@ fun StatsScreen(
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
 
-
-
-
-                        var mappaDelfino = mutableMapOf<String, Int>()
+                        val mappaDelfino = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             if(avvistamento.animale.lowercase()=="delfino"){
                                 var specie = avvistamento.specie
-                                if(specie==null || specie=="null"){
+                                if(specie=="null"){
                                     specie="?"
                                 }
                                 if (mappaDelfino.containsKey(specie)) {
@@ -1452,8 +1432,8 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        var mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
-                        var lDelfino= mutableListOf<BarChartData.Bar>()
+                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val lDelfino= mutableListOf<BarChartData.Bar>()
                         for(e in mappaDelfinoFinale){
                             lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
                         }
@@ -1470,9 +1450,9 @@ fun StatsScreen(
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
 
-                        var mappaDate = mutableMapOf<String, Int>()
+                        val mappaDate = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
-                            var data = avvistamento.data.substring(0..9)
+                            val data = avvistamento.data.substring(0..9)
                             if (mappaDate.containsKey(data)) {
                                 mappaDate[data] = mappaDate[data]!! + 1
                             } else {
@@ -1481,8 +1461,8 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        var mappaDateFinale=mappaDate.toList().reversed().toMap()
-                        var lDate= mutableListOf<LineChartData.Point>()
+                        val mappaDateFinale=mappaDate.toList().reversed().toMap()
+                        val lDate= mutableListOf<LineChartData.Point>()
                         for(e in mappaDateFinale){
                             lDate.add(LineChartData.Point(
                                 e.value.toFloat(),
@@ -1491,8 +1471,8 @@ fun StatsScreen(
                         Spacer(modifier=modifier.height(min+10.dp))
                         Text(text="EVOLUZIONE AVVISTAMENTI", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier=modifier.height(min))
-                        var lab2=mutableListOf<String>()
-                        var lab= mappaDateFinale.keys.toList()
+                        val lab2=mutableListOf<String>()
+                        val lab= mappaDateFinale.keys.toList()
                         for(e in lab){
                             lab2.add(e.substring(0..4))
                         }

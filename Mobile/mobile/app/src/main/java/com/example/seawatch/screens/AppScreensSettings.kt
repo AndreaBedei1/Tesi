@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,13 +28,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.seawatch.data.User
 import com.example.seawatch.data.UserViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -55,7 +50,6 @@ fun Settings(
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
-    val med = configuration.screenHeightDp.dp/20
     val width = configuration.screenWidthDp.dp-30.dp
     val backGround = MaterialTheme.colorScheme.primaryContainer
     LazyColumn(
@@ -100,7 +94,6 @@ fun DisplaySettings(
     theme: String,
     settingsViewModel: SettingsViewModel
 ) {
-    // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
     Column(
         Modifier
             .selectableGroup()
@@ -143,7 +136,6 @@ fun SecuritySettings(
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
     val med = configuration.screenHeightDp.dp/20
-    val width = configuration.screenWidthDp.dp-30.dp
     val backGround = MaterialTheme.colorScheme.primaryContainer
     var oldPassword by rememberSaveable { mutableStateOf("") }
     var oldPasswordHidden by rememberSaveable { mutableStateOf(true) }
@@ -419,69 +411,65 @@ fun ProfileSettings(
         outputStream.flush()
         outputStream.close()
         // restituisci l'URI del file temporaneo
-        if (file == null) {
-            errorMessage = "Errore nel caricamento locale del file"
-        } else {
-            val requestUrl = "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php" // Sostituisci con l'URL del server
-            val requestBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("user", em)
-                .addFormDataPart(
-                    "file",
-                    file.name,
-                    file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                )
-                .addFormDataPart("request", "addImageProfileMob")
-                .build()
 
-            val request = Request.Builder()
-                .url(requestUrl)
-                .post(requestBody)
-                .build()
+        val requestUrl = "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php" // Sostituisci con l'URL del server
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("user", em)
+            .addFormDataPart(
+                "file",
+                file.name,
+                file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            )
+            .addFormDataPart("request", "addImageProfileMob")
+            .build()
 
-            val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(requestUrl)
+            .post(requestBody)
+            .build()
 
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    errorMessage = e.toString()
-                }
+        val client = OkHttpClient()
 
-                override fun onResponse(call: Call, response: Response) {
-                    val client = OkHttpClient()
-                    val formBody = MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("user", em)
-                        .addFormDataPart("request", "getUserInfoMob")
-                        .build()
-                    val request = Request.Builder()
-                        .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
-                        .post(formBody)
-                        .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                errorMessage = e.toString()
+            }
 
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
+            override fun onResponse(call: Call, response: Response) {
+                val client = OkHttpClient()
+                val formBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("user", em)
+                    .addFormDataPart("request", "getUserInfoMob")
+                    .build()
+                val request = Request.Builder()
+                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                    .post(formBody)
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val body = response.body?.string()
+                        val msg = JSONArray(body.toString())
+                        profilo = try {
+                            "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
+                                "Img"
+                            ).toString()
+                        } catch (e: Exception) {
+                            ""
                         }
-
-                        override fun onResponse(call: Call, response: Response) {
-                            val body = response.body?.string()
-                            val msg = JSONArray(body.toString())
-                            profilo = try {
-                                "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
-                                    "Img"
-                                ).toString()
-                            } catch (e: Exception) {
-                                ""
-                            }
-                            nome = (msg.get(0) as JSONObject).get("Nome").toString()
-                            cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
-                        }
-                    })
-                }
-            })
-        }
-
+                        nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                        cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                    }
+                })
+            }
+        })
         currentDateTime = System.currentTimeMillis().toString()
-        imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
+        imagesList = context.getAllSavedImages(currentDateTime)
     }
 
     if (errorMessage.isNotEmpty()) {
@@ -559,9 +547,7 @@ fun ProfileSettings(
                     items(1) { element ->
                         val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                         Image(
-                            painter = rememberImagePainter(
-                                data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
-                            ),
+                            painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
                             contentDescription = "Immagine del profilo",
                             modifier = Modifier
                                 .size(180.dp)
@@ -707,9 +693,7 @@ fun ProfileSettings(
                     Spacer(modifier = Modifier.height(hig))
                     val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                     Image(
-                        painter = rememberImagePainter(
-                            data = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo},
-                        ),
+                        painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
                         contentDescription = "Immagine del profilo",
                         modifier = Modifier
                             .size(200.dp)
@@ -721,7 +705,7 @@ fun ProfileSettings(
                     Button(
                         onClick = {
                              if( isNetworkAvailable(context)){
-                                 (context as MainActivity).requestCameraPermission(currentDateTime.toString())
+                                 context.requestCameraPermission(currentDateTime.toString())
                              } else {
                                  errorMessage="Nessuna connessione di rete!"
                              }

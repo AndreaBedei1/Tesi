@@ -1,26 +1,14 @@
 package com.example.seawatch
 
-import android.Manifest
-import android.app.Activity
-import android.content.ContentResolver
-import android.content.ContentValues
+
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.os.SystemClock
-import android.provider.MediaStore
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,17 +27,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
 import com.example.seawatch.data.*
 import com.google.gson.Gson
 import okhttp3.*
@@ -60,9 +41,6 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
@@ -164,25 +142,24 @@ fun SightingViewScreen(
     val elem = sightingID!!
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
-    val med = configuration.screenHeightDp.dp / 20
     val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
-    var utente by remember {
+    val utente by remember {
         mutableStateOf(
-            if (elem.nome == null || elem.nome == "null") {
+            if (elem.nome == "null") {
                 ""
             } else {
                 elem.nome
-            } + " " + if (elem.cognome == null || elem.cognome == "null") {
+            } + " " + if (elem.cognome == "null") {
                 ""
             } else {
                 elem.cognome
             }
         )
     }
-    var data by rememberSaveable {
+    val data by rememberSaveable {
         mutableStateOf(
-            if (elem.data == null || elem.data == "null") {
+            if (elem.data == "null") {
                 ""
             } else {
                 elem.data
@@ -191,7 +168,7 @@ fun SightingViewScreen(
     }
     var numeroEsemplari by rememberSaveable {
         mutableStateOf(
-            if (elem.numeroEsemplari == null || elem.numeroEsemplari == "null") {
+            if (elem.numeroEsemplari == "null") {
                 ""
             } else {
                 elem.numeroEsemplari
@@ -200,11 +177,11 @@ fun SightingViewScreen(
     }
     var posizione by rememberSaveable {
         mutableStateOf(
-            if (elem.latid == null || elem.latid == "null") {
+            if (elem.latid == "null") {
                 ""
             } else {
                 elem.latid
-            } + " " + if (elem.long == null || elem.long == "null") {
+            } + " " + if (elem.long == "null") {
                 ""
             } else {
                 elem.long
@@ -213,7 +190,7 @@ fun SightingViewScreen(
     }
     var mare by rememberSaveable {
         mutableStateOf(
-            if (elem.mare == null || elem.mare == "null") {
+            if (elem.mare == "null") {
                 ""
             } else {
                 elem.mare
@@ -222,7 +199,7 @@ fun SightingViewScreen(
     }
     var vento by rememberSaveable {
         mutableStateOf(
-            if (elem.vento == null || elem.vento == "null") {
+            if (elem.vento == "null") {
                 ""
             } else {
                 elem.vento
@@ -231,7 +208,7 @@ fun SightingViewScreen(
     }
     var note by rememberSaveable {
         mutableStateOf(
-            if (elem.note == null || elem.note == "null") {
+            if (elem.note == "null") {
                 ""
             } else {
                 elem.note
@@ -242,7 +219,7 @@ fun SightingViewScreen(
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable {
         mutableStateOf(
-            if (elem.animale == null || elem.animale == "null") {
+            if (elem.animale == "null") {
                 ""
             } else {
                 elem.animale
@@ -252,7 +229,7 @@ fun SightingViewScreen(
     var expandedSpecie by rememberSaveable { mutableStateOf(false) }
     var selectedOptionTextSpecie by rememberSaveable {
         mutableStateOf(
-            if (elem.specie == null || elem.specie == "null") {
+            if (elem.specie == "null") {
                 ""
             } else {
                 elem.specie
@@ -267,7 +244,7 @@ fun SightingViewScreen(
 
     var currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
     var count by rememberSaveable {mutableStateOf(0)}
-    var imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime.toString())
+    val imagesList =(contex as MainActivity).getAllSavedImages(currentDateTime)
     var sighting = Sighting(elem.id, em, data, numeroEsemplari, posizione, selectedOptionText, selectedOptionTextSpecie, mare, vento, note)
 
     var errorMessage by rememberSaveable { mutableStateOf("") }
@@ -296,20 +273,13 @@ fun SightingViewScreen(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = {showFilterInfoSpecie=false}) {
-                            Text("Chiudi")
-                        }
-                    }
                 }
             },
-            confirmButton = {null}
+            confirmButton = {
+                TextButton(onClick = {showFilterInfoSpecie=false}) {
+                    Text("Chiudi")
+                }
+            }
         )
     }
     if (errorMessage.isNotEmpty()) {
@@ -695,8 +665,8 @@ fun SightingViewScreen(
                                                     "Impossibile aggiungere l'immagine all'avvistamento online: si prega di riprovare quando si è connessi alla rete!"
                                             } else {
                                                 if (count <= 5) {
-                                                    (contex as MainActivity).requestCameraPermission(
-                                                        currentDateTime.toString(),
+                                                    contex.requestCameraPermission(
+                                                        currentDateTime,
                                                         count
                                                     )
                                                     count += 1
@@ -923,7 +893,7 @@ fun SightingViewScreen(
                                                         val file =
                                                             File(contex.cacheDir, "image.jpg")
                                                         val outputStream = FileOutputStream(file)
-                                                        bitmap?.compress(
+                                                        bitmap.compress(
                                                             Bitmap.CompressFormat.JPEG,
                                                             100,
                                                             outputStream
@@ -931,65 +901,61 @@ fun SightingViewScreen(
                                                         outputStream.flush()
                                                         outputStream.close()
                                                         // restituisci l'URI del file temporaneo
-                                                        if (file == null) {
-                                                            errorMessage =
-                                                                "Errore nel caricamento locale del file"
-                                                        } else {
-                                                            val requestUrl =
-                                                                "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
-                                                            val requestBody =
-                                                                MultipartBody.Builder()
-                                                                    .setType(MultipartBody.FORM)
-                                                                    .addFormDataPart(
-                                                                        "id",
-                                                                        elem.id
-                                                                    )
-                                                                    .addFormDataPart(
-                                                                        "file",
-                                                                        file.name,
-                                                                        file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                                                                    )
-                                                                    .addFormDataPart(
-                                                                        "request",
-                                                                        "addImage"
-                                                                    )
-                                                                    .build()
 
-                                                            val request = Request.Builder()
-                                                                .url(requestUrl)
-                                                                .post(requestBody)
+                                                        val requestUrl =
+                                                            "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
+                                                        val requestBody =
+                                                            MultipartBody.Builder()
+                                                                .setType(MultipartBody.FORM)
+                                                                .addFormDataPart(
+                                                                    "id",
+                                                                    elem.id
+                                                                )
+                                                                .addFormDataPart(
+                                                                    "file",
+                                                                    file.name,
+                                                                    file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                                                                )
+                                                                .addFormDataPart(
+                                                                    "request",
+                                                                    "addImage"
+                                                                )
                                                                 .build()
 
-                                                            val client = OkHttpClient()
+                                                        val request = Request.Builder()
+                                                            .url(requestUrl)
+                                                            .post(requestBody)
+                                                            .build()
 
-                                                            client.newCall(request)
-                                                                .enqueue(object : Callback {
-                                                                    override fun onFailure(
-                                                                        call: Call,
-                                                                        e: IOException
+                                                        val client = OkHttpClient()
+
+                                                        client.newCall(request)
+                                                            .enqueue(object : Callback {
+                                                                override fun onFailure(
+                                                                    call: Call,
+                                                                    e: IOException
+                                                                ) {
+                                                                    errorMessage =
+                                                                        e.toString()
+                                                                }
+
+                                                                override fun onResponse(
+                                                                    call: Call,
+                                                                    response: Response
+                                                                ) {
+                                                                    val body =
+                                                                        response.body?.string()
+
+                                                                    if (JSONObject(body).get("state").toString() == "true"
                                                                     ) {
                                                                         errorMessage =
-                                                                            e.toString()
+                                                                            "Immagini e dati caricati con successo!"
+                                                                    } else {
+                                                                        errorMessage =
+                                                                            "Errore durante il caricamento delle immagini!"
                                                                     }
-
-                                                                    override fun onResponse(
-                                                                        call: Call,
-                                                                        response: Response
-                                                                    ) {
-                                                                        val body =
-                                                                            response.body?.string()
-
-                                                                        if (JSONObject(body).get("state").toString() == "true"
-                                                                        ) {
-                                                                            errorMessage =
-                                                                                "Immagini e dati caricati con successo!"
-                                                                        } else {
-                                                                            errorMessage =
-                                                                                "Errore durante il caricamento delle immagini!"
-                                                                        }
-                                                                    }
-                                                                })
-                                                        }
+                                                                }
+                                                            })
                                                     }
                                                     currentDateTime=System.currentTimeMillis().toString()
                                                 } else {
@@ -1927,7 +1893,7 @@ fun SightingViewScreen(
                                                         val file =
                                                             File(contex.cacheDir, "image.jpg")
                                                         val outputStream = FileOutputStream(file)
-                                                        bitmap?.compress(
+                                                        bitmap.compress(
                                                             Bitmap.CompressFormat.JPEG,
                                                             100,
                                                             outputStream
@@ -1935,65 +1901,62 @@ fun SightingViewScreen(
                                                         outputStream.flush()
                                                         outputStream.close()
                                                         // restituisci l'URI del file temporaneo
-                                                        if (file == null) {
-                                                            errorMessage =
-                                                                "Errore nel caricamento locale del file"
-                                                        } else {
-                                                            val requestUrl =
-                                                                "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
-                                                            val requestBody =
-                                                                MultipartBody.Builder()
-                                                                    .setType(MultipartBody.FORM)
-                                                                    .addFormDataPart(
-                                                                        "id",
-                                                                        elem.id
-                                                                    )
-                                                                    .addFormDataPart(
-                                                                        "file",
-                                                                        file.name,
-                                                                        file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                                                                    )
-                                                                    .addFormDataPart(
-                                                                        "request",
-                                                                        "addImage"
-                                                                    )
-                                                                    .build()
 
-                                                            val request = Request.Builder()
-                                                                .url(requestUrl)
-                                                                .post(requestBody)
+                                                        val requestUrl =
+                                                            "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php"
+                                                        val requestBody =
+                                                            MultipartBody.Builder()
+                                                                .setType(MultipartBody.FORM)
+                                                                .addFormDataPart(
+                                                                    "id",
+                                                                    elem.id
+                                                                )
+                                                                .addFormDataPart(
+                                                                    "file",
+                                                                    file.name,
+                                                                    file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                                                                )
+                                                                .addFormDataPart(
+                                                                    "request",
+                                                                    "addImage"
+                                                                )
                                                                 .build()
 
-                                                            val client = OkHttpClient()
+                                                        val request = Request.Builder()
+                                                            .url(requestUrl)
+                                                            .post(requestBody)
+                                                            .build()
 
-                                                            client.newCall(request)
-                                                                .enqueue(object : Callback {
-                                                                    override fun onFailure(
-                                                                        call: Call,
-                                                                        e: IOException
+                                                        val client = OkHttpClient()
+
+                                                        client.newCall(request)
+                                                            .enqueue(object : Callback {
+                                                                override fun onFailure(
+                                                                    call: Call,
+                                                                    e: IOException
+                                                                ) {
+                                                                    errorMessage =
+                                                                        e.toString()
+                                                                }
+
+                                                                override fun onResponse(
+                                                                    call: Call,
+                                                                    response: Response
+                                                                ) {
+                                                                    val body =
+                                                                        response.body?.string()
+
+                                                                    if (JSONObject(body).get("state").toString() == "true"
                                                                     ) {
                                                                         errorMessage =
-                                                                            e.toString()
+                                                                            "Immagini e dati caricati con successo!"
+                                                                    } else {
+                                                                        errorMessage =
+                                                                            "Errore durante il caricamento delle immagini!"
                                                                     }
+                                                                }
+                                                            })
 
-                                                                    override fun onResponse(
-                                                                        call: Call,
-                                                                        response: Response
-                                                                    ) {
-                                                                        val body =
-                                                                            response.body?.string()
-
-                                                                        if (JSONObject(body).get("state").toString() == "true"
-                                                                        ) {
-                                                                            errorMessage =
-                                                                                "Immagini e dati caricati con successo!"
-                                                                        } else {
-                                                                            errorMessage =
-                                                                                "Errore durante il caricamento delle immagini!"
-                                                                        }
-                                                                    }
-                                                                })
-                                                        }
                                                     }
                                                     currentDateTime=System.currentTimeMillis().toString()
                                                 } else {

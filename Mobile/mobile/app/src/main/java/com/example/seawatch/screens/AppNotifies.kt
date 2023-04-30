@@ -1,13 +1,8 @@
 package com.example.seawatch.screens
 
-import android.app.Activity
-import android.content.res.Configuration
-import android.net.Uri
-import android.util.Log
-import android.webkit.WebView
-import android.webkit.WebViewClient
+
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,27 +11,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.app.ActivityCompat
-import coil.compose.rememberImagePainter
 import com.example.seawatch.*
-import com.example.seawatch.data.Favourite
-import com.example.seawatch.data.User
-import com.example.seawatch.data.uploadToServer
-import com.google.gson.Gson
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import okhttp3.*
@@ -53,8 +37,6 @@ fun NotifyScreen(
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp / 40
-    val med = configuration.screenHeightDp.dp / 20
-    val hig = configuration.screenHeightDp.dp / 10
     val backGround = MaterialTheme.colorScheme.primaryContainer
     val context = LocalContext.current
     var errorMessage by rememberSaveable { mutableStateOf("") }

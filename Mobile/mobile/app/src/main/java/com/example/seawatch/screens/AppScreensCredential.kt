@@ -193,7 +193,7 @@ fun LoginScreen(
 
                                         override fun onResponse(call: Call, response: Response) {
                                             val bodyKey = response.body?.string()
-                                            val jsonObjectKey = JSONObject(bodyKey)
+                                            val jsonObjectKey = JSONObject(bodyKey.toString())
                                             if(jsonObjectKey.getString("state")=="true"){
                                                 val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
                                                 val client = OkHttpClient()
@@ -215,7 +215,7 @@ fun LoginScreen(
 
                                                     override fun onResponse(call: Call, response: Response) {
                                                         val body = response.body?.string()
-                                                        val jsonObject = JSONObject(body)
+                                                        val jsonObject = JSONObject(body.toString())
                                                         if(jsonObject.getString("state")=="true"){
                                                             with(sharedPrefForLogin.edit()){
                                                                 putString("USER", mail)
@@ -223,7 +223,7 @@ fun LoginScreen(
                                                             }
                                                             ok = false
                                                             em=mail
-                                                            var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                            val pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
                                                             userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
                                                             (context as MainActivity).runOnUiThread {
                                                                 goToHome()
@@ -319,7 +319,7 @@ fun LoginScreen(
 
                                         override fun onResponse(call: Call, response: Response) {
                                             val bodyKey = response.body?.string()
-                                            val jsonObjectKey = JSONObject(bodyKey)
+                                            val jsonObjectKey = JSONObject(bodyKey.toString())
                                             if(jsonObjectKey.getString("state")=="true"){
                                                 val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
                                                 val client = OkHttpClient()
@@ -341,7 +341,7 @@ fun LoginScreen(
 
                                                     override fun onResponse(call: Call, response: Response) {
                                                         val body = response.body?.string()
-                                                        val jsonObject = JSONObject(body)
+                                                        val jsonObject = JSONObject(body.toString())
                                                         if(jsonObject.getString("state")=="true"){
                                                             with(sharedPrefForLogin.edit()){
                                                                 putString("USER", mail)
@@ -349,7 +349,7 @@ fun LoginScreen(
                                                             }
                                                             ok = false
                                                             em=mail
-                                                            var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                            val pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
                                                             userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
                                                             (context as MainActivity).runOnUiThread {
                                                                 goToHome()
@@ -463,7 +463,7 @@ fun LoginScreen(
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val bodyKey = response.body?.string()
-                                        val jsonObjectKey = JSONObject(bodyKey)
+                                        val jsonObjectKey = JSONObject(bodyKey.toString())
                                         if(jsonObjectKey.getString("state")=="true"){
                                             val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
                                             val client = OkHttpClient()
@@ -485,7 +485,7 @@ fun LoginScreen(
 
                                                 override fun onResponse(call: Call, response: Response) {
                                                     val body = response.body?.string()
-                                                    val jsonObject = JSONObject(body)
+                                                    val jsonObject = JSONObject(body.toString())
                                                     if(jsonObject.getString("state")=="true"){
                                                         with(sharedPrefForLogin.edit()){
                                                             putString("USER", mail)
@@ -493,7 +493,7 @@ fun LoginScreen(
                                                         }
                                                         ok = false
                                                         em=mail
-                                                        var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                        val pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
                                                         userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
                                                         (context as MainActivity).runOnUiThread {
                                                             goToHome()
@@ -575,7 +575,7 @@ fun LoginScreen(
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val bodyKey = response.body?.string()
-                                        val jsonObjectKey = JSONObject(bodyKey)
+                                        val jsonObjectKey = JSONObject(bodyKey.toString())
                                         if(jsonObjectKey.getString("state")=="true"){
                                             val pwdC = calculateHmacSha512(password, jsonObjectKey.getString("Key"))
                                             val client = OkHttpClient()
@@ -597,7 +597,7 @@ fun LoginScreen(
 
                                                 override fun onResponse(call: Call, response: Response) {
                                                     val body = response.body?.string()
-                                                    val jsonObject = JSONObject(body)
+                                                    val jsonObject = JSONObject(body.toString())
                                                     if(jsonObject.getString("state")=="true"){
                                                         with(sharedPrefForLogin.edit()){
                                                             putString("USER", mail)
@@ -605,7 +605,7 @@ fun LoginScreen(
                                                         }
                                                         ok = false
                                                         em=mail
-                                                        var pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
+                                                        val pers = JSONArray(jsonObject.get("val").toString()).get(0) as JSONObject
                                                         userViewModel.insert(User(mail, pers.get("Nome").toString(), pers.get("Cognome").toString(), calculateHmacSha512(password, pers.get("Key").toString()) , pers.get("Key").toString()))
                                                         (context as MainActivity).runOnUiThread {
                                                             goToHome()
@@ -701,7 +701,7 @@ fun SignUpScreen(
     var name by rememberSaveable { mutableStateOf("") }
     var surname by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    var key by rememberSaveable { mutableStateOf(calculateSHA1Hash()) }
+    val key by rememberSaveable { mutableStateOf(calculateSHA1Hash()) }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     val context = LocalContext.current as FragmentActivity
     var errorMessage by rememberSaveable { mutableStateOf("") }
@@ -797,7 +797,7 @@ fun SignUpScreen(
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val body = response.body?.string()
-                                        val jsonObject = JSONObject(body)
+                                        val jsonObject = JSONObject(body.toString())
                                         if(jsonObject.getString("state")=="true"){
                                             (context as MainActivity).runOnUiThread {
                                                 goToLogin()
@@ -865,7 +865,7 @@ fun SignUpScreen(
 
                                     override fun onResponse(call: Call, response: Response) {
                                         val body = response.body?.string()
-                                        val jsonObject = JSONObject(body)
+                                        val jsonObject = JSONObject(body.toString())
                                         if(jsonObject.getString("state")=="true"){
                                             (context as MainActivity).runOnUiThread {
                                                 goToLogin()
@@ -969,7 +969,7 @@ fun SignUpScreen(
 
                                 override fun onResponse(call: Call, response: Response) {
                                     val body = response.body?.string()
-                                    val jsonObject = JSONObject(body)
+                                    val jsonObject = JSONObject(body.toString())
                                     if(jsonObject.getString("state")=="true"){
                                         (context as MainActivity).runOnUiThread {
                                             goToLogin()
@@ -1027,7 +1027,7 @@ fun SignUpScreen(
 
                                 override fun onResponse(call: Call, response: Response) {
                                     val body = response.body?.string()
-                                    val jsonObject = JSONObject(body)
+                                    val jsonObject = JSONObject(body.toString())
                                     if(jsonObject.getString("state")=="true"){
                                         (context as MainActivity).runOnUiThread {
                                             goToLogin()

@@ -3,11 +3,7 @@ package com.example.seawatch
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -29,15 +24,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import com.example.seawatch.data.*
-import kotlinx.coroutines.launch
 import okhttp3.*
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -453,7 +442,7 @@ fun SightingScreen(
                                                     .padding(vertical = 16.dp)
                                                     .align(Alignment.CenterHorizontally),
                                                 onClick = {
-                                                    (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
+                                                    contex.requestCameraPermission(currentDateTime.toString(), count)
                                                     count+=1
                                                     if(!alreadySeen){
                                                         imageMessage=true
@@ -790,7 +779,7 @@ fun SightingScreen(
                                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                     onClick = {
                                         if(imagesList.count()<5){
-                                            (contex as MainActivity).requestCameraPermission(currentDateTime.toString(), count)
+                                            contex.requestCameraPermission(currentDateTime, count)
                                             count+=1
                                         } else {
                                             errorMessage = "Non è possibile caricare più di 5 foto!"
