@@ -11,8 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -388,7 +391,7 @@ fun SecuritySettings(
 @Composable
 fun ProfileSettings(
     modifier: Modifier = Modifier,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -704,11 +707,11 @@ fun ProfileSettings(
                     Spacer(modifier = Modifier.height(min))
                     Button(
                         onClick = {
-                             if( isNetworkAvailable(context)){
-                                 context.requestCameraPermission(currentDateTime.toString())
-                             } else {
-                                 errorMessage="Nessuna connessione di rete!"
-                             }
+                            if( isNetworkAvailable(context)){
+                                context.requestCameraPermission(currentDateTime.toString())
+                            } else {
+                                errorMessage="Nessuna connessione di rete!"
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                         modifier = modifier.widthIn(min = 150.dp)

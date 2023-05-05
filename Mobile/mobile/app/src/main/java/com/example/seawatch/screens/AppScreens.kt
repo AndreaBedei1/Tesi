@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -65,7 +66,8 @@ var entratoRete = false
 fun Profile(
     modifier: Modifier = Modifier,
     profileViewModel: ProfileViewModel,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    goToModifyProfile: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40
@@ -146,25 +148,101 @@ fun Profile(
         }
     }
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {                   /** Profilo orizzontale */
-            Row (
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(backGround)
-            ) {
+    Scaffold(
+        floatingActionButton = {
+            if(email == em) {
+                FloatingActionButton(
+                    shape = RoundedCornerShape(50.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = { goToModifyProfile() },
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                ) {
+                    Icon(imageVector = Icons.Filled.Edit, "Modifica profilo")
+                }
+            }
+        }
+    ){it ->
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {                   /** Profilo orizzontale */
+                Row (
+                    modifier = modifier
+                        .fillMaxSize()
+                        .background(backGround)
+                        .padding(it)
+                ) {
+                    LazyColumn(
+                        modifier = modifier
+                            .fillMaxHeight()
+                            .size(
+                                width = configuration.screenWidthDp.dp / 3,
+                                height = configuration.screenHeightDp.dp
+                            )
+                            .padding(horizontal = hig),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        items(1) { element ->
+                            val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
+                            Image(
+                                painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
+                                contentDescription = "Immagine del profilo",
+                                modifier = Modifier
+                                    .size(200.dp)
+                                    .clip(CircleShape)
+                                    .scale(scale)
+                            )
+                        }
+                    }
+                    LazyColumn(
+                        modifier = modifier
+                            .fillMaxHeight()
+                            .background(backGround),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        items(1) { element ->
+                            Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
+                                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                                    Spacer(modifier = Modifier.height(min))
+                                    Text(text="Nome:", style = MaterialTheme.typography.titleLarge)
+                                    Spacer(modifier = Modifier.height(min))
+                                    Text(text="Cognome:", style = MaterialTheme.typography.titleLarge)
+                                    Spacer(modifier = Modifier.height(min))
+                                    Text(text="Mail:", style = MaterialTheme.typography.titleLarge)
+                                }
+                                Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                                    Spacer(modifier = Modifier.height(min+5.dp))
+                                    Text(text=nome, style = MaterialTheme.typography.bodyLarge)
+                                    Spacer(modifier = Modifier.height(min+6.dp))
+                                    Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
+                                    Spacer(modifier = Modifier.height(min+6.dp))
+                                    Text(text=email,
+                                        modifier = Modifier.clickable(onClick = {
+                                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                                data = Uri.parse("mailto:$email")
+                                            }
+                                            if (intent.resolveActivity(context.packageManager) != null) {
+                                                context.startActivity(intent)
+                                            }
+                                        }),
+                                        color=Color.Blue,
+                                        textDecoration = TextDecoration.Underline,
+                                        style = MaterialTheme.typography.bodyLarge)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else -> {                                                   /** Profilo verticale */
                 LazyColumn(
                     modifier = modifier
-                        .fillMaxHeight()
-                        .size(
-                            width = configuration.screenWidthDp.dp / 3,
-                            height = configuration.screenHeightDp.dp
-                        )
-                        .padding(horizontal = hig),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                        .fillMaxSize()
+                        .background(backGround),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(1) { element ->
+                        Spacer(modifier = Modifier.height(hig))
                         val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
                         Image(
                             painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
@@ -174,18 +252,8 @@ fun Profile(
                                 .clip(CircleShape)
                                 .scale(scale)
                         )
-                    }
-                }
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxHeight()
-                        .background(backGround),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    items(1) { element ->
                         Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
                                 Spacer(modifier = Modifier.height(min))
                                 Text(text="Nome:", style = MaterialTheme.typography.titleLarge)
                                 Spacer(modifier = Modifier.height(min))
@@ -193,7 +261,7 @@ fun Profile(
                                 Spacer(modifier = Modifier.height(min))
                                 Text(text="Mail:", style = MaterialTheme.typography.titleLarge)
                             }
-                            Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/3).dp)) {
+                            Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
                                 Spacer(modifier = Modifier.height(min+5.dp))
                                 Text(text=nome, style = MaterialTheme.typography.bodyLarge)
                                 Spacer(modifier = Modifier.height(min+6.dp))
@@ -212,56 +280,6 @@ fun Profile(
                                     textDecoration = TextDecoration.Underline,
                                     style = MaterialTheme.typography.bodyLarge)
                             }
-                        }
-                    }
-                }
-            }
-        }
-        else -> {                                                   /** Profilo verticale */
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(backGround),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                items(1) { element ->
-                    Spacer(modifier = Modifier.height(hig))
-                    val scale = if(profilo=="https://isi-seawatch.csr.unibo.it/Sito/img/profilo/profilo.jpg" || !isNetworkAvailable(context)){1.0f}else{1.8f}
-                    Image(
-                        painter = rememberAsyncImagePainter(model = if(isNetworkAvailable(context)){profilo} else {R.drawable.profilo}),
-                        contentDescription = "Immagine del profilo",
-                        modifier = Modifier
-                            .size(200.dp)
-                            .clip(CircleShape)
-                            .scale(scale)
-                    )
-                    Row(modifier=Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center){
-                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
-                            Spacer(modifier = Modifier.height(min))
-                            Text(text="Nome:", style = MaterialTheme.typography.titleLarge)
-                            Spacer(modifier = Modifier.height(min))
-                            Text(text="Cognome:", style = MaterialTheme.typography.titleLarge)
-                            Spacer(modifier = Modifier.height(min))
-                            Text(text="Mail:", style = MaterialTheme.typography.titleLarge)
-                        }
-                        Column(horizontalAlignment = Alignment.Start, modifier=Modifier.width((configuration.screenWidthDp/2).dp)) {
-                            Spacer(modifier = Modifier.height(min+5.dp))
-                            Text(text=nome, style = MaterialTheme.typography.bodyLarge)
-                            Spacer(modifier = Modifier.height(min+6.dp))
-                            Text(text=cognome, style = MaterialTheme.typography.bodyLarge)
-                            Spacer(modifier = Modifier.height(min+6.dp))
-                            Text(text=email,
-                                modifier = Modifier.clickable(onClick = {
-                                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                        data = Uri.parse("mailto:$email")
-                                    }
-                                    if (intent.resolveActivity(context.packageManager) != null) {
-                                        context.startActivity(intent)
-                                    }
-                                }),
-                                color=Color.Blue,
-                                textDecoration = TextDecoration.Underline,
-                                style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }

@@ -15,17 +15,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun CustomFAB(currentScreen:String, navController:NavHostController){
-    if(currentScreen == NavigationScreen.Profile.name){ //Forse serve mettere altra condizione && profilo che si sta vedendo è il mio.
-        //FAB per modifica del profilo.
-        FloatingActionButton(
-            shape= RoundedCornerShape(50.dp),
-            containerColor = MaterialTheme.colorScheme.primary,
-            onClick = { navController.navigate(NavigationScreen.ProfileSettings.name) },
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-        ) {
-            Icon(imageVector = Icons.Filled.Edit, "Modifica profilo")
-        }
-    } else if(currentScreen == NavigationScreen.Home.name){
+    if(currentScreen == NavigationScreen.Home.name){
         //FAB per aggiugere un avvistamento..
         FloatingActionButton(
             shape= RoundedCornerShape(50.dp),

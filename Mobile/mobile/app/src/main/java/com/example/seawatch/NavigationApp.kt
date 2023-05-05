@@ -152,8 +152,7 @@ private fun NavigationGraph(
                 goToHome = { navigateToHome(navController)},
                 goToSignUp = { navController.navigate(NavigationScreen.SignUp.name) },
                 sharedPrefForLogin=sharedPrefForLogin,
-                userViewModel = userViewModel,
-                avvistamentiViewViewModel= avvistamentiViewViewModel
+                userViewModel = userViewModel
             )
         }
         composable(route = NavigationScreen.Settings.name) {
@@ -176,7 +175,8 @@ private fun NavigationGraph(
         composable(route = NavigationScreen.Profile.name) {
             Profile(
                 profileViewModel = profileViewModel,
-                userViewModel = userViewModel
+                userViewModel = userViewModel,
+                goToModifyProfile =  { navController.navigate(NavigationScreen.ProfileSettings.name) }
             )
         }
         composable(route = NavigationScreen.SignUp.name) {

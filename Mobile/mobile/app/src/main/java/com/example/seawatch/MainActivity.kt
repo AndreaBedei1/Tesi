@@ -446,7 +446,7 @@ class MainActivity : FragmentActivity() {
             //permission already granted
             ContextCompat.checkSelfPermission (this, permission) == PackageManager.PERMISSION_GRANTED -> {
                 locationRequest =
-                    LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
+                    LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 3000).apply {
                         setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
                         setWaitForAccurateLocation(true)
                     }.build()

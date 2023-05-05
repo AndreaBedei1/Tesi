@@ -55,7 +55,6 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     sharedPrefForLogin: SharedPreferences,
     userViewModel: UserViewModel,
-    avvistamentiViewViewModel: AvvistamentiViewViewModel
 ) {
     val configuration = LocalConfiguration.current
     val min = configuration.screenHeightDp.dp/40

@@ -43,6 +43,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun drawLocalImages(img:String, contex:Context, sighting: Sighting, viewModel: AvvistamentiViewModel): Sighting{
@@ -1037,6 +1038,69 @@ fun SightingViewScreen(
                                         Text(text = "SALVA")
                                     }
                                 }
+                                Row(){
+                                    Button(
+                                        onClick = {
+                                            errorMessage = "Caricamento in corso, attendere..."
+                                            if (isNetworkAvailable(contex) && elem.online) {
+                                                val client = OkHttpClient.Builder()
+                                                    .connectTimeout(30, TimeUnit.SECONDS)
+                                                    .readTimeout(30, TimeUnit.SECONDS)
+                                                    .writeTimeout(30, TimeUnit.SECONDS)
+                                                    .build()
+                                                val formBody = MultipartBody.Builder()
+                                                    .setType(MultipartBody.FORM)
+                                                    .addFormDataPart("request", "recognition")
+                                                    .addFormDataPart("id", elem.id)
+                                                    .build()
+                                                val request = Request.Builder()
+                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                                                    .post(formBody)
+                                                    .build()
+
+                                                client.newCall(request).enqueue(object : Callback {
+                                                    override fun onFailure(call: Call, e: IOException) {
+                                                        errorMessage = "Errore nella comunicazione col server"
+                                                    }
+
+                                                    override fun onResponse(call: Call, response: Response) {
+                                                        val body = response.body?.string()
+                                                        try{
+                                                            var temp = JSONObject(body)
+                                                            if(temp.get("state")==true){
+                                                                var testo = "Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: \n"
+                                                                testo += removeDuplicates(temp.get("data").toString())
+                                                                descMessage = testo
+                                                                errorMessage=""
+
+
+                                                                showFilterInfoSpecie=true
+                                                                Log.e("KEYYY", descMessage)
+                                                            } else {
+                                                                errorMessage = "Non ci sono immagini relative all'avvistamento, caricarne almeno una."
+                                                            }
+                                                        }catch(e: Exception){
+
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                errorMessage = "Nessuna connessione a internet, riprovare quando si è connessi."
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(
+                                            MaterialTheme.colorScheme.primary
+                                        ),
+                                        enabled = elem.online &&  (selectedOptionText == "Delfino" || selectedOptionText == "Balena")
+                                    ) {
+                                        Icon(
+                                            painterResource(id = R.drawable.baseline_search_24),
+                                            contentDescription = "Autoriconoscimento"
+                                        )
+                                        Spacer(modifier = Modifier.width(3.dp))
+                                        Text(text = "RICONOSCI")
+                                    }
+                                }
                                 showImages(imagesUri = imagesList, context = contex)
                                 Row(horizontalArrangement = Arrangement.Center) {
                                     if (elem.online) {
@@ -1980,6 +2044,69 @@ fun SightingViewScreen(
                                         Text(text = "SALVA")
                                     }
                                 }
+                                Row(){
+                                    Button(
+                                        onClick = {
+                                            errorMessage = "Caricamento in corso, attendere..."
+                                            if (isNetworkAvailable(contex) && elem.online) {
+                                                val client = OkHttpClient.Builder()
+                                                    .connectTimeout(30, TimeUnit.SECONDS)
+                                                    .readTimeout(30, TimeUnit.SECONDS)
+                                                    .writeTimeout(30, TimeUnit.SECONDS)
+                                                    .build()
+                                                val formBody = MultipartBody.Builder()
+                                                    .setType(MultipartBody.FORM)
+                                                    .addFormDataPart("request", "recognition")
+                                                    .addFormDataPart("id", elem.id)
+                                                    .build()
+                                                val request = Request.Builder()
+                                                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php")
+                                                    .post(formBody)
+                                                    .build()
+
+                                                client.newCall(request).enqueue(object : Callback {
+                                                    override fun onFailure(call: Call, e: IOException) {
+                                                        errorMessage = "Errore nella comunicazione col server"
+                                                    }
+
+                                                    override fun onResponse(call: Call, response: Response) {
+                                                        val body = response.body?.string()
+                                                        try{
+                                                            var temp = JSONObject(body)
+                                                            if(temp.get("state")==true){
+                                                                var testo = "Dalle immagini, la visione artificiale ha riscontratto che si potrebbe trattare di: \n"
+                                                                testo += removeDuplicates(temp.get("data").toString())
+                                                                descMessage = testo
+                                                                errorMessage=""
+
+
+                                                                showFilterInfoSpecie=true
+                                                                Log.e("KEYYY", descMessage)
+                                                            } else {
+                                                                errorMessage = "Non ci sono immagini relative all'avvistamento, caricarne almeno una."
+                                                            }
+                                                        }catch(e: Exception){
+
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                errorMessage = "Nessuna connessione a internet, riprovare quando si è connessi."
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(
+                                            MaterialTheme.colorScheme.primary
+                                        ),
+                                        enabled = elem.online &&  (selectedOptionText == "Delfino" || selectedOptionText == "Balena")
+                                    ) {
+                                        Icon(
+                                            painterResource(id = R.drawable.baseline_search_24),
+                                            contentDescription = "Autoriconoscimento"
+                                        )
+                                        Spacer(modifier = Modifier.width(3.dp))
+                                        Text(text = "RICONOSCI")
+                                    }
+                                }
                                 showImages(imagesUri = imagesList, context = contex)
                                 Row(horizontalArrangement = Arrangement.Center) {
                                     if (elem.online) {
@@ -2133,18 +2260,19 @@ fun SightingViewScreen(
                                     shape = MaterialTheme.shapes.medium,
                                     modifier = Modifier
                                         .padding(10.dp)
-                                        .fillMaxWidth(),
-                                    border= BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
-                                    colors = CardDefaults.outlinedCardColors(),
+                                        .fillMaxSize(),
+                                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                                     elevation = CardDefaults.cardElevation(4.dp)
-                                ){
-                                    Row(modifier= Modifier
-                                        .padding(10.dp)
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                                        .fillMaxSize()) {
-                                        Column(modifier = Modifier
+                                )
+                                {
+                                    Row(
+                                        modifier = modifier
+                                            .fillMaxSize()
                                             .background(MaterialTheme.colorScheme.secondaryContainer)
-                                            .padding(5.dp)) {
+                                            .padding(10.dp)
+                                    )
+                                    {
+                                        Column() {
                                             Text(
                                                 text = "Utente:",
                                                 style = MaterialTheme.typography.titleLarge
@@ -2191,10 +2319,7 @@ fun SightingViewScreen(
                                             )
                                         }
                                         Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            modifier = Modifier
-                                                .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                .padding(5.dp)
+                                            horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             Spacer(modifier = Modifier.height(6.dp))
                                             Text(
@@ -2222,7 +2347,7 @@ fun SightingViewScreen(
                                                 style = MaterialTheme.typography.bodyLarge
                                             )
                                             Spacer(modifier = Modifier.height(10.dp))
-                                            Row {
+                                            Row() {
                                                 Text(
                                                     text = selectedOptionTextSpecie,
                                                     style = MaterialTheme.typography.bodyLarge
@@ -2241,6 +2366,7 @@ fun SightingViewScreen(
                                                     onClick = {
                                                         var entrato=false
                                                         for(d in descrizioni){
+
                                                             if (d.animale==selectedOptionText && d.specie==selectedOptionTextSpecie){
                                                                 entrato=true
                                                                 descMessage=d.descrizione
@@ -2415,5 +2541,18 @@ fun invioImgView(ind: Int, elem:List<Uri>, context: Context, id: String, update:
     } else {
         invioImgView(ind+1, elem, context, id, update)
     }
+}
+
+fun removeDuplicates(str: String): String {
+    val names = str
+        .replace("[", "")
+        .replace("]", "")
+        .replace("\"", "")
+        .split(",")
+        .map { it.trim() }
+        .distinct()
+        .filter { it.isNotEmpty() }
+        .map { it.replace("_", " ").replace("-", " ") }
+    return names.joinToString("\n")
 }
 
