@@ -1192,7 +1192,6 @@ fun StatsScreen(
                             labelDrawer = SimpleValueDrawer(drawLocation = SimpleValueDrawer.DrawLocation.XAxis)
                         )
 
-
                         val mappaClassifica = mutableMapOf<String, Int>()
                         for (avvistamento in listaAvvistamenti) {
                             val utente = avvistamento.avvistatore
@@ -1202,10 +1201,10 @@ fun StatsScreen(
                                 mappaClassifica[utente] = 1
                             }
                         }
-                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.take(3).toMap()
                         val lClassifica= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinaleClassifica){
-                            lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
+                            lClassifica.add(BarChartData.Bar(label=e.key.split("@")[0], value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
                         }
                         Spacer(modifier=modifier.height(med))
                         Text(text="CLASSIFICA AVVISTATORI", style = MaterialTheme.typography.titleLarge)
@@ -1233,7 +1232,7 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.take(5).toMap()
                         val lDelfino= mutableListOf<BarChartData.Bar>()
                         for(e in mappaDelfinoFinale){
                             lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
@@ -1418,10 +1417,10 @@ fun StatsScreen(
                                 mappaClassifica[utente] = 1
                             }
                         }
-                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val mappaFinaleClassifica=mappaClassifica.toList().sortedByDescending { (_, value) -> value }.take(3).toMap()
                         val lClassifica= mutableListOf<BarChartData.Bar>()
                         for(e in mappaFinaleClassifica){
-                            lClassifica.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
+                            lClassifica.add(BarChartData.Bar(label=e.key.split("@")[0], value=e.value.toFloat(), color=MaterialTheme.colorScheme.secondary))
                         }
                         Spacer(modifier=modifier.height(min+10.dp))
                         Text(text="CLASSIFICA AVVISTATORI", style = MaterialTheme.typography.titleLarge)
@@ -1450,10 +1449,10 @@ fun StatsScreen(
                                 }
                             }
                         }
-                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.toMap()
+                        val mappaDelfinoFinale=mappaDelfino.toList().sortedByDescending { (_, value) -> value }.take(5).toMap()
                         val lDelfino= mutableListOf<BarChartData.Bar>()
                         for(e in mappaDelfinoFinale){
-                            lDelfino.add(BarChartData.Bar(label=e.key, value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
+                            lDelfino.add(BarChartData.Bar(label=e.key.split(" ")[0], value=e.value.toFloat(), color=MaterialTheme.colorScheme.tertiary))
                         }
                         Spacer(modifier=modifier.height(min+10.dp))
                         Text(text="DISTRIBUZIONE DELFINI", style = MaterialTheme.typography.titleLarge)
