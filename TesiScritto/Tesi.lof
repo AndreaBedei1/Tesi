@@ -4,7 +4,7 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Schema dei casi d'uso per la piattaforma.}}{11}{}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Schema concettuale per la modellazione degli avvistamenti e delle proprietà dell'utente.}}{17}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Modellazione dell'attribuzione dell'animale e della specie all' avvistamento.}}{18}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Modellazione dell'attribuzione dell'animale e della specie all'avvistamento.}}{18}{}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Schema concettuale raffigurante le immagini con relative sottoimmagini e la gestione delle ferite.}}{19}{}%
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Schema concettuale finale}}{21}{}%
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}}{25}{}%
@@ -18,7 +18,7 @@
 \contentsline {figure}{\numberline {3.6}{\ignorespaces Tecnologie alla base del web.}}{39}{}%
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Funzionamento di AJAX, Fonte: \cite {javascript-coder}}}{43}{}%
 \contentsline {figure}{\numberline {3.8}{\ignorespaces Struttura alla base della fase di criptaggio, Fonte: \cite {okta}}}{48}{}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Struttura delle linee guida coi rispettivi livelli, Fonte: \cite {antonio}}}{50}{}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Struttura delle linee guida coi rispettivi livelli, Fonte: \cite {antonio}}}{51}{}%
 \contentsline {figure}{\numberline {3.10}{\ignorespaces Struttura del progetto.}}{53}{}%
 \contentsline {figure}{\numberline {3.11}{\ignorespaces Struttura della pagina di Login.}}{55}{}%
 \contentsline {figure}{\numberline {3.12}{\ignorespaces Modale per il recupero della password.}}{55}{}%
@@ -30,34 +30,34 @@
 \contentsline {figure}{\numberline {3.18}{\ignorespaces Pagina delle impostazioni sulla sicurezza in modalità mobile.}}{61}{}%
 \contentsline {figure}{\numberline {3.19}{\ignorespaces Prima parte della pagina dell'avvistamento, modifica dei dati.}}{62}{}%
 \contentsline {figure}{\numberline {3.20}{\ignorespaces Modale di eliminazione.}}{63}{}%
-\contentsline {figure}{\numberline {3.21}{\ignorespaces Modale per l'auto-riconoscimento della specie.}}{63}{}%
-\contentsline {figure}{\numberline {3.22}{\ignorespaces Modale di informazione sulla specie.}}{64}{}%
-\contentsline {figure}{\numberline {3.23}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{65}{}%
-\contentsline {figure}{\numberline {3.24}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{66}{}%
-\contentsline {figure}{\numberline {3.25}{\ignorespaces Modifica dell'esemplare.}}{67}{}%
-\contentsline {figure}{\numberline {3.26}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{68}{}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Modale per l'auto-riconoscimento della specie.}}{64}{}%
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Modale di informazione sulla specie.}}{65}{}%
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}}{66}{}%
+\contentsline {figure}{\numberline {3.24}{\ignorespaces Modale con canvas per disegnare l'individuo.}}{67}{}%
+\contentsline {figure}{\numberline {3.25}{\ignorespaces Modifica dell'esemplare.}}{68}{}%
+\contentsline {figure}{\numberline {3.26}{\ignorespaces Modale per l'aggiunta e modifica della ferita.}}{69}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Prototipo activity di registrazione.}}{72}{}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Prototipo activity di login.}}{72}{}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Prototipo activity Homepage.}}{73}{}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Prototipo activity di visualizzazione dell'avvistamento per altri utenti non creatori.}}{74}{}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Prototipo activity di aggiunta di un avvistamento.}}{75}{}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Prototipo activity di statistiche della piattaforma.}}{76}{}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Prototipo activity delle impostazioni.}}{77}{}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Prototipo activity delle impostazioni sul tema, con salvataggio.}}{77}{}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Activity di login.}}{79}{}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Activity di registrazione.}}{80}{}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Activity del profilo.}}{81}{}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Activity della Homepage.}}{82}{}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Activity di aggiunta di un avvistamento.}}{83}{}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Activity di visualizzazione di un avvistamento.}}{85}{}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Activity di impostazioni.}}{86}{}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Activity delle notifiche.}}{87}{}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Activity delle Statistiche.}}{88}{}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Prototipo activity di registrazione.}}{73}{}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Prototipo activity di login.}}{73}{}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Prototipo activity Homepage.}}{74}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Prototipo activity di visualizzazione dell'avvistamento per altri utenti non creatori.}}{75}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Prototipo activity di aggiunta di un avvistamento.}}{76}{}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Prototipo activity di statistiche della piattaforma.}}{77}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Prototipo activity delle impostazioni.}}{78}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Prototipo activity delle impostazioni sul tema, con salvataggio.}}{78}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Activity di login.}}{80}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Activity di registrazione.}}{81}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Activity del profilo.}}{82}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Activity della Homepage.}}{83}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Activity di aggiunta di un avvistamento.}}{84}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Activity di visualizzazione di un avvistamento.}}{86}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Activity di impostazioni.}}{87}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Activity delle notifiche.}}{88}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Activity delle Statistiche.}}{89}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{100}{}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento(blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{114}{}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{115}{}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{119}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{101}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento (blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{115}{}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{116}{}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{120}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

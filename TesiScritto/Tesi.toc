@@ -47,7 +47,7 @@
 \contentsline {subsubsection}{Criptaggio password}{47}{}%
 \contentsline {section}{\numberline {3.2}Accessibilità}{49}{}%
 \contentsline {subsection}{\numberline {3.2.1}WCAG}{49}{}%
-\contentsline {subsubsection}{Linee guida}{51}{}%
+\contentsline {subsubsection}{Linee guida}{50}{}%
 \contentsline {section}{\numberline {3.3}Struttura del progetto}{53}{}%
 \contentsline {subsection}{\numberline {3.3.1}Pagina di login}{55}{}%
 \contentsline {subsection}{\numberline {3.3.2}Pagina di sign Up}{56}{}%
@@ -55,67 +55,67 @@
 \contentsline {subsection}{\numberline {3.3.4}Pagina principale}{58}{}%
 \contentsline {subsection}{\numberline {3.3.5}Pagina delle impostazioni}{60}{}%
 \contentsline {subsection}{\numberline {3.3.6}Pagina degli avvistamenti}{62}{}%
-\contentsline {chapter}{\numberline {4}Documentazione Applicazione Mobile}{69}{}%
-\contentsline {section}{\numberline {4.1}Tecnologie utilizzate}{69}{}%
-\contentsline {subsection}{\numberline {4.1.1}Kotlin}{69}{}%
-\contentsline {subsection}{\numberline {4.1.2}Jetpack Compose}{70}{}%
-\contentsline {subsection}{\numberline {4.1.3}Material Design 3}{71}{}%
-\contentsline {section}{\numberline {4.2}Mockup}{71}{}%
-\contentsline {subsection}{\numberline {4.2.1}Login e Registrazione}{72}{}%
-\contentsline {subsection}{\numberline {4.2.2}Homepage}{73}{}%
-\contentsline {subsection}{\numberline {4.2.3}Avvistamento}{74}{}%
-\contentsline {subsection}{\numberline {4.2.4}Aggiungi avvistamento}{75}{}%
-\contentsline {subsection}{\numberline {4.2.5}Statistiche}{76}{}%
-\contentsline {subsection}{\numberline {4.2.6}Impostazioni}{77}{}%
-\contentsline {section}{\numberline {4.3}Librerie esterne utilizzate}{78}{}%
-\contentsline {section}{\numberline {4.4}Activity}{79}{}%
-\contentsline {subsection}{\numberline {4.4.1}Login}{79}{}%
-\contentsline {subsection}{\numberline {4.4.2}Registrazione}{80}{}%
-\contentsline {subsection}{\numberline {4.4.3}Profilo}{81}{}%
-\contentsline {subsection}{\numberline {4.4.4}Homepage}{82}{}%
-\contentsline {subsection}{\numberline {4.4.5}Aggiunta Avvistamento}{83}{}%
-\contentsline {subsection}{\numberline {4.4.6}Visualizzazione Avvistamento}{85}{}%
-\contentsline {subsection}{\numberline {4.4.7}Impostazioni}{86}{}%
-\contentsline {subsection}{\numberline {4.4.8}Notifiche}{87}{}%
-\contentsline {subsection}{\numberline {4.4.9}Statistiche}{88}{}%
-\contentsline {section}{\numberline {4.5}Accessibilità e sicurezza}{89}{}%
-\contentsline {section}{\numberline {4.6}Connessione ad internet}{89}{}%
-\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{90}{}%
-\contentsline {section}{\numberline {5.1}Il problema}{90}{}%
-\contentsline {section}{\numberline {5.2}Dataset}{91}{}%
-\contentsline {subsection}{\numberline {5.2.1}Specie presenti e quantità di immagini}{92}{}%
-\contentsline {section}{\numberline {5.3}Algoritmo di riconoscimento}{93}{}%
-\contentsline {subsection}{\numberline {5.3.1}Fase di training}{94}{}%
-\contentsline {subsubsection}{Librerie utilizzate}{96}{}%
-\contentsline {subsubsection}{Caricamento dei dati}{98}{}%
-\contentsline {subsubsection}{Controllo caricamento e distribuzione delle categorie}{99}{}%
-\contentsline {subsubsection}{Associazione immagine etichetta}{100}{}%
-\contentsline {subsubsection}{Divisione del dataframe}{102}{}%
-\contentsline {subsubsection}{Istanziamento dei generatori}{103}{}%
-\contentsline {subsubsection}{Creazione di un generatore di immagini da un dataframe}{104}{}%
-\contentsline {subsubsection}{Creazione del generatore di immagini di test}{106}{}%
-\contentsline {subsubsection}{Creazione di un modello pre-addestrato di MobileNetV2}{106}{}%
-\contentsline {subsubsection}{Definizione di un nuovo modello}{108}{}%
-\contentsline {subsubsection}{Compilazione del modello di apprendimento automatico}{109}{}%
-\contentsline {subsubsection}{Fase di allenamento del modello}{111}{}%
-\contentsline {subsubsection}{Rappresentazione delle curve di perdita}{114}{}%
-\contentsline {subsubsection}{Rappresentazione delle curve di accuratezza}{115}{}%
-\contentsline {subsubsection}{Significato delle rappresentazioni}{116}{}%
-\contentsline {subsubsection}{Determinazione dell'accuratezza media}{116}{}%
-\contentsline {subsubsection}{Matrice di confusione e report di classificazione}{116}{}%
-\contentsline {subsubsection}{Visualizzazione della matrice di confusione}{118}{}%
-\contentsline {subsubsection}{Visualizzazione della precisione per ogni specie}{119}{}%
-\contentsline {subsection}{\numberline {5.3.2}Fase di riconoscimento dell'immagine}{121}{}%
-\contentsline {subsubsection}{Librerie utilizzate}{121}{}%
-\contentsline {subsubsection}{Caricamento della rete neurale}{121}{}%
-\contentsline {subsubsection}{Funzione di predizione}{122}{}%
-\contentsline {subsubsection}{Predizione delle immagini}{123}{}%
-\contentsline {section}{\numberline {5.4}Integrazione algoritmo di riconoscimento}{123}{}%
-\contentsline {chapter}{\numberline {6}Documentazione Test}{126}{}%
-\contentsline {section}{\numberline {6.1}Test con l'utente}{126}{}%
-\contentsline {subsection}{\numberline {6.1.1}Verifica del software}{127}{}%
-\contentsline {subsubsection}{Testing}{127}{}%
-\contentsline {subsection}{\numberline {6.1.2}Analisi}{128}{}%
-\contentsline {subsection}{\numberline {6.1.3}Test}{129}{}%
-\contentsline {subsubsection}{Algoritmo di riconoscimento}{129}{}%
-\contentsline {chapter}{\numberline {7}Conclusioni}{131}{}%
+\contentsline {chapter}{\numberline {4}Documentazione Applicazione Mobile}{70}{}%
+\contentsline {section}{\numberline {4.1}Tecnologie utilizzate}{70}{}%
+\contentsline {subsection}{\numberline {4.1.1}Kotlin}{70}{}%
+\contentsline {subsection}{\numberline {4.1.2}Jetpack Compose}{71}{}%
+\contentsline {subsection}{\numberline {4.1.3}Material Design 3}{72}{}%
+\contentsline {section}{\numberline {4.2}Mockup}{72}{}%
+\contentsline {subsection}{\numberline {4.2.1}Login e Registrazione}{73}{}%
+\contentsline {subsection}{\numberline {4.2.2}Homepage}{74}{}%
+\contentsline {subsection}{\numberline {4.2.3}Avvistamento}{75}{}%
+\contentsline {subsection}{\numberline {4.2.4}Aggiungi avvistamento}{76}{}%
+\contentsline {subsection}{\numberline {4.2.5}Statistiche}{77}{}%
+\contentsline {subsection}{\numberline {4.2.6}Impostazioni}{78}{}%
+\contentsline {section}{\numberline {4.3}Librerie esterne utilizzate}{79}{}%
+\contentsline {section}{\numberline {4.4}Activity}{80}{}%
+\contentsline {subsection}{\numberline {4.4.1}Login}{80}{}%
+\contentsline {subsection}{\numberline {4.4.2}Registrazione}{81}{}%
+\contentsline {subsection}{\numberline {4.4.3}Profilo}{82}{}%
+\contentsline {subsection}{\numberline {4.4.4}Homepage}{83}{}%
+\contentsline {subsection}{\numberline {4.4.5}Aggiunta Avvistamento}{84}{}%
+\contentsline {subsection}{\numberline {4.4.6}Visualizzazione Avvistamento}{86}{}%
+\contentsline {subsection}{\numberline {4.4.7}Impostazioni}{87}{}%
+\contentsline {subsection}{\numberline {4.4.8}Notifiche}{88}{}%
+\contentsline {subsection}{\numberline {4.4.9}Statistiche}{89}{}%
+\contentsline {section}{\numberline {4.5}Accessibilità e sicurezza}{90}{}%
+\contentsline {section}{\numberline {4.6}Connessione ad internet}{90}{}%
+\contentsline {chapter}{\numberline {5}Documentazione Algoritmo Di Riconoscimento}{91}{}%
+\contentsline {section}{\numberline {5.1}Il problema}{91}{}%
+\contentsline {section}{\numberline {5.2}Dataset}{92}{}%
+\contentsline {subsection}{\numberline {5.2.1}Specie presenti e quantità di immagini}{93}{}%
+\contentsline {section}{\numberline {5.3}Algoritmo di riconoscimento}{94}{}%
+\contentsline {subsection}{\numberline {5.3.1}Fase di training}{95}{}%
+\contentsline {subsubsection}{Librerie utilizzate}{97}{}%
+\contentsline {subsubsection}{Caricamento dei dati}{99}{}%
+\contentsline {subsubsection}{Controllo caricamento e distribuzione delle categorie}{100}{}%
+\contentsline {subsubsection}{Associazione immagine etichetta}{101}{}%
+\contentsline {subsubsection}{Divisione del dataframe}{103}{}%
+\contentsline {subsubsection}{Istanziamento dei generatori}{104}{}%
+\contentsline {subsubsection}{Creazione di un generatore di immagini da un dataframe}{105}{}%
+\contentsline {subsubsection}{Creazione del generatore di immagini di test}{107}{}%
+\contentsline {subsubsection}{Creazione di un modello pre-addestrato di MobileNetV2}{107}{}%
+\contentsline {subsubsection}{Definizione di un nuovo modello}{109}{}%
+\contentsline {subsubsection}{Compilazione del modello di apprendimento automatico}{110}{}%
+\contentsline {subsubsection}{Fase di allenamento del modello}{112}{}%
+\contentsline {subsubsection}{Rappresentazione delle curve di perdita}{115}{}%
+\contentsline {subsubsection}{Rappresentazione delle curve di accuratezza}{116}{}%
+\contentsline {subsubsection}{Significato delle rappresentazioni}{117}{}%
+\contentsline {subsubsection}{Determinazione dell'accuratezza media}{117}{}%
+\contentsline {subsubsection}{Matrice di confusione e report di classificazione}{117}{}%
+\contentsline {subsubsection}{Visualizzazione della matrice di confusione}{119}{}%
+\contentsline {subsubsection}{Visualizzazione della precisione per ogni specie}{120}{}%
+\contentsline {subsection}{\numberline {5.3.2}Fase di riconoscimento dell'immagine}{122}{}%
+\contentsline {subsubsection}{Librerie utilizzate}{122}{}%
+\contentsline {subsubsection}{Caricamento della rete neurale}{122}{}%
+\contentsline {subsubsection}{Funzione di predizione}{123}{}%
+\contentsline {subsubsection}{Predizione delle immagini}{124}{}%
+\contentsline {section}{\numberline {5.4}Integrazione algoritmo di riconoscimento}{124}{}%
+\contentsline {chapter}{\numberline {6}Documentazione Test}{127}{}%
+\contentsline {section}{\numberline {6.1}Test con l'utente}{127}{}%
+\contentsline {subsection}{\numberline {6.1.1}Verifica del software}{128}{}%
+\contentsline {subsubsection}{Testing}{128}{}%
+\contentsline {subsection}{\numberline {6.1.2}Analisi}{129}{}%
+\contentsline {subsection}{\numberline {6.1.3}Test}{130}{}%
+\contentsline {subsubsection}{Algoritmo di riconoscimento}{130}{}%
+\contentsline {chapter}{\numberline {7}Conclusioni}{132}{}%
