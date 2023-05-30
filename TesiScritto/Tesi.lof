@@ -45,19 +45,20 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Prototipo activity di statistiche della piattaforma.}}{77}{}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Prototipo activity delle impostazioni.}}{78}{}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Prototipo activity delle impostazioni sul tema, con salvataggio.}}{78}{}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Activity di login.}}{80}{}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Activity di registrazione.}}{81}{}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Activity del profilo.}}{82}{}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Activity della Homepage.}}{83}{}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Activity di aggiunta di un avvistamento.}}{84}{}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Activity di visualizzazione di un avvistamento.}}{86}{}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Activity di impostazioni.}}{87}{}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Activity delle notifiche.}}{88}{}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Activity delle Statistiche.}}{89}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Schema di navigazione dell'applicazione mobile.}}{80}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Activity di login.}}{81}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Activity di registrazione.}}{82}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Activity del profilo.}}{83}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Activity della Homepage.}}{84}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Activity di aggiunta di un avvistamento.}}{85}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Activity di visualizzazione di un avvistamento.}}{87}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Activity di impostazioni.}}{88}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Activity delle notifiche.}}{89}{}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Activity delle Statistiche.}}{90}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{101}{}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento (blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{115}{}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{116}{}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{120}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribuzione delle categorie nella colonna species.}}{102}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Perdita(loss) ottenuta dal modello durante l'addestramento (blu) e perdita ottenuta dal modello durante la validazione(arancio).}}{116}{}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}}{117}{}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Matrice di confusione.}}{121}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
