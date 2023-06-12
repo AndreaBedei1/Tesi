@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -406,7 +407,6 @@ fun ProfileSettings(
     var currentDateTime by rememberSaveable {mutableStateOf( System.currentTimeMillis().toString())}
     var imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
 
-
     if(imagesList.isNotEmpty()){
         val file = File(context.cacheDir, "image.jpg")
         val outputStream = FileOutputStream(file)
@@ -558,7 +558,7 @@ fun ProfileSettings(
                                 .scale(scale)
                         )
                         Spacer(modifier = Modifier.height(med-10.dp))
-                        Button(
+                        /*Button(
                             onClick = {
                                 if( isNetworkAvailable(context)){
                                     (context as MainActivity).requestCameraPermission(currentDateTime.toString())
@@ -570,7 +570,7 @@ fun ProfileSettings(
                             modifier = modifier.widthIn(min = 150.dp)
                         ) {
                             Text("CAMBIA FOTO")
-                        }
+                        }*/
                         Spacer(modifier = Modifier.height(med))
                     }
                 }
@@ -705,10 +705,11 @@ fun ProfileSettings(
                             .fillMaxSize()
                     )
                     Spacer(modifier = Modifier.height(min))
-                    Button(
+                    /*Button(
                         onClick = {
                             if( isNetworkAvailable(context)){
                                 context.requestCameraPermission(currentDateTime.toString())
+                                Log.e("KEYYY", currentDateTime)
                             } else {
                                 errorMessage="Nessuna connessione di rete!"
                             }
@@ -717,7 +718,7 @@ fun ProfileSettings(
                         modifier = modifier.widthIn(min = 150.dp)
                     ) {
                         Text("CAMBIA FOTO")
-                    }
+                    }*/
                     Spacer(modifier = Modifier.height(med))
                     TextField(
                         value = nome,
