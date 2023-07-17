@@ -9,6 +9,10 @@
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{listings}
+\usepackage{caption}
+\captionsetup[table]{position=bottom}
+\setcounter{tocdepth}{4}
+
 
 % Comandi per impaginare secondo le regole Unibo, da mettere dopo gli usepackage
 \renewcommand{\baselinestretch}{1.25}
@@ -77,6 +81,7 @@
 \end{titlepage}
 
 \restoregeometry
+\clearpage\null\thispagestyle{empty}\newpage
 
 \cleardoublepage
 \begin{flushright}
@@ -87,12 +92,15 @@
 \end{flushright}
 \cleardoublepage
 
+\clearpage\null\thispagestyle{empty}\newpage
+
 \begin{abstract}
 La presente tesi di Laurea nasce dalla volontà di creare uno strumento pratico e concreto a sostegno di un progetto del dipartimento di Acquacoltura dell'Università di Bologna. I ricercatori di tale Dipartimento stanno cercando di monitorare gli avvistamenti di diverse specie marine nel nostro territorio e, per farlo in maniera sistematica, necessitano di un’applicazione che permetta di catalogare, controllare e successivamente studiare, tutti gli avvistamenti effettuati durante le loro uscite in mare.\\\\ 
 L’obiettivo di questo studio è quello di affiancare i ricercatori nel loro lavoro, in particolare nel compito di monitoraggio che effettuano per comprendere al meglio il comportamento dei singoli individui e le relazioni che instaurano tra loro e con l'ambiente. Lo scopo finale è quello di individuare delle soluzioni ambientali affinché gli esemplari studiati non si sentano minacciati nei nostri mari e possano continuare a popolarli. \\\\
 Per riuscire a creare un sistema efficiente ed efficace, si ha la necessità di un’intera infrastruttura: in primis una banca dati che possa mantenere e conservare gli esiti dei monitoraggi, e poi un portale che permetta la registrazione di nuovi avvistamenti, ma anche la modifica e la cancellazione di elementi già inseriti. Per ogni avvistamento, è necessaria anche la possibilità di caricare immagini che consentano di individuare esemplari o addirittura di visualizzare le loro eventuali e talvolta numerose ferite. Per questo, è stata proposta ai ricercatori la possibilità dell’utilizzo di una tecnica di riconoscimento automatico durante la fase di inserimento o di modifica dei dati per individuare più velocemente la specie di appartenenza di ogni singolo individuo. \\\\
 L'applicazione creata con questo progetto può essere utilizzata non solo per scopi di ricerca, ma anche al fine di creare una grande comunità che abbia la possibilità di scambiarsi informazioni e immagini per conoscere, studiare e migliorare l'ambiente marino e la sua fauna.
 \end{abstract}
+
 
 \setlength{\parindent}{0pt}
 \begin{LARGE}
@@ -104,14 +112,13 @@ L'applicazione creata con questo progetto può essere utilizzata non solo per sc
 \tab[10pt]In particolare, ringrazio mia sorella che, nonostante i momenti di difficoltà, mi ha sempre aiutato: grazie alle sue parole sono riuscito a dare il meglio di me.\\
 \tab[10pt] Un altro ringraziamento va a mia nonna che, insieme ai miei genitori, ha sempre creduto in me e mi ha aiutato nei momenti difficili grazie alla sua saggezza. Posso dire di sentirmi veramente in debito con tutte queste persone.\\
 \tab[10pt] Ringrazio tutti i miei amici che mi sono stati vicino, che mi hanno supportato e sono stati al mio fianco anche quando mi passavano per la testa le idee più strane, molte volte irrealizzabili.\\
-\tab[10pt] In particolare ringrazio Fabio, amico di studi, amico di vita, amico di avventure: senza di lui non sarei qui a scrivere queste frasi. Abbiamo compiuto tutto questo percorso insieme, sostenendoci, supportandoci e sopportandoci a vicenda. Caro Fabio, credo che questa sia stata una meravigliosa esperienza e questo è grazie anche a te. \\
-
 \tab[10pt]Infine, dedico questa tesi a me stesso, perché non pensavo minimamente di riuscire a diventare quello che sono e sono certo del fatto che, grazie a tutto questo percorso, oggi riesco ad avere più fiducia in me stesso. Posso dire di essere estremamente soddisfatto di questa avventura.
 
 
-
 \tableofcontents
-\listoffigures
+%\listoffigures
+%\listoftables
+%\lstlistoflistings
 \setlength{\parindent}{0pt}
 
 \chapter{Introduzione}
@@ -126,12 +133,13 @@ Il sistema si suddivide in diverse parti, tra cui spiccano:
 \end{itemize}
 
 \section{Diagramma dei casi d'uso}
-Viene sotto riportato un diagramma dei casi d'uso il quale descrive le principali operazioni del sistema:
+Viene sotto riportato un diagramma dei casi d'uso, figura \ref{figura:casiDuso}, il quale descrive le principali operazioni del sistema:
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.6]{img_concettuale/casi.png}
 \caption{Schema dei casi d'uso per la piattaforma.}
+\label{figura:casiDuso}
 \end{figure}
 
 
@@ -141,10 +149,10 @@ In questa sezione, analizzeremo tutte le specifiche che il committente ha richie
 
 \subsection{Intervista}
 Come punto di partenza, è bene riportare la prima intervista svolta col committente, poiché essa consente di individuare bene le caratteristiche essenziali necessarie perché il prodotto finale possa essere adatto alle esigenze dell'utilizzatore finale. 
-"La facoltà di Acquacoltura e Igiene delle produzioni ittiche richiede un sistema informativo per la gestione di una banca dati al fine di permettere la registrazione di determinati avvistamenti fatti durante le uscite a largo dalla costa.\\
+"La facoltà di Acquacoltura e Igiene delle produzioni ittiche richiede un sistema informativo per la gestione di una banca dati al fine di permettere la registrazione di determinati avvistamenti fatti durante le uscite a largo della costa.\\
 Ogni utente che avrà a disposizione uno smartphone, una volta effettuato l'accesso con login e password, deve avere la possibilità di inserire un nuovo avvistamento, nel momento stesso dell'avvistamento. Per ogni inserimento, gli elementi da memorizzare sono: data e ora di compilazione  (inserite automaticamente dal sistema), numero di esemplari che sono stati avvistati e, opzionalmente, anche la velocità del vento (in km/h), le condizioni del mare ed eventuali ferite visibili sull'animale. In particolare, è necessario porre attenzione alla descrizione della ferita, alla sua posizione sul corpo dell'animale e alla sua gravità. Deve anche essere possibile scrivere note che possano aiutare ad individuare la specie e/o che contengano ulteriori informazioni sull'avvistamento. 
 \\
-Si deve inoltre tenere presente che un avvistamento può far riferimento ad un particolare animale, a una specie precisa o anche a un animale di cui non è riconoscibile nè l'identità nè la specie esatta. In quest'ultimo caso, il dato della specie deve risultare comunque inseribile in un secondo momento.
+Si deve inoltre tenere presente che un avvistamento può far riferimento ad un particolare animale, a una specie precisa o anche a un animale di cui non è riconoscibile né l'identità né la specie esatta. In quest'ultimo caso, il dato della specie deve risultare comunque inseribile in un secondo momento.
 \\
 Oltre all'applicazione smartphone, deve essere realizzato un applicativo web che, una volta effettuato l'accesso, deve consentire all'utente di poter visualizzare tutti gli avvistamenti che sono stati effettuati da lui stesso o dagli altri utenti, potendone modificare i parametri. La modifica deve essere permessa per tutti i dati, eccetto gli elementi che riguardano l'utente e la data della rilevazione.
 \\ 
@@ -153,7 +161,7 @@ Ad ogni avvistamento, il personale addetto deve poter associare anche una o più
 La base di dati deve anche tenere in considerazione la possibilità di avvistamenti dello stesso individuo in momenti diversi. Nello specifico, le sottoimmagini possono essere riferite allo stesso individuo in avvistamenti diversi, in modo tale da consentire di monitorare i suoi cambiamenti nel tempo e i suoi spostamenti.\\
 Per aiutare l'utente nella decisione della specie da assegnare a un particolare animale, il sistema deve inoltre memorizzare una descrizione, in cui vengono fornite le informazioni base su ciascuna specie analizzabile.
 \\
-Infine, l'applicativo web, attraverso l'uso di tecniche di visione artificiale, con particolare riferimento ai delfini, deve poter essere in grado di identificare in autonomia la specie dell'individuo attraverso la foto scattata durante il rilevamento. Deve cioè cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie e gli individui che ha presenti in database.
+Infine, l'applicativo web, attraverso l'uso di tecniche di visione artificiale, con particolare riferimento ai delfini, deve poter essere in grado di identificare in autonomia la specie dell'individuo attraverso la foto scattata durante il rilevamento. Deve cioè cercare di aiutare l'utente nella scelta della specie, stilando una classifica di compatibilità con le specie e gli individui che sono presenti in database.
 \\
 Un aspetto importante da tenere in considerazione è il fatto che al largo della costa non è presente la connessione internet.  Il sistema deve poter lo stesso mantenere i dati in memoria e caricali una volta che ha la possibilità di farlo.
 
@@ -165,7 +173,7 @@ Il testo dell'intervista presenta molte ambiguità che è necessario risolvere p
 \item Cardinalità non specificate.
 \end{itemize}
 
-Per quanto riguarda gli attributi parziali e le cardinalità, questi aspetti saranno corretti mediante l'uso della logica in fase di creazione dello schema concettuale. Invece per quanto concerne i sinonimi, è necessario costruire un glossario dei termini che saranno considerati al fine della progettazione concettuale:
+Per quanto riguarda gli attributi parziali e le cardinalità, questi aspetti saranno corretti mediante l'uso della logica in fase di creazione dello schema concettuale. Invece per quanto concerne i sinonimi, è necessario costruire un glossario dei termini che saranno considerati al fine della progettazione concettuale come si può vedere dalla tabella \ref{table:1}:
 
 \begin{table}[hbtp]
 \centering
@@ -184,6 +192,8 @@ Ferita & \begin{tabular}[c]{@{}c@{}}Ferita sul corpo di \\ un animale, con una \
 Esemplare & \begin{tabular}[c]{@{}c@{}}Singolo animale\\ che si monitora\end{tabular} &  & Sottoimmagine \\ \hline
 \end{tabular}%
 }
+\caption{Glossario dei termini.}
+\label{table:1}
 \end{table}
 
 \newpage
@@ -212,9 +222,10 @@ Per maggiore chiarezza, di seguito si riportano i primi esempi di schemi concett
 \centering
 \includegraphics[scale=0.15]{img_concettuale/avvistamento1.png}
 \caption{Schema concettuale per la modellazione degli avvistamenti e delle proprietà dell'utente.}
+\label{figura:sUtenteAvv}
 \end{figure}
 
-Come mostrato in figura, sono presenti uno o più utenti, ognuno dei quali accede alla piattaforma attraverso la propria email, la propria password e grazie a una chiave personale univoca all'interno del database. Quest'ultima viene utilizzata al fine di criptare la password. Dell'utente, poi, possiamo tenere anche in considerazione il nome e cognome.
+Come mostrato in figura \ref{figura:sUtenteAvv}, sono presenti uno o più utenti, ognuno dei quali accede alla piattaforma attraverso la propria email, la propria password e grazie a una chiave personale univoca all'interno del database. Quest'ultima viene utilizzata al fine di criptare la password. Dell'utente, poi, possiamo tenere anche in considerazione il nome e cognome.
 Ogni utente può così aggiungere degli avvistamenti, ognuno dei quali contiene tutti i dati richiesti dal committente tra cui la data di avvistamento, il numero di esemplari presenti e, opzionalmente, anche il vento espresso in km/h, lo stato del mare ed eventuali note informative per finalità di ricerca e, soprattutto, per riuscire ad identificare meglio la specie.\\
 In aggiunta, ad ogni avvistamento è associata una posizione che tiene in considerazione la longitudine e la latitudine  registrate al momento dell'inserimento.
 
@@ -222,17 +233,19 @@ In aggiunta, ad ogni avvistamento è associata una posizione che tiene in consid
 \centering
 \includegraphics[scale=0.10]{img_concettuale/avvistamento2.png}
 \caption{Modellazione dell'attribuzione dell'animale e della specie all'avvistamento.}
+\label{figura:avvanispedesc}
 \end{figure}
 
-Dalla figura si può notare che un avvistamento può far riferimento a un animale (ad esempio un delfino oppure a un granchio), direttamente alla specie o anche a nessuno dei due. In quest'ultimo caso, tali dati verranno inseriti in un secondo momento quando saranno disponibili. Al fine di individuare al meglio la specie, ad ognuna di esse può essere attribuita una descrizione in cui vengono elencate le caratteristiche fondamentali. Ogni specie è identificata dal nome dell'animale e dal suo nome specifico. Come si nota dalla figura, l'avvistamento può essere direttamente associato all'animale oppure alla specie, in questo caso nasce il vincolo per l'utente che, nel momento in cui dichiara una determinata specie, essa deve fare riferimento al giusto animale. Un ulteriore vincolo da rispettare è il fatto che in un avvistamento, anche se esso include più esemplari, i dati inseriti devono far riferimento allo stesso animale ed eventualmente alla relativa specie. Per segnalare la presenza di specie diverse, sarà quindi necessario inserire più avvistamenti.
+Dalla figura \ref{figura:avvanispedesc} si può notare che un avvistamento può far riferimento a un animale (ad esempio un delfino oppure a un granchio), direttamente alla specie o anche a nessuno dei due. In quest'ultimo caso, tali dati verranno inseriti in un secondo momento quando saranno disponibili. Al fine di individuare al meglio la specie, ad ognuna di esse può essere attribuita una descrizione in cui vengono elencate le caratteristiche fondamentali. Ogni specie è identificata dal nome dell'animale e dal suo nome specifico. Come si nota dalla figura, l'avvistamento può essere direttamente associato all'animale oppure alla specie, in questo caso nasce il vincolo per l'utente che, nel momento in cui dichiara una determinata specie, essa deve fare riferimento al giusto animale. Un ulteriore vincolo da rispettare è il fatto che in un avvistamento, anche se include più esemplari, i dati inseriti devono far riferimento allo stesso animale ed eventualmente alla relativa specie. Per segnalare la presenza di specie diverse, sarà quindi necessario inserire più avvistamenti.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.12]{img_concettuale/avvistamento3.png}
+\includegraphics[scale=0.10]{img_concettuale/avvistamento3.png}
 \caption{Schema concettuale raffigurante le immagini con relative sottoimmagini e la gestione delle ferite.}
+\label{figura:immsottoferite}
 \end{figure}
 
-Navigando lo schema partendo dall'entità Avvistamento, si nota che per ogni avvistamento si possono includere una o più immagini che  devono poter essere suddivise in ulteriori sottoimmagini. Per fare questo, si è pensato di utilizzare le coordinate cartesiane al fine di risparmiare memoria e tempo di elaborazione. Visto che ogni sottoimmagine rappresenta un elemento singolo, se il fotogramma presenta delle ferite, queste possono essere inserite e ad ognuna attribuita una gravità. In aggiunta, il singolo individuo viene catalogato con un id e opzionalmente anche con un nome, in modo tale che se viene rincontrato in altri avvistamenti si abbia la possibilità di indicare che si tratta dello stesso esemplare.
+Navigando lo schema \ref{figura:immsottoferite} partendo dall'entità Avvistamento, si nota che per ogni avvistamento si possono includere una o più immagini che  devono poter essere suddivise in ulteriori sottoimmagini. Per fare questo, si è pensato di utilizzare le coordinate cartesiane al fine di risparmiare memoria e tempo di elaborazione. Visto che ogni sottoimmagine rappresenta un elemento singolo, se il fotogramma presenta delle ferite, queste possono essere inserite e ad ognuna attribuita una gravità. In aggiunta, il singolo individuo viene catalogato con un id e opzionalmente anche con un nome, in modo tale che se viene rincontrato in altri avvistamenti si abbia la possibilità di indicare che si tratta dello stesso esemplare.
 
 \subsection{Raffinamenti attuati}
 Elenchiamo in questa sezione i raffinamenti che sono stati attuati nei precedenti schemi al fine di modellare meglio entità indipendenti. In particolare:
@@ -241,22 +254,21 @@ Elenchiamo in questa sezione i raffinamenti che sono stati attuati nei precedent
 \end{itemize}
 
 \subsection{Schema concettuale finale}
-Di seguito si riporta lo schema concettuale finale, ottenuto unendo opportunamente gli schemi scheletro presentati in precedenza.
+Di seguito si riporta lo schema concettuale finale, figura \ref{figura:schemafinaledicoassd} , ottenuto unendo opportunamente gli schemi scheletro presentati in precedenza.
 \newpage
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.1]{img_concettuale/ER2.png}
 \caption{Schema concettuale finale}
+\label{figura:schemafinaledicoassd}
 \end{figure}
-
-
 
 \section{Progettazione Logica}
 La progettazione logica consiste nella traduzione dello schema concettuale finale in uno schema logico che rispecchi il modello relazionale. Lo schema logico progettato è indipendente dallo specifico Database management system, che verrà scelto al termine della progettazione logica. Inoltre verranno definiti anche i vincoli di integrità sui dati.
 
 \subsection{Stima del volume dei dati}
-Nella tabella che segue, è riportato il volume atteso per ciascun costrutto presente nello schema concettuale.
+Nella tabella che segue \ref{table:vdatistim}, è riportato il volume atteso per ciascun costrutto presente nello schema concettuale.
 Si sottolinea che, per garantire maggiore compattezza, sono state omesse le stime dei volumi delle associazioni 1-N, in quanto equivalenti ai volumi delle entità che partecipano alle associazioni stesse, con cardinalità 1.
 
 \begin{table}[hbtp]
@@ -272,14 +284,16 @@ Sottoimmagine          & E & 400 \\ \hline
 Ferita                 & E & 50  \\ \hline
 Gravita                & E & 3   \\ \hline
 Esemplare              & E & 300 \\ \hline
-Animale                & E & z   \\ \hline
-Specie                 & E & x   \\ \hline
-Descrizione            & E & x-y \\ \hline
+Animale                & E & 15   \\ \hline
+Specie                 & E & 50   \\ \hline
+Descrizione            & E & 50 \\ \hline
 \end{tabular}
+\caption{Volume dei dati.}
+\label{table:vdatistim}
 \end{table}
 
 \subsection{Descrizione delle operazioni principali e stima della loro frequenza}
-Di seguito, si riporta una tabella contenente la frequenza prevista e una descrizione delle principali operazioni, individuate già in fase di analisi.
+Di seguito si riporta la tabella \ref{table:oppprinc} contenente la frequenza prevista e una descrizione delle principali operazioni, individuate già in fase di analisi.
 \begin{table}[hbtp]
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -290,8 +304,11 @@ Di seguito, si riporta una tabella contenente la frequenza prevista e una descri
 {\color[HTML]{000000} 1} & {\color[HTML]{000000} Creazione di un nuovo utente} & {\color[HTML]{000000} 1/settimana} \\ \hline
 {\color[HTML]{000000} 2} & {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Monitoraggio di specifici individui\end{tabular}} & {\color[HTML]{000000} 5/giorno} \\ \hline
 {\color[HTML]{000000} 3} & {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Registrazione di un nuovo avvistamento\\ compreso di operazioni opzionali\end{tabular}} & {\color[HTML]{000000} 10/giorno} \\ \hline
+{\color[HTML]{000000} 4} & {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Operazioni statistiche\end{tabular}} & {\color[HTML]{000000} 3/giorno} \\ \hline
 \end{tabular}%
 }
+\caption{Operazioni principali.}
+\label{table:oppprinc}
 \end{table}
 
 \subsection{Schemi di navigazione e tabelle degli accessi}
@@ -301,11 +318,11 @@ di navigazione e a scrivere le tabelle degli accessi.
 
 \begin{enumerate}
 \item Creazione di un nuovo utente:\\
-Per quanto riguarda l'aggiunta dell'utente, omettiamo il corrispondente schema di navigazione, in quanto coincide con l'entità stessa:
+Per l'aggiunta dell'utente, tabella \ref{table:aggutentassouin}, omettiamo il corrispondente schema di navigazione, in quanto coincide con l'entità stessa:
 
 \begin{table}[hbtp]
 \centering
-\resizebox{7cm}{!}{%
+\resizebox{6cm}{!}{%
 \begin{tabular}{|c|ccl|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
@@ -321,20 +338,23 @@ Utente &
   \multicolumn{3}{c|}{Totale = 1S} \\ \hline
 \end{tabular}%
 }
+\caption{Tabella degli accessi per la creazione di un nuovo utente.}
+\label{table:aggutentassouin}
 \end{table}
 
 \newpage
 
-\item Monitoraggio di specifici individui per determinate verifiche:
+\item Monitoraggio di specifici individui per determinate verifiche \ref{figura:accessipertabellemonitoraggio}:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=1.1]{img_concettuale/individuo.png}
-%\caption{Schema concettuale raffigurante gli accessi alle tabelle per il monitoraggio di specifici individui.}
+\includegraphics[scale=1]{img_concettuale/individuo.png}
+\caption{Schema concettuale raffigurante gli accessi alle tabelle per il monitoraggio di specifici individui.}
+\label{figura:accessipertabellemonitoraggio}
 \end{figure}
-\\Per svolgere questa operazione occorre effettuare un totale di letture su Sottoimmagine pari al numero medio di foto a cui ogni esemplare è associato. In aggiunta, in base al numero di sottoimmagini a cui l'esemplare è associato, si dovrà selezionare lo stesso numero di immagini, visto che uno stesso esemplare non può comparire più volte nella stessa immagine.
+\\Per svolgere questa operazione, come si può notare dalla tabella \ref{table:monspdneksamaos}, occorre effettuare un totale di letture su Sottoimmagine pari al numero medio di foto a cui ogni esemplare è associato. In aggiunta, in base al numero di sottoimmagini a cui l'esemplare è associato, si dovrà selezionare lo stesso numero di immagini, visto che uno stesso esemplare non può comparire più volte nella stessa immagine.
 \begin{table}[hbtp]
 \centering
-\resizebox{11cm}{!}{%
+\resizebox{8cm}{!}{%
 \begin{tabular}{|c|ccc|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
@@ -348,6 +368,8 @@ Immagine                             & \multicolumn{1}{c|}{E}                   
                                      & \multicolumn{3}{c|}{Totale = 5L}                                                                                                 \\ \hline
 \end{tabular}%
 }
+\caption{Tabella degli accessi per il monitoraggio di individui marini.}
+\label{table:monspdneksamaos}
 \end{table}
 
 \newpage
@@ -356,8 +378,9 @@ Immagine                             & \multicolumn{1}{c|}{E}                   
 \centering
 \includegraphics[scale=0.20]{img_concettuale/Avvistamento_accessi.png}
 \caption{Schema concettuale raffigurante gli accessi alle tabelle per l'aggiunta di un nuovo avvistamento.}
+\label{figura:regnuovavvopopzio}
 \end{figure}\\
-Lo schema di navigazione prevede di partire da Avvistamento, che legge l'utente, poi aggiunge più immagini che verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In più, ad ogni sottoimmagine si possono aggiungere delle indicazioni su possibili ferite, visibili in quella parte dell'immagine. Ad ogni ferita è obbligatorio associare una gravità. Nella tabella degli accessi sottostante, consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
+Lo schema di navigazione, figura \ref{figura:regnuovavvopopzio}, prevede di partire da Avvistamento, che legge l'utente, poi aggiunge più immagini che verranno suddivise in più sottoimmagini, ad ognuna delle quali verrà associato un esemplare. In più, ad ogni sottoimmagine si possono aggiungere delle indicazioni su possibili ferite, visibili in quella parte dell'immagine. Ad ogni ferita è obbligatorio associare una gravità. Nella tabella degli accessi sottostante \ref{table:tblaccperregnuovavv} consideriamo il caso in cui l'esemplare e la coordinata geografica non siano ancora presenti nel database. Ogni avvistamento è associato ad un'animale e di conseguenza a una possibile specie. Al fine di individuare meglio la specie, essa è associata a una possibile descrizione.\\ Un'alternativa è la possibilità di scegliere direttamente la specie partendo dall'avvistamento, ma questo viene considerato un caso raro.
 \begin{table}[hbtp]
 \centering
 \resizebox{11cm}{!}{%
@@ -378,12 +401,32 @@ Esemplare & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{4} & S \\ \hline
  & \multicolumn{3}{c|}{Totale = 11.5S + 5L} \\ \hline
 \end{tabular}%
 }
+\caption{Tabella degli accessi per la registrazione di un nuovo avvistamento.}
+\label{table:tblaccperregnuovavv}
+\end{table}
+
+\item Operazioni statistiche:\\
+Per semplicità omettiamo lo schema di navigazione. L'operazione statistica che si è deciso di rappresentare è quella della rappresentazione della distribuzione dei delfini. In particolare il numero di avvistamenti di ciascuna specie di delfino. Riportiamo la tabella \ref{table:tblaccperoprstat} degli accessi.
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|c|ccc|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Concetto} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Costrutto}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Accessi}} & {\color[HTML]{000000} Tipo} \\ \hline
+{\color[HTML]{000000} Avvistamento} & \multicolumn{1}{c|}{{\color[HTML]{000000} E}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 100}} & {\color[HTML]{000000} L} \\ \hline
+Animale & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{100} & L \\ \hline
+Specie & \multicolumn{1}{c|}{E} & \multicolumn{1}{c|}{ 100$\div$15=6.66} & L \\ \hline
+ & \multicolumn{3}{c|}{Totale = 206.66L} \\ \hline
+\end{tabular}%
+\caption{Tabella degli accessi per le operazioni statistiche.}
+\label{table:tblaccperoprstat}
 \end{table}
 
 \end{enumerate}
 
 \subsubsection{Accessi totali}
-Si riporta di seguito la tabella degli accessi totali per ogni operazione, considerando doppi gli accessi in scrittura:
+Si riporta di seguito la tabella \ref{table:tblacctotmessi} degli accessi totali per ogni operazione, considerando doppi gli accessi in scrittura:
 \begin{table}[hbtp]
 \centering
 \resizebox{12cm}{!}{%
@@ -394,12 +437,15 @@ Si riporta di seguito la tabella degli accessi totali per ogni operazione, consi
 {\color[HTML]{000000} 1} & {\color[HTML]{000000} 1S = 2} & {\color[HTML]{000000} 1/settimana} & 2/settimana \\ \hline
 {\color[HTML]{000000} 2} & {\color[HTML]{000000} 5L = 5} & {\color[HTML]{000000} 5/giorno} & 25/giorno \\ \hline
 {\color[HTML]{000000} 3} & {\color[HTML]{000000} 11.5S + 5L = 28} & {\color[HTML]{000000} 10/giorno} & 280/giorno \\ \hline
+{\color[HTML]{000000} 4} & {\color[HTML]{000000} 206.66L = 206.66} & {\color[HTML]{000000} 3/giorno} & 620/giorno \\ \hline
 \end{tabular}%
 }
+\caption{Tabella degli accessi totali.}
+\label{table:tblacctotmessi}
 \end{table}
 
 \subsection{Raffinamento dello schema}
-In questa sezione, ci occuperemo del raffinamento dello schema concettuale in vista della realizzazione dello schema logico. In particolare, bisognerà concentrarsi sulla seguente operazione:
+In questa sezione ci occuperemo del raffinamento dello schema concettuale in vista della realizzazione dello schema logico. In particolare, bisognerà concentrarsi sulla seguente operazione:
 
 \begin{itemize}
 \item \textbf{Modifica degli attributi multipli e composti:}\\
@@ -414,14 +460,14 @@ Una volta individuate le entità che contengono attributi multipli o composti, s
 La traduzione delle entità in relazioni è automatica e non richiede particolari passaggi.\\
 Per quanto riguarda invece le associazioni, bisogna effettuare diversi passaggi in base alla cardinalità:
 \begin{itemize}
-\item  Le associazioni 1-N vengono tradotte importando nell'entità che partecipa con cardinalità 1 e la chiave dell'entità che partecipa con cardinalità N.
+\item  Le associazioni 1-N vengono tradotte importando nell'entità che partecipa con cardinalità 1 la chiave dell'entità che partecipa con cardinalità N.
 \item Le associazioni 1-1 vengono tradotte importando nell'entità ritenuta più corretta, in base ad opzionalità e operatività, la chiave dell'altra entità.
 \end{itemize}
 
 L'operazione di traduzione porta alla creazione dello schema logico:\\
 \textbf{Gravita}(\underline{Nome})\\
-\textbf{Ferite}(\underline{ID}, Descrizione\_Ferita, Posizione, Gravi\_Nome:Gravita, \\ \tab Sottoi\_ID:Sottoimmagini, Img\_rif:Immagini)\\
-\textbf{Sottoimmagini}(\underline{ID}, tl\_x, tl\_y, br\_x, br\_y, Immag\_ID:Immagini,\\ \tab Esemp\_ID:Esemplari)\\
+\textbf{Ferite}(\underline{ID}, Descrizione\_Ferita, Posizione, Gravi\_Nome:Gravita, \\ \tab (Sottoi\_ID, Img\_rif):Sottoimmagini)\\
+\textbf{Sottoimmagini}(\underline{ID}, tl\_x, tl\_y, br\_x, br\_y, (Immag\_ID, Esemp\_ID):Esemplari)\\
 \textbf{Esemplari}(\underline{ID}, Nome*)\\
 \textbf{Immagini}(\underline{ID}, Img, Avvis\_ID:Avvistamenti)\\
 \textbf{Utenti}(\underline{ID}, Nome*, Cognome*, Email, Password, Key)\\
@@ -432,16 +478,30 @@ L'operazione di traduzione porta alla creazione dello schema logico:\\
 
 \newpage
 \subsection{Schema relazionale finale}
+Si riporta in figura \ref{figura:schemarelazionaleFinale} lo schema relazionale finale.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.22]{img_concettuale/Logico.png}
 \caption{Schema logico finale.}
+\label{figura:schemarelazionaleFinale}
 \end{figure}
 
-\chapter{Documentazione Interfaccia Web}
+\chapter{Architettura del sistema}
+In questo capitolo si descrive come il sistema è strutturato, ossia come i vari tipi di utenti interagiscono col sistema e le parti che lo compongono.
+
+\section{Struttura}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.35]{img_concettuale/sistema.png}
+\caption{Schema di utilizzo della piattaforma.}
+\label{figura:piattaforma}
+\end{figure}
+Come è possibile vedere dall'immagine \ref{figura:piattaforma} esistono due tipologie di utenti: i ricercatori e gli avvistatori. I primi utilizzando l'interfaccia web hanno la possibilità di modificare i dati degli avvistamenti già caricati o aggiungerne dei nuovi. Essi possono anche inviare messaggi ad avvistatori o altri ricercatori al fine di contattarli e di ricevere ulteriori informazioni sul relativo avvistamento. Sul portale si ha la possibilità anche di selezionare singoli animali di un avvistamento e aggiungere nuove informazioni. Tutti i dati vengono salvati su un database remoto. Gli avvistatori invece utilizzano l'applicazione Android al fine di caricare nuovi avvistamenti, vedere le statistiche sugli avvistamenti e modificare i propri avvistamenti caricati in precedenza. Si noti che non sempre si ha la possibilità di essere collegati alla rete, per questo il dispositivo mobile salva tutti i dati di un relativo avvistamento in un database locale e solo quando è presente connessione si ha la possibilità di caricarli in rete. In entrambe le piattaforme si può utilizzare un algoritmo di visione artificiale al fine di riconoscere al meglio la specie.
+
+\chapter{Progettazione dell'interfaccia Web}
 
 \section{Progettazione}
-Nella progettazione sia dell'applicativo web che mobile, si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
+Nella progettazione sia dell'applicativo web che mobile si è cercato di dare particolare attenzione alla comunicazione visiva della GUI, nello specifico si è cercato di rispettare i seguenti principi:
 \begin{itemize}
 \item \textbf{Affordance:} enfatizzare aspetti di un oggetto che invitano a manipolarlo in un certo modo.\\ Tali aspetti possono essere: tridimensionalità, ombreggiatura e puntamento.
 \item \textbf{Metafora:} una parola, una frase o una figura che dipinge un oggetto o un concetto attraverso una somiglianza con un altro oggetto del mondo reale. Un esempio è un bottone che rappresenta un comando.
@@ -452,7 +512,7 @@ la posizione degli elementi all'interno della pagina è uno strumento importante
 \end{itemize}
 
 \subsection{Usabilità}
-Col termine usabilità, si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
+Col termine usabilità si intende l'efficacia, l'efficienza e la soddisfazione con cui determinati utenti eseguono determinati compiti in particolari ambienti. 
 Più nello specifico, in questo applicativo tali termini rappresentano:
 \begin{itemize}
 \item \textbf{Efficacia:} tutti i compiti richiesti in fase di analisi possono essere eseguiti senza problematiche.
@@ -465,7 +525,7 @@ Sono state definite delle personas, cioè descrizioni di persone che rappresenta
 Le personas che sono state identificate sono:
 \begin{itemize}
  \item Responsabile avvistamenti: persona addetta alla gestione delle informazioni al fine di modificare, aggiungere o eliminare i dati. 
-\item Pescatore: persona che carica nuove informazioni, di un nuovo avvistamento direttamente dal portale.
+\item Pescatore: persona che carica informazioni di un nuovo avvistamento direttamente dal portale.
  \end{itemize} 
  A ciascuna di esse è associato uno scenarios:
  \begin{itemize}
@@ -473,11 +533,11 @@ Le personas che sono state identificate sono:
  \end{itemize}
 
 \subsection{Design}
-In questa sezione, viene descritto il processo che ha portato alla creazione dell'interfaccia web.
+In questa sezione viene descritto il processo che ha portato alla creazione dell'interfaccia web.
 Al fine di progettare la migliore interfaccia che rispetti le caratteristiche elencate in fase di analisi sono stati realizzati:
 \begin{itemize}
-\item Focus Group: è stato chiesto agli utilizzatori del sistema come si aspettavano la realizzazione di determinate parti dell'interfaccia, in particolare, per le schede dei singoli avvistamenti sono state proposte diverse modalità di disposizione dei contenuti e, sulla base di un sondaggio ulteriore, è stata scelta la migliore strategia.
-\item Mockup: sulla base delle informazioni, sono stati creati degli schemi base che danno un'idea della struttura del sistema.
+\item Focus Group: è stato chiesto agli utilizzatori del sistema come si aspettavano la realizzazione di determinate parti dell'interfaccia, in particolare per le schede dei singoli avvistamenti sono state proposte diverse modalità di disposizione dei contenuti e, sulla base di un sondaggio ulteriore, è stata scelta la migliore strategia.
+\item Mockup: sulla base delle informazioni sono stati creati degli schemi base che danno un'idea della struttura del sistema.
 \item Experience Prototyping: è stato realizzato un semplice prototipo di tipo usa e getta al fine di verificare alcune parti incerte del programma, in particolare la tabella degli avvistamenti e le loro specifiche.
 \end{itemize}
 Per quanto riguarda il design, si è cercato di rispettare i seguenti principi:
@@ -489,33 +549,37 @@ Per quanto riguarda il design, si è cercato di rispettare i seguenti principi:
 \end{itemize}
 
 \subsubsection{Mockup}
-Prima dell'inizio della realizzazione effettiva delle pagine, sono stati creati i mockup principali al fine di definire la struttura delle pagine stesse. In particolare, sono stati creati i mockup per la pagina principale, in cui vengono visualizzati tutti gli avvistamenti, e anche per la pagina del singolo avvistamento, in cui si definiscono le operazioni chiave.
+Prima dell'inizio della realizzazione effettiva delle pagine, sono stati creati i mockup principali al fine di definire la struttura delle pagine stesse. In particolare, sono stati creati i mockup per la pagina principale, in cui vengono visualizzati tutti gli avvistamenti, e anche per la pagina del singolo avvistamento, in cui si definiscono le informazioni chiave.
 Il primo mockup che viene mostrato è quello della pagina principale in modalità mobile:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.40]{img_concettuale/HomeMob.png}
+\includegraphics[scale=0.35]{img_concettuale/HomeMob.png}
 \caption{Mockup homepage del sito in versione mobile.}
+\label{figura:hommobmock}
 \end{figure}
-\\Come si può vedere dall'immagine, si tratta di un design molto semplice in cui sono presenti un menù, una mappa e una tabella in cui saranno elencati gli avvistamenti che sono caricati attraverso l'apposito pulsante oppure attraverso l'applicazione mobile.\\
-Nel mockup di seguito, viene invece mostrata la stessa pagina web in versione desktop: 
+\\Come si può vedere dall'immagine \ref{figura:hommobmock}, si tratta di un design molto semplice in cui sono presenti un menù, una mappa e una tabella in cui saranno elencati gli avvistamenti che sono caricati attraverso l'apposito pulsante oppure attraverso l'applicazione mobile.\\
+Nel mockup di seguito \ref{figura:homeDesk} viene invece mostrata la stessa pagina web in versione desktop: 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.90]{img_concettuale/Home.png}
 \caption{Mockup homepage del sito in versione desktop.}
-	\end{figure}
+\label{figura:homeDesk}
+\end{figure}
 \\La pagina web contiene gli stessi elementi descritti nell'immagine precedente, ma disposti  in modo differente al fine di ottimizzare lo spazio.\\
-Nel terzo mockup, invece, viene rappresentata la struttura della pagina degli avvistamenti in versione mobile:
+Nel terzo mockup \ref{figura:mobDesk}, invece, viene rappresentata la struttura della pagina degli avvistamenti in versione mobile:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/avvistamentoMok.png}
 \caption{Mockup avvistamento del sito in versione mobile.}
+\label{figura:mobDesk}
 \end{figure}
-\\La pagina web contiene una semplice mappa in cui vengono raffigurati i luoghi dell'avvistamento e, per ognuno, vengono mostrati i relativi dati, che sono modificabili al fine di variare le informazioni precedentemente inserite. In aggiunta, per ogni avvistamento, c'è la possibilità di aggiungere immagini e di cancellarle. Per ogni immagine possono essere aggiunte più sottoimmagini, ognuna delle quali rappresenta un individuo al quale possono essere ascritte o eliminate le indicazioni delle eventuali ferite.\\
-Nel quarto ed ultimo mockup, viene raffigurata la struttura della pagina degli avvistamenti in versione desktop:
+\\La pagina web contiene una semplice mappa in cui vengono raffigurati i luoghi dell'avvistamento e, per ognuno, vengono mostrati i relativi dati, che sono modificabili al fine di variare le informazioni precedentemente inserite. In aggiunta, per ogni avvistamento, c'è la possibilità di aggiungere immagini e di cancellarle. Per ogni immagine possono essere aggiunte più sottoimmagini, ognuna delle quali rappresenta un individuo al quale possono essere scritte o eliminate le indicazioni delle eventuali ferite.\\
+Nel quarto ed ultimo mockup \ref{figura:singleAvv}, viene raffigurata la struttura della pagina degli avvistamenti in versione desktop:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/avvistamentoDesk.png}
 \caption{Mockup avvistamento del sito in versione desktop.}
+\label{figura:singleAvv}
 \end{figure}
 \\Il contenuto della pagina è lo stesso della versione mobile, solo con una disposizione diversa degli elementi.
 
@@ -525,36 +589,38 @@ Un solution stack ben sviluppato può rendere molto più semplice e veloce lo sv
 Esistono molti solution stack differenti, alcuni dei quali sono sviluppati per specifici sistemi operativi o piattaforme, mentre altri sono più generici e possono essere utilizzati su molte piattaforme diverse.\\
 
 \subsubsection{LAMP}
-Nel nostro caso, è stato utilizzato il solution stack denominato LAMP (Linux, Apache, MySQL, PHP), che è un popolare solution stack per lo sviluppo di applicazioni web su sistema operativo Linux. Questo perché il database e il server web Apache2 sono situati in una Raspberry pi 4, che ha un indirizzo di rete fisso a cui chiunque sia collegato via internet può connettersi ed accedere al sito e ai suoi contenuti, ovviamente previa registrazione.
+Nel nostro caso, è stato utilizzato il solution stack denominato LAMP \ref{figura:LAMPSTACK}\cite{LAMP} (Linux, Apache \cite{Apache}, MySQL \cite{MySQL}, PHP \cite{PHP}), che è un popolare solution stack per lo sviluppo di applicazioni web su sistema operativo Linux. Questo perché il database e il server web Apache2 sono situati in un server Linux, che ha un indirizzo di rete fisso a cui chiunque sia collegato via internet può connettersi ed accedere al sito e ai suoi contenuti, ovviamente previa registrazione.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.47]{img_concettuale/LAMP.png}
 \caption{Stack LAMP, Fonte: \cite{phoenixnap}}
-
+\label{figura:LAMPSTACK}
 \end{figure} 
+
 \subsubsection{PHP}
-Prendendo in considerazione il server, si ha un linguaggio di programmazione denominato PHP. Esso è open-source ed utilizzato per lo sviluppo di siti web dinamici e interattivi. \\ PHP è un linguaggio di scripting server-side, il che significa che il codice PHP viene eseguito sul server, non sul browser del client. Questo rende il processo di sviluppo più efficiente, poiché l'elaborazione avviene sul server e i dati vengono inviati al browser solo una volta elaborati. Perciò è possibile creare siti web dinamici e interattivi, che possono essere personalizzati in base alle esigenze dell'utente. \\ Esso supporta anche molte funzionalità avanzate, come l'elaborazione di form HTML, la connessione a database, l'elaborazione di cookie e sessioni e la gestione dei file. I siti web che vengono creati in questo modo possono offrire molte funzionalità avanzate, come ad esempio la personalizzazione dei contenuti in base alle preferenze dell'utente.
+Prendendo in considerazione il server, si ha un linguaggio di programmazione denominato PHP. Esso è open-source ed utilizzato per lo sviluppo di siti web dinamici e interattivi. \\ PHP è un linguaggio di scripting server-side, il che significa che il codice PHP viene eseguito sul server, non sul browser del client. Questo rende il processo di sviluppo più efficiente, poiché l'elaborazione avviene sul server e i dati vengono inviati al browser solo una volta elaborati. Perciò è possibile creare siti web dinamici e interattivi, che possono essere personalizzati in base alle esigenze dell'utente. \\ Esso supporta anche molte funzionalità avanzate, come l'elaborazione di form HTML \cite{HTML}, la connessione a database, l'elaborazione di cookie e sessioni e la gestione dei file. I siti web che vengono creati in questo modo possono offrire molte funzionalità avanzate, come ad esempio la personalizzazione dei contenuti in base alle preferenze dell'utente.
 
 \subsubsection{MYSQL}
 MySQL è un sistema di gestione del database relazionale open-source, utilizzato per gestire grandi quantità di informazioni. Il fatto che sia un sistema di gestione del database relazionale significa che i dati sono organizzati in tabelle e ogni tabella può avere relazioni con le altre. Questo rende il processo di gestione dei dati molto efficiente e semplice, poiché è possibile accedere rapidamente a informazioni specifiche utilizzando delle query.\\
 La tecnologia descritta offre quindi un sistema di gestione del database altamente scalabile, il che significa che può gestire grandi quantità di informazioni senza compromettere le prestazioni. Inoltre, è molto flessibile e facile da usare, il che significa che gli sviluppatori possono facilmente creare e gestire grandi quantità di dati.
 
 \subsection{Fruizione del servizio}
-Il servizio, essendo di tipo centralizzato su un unico server, è fruibile utilizzando le tre tecnologie che sono alla base del web.
+Il servizio, essendo di tipo centralizzato su un unico server, figura \ref{figura:tecbasewebcasa}, è fruibile utilizzando le tre tecnologie che sono alla base del web.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.60]{img_concettuale/tecnologie.png}
 \caption{Tecnologie alla base del web.}
+\label{figura:tecbasewebcasa}
 \end{figure} 
 
 \subsubsection{URI}
-Lo Uniform Resource Identifier è utilizzato per identificare risorse in modo univoco e permanente. Questo è importante perché rende possibile accedere alle risorse su Internet in modo affidabile e coerente, indipendentemente dalla loro posizione. Nel nostro caso, si può utilizzare l'URL \textit{www.seadetector.ooguy.com} al fine di raggiungere il sito.
+Lo Uniform Resource Identifier è utilizzato per identificare risorse in modo univoco e permanente. Questo è importante perché rende possibile accedere alle risorse su Internet in modo affidabile e coerente, indipendentemente dalla loro posizione. Nel nostro caso, si può utilizzare l'URL \textit{isi-seawatch.csr.unibo.it} al fine di raggiungere il sito.
 
 \subsubsection{HTTPS}
 L'Hypertext Transfer Protocol Secure è un'estensione di HTTP, il protocollo di base utilizzato per la trasmissione di informazioni su internet. Il funzionamento di HTTPS si basa sulla crittografia. Quando un utente accede a un sito web che utilizza HTTPS, i dati inviati e ricevuti vengono crittografati utilizzando un certificato SSL (Secure Sockets Layer) o TLS (Transport Layer Security). Questo certificato garantisce che i dati siano protetti da eventuali attacchi esterni e che solo l'utente e il sito web abbiano accesso ai dati scambiati.
 L'utilizzo di HTTPS è molto importante per la sicurezza delle informazioni personali e dei dati sensibili degli utenti. Ad esempio, quando si effettua un login, i dati sensibili come le password vengono trasmessi attraverso internet. Se il sito web utilizza HTTPS, questi dati vengono protetti da eventuali attacchi esterni e non possono essere intercettati o utilizzati impropriamente.\\
-Nel nostro caso, in particolare, una volta installato e configurato il server web sulla Raspberry pi4, è stato utilizzato un software denominato Certbot che facilita la creazione, l'installazione e l'utilizzo di certificati SSL per i siti web. Inoltre, Certbot si occupa automaticamente della gestione dei certificati, incluso il rinnovo automatico dei certificati prima della loro scadenza. Questo rende molto più semplice la gestione dei certificati SSL, poiché gli sviluppatori non devono preoccuparsi di rinnovare manualmente i certificati.
-Certbot permette di ottenere certificati gratuiti tramite Let's Encrypt, un'organizzazione che fornisce certificati SSL a chiunque li richieda.\\
+Nel nostro caso, in particolare, una volta installato e configurato il server web, è stato utilizzato un software denominato Certbot \cite{Certbot} che facilita la creazione, l'installazione e l'utilizzo di certificati SSL per i siti web. Inoltre, Certbot si occupa automaticamente della gestione dei certificati, incluso il rinnovo automatico dei certificati prima della loro scadenza. Questo rende molto più semplice la gestione dei certificati SSL, poiché gli sviluppatori non devono preoccuparsi di rinnovare manualmente i certificati.
+Certbot permette di ottenere certificati gratuiti tramite Let's Encrypt \cite{Let's encrypt}, un'organizzazione che fornisce certificati SSL a chiunque li richieda.\\
 
 \subsubsection{HTML}
 
@@ -565,33 +631,58 @@ HTML (Hypertext Markup Language) è un linguaggio di markup utilizzato per crear
 Per quanto riguarda lo stile del sito, sono state utilizzate diverse tecnologie combinate insieme per cercare di avere la massima resa possibile.
 
 \subsubsection{CSS}
-CSS (Cascading Style Sheets) è un linguaggio utilizzato per descrivere l'aspetto di un documento HTML. Esso è un componente importante della creazione di siti web, poiché permette ai designer e agli sviluppatori di separare il contenuto di una pagina web dalla sua rappresentazione. In questo modo, il contenuto di una pagina web può essere modificato senza influire sulla sua presentazione, rendendo più semplice la manutenzione e l'aggiornamento del sito. CSS viene utilizzato per la creazione di layout complessi, animazioni, transizioni ed effetti grafici. 
+CSS (Cascading Style Sheets) \cite{CSS} è un linguaggio utilizzato per descrivere l'aspetto di un documento HTML. Esso è un componente importante della creazione di siti web, poiché permette ai designer e agli sviluppatori di separare il contenuto di una pagina web dalla sua rappresentazione. In questo modo, il contenuto di una pagina web può essere modificato senza influire sulla sua presentazione, rendendo più semplice la manutenzione e l'aggiornamento del sito. CSS viene utilizzato per la creazione di layout complessi, animazioni, transizioni ed effetti grafici. 
 
 \subsubsection{Bootstrap}
-Bootstrap è un framework di design per il web, che fornisce un insieme di componenti e strumenti per la creazione di pagine. Bootstrap è progettato per aiutare i designer e gli sviluppatori a creare progetti web più velocemente e con maggiore facilità, fornendo una serie di componenti predefiniti e stili per la creazione di interfacce utente. Esso è basato su HTML, CSS e JavaScript e offre una vasta gamma di componenti, tra cui barre di navigazione, moduli, tabelle, pulsanti, icone, griglie e molto altro.
+Bootstrap \cite{Bootstrap} è un framework di design per il web, che fornisce un insieme di componenti e strumenti per la creazione di pagine. Bootstrap è progettato per aiutare i designer e gli sviluppatori a creare progetti web più velocemente e con maggiore facilità, fornendo una serie di componenti predefiniti e stili per la creazione di interfacce utente. Esso è basato su HTML, CSS e JavaScript \cite{JavaScript} e offre una vasta gamma di componenti, tra cui barre di navigazione, moduli, tabelle, pulsanti, icone, griglie e molto altro.
 Bootstrap rende inoltre molto più semplice la creazione di progetti web, senza dover scrivere da zero il codice CSS e HTML per ogni progetto. I designer e gli sviluppatori possono utilizzare i componenti predefiniti di Bootstrap, che sono già ben testati e ottimizzati per una buona esperienza utente.
-Un altro aspetto fondamentale è che esso è basato sul principio denominato Mobile first che permette di creare pagine web adatte oltre che per PC anche per cellulari.\\ Grazie alla combinazione di righe e colonne che insieme formano una griglia, è possibile modificare agevolmente il layout della pagina in base alla grandezza del dispositivo che si utilizza.
+Un altro aspetto fondamentale è che esso è basato sul principio denominato Mobile first, che permette di creare pagine web adatte oltre che per PC anche per cellulari.\\ Grazie alla combinazione di righe e colonne che insieme formano una griglia, è possibile modificare agevolmente il layout della pagina in base alla grandezza del dispositivo che si utilizza.
 
-\subsection{Javascript e Librerire}
+\subsection{Javascript e Librerie}
 Per l'applicazione è stato usato Javascript come linguaggio di programmazione lato client. Esso è dinamico, interpretato e viene utilizzato principalmente per creare interazioni ed effetti visivi sulle pagine web. Questo linguaggio di programmazione è completamente differente rispetto a HTML e CSS, che sono utilizzati per la creazione della struttura e del design delle pagine web. JavaScript, d'altra parte, è utilizzato per creare interazioni e effetti dinamici all'interno della pagina, come ad esempio la validazione dei moduli e la creazione di animazioni.
 \subsubsection{JQUERY}
-Nel progetto, al fine di semplificare la creazione di determinate funzionalità, è stata utilizzata una libreria JavaScript open source così da rendere più semplice e veloce lo sviluppo di pagine interattive e applicazioni web. Essa è denominata JQUERY e la sua principale caratteristica è la sua capacità di semplificare le attività di sviluppo web, come la manipolazione del DOM (Document Object Model), l'aggiunta di effetti e animazioni e la gestione degli eventi. JQUERY ha la caratteristica di essere totalmente compatibile con i browser più diffusi e di offrire un'ottima compatibilità anche con i dispositivi mobile.
+Nel progetto, al fine di semplificare la creazione di determinate funzionalità, è stata utilizzata una libreria JavaScript open source così da rendere più semplice e veloce lo sviluppo di pagine interattive e applicazioni web. Essa è denominata JQUERY \cite{JQUERY} e la sua principale caratteristica è la sua capacità di semplificare le attività di sviluppo web, come la manipolazione del DOM (Document Object Model), l'aggiunta di effetti e animazioni e la gestione degli eventi. JQUERY ha la caratteristica di essere totalmente compatibile con i browser più diffusi e di offrire un'ottima compatibilità anche con i dispositivi mobile.
 \subsubsection{AJAX}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.40]{img_concettuale/ajax.jpg}
 \caption{Funzionamento di AJAX, Fonte: \cite{javascript-coder}}
+\label{figura:ajaximgmessa}
 \end{figure} 
-Nell'applicazione, per richiedere dati dal database, vengono eseguite delle chiamate Ajax asincrone al server. AJAX (Asynchronous JavaScript and XML) è una tecnologia utilizzata per creare applicazioni web dinamiche e interattive. Essa si basa sull'utilizzo di JavaScript e permette di aggiornare parti di una pagina web senza doverla ricaricare.
+Nell'applicazione, per richiedere dati dal database, vengono eseguite delle chiamate Ajax asincrone al server, figura \ref{figura:ajaximgmessa}. AJAX (Asynchronous JavaScript and XML) \cite{AJAX} è una tecnologia utilizzata per creare applicazioni web dinamiche e interattive. Essa si basa sull'utilizzo di JavaScript e permette di aggiornare parti di una pagina web senza doverla ricaricare.
 Invece di inviare una richiesta al server per ottenere l'intera pagina web, AJAX consente di inviare richieste al server per ottenere solo i dati necessari. Questo significa che, ad esempio, se un utente clicca su un link o modifica una form, solo i dati necessari vengono inviati al server, e solo la parte della pagina che deve essere aggiornata viene effettivamente modificata. Il processo rende l'interazione più veloce e fluida per l'utente, poiché non è necessario attendere il caricamento dell'intera pagina ogni volta che viene effettuata un'azione.
-Il server invierà i dati richiesti dal client in formato JSON.
+Il server invierà i dati richiesti dal client in formato JSON \cite{JSON}.
 
 \subsubsection{PHPMailer}
-Nel sito, al fine di recuperare la password nel caso qualcuno la dimentichi, in fase di login, è stata implementata una funzione che permette di inviare email con all'interno la password temporanea dell'account. Per farlo è stata utilizzata la libreria PHP Mailer. Essa è una libreria open-source per PHP che permette di inviare email tramite il protocollo SMTP (Simple Mail Transfer Protocol). Questa libreria è stata sviluppata per semplificare il processo di invio di email da un sito web e offre molte funzionalità avanzate, come ad esempio la gestione della codifica dei caratteri e l'invio di email con allegati. La libreria PHPMailer è molto semplice da utilizzare e offre un'interfaccia intuitiva per l'invio di email da un sito web.\\
-Al fine di non dover comprare un dominio per le mail e dover gestire il server mail, è stato utilizzato il servizio di posta elettronica di Libero.
+Nel sito, al fine di recuperare la password nel caso qualcuno la dimentichi, in fase di login, è stata implementata una funzione che permette di inviare email con all'interno la password temporanea dell'account. Per farlo è stata utilizzata la libreria PHP Mailer \cite{Mailer}. Essa è una libreria open-source per PHP che permette di inviare email tramite il protocollo SMTP (Simple Mail Transfer Protocol). Questa libreria è stata sviluppata per semplificare il processo di invio di email da un sito web e offre molte funzionalità avanzate, come ad esempio la gestione della codifica dei caratteri e l'invio di email con allegati. La libreria PHPMailer è molto semplice da utilizzare e offre un'interfaccia intuitiva per l'invio di email da un sito web.
 
 \subsubsection{LeafLet}
-Leaflet è una libreria open-source per la visualizzazione di mappe interattive sul web. Leaflet consente di visualizzare mappe basate su tiles, marker, pop-up, forme e tanti altri elementi. La libreria supporta una vasta gamma di formati di dati geografici e offre la possibilità di creare mappe personalizzate utilizzando fogli di stile. LeafLet è supportata da una vasta gamma di dispositivi, tra cui desktop, tablet e smartphone, il che la rende una soluzione versatile e scalabile. In particolare, è utile nella nostra piattaforma per evidenziare i punti in cui sono stati effettuati gli avvistamenti.
+Leaflet \cite{Leaflet} è una libreria open-source per la visualizzazione di mappe interattive sul web. Leaflet consente di visualizzare mappe basate su tiles, marker, pop-up, forme e tanti altri elementi. La libreria supporta una grande quantità di formati di dati geografici e offre la possibilità di creare mappe personalizzate utilizzando fogli di stile. LeafLet è supportata da una vasta gamma di dispositivi, tra cui desktop, tablet e smartphone, il che la rende una soluzione versatile e scalabile. In particolare, è utile nella nostra piattaforma per evidenziare i punti in cui sono stati effettuati gli avvistamenti. Un esempio è riportato nell'immagine \ref{figura:leafletimgesempio}.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.65]{img_concettuale/lflet.png}
+\caption{Mappa Leaflet interattiva.}
+\label{figura:leafletimgesempio}
+\end{figure} 
+
+\subsubsection{Utilizzo delle librerie}
+L'utilizzo delle varie librerie nel progetto viene riportato in una tabella \ref{table:libpagwebusate}:
+\begin{table}[hbtp]
+\centering
+\resizebox{12cm}{!}{%
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Libreria/Tool} & {\color[HTML]{000000} Utilizzo} \\ \hline
+{\color[HTML]{000000} AJAX} & {\color[HTML]{000000} Comunicazione asincrona col server remoto} \\ \hline
+{\color[HTML]{000000} PHPMailer} & {\color[HTML]{000000} Recupero delle credenziali via mail} \\ \hline
+{\color[HTML]{000000} LeafLet} & {\color[HTML]{000000} Visualizzazione di mappe con marker nei luoghi degli avvistamenti} \\ \hline
+\end{tabular}%
+}
+\caption{Tabella delle librerie utilizzate nella pagina web.}
+\label{table:libpagwebusate}
+\end{table}
+
 
 \subsection{Cookies}
 Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire, attraverso essi, un profilo dell'utente. Una di queste tecniche prevede l'utilizzo di cookies. Essi sono considerati delle stringhe di testo che il browser crea all'apertura di una pagina web sul computer dell'utente e che salvano dati dello stesso durante la navigazione di un sito web, agevolandone l'utilizzo. Dei possibili esempi possono essere:
@@ -599,7 +690,7 @@ Esistono diverse tecniche utilizzate per raccogliere i dati online e costituire,
 \item Memorizzare le preferenze linguistiche
 \item I dati di login
 \end{itemize}
-I dati vengono memorizzati per essere poi ritrasmessi ai medesimi siti alla visita successiva dello stesso utente. Mediante i cookies, è anche possibile monitorare la navigazione e raccogliere dati inerenti le abitudini e le scelte personali degli utenti, consentendo così la creazione di profili dettagliati degli visitatori delle pagine. Un esempio è la personalizzazione delle inserzioni pubblicitarie sul browser. Generalmente, un cookie contiene un attributo che indica la durata di vita e un numero generato in modo casuale che consente il riconoscimento dell'utente.\\
+I dati vengono memorizzati per essere poi ritrasmessi ai medesimi siti alla visita successiva dello stesso utente. Mediante i cookies, è anche possibile monitorare la navigazione e raccogliere dati inerenti le abitudini e le scelte personali degli utenti, consentendo così la creazione di profili dettagliati dei visitatori delle pagine. Un esempio è la personalizzazione delle inserzioni pubblicitarie sul browser. Generalmente, un cookie contiene un attributo che indica la durata di vita e un numero generato in modo casuale che consente il riconoscimento dell'utente.\\
 Esiste una specifica normativa di derivazione europea che disciplina l'utilizzo dei cookies al fine di tutelare le persone da forme di profilazione definite occulte e di consentire loro un minimo controllo sulla circolazione dei dati inerenti la propria navigazione online.\\
 Esistono tre tipologie di cookies:
 \begin{enumerate}
@@ -615,7 +706,7 @@ Oltre all'utilizzo di un protocollo HTTPS, si è data una particolare attenzione
 Tutte le form tramite chiamate ajax inviano i dati in modalità POST. Il metodo "POST" è una delle due modalità principali per inviare dati tramite una richiesta HTTP. Quando si inviano dati utilizzando il metodo POST, essi sono inclusi nella corpo della richiesta HTTP, anziché nell'URL come con il metodo GET. Questo rende il metodo POST adatto per l'invio di dati sensibili o confidenziali, poiché questi non sono visibili nell'URL e non possono essere facilmente intercettati o modificati.
 
 \subsubsection{Criptaggio password} 
-Per quanto riguarda le password, si è usata una tecnica leggermente complessa:
+Per quanto riguarda le password, si è usata una tecnica leggermente complessa, figura \ref{figura:crppassconsalt}:
 \begin{enumerate}
 \item In fase di registrazione l'utente inserisce due volte la password in modo da evitare errori di battitura
 \item Quando conferma i dati inseriti, viene creata una chiave univoca basata sul timestamp del momento e criptata utilizzando una funzione hash SHA1 (SALT)
@@ -626,7 +717,8 @@ Per quanto riguarda le password, si è usata una tecnica leggermente complessa:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/sale.png}
-\caption{Struttura alla base della fase di criptaggio, Fonte: \cite{okta}}
+\caption{Struttura alla base della fase di criptaggio \cite{okta}}
+\label{figura:crppassconsalt}
 \end{figure}
 In questo modo la password dell'utente per l'accesso al sistema non verrà mai trasmessa in rete, permettendo maggiore sicurezza in caso di attacchi di tipo Sniffing, man in the middle o Spoofing.  
 
@@ -643,10 +735,10 @@ L'accessibilità informatica è la capacità per i sistemi informatici di fornir
 \end{itemize}
 
 \subsection{WCAG}
-L'intero sito internet segue le linee guida create dal W3C per i diversi livelli di accessibilità.
+L'intero sito internet segue le linee guida create dal W3C \cite{W3C} per i diversi livelli di accessibilità, tali livelli sono racchiusi nell'immagine \ref{figura:lineeguidalivelliacc}.
 In particolare, WAI è l'acronimo di Web Accessibility Initiative ed è un'iniziativa del W3C il cui obiettivo è di promuovere la creazione di contenuti web accessibili e di garantire che tutti gli utenti, indipendentemente dalla loro abilità, possano accedere e interagire con i contenuti del web in modo efficiente e significativo. Il WAI lavora in stretta collaborazione con organizzazioni governative, industriali ed enti di advocacy per garantire che le linee guida e le tecnologie sviluppate siano adatte alle esigenze di tutti gli utenti del web. Il suo impegno a supportare l'accessibilità del web ha contribuito a rendere questo ambiente un luogo più inclusivo e accessibile per tutti gli utenti.\\
-Le linee guida prese in considerazione sono le WCAG che è l'acronimo di Web Content Accessibility Guidelines.
-Esse si basano su 4 principi, ovvero sulle caratteristiche necessarie perchè in sito sia accessibile. Il sito deve risultare:
+Le linee guida prese in considerazione sono le WCAG \cite{WCAG} che è l'acronimo di Web Content Accessibility Guidelines.
+Esse si basano su 4 principi, ovvero sulle caratteristiche necessarie perché un sito sia accessibile. Il sito deve risultare:
 \begin{itemize}
 \item Percepibile
 \item Utilizzabile
@@ -654,12 +746,13 @@ Esse si basano su 4 principi, ovvero sulle caratteristiche necessarie perchè in
 \item Robusto
 \end{itemize}
 Dai 4 principi discendono le 12 linee guida che
-forniscono indicazioni per rendere il contenuto più accessibile. Per ciascuna di esse, sono stati identificati una serie di criteri di successo che possono essere facilmente verificati. Questi criteri sono suddivisi in tre livelli di conformità: A (minimo), AA e AAA (massimo). Il livello A rappresenta il livello minimo di conformità, mentre il livello AAA rappresenta il massimo livello di conformità possibile.
+forniscono indicazioni per rendere il contenuto più accessibile. Per ciascuna di esse, sono stati identificati una serie di criteri di successo che possono essere facilmente verificati. Questi criteri sono suddivisi in tre livelli di conformità: A, AA e AAA (massimo). 
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.38]{img_concettuale/wcag.png}
+\includegraphics[scale=0.43]{img_concettuale/wcag.png}
 \caption{Struttura delle linee guida coi rispettivi livelli, Fonte: \cite{antonio}}
+\label{figura:lineeguidalivelliacc}
 \end{figure}
 
 Il WCAG è stato sviluppato con la collaborazione di una vasta comunità di esperti in accessibilità, tecnologia e advocacy e viene continuamente aggiornato per tener conto delle evoluzioni delle tecnologie e delle esigenze degli utenti. Esso è diventato un punto di riferimento per gli sviluppatori di siti web e per le organizzazioni che cercano di garantire l'accessibilità dei loro contenuti web.
@@ -683,7 +776,7 @@ contrasto di almeno 4.5:1.
 \item Questa linea guida tratta molte componenti che sono fondamentali nella costruzione della struttura di un documento, in particolare gli elementi della categoria Sectioning che hanno funzione strutturale. La struttura del documento è importante non solo per supportare la navigazione con l'ausilio di uno screen reader, ma anche per ottimizzare l'indicizzazione da parte dei motori di ricerca (SEO). La struttura del documento permette una navigazione più fluida tra sezioni, titoli e link.
 \end{itemize}
 In particolare, gli screen reader permettono all'utente non vedente di percorrere le pagine attraverso i tag di heading. Per questo motivo, i tag non devono assolutamente avere uno scopo presentazionale, ma la loro sequenza deve essere corretta al fine di aiutare gli utenti che utilizzano mezzi assistivi.\\
-Un altro aspetto da tenere in considerazione sono le tabelle che sono presenti nel sito web. Queste, per essere accessibili, devono utilizzare l'attributo id nei tag di heading(th) e l'attributo headers nei tag (td) al fine di permettere l'associazione di ogni singola cella con il rispettivo titolo. In aggiunta, nei tag di intestazione, deve essere utilizzato l'attributo scope, che permette di identificare lo scopo della cella presa in considerazione. Per finire, al fine di far capire all'utente quali dati tale tabella rappresenti, è fondamentale utilizzare il tag caption, dove viene scritta la didascalia della tabella.
+Un altro aspetto da tenere in considerazione sono le tabelle che sono presenti nel sito web. Queste, per essere accessibili, devono utilizzare l'attributo id nei tag di heading (th) e l'attributo headers nei tag (td) al fine di permettere l'associazione di ogni singola cella con il rispettivo titolo. In aggiunta, nei tag di intestazione, deve essere utilizzato l'attributo scope, che permette di identificare lo scopo della cella presa in considerazione. Per finire, al fine di far capire all'utente quali dati tale tabella rappresenti, è fondamentale utilizzare il tag caption, dove viene scritta la didascalia della tabella.
 \end{itemize}
 \newpage
 \emph{Principio Comprensibile:}
@@ -693,16 +786,17 @@ La soluzione è l'utilizzo di label con attributo for e input con attributo id, 
 \end{itemize}
 
 \section{Struttura del progetto}
-La struttura del progetto è concepita come un insieme di componenti distinti che vengono realizzati separatamente e successivamente integrati per creare il sistema finale.
+La struttura del progetto è concepita come un insieme di componenti distinti che vengono realizzati separatamente e successivamente integrati per creare il sistema finale. Come è visibile dall'immagine \ref{figura:partidellastrutturadelprog}.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.60]{img_concettuale/struttura.png}
+\includegraphics[scale=0.80]{img_concettuale/struttura.png}
 \caption{Struttura del progetto.}
+\label{figura:partidellastrutturadelprog}
 \end{figure}
 \begin{itemize}
 \item La base della pagina web è un file che al suo interno contiene tutti i riferimenti a file di stile esterni, file Javascript comuni a tutte le pagine e riferimenti a librerie.
-\item Ogni pagina è composta da più componenti, ed ognuno è composto a sua volta da un template al cui interno è presente solo il codice html con la struttura di quella sezione, un file javascript che permette di eseguire chiamate ascincrone a un terzio file php che, a seconda dell'operazione richiesta, richiede un'interrogazione al database e restituisce i dati richiesti in formato JSON.
-\item Al fine di eseguire le interrogazioni al database, esiste un file boostrap nel quale viene creata una connessione al DB.
+\item Ogni pagina è composta da più componenti, ed ognuno è composto a sua volta da un template al cui interno è presente solo il codice html con la struttura di quella sezione, un file javascript che permette di eseguire chiamate asincrone a un terzo file php che, a seconda dell'operazione richiesta, richiede un'interrogazione al database e restituisce i dati richiesti in formato JSON.
+\item Al fine di eseguire le interrogazioni al database, esiste un file Bootstrap nel quale viene creata una connessione al DB.
 Tutte le funzioni di interrogazione sono racchiuse nel file denominato database che è utilizzato da tutti i file PHP citati prima.
 \item Esistono anche delle funzioni di utilità sia in PHP che in JS, che sono file separati e sono utilizzabili da tutti i file, col fine di non avere del codice ridondante o troppo pesante.\\ Un esempio:
 \begin{itemize}
@@ -718,21 +812,24 @@ Tutte le funzioni di interrogazione sono racchiuse nel file denominato database 
 \centering
 \includegraphics[scale=0.31]{img_concettuale/login.png}
 \caption{Struttura della pagina di Login.}
+\label{figura:paglogin}
 \end{figure}
-La pagina è composta da due sezioni: la principale è la sezione di inserimento dati, dove l'utente inserisce le proprie informazioni per accedere al portale. Ci sono altri due pulsanti oltre a quello di accesso: uno per la pagina di registrazione, se l'utente non ha un account, e l'altro per il recupero della password in caso di dimenticanza. Al click su quest'ultimo, appare un modale da cui, inserendo la propria email, l'utente riceverà le informazioni necessarie per accedere al portale, rispettando le regole di sicurezza.
+La pagina, figura \ref{figura:paglogin}, è composta da due sezioni: la principale è la sezione di inserimento dati, dove l'utente inserisce le proprie informazioni per accedere al portale. Ci sono altri due pulsanti oltre a quello di accesso: uno per la pagina di registrazione, se l'utente non ha un account, e l'altro per il recupero della password in caso di dimenticanza. Al click, appare un modale da cui, inserendo l'email, vedi \ref{figura:recpass}, l'utente riceverà le informazioni necessarie per accedere al portale, rispettando le regole di sicurezza. 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.42]{img_concettuale/recuperoPWD.png}
 \caption{Modale per il recupero della password.}
+\label{figura:recpass}
 \end{figure}
 \\Il secondo componente, presente in tutte le pagine dell'applicazione, è il footer che contiene un link al repository di Github e un link alla sezione dedicata alla privacy.
-\subsection{Pagina di sign Up}
+\subsection{Pagina di Sign Up}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.31]{img_concettuale/signup.png}
 \caption{Struttura della pagina di Sign-Up.}
+\label{figura:pagsignupsdd}
 \end{figure}
-La pagina è composta da una form che contiene diversi campi obbligatori e alcuni facoltativi. Durante la registrazione, l'utente inserisce i propri dati che vengono successivamente convalidati e registrati nel database. La pagina presenta uno sfondo con un gradiente lineare che crea un forte contrasto con lo sfondo bianco della form, per garantire una maggiore accessibilità come descritto dalle specifiche del WCAG.
+La pagina, vedi figura \ref{figura:pagsignupsdd}, è composta da una form che contiene diversi campi obbligatori e alcuni facoltativi. Durante la registrazione, l'utente inserisce i propri dati che vengono successivamente convalidati e registrati nel database. La pagina presenta uno sfondo con un gradiente lineare che crea un forte contrasto con lo sfondo bianco della form, per garantire una maggiore accessibilità come descritto dalle specifiche del WCAG.
 
 \newpage
 
@@ -741,8 +838,9 @@ La pagina è composta da una form che contiene diversi campi obbligatori e alcun
 \centering
 \includegraphics[scale=0.31]{img_concettuale/privacy.png}
 \caption{Struttura della pagina dell'informativa sulla privacy.}
+\label{figura:pagprivacyasd}
 \end{figure}
-In questa pagina sono elencate tutte le politiche sulla privacy. Ogni sezione presenta un elenco numerato che descrive i provvedimenti attuati per migliorare la protezione dei dati.\\ Questa è l'unica pagina che dispone di due menù di navigazione differenti. Il primo è visibile a tutti gli utenti che non hanno effettuato l'accesso al portale, con i soli link per il login e la registrazione. Il secondo è invece disponibile per gli utenti loggati e permette di navigare all'interno del sito.
+In questa pagina, figura \ref{figura:pagprivacyasd}, sono elencate tutte le politiche sulla privacy. Ogni sezione presenta un elenco numerato che descrive i provvedimenti attuati per migliorare la protezione dei dati.\\ Questa è l'unica pagina che dispone di due menù di navigazione differenti. Il primo è visibile a tutti gli utenti che non hanno effettuato l'accesso al portale, con i soli link per il login e la registrazione. Il secondo è invece disponibile per gli utenti loggati e permette di navigare all'interno del sito.
 
 \newpage
 
@@ -751,77 +849,88 @@ In questa pagina sono elencate tutte le politiche sulla privacy. Ogni sezione pr
 \centering
 \includegraphics[scale=0.27]{img_concettuale/tabellaAvv.png}
 \caption{Struttura della pagina pagina principale del sito.}
+\label{figura:pagprinchomepage}
 \end{figure}
-La struttura della pagina è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
-La parte principale della pagina è divisa in due sezioni costituite una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker colorati in base all'animale che rappresentano. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato, verrà aperta la pagina dell'avvistamento specifico.\\
+La struttura della pagina, immagine \ref{figura:pagprinchomepage}, è molto semplice ed è composta da un menù di navigazione che viene condiviso tra tutte le pagine interne del sito. Questo menù permette agli utenti di navigare facilmente il sito e di effettuare il logout.\\
+La parte principale della pagina è divisa in due sezioni costituite da una mappa e una tabella. La mappa mostra tutti gli avvistamenti segnati con dei marker colorati in base all'animale che rappresentano. Gli utenti possono interagire con la mappa spostandosi all'interno della sezione e visualizzando le informazioni principali sugli avvistamenti attraverso i popup che appaiono quando si passa il mouse sui marker. Se uno di essi viene cliccato, verrà aperta la pagina dell'avvistamento specifico.\\
 La sezione di destra presenta invece una tabella che include tutti gli avvistamenti con le informazioni più importanti. Questa tabella è stata realizzata seguendo tutte le direttive sull'accessibilità. Cliccando sul bottone "Vedi", si aprirà la pagina relativa all'avvistamento specifico. Sia la mappa che la tabella cambiano aspetto quando si passa il mouse sopra di esse, per motivi di stile.\\
-In alto a destra è presente un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale che appare in sovrimpressione quando si clicca sul pulsante.
+In alto a destra è presente un pulsante che permette di aggiungere un nuovo avvistamento. Questo viene fatto attraverso un modale, figura \ref{figura:modaleinseirmentoavvisa}, che appare in sovrimpressione quando si clicca sul pulsante.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/aggiungiAvv.png}
 \caption{Modale per l'inserimento di un nuovo avvistamento.}
+\label{figura:modaleinseirmentoavvisa}
 \end{figure}
-\\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due select in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. È necessario innanzitutto selezionare l'animale, e solo dopo si abiliterà la select della specie al fine di poter scegliere la specie corretta dell'individuo.
-Infine, è possibile anche estrapolare i dati di tutti gli avvistamenti presenti nella tabella e anche quelli eliminati, attraverso il pulsante esporta, che avvia il download di un file .csv, leggibile col programma excel. 
+\\ Il modale è composto da una form in cui ci sono 4 campi obbligatori al fine dell'aggiunta dell'avvistamento e dei dati opzionali che potranno essere completati o modificati anche in un secondo momento. Per quanto riguarda l'animale e la specie sono presenti due menù a cascata in cui verranno visualizzati i nomi dei relativi elenchi estrapolati dal database. È necessario innanzitutto selezionare l'animale, e solo dopo si abiliterà il menù a discesa della specie al fine di poter scegliere la specie corretta dell'individuo.
+Infine, è possibile anche estrapolare i dati di tutti gli avvistamenti presenti nella tabella e anche quelli eliminati attraverso il pulsante esporta, che avvia il download di un file .csv, leggibile col programma excel. 
 
 \subsection{Pagina delle impostazioni}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.36]{img_concettuale/impostazioniPG.png}
 \caption{Pagina delle impostazioni del profilo utente.}
+\label{figura:pagdelleimpostazioniweb}
 \end{figure}
-Questa pagina presenta un menù leggermente diverso rispetto agli altri, che cambia aspetto in base alle dimensioni dello schermo. Se viene utilizzato uno schermo più piccolo, il menù viene integrato nella sezione di destra. La sezione comprende una form, dove l'utente può modificare le proprie informazioni inserite durante il login, ad eccezione dell'indirizzo email, la cui modifica è disabilitata per ragioni di sicurezza.
+Questa pagina, vedi \ref{figura:pagdelleimpostazioniweb}, presenta un menù leggermente diverso rispetto agli altri, che cambia aspetto in base alle dimensioni dello schermo. Se viene utilizzato uno schermo più piccolo, il menù viene integrato nella sezione di destra. La sezione comprende una form, dove l'utente può modificare le proprie informazioni inserite durante il login, ad eccezione dell'indirizzo email, la cui modifica è disabilitata per ragioni di sicurezza.
 Se invece si entra nella sezione sicurezza, si ha la possibilità di modificare la password. In primo luogo, verrà chiesta la vecchia password, poi la nuova e una conferma ulteriore della nuova password. Tutto questo è pensato per evitare problemi legati alla sicurezza ed errori di battitura.\\
-Per di più, in tutte le pagine del sito, al fine di migliorare l'accessibilità e la facilità di utilizzo, sono stati aggiunti attributi "placeholder" ai tag di input, in modo da indicare all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificarne lo scopo.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone.
+Per di più, in tutte le pagine del sito, al fine di migliorare l'accessibilità e la facilità di utilizzo, sono stati aggiunti attributi "placeholder" ai tag di input, in modo da indicare all'utente le informazioni richieste. Inoltre, ai pulsanti il cui scopo non è chiaramente indicato è stato aggiunto l'attributo "aria-label" per specificarne lo scopo.\\ Infine, viene mostrata come viene modificata la pagina in modalità tablet o smartphone, nell'immagine \ref{figura:impmobvedisuweb}.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.53]{img_concettuale/impostazioniSec.png}
 \caption{Pagina delle impostazioni sulla sicurezza in modalità mobile.}
+\label{figura:impmobvedisuweb}
 \end{figure}
 
 \subsection{Pagina degli avvistamenti}
-La pagina degli avvistamenti consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente, per questo verrà descritta in dettaglio.
+La pagina degli avvistamenti, figura \ref{figura:pagavvstprimaparte}, consente di modificare e aggiungere informazioni sugli avvistamenti precedentemente caricati. Offre anche la possibilità di soddisfare tutti i requisiti specificati dal committente, per questo verrà descritta in dettaglio.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.22]{img_concettuale/avvistamentoPAG.png}
 \caption{Prima parte della pagina dell'avvistamento, modifica dei dati.}
+\label{figura:pagavvstprimaparte}
 \end{figure}
 \\In questa prima parte, ci sono due sezioni: la prima comprende una mappa nella quale viene indicato il punto dell'avvistamento attraverso un marker, col quale se l'utente clicca o ci passa sopra col mouse compaiono i dati principali dell'avvistamento. Nella parte di destra, invece, c'è la possibilità di modificare i dati inseriti in precedenza.
 Per quanto riguarda le interazioni, in alto a sinistra il bottone rosso permette di eliminare la registrazione dell'avvistamento. Esso non elimina definitivamente i dati, ma li mantiene nel database e li rende non visibili agli utenti, in questo modo, in caso di eliminazioni non volute, c'è la possibilità di recuperarli.
-Vicino all'indicazione della specie, è presente un pulsante a forma di punto interrogativo che aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto.  
-Il pulsante "salva", invece, permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento. Sono presenti anche anche due bottoni: uno "contatta" che permetterà di contattare l'utente che ha eseguito l'avvistamento e uno "notifica" che invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento. Infine, è presente un bottone "riconoscimento" che permetterà di ricevere dei suggerimenti sulla specie attraverso un modale, il cui funzionamento viene spiegato nel capitolo successivo. In aiuto all'utente, a fianco ad esso è presente un pulsante che spiega all'utente stesso le modalità di utilizzo.
+Vicino all'indicazione della specie, è presente un pulsante a forma di punto interrogativo che aiuta l'utente a individuare la specie, fornendo informazioni dettagliate sull'elemento scelto, figura \ref{figura:modaleautoricwebpag}.  
+Il pulsante "salva", invece, permette di salvare le informazioni inserite negli input, mentre il bottone "+Immgine" permette di aggiungere un'immagine all'avvistamento. Per evitare errori involontari, viene sempre visualizzato un modale di conferma prima di eliminare un avvistamento, figura \ref{figura:modelimavvwebsu}. Sono presenti anche due bottoni: "contatta" permetterà di contattare l'utente che ha eseguito l'avvistamento e "notifica" invece permetterà di inviare una notifica all'utente qualora qualcuno avesse modificato i dati del suo avvistamento. Infine, è presente un bottone "riconoscimento" che permetterà di ricevere dei suggerimenti sulla specie attraverso un modale. In aiuto all'utente, di fianco ad esso è presente un pulsante che spiega all'utente stesso le modalità di utilizzo.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.44]{img_concettuale/eliminazione.png}
+\includegraphics[scale=0.70]{img_concettuale/eliminazione.png}
 \caption{Modale di eliminazione.}
+\label{figura:modelimavvwebsu}
 \end{figure}
+\newpage
+
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.40]{img_concettuale/autoric.png}
+\includegraphics[scale=0.65]{img_concettuale/autoric.png}
 \caption{Modale per l'auto-riconoscimento della specie.}
+\label{figura:modaleautoricwebpag}
 \end{figure}
-\newpage
-Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie:
+Viene mostrato un esempio del modale che si apre premendo il pulsante di informazione sulla specie, figura \ref{figura:modinfospec}:
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.65]{img_concettuale/info.png}
+\includegraphics[scale=0.45]{img_concettuale/avv123.png}
 \caption{Modale di informazione sulla specie.}
+\label{figura:modinfospec}
 \end{figure}
 \newpage
-Per quanto riguarda la seconda parte della pagina, essa è incentrata unicamente sulle immagine caricate.
+Per quanto riguarda la seconda parte della pagina, immagine \ref{figura:secondaparteapgavv}, essa è incentrata unicamente sulle immagine caricate.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.31]{img_concettuale/avvistamentoPAG2.png}
 \caption{Seconda parte della pagina dell'avvistamento con caratteristiche degli esemplari.}
+\label{figura:secondaparteapgavv}
 \end{figure}
 \\Nella pagina è presente un carosello che permette di visualizzare tutte le foto dell'avvistamento. In caso siano state caricate più immagini, a destra e a sinistra della foto compariranno due bottoni per navigare la galleria. E' anche presente sotto all'immagine  un bottone "elimina" che eliminerà non solo la foto, ma anche tutti i riferimenti ad essa associati.
-Per ogni immagine è presente la possibilità di aggiungere un esemplare attraverso il relativo bottone, che, una volta premuto, permetterà attraverso un modale, di disegnare dei rettangoli per selezionare l'individuo. Tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi, tutte le coordinate devono essere convertite da assolute in relative e, ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure, se si riconosce che si tratta di un esemplare già incontrato, si ha la possibilità di selezionarlo dai salvataggi precedenti. Come negli altri casi, anche qui è presente la funzione di eliminazione dei dati di un esemplare.\\
-A ciascuna sottoimmagine sono associate una o più  indicazioni ferite, che possono essere aggiunte, modificate o cancellate a seconda delle condizione dell'animale.
-Un esempio di aggiunta di un individuo può essere il seguente:
+Per ogni immagine è presente la possibilità di aggiungere un esemplare attraverso il relativo bottone che, una volta premuto, permetterà attraverso un modale di disegnare dei rettangoli per selezionare l'individuo. Tali rettangoli vengono chiamati sottoimmagini e vengono salvati nella banca dati attraverso le coordinate dei vertici. Affinché il sistema sia portabile nei vari dispositivi, tutte le coordinate devono essere convertite da assolute in relative e, ogni volta che si richiede l'utilizzo, esse devono essere ripristinate. L'id dell'individuo, cioè della sottoimmagine, è univoco all'interno della stessa foto. A ciascun individuo si ha la possibilità si associare un nome oppure, se si riconosce che si tratta di un esemplare già incontrato, si ha la possibilità di selezionarlo dai salvataggi precedenti. Come negli altri casi, anche qui è presente la funzione di eliminazione dei dati di un esemplare.\\
+A ciascuna sottoimmagine sono associate una o più  indicazioni ferite, che possono essere aggiunte, modificate o cancellate a seconda delle condizioni dell'animale.
+Un esempio di aggiunta di un individuo può essere il seguente, figura \ref{figura:aggmodavvallso}:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.80]{img_concettuale/addEsempl.png}
 \caption{Modale con canvas per disegnare l'individuo.}
+\label{figura:aggmodavvallso}
 \end{figure}
 \newpage
 Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
@@ -829,25 +938,27 @@ Invece per quanto riguarda la modifica dell'individuo si ha il seguente modale:
 \centering
 \includegraphics[scale=0.90]{img_concettuale/modificaNome.png}
 \caption{Modifica dell'esemplare.}
+\label{figura:modificanomeesemplareonline}
 \end{figure}
-\\Come si vede dall'immagine, si hanno due possibilità: o attraverso una select viene scelto un esemplare già visto in precedenza oppure, cliccando sul pulsante "nuovo esemplare", si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome, nel menù a tendina si ha anche l'id univoco dell'esemplare, perché due esemplari possono avere lo stesso nome. 
+\\Come si vede dall'immagine \ref{figura:modificanomeesemplareonline}, si hanno due possibilità: o attraverso una select viene scelto un esemplare già visto in precedenza oppure, cliccando sul pulsante "nuovo esemplare", si ha la possibilità di specificare il nuovo nome e di inserirlo nel database. Oltre al nome, nel menù a tendina si ha anche l'id univoco dell'esemplare, perché due esemplari possono avere lo stesso nome. 
 \newpage
-Per quanto riguarda le segnalazioni di ferite, c'è la possibilità di aggiungerle, modificarle attraverso questo semplice modale:
+Per quanto riguarda le segnalazioni di ferite, c'è la possibilità di aggiungerle o modificarle attraverso questo semplice modale, figura \ref{figura:modavvaggiuntaemodifica}:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.90]{img_concettuale/ferita.png}
 \caption{Modale per l'aggiunta e modifica della ferita.}
+\label{figura:modavvaggiuntaemodifica}
 \end{figure}
 
-\chapter{Documentazione Applicazione Mobile} Si è deciso di realizzare l'applicazione mobile per il sistema operativo Android, In particolare, l'applicazione è supportata da tutte le versioni dalla 8.0 a quella più recente.
+\chapter{Documentazione Applicazione Mobile} Si è deciso di realizzare l'applicazione mobile per il sistema operativo Android \cite{Android}. In particolare, l'applicazione è supportata da tutte le versioni dalla 8.0 a quella più recente.
 
 \section{Tecnologie utilizzate}
- L'app mobile è stata creata utilizzando un set di strumenti moderni tra cui: Kotlin, Jetpack Compose e Material3. Grazie ad essi, si è potuto scrivere codice UI in modo semplice e dichiarativo, ottenendo un'interfaccia utente reattiva con le linee guida di Material3.
+ L'app mobile è stata creata utilizzando un set di strumenti moderni tra cui: Kotlin \cite{Kotlin}, Jetpack Compose \cite{Compose} e Material3 \cite{Material}. Grazie ad essi si è potuto scrivere codice UI in modo semplice e dichiarativo, ottenendo un'interfaccia utente reattiva con le linee guida di Material3.
 
  \subsection{Kotlin}
  Kotlin è definito come un linguaggio di programmazione ad alto livello, funzionale e orientato agli oggetti, sviluppato principalmente da JetBrains.\\
 
- È stato progettato per essere interoperabile con Java, il che significa che gli sviluppatori possono utilizzare nel loro codice librerie Java esistenti. In aggiunta, Kotlin offre molte nuove funzionalità, ad esempio la null safety e una sintassi più concisa e leggibile rispetto agli altri linguaggi.\\
+ È stato progettato per essere interoperabile con Java \cite{Java}, il che significa che gli sviluppatori possono utilizzare nel loro codice librerie Java esistenti. In aggiunta, Kotlin offre molte nuove funzionalità, ad esempio la null safety e una sintassi più concisa e leggibile rispetto agli altri linguaggi. Per null safety si intende la sicurezza rispetto al valore nullo: è un concetto che riguarda i linguaggi di programmazione e la gestione dei valori nulli o non definiti. L'obiettivo è di prevenire errori comuni legati alla gestione dei valori nulli che possono portare a crash del programma o a comportamenti imprevisti.\\
 
 Esso è stato creato per semplificare la scrittura di codice e ridurre gli errori comuni, come la NullPointerException. Inoltre, offre espressività e flessibilità rispetto a Java, il che lo rende una scelta popolare per gli sviluppatori Android.
 
@@ -860,101 +971,130 @@ Grazie a queste funzionalità, il framework semplifica il processo di sviluppo e
  \subsection{Material Design 3}
 Material Design 3 è l'ultima versione della libreria di design sviluppata da Google per creare interfacce utente su piattaforme diverse, tra cui Android, iOS e il web.\\
 La libreria si concentra sulla proposta di elementi tangibili, cioè elementi di design che sembrano essere fatti di carta, inchiostro e superfici. Essa utilizza colori vivaci, forme geometriche chiare e transizioni fluide per creare un'esperienza utente coinvolgente e intuitiva.\\
-Material Design 3 offre una vasta gamma di componenti UI predefiniti e personalizzabili, ad esempio: bottoni, icone, card, modali, per aiutare gli sviluppatori a creare interfacce utente di alta qualità.\\
+Material Design 3 offre una vasta gamma di componenti UI predefiniti e personalizzabili, ad esempio: bottoni, icone, card e modali per aiutare gli sviluppatori a creare interfacce utente di alta qualità.\\
 Inoltre, Material Design 3 fornisce un sistema di tipografia flessibile, che consente di personalizzare l'aspetto dei testi dell'interfaccia utente.\\
 Il risultato finale è visto come un'interfaccia utente moderna, pulita e coerente, che migliora la user-experience e favorisce l'usability dell'applicazione.
 
+\newpage
+
+\section{Schema di navigazione}
+In questa sezione si riporta lo schema di navigazione dell'applicazione.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.75]{img_concettuale/Schema_Navigation.png}
+\caption{Schema di navigazione dell'applicazione mobile.}
+\label{figura:navigazione}
+\end{figure}
+Nello schema \ref{figura:navigazione} è possibile vedere come avviene la navigazione dell'applicazione mobile. In particolare si inizia sempre dalla pagina di login, dalla quale o si effettua l'accesso o si passa all'activity di registrazione. Una volta effettuato l'accesso si entra nella Homepage del sito, dalla quale si ha accesso a tutte le altre schermate dell'applicazione. In particolare si può:
+\begin{itemize}
+    \item Creare un nuovo avvistamento
+    \item Visualizzare vecchi avvistamenti
+    \item Entrare nella pagina delle statistiche
+    \item Visualizzare il profilo utente
+    \item Entrare in una delle tre pagine delle impostazioni, dalle quali si può uscire dall'applicazione e ritornare nella pagina di login
+\end{itemize}
+
 \section{Mockup}
-Il primo passo nella realizzazione dell'applicazione è stato quello della creazione dei mockup. Per disegnarli, si è utilizzato il software di progettazione Balsamicq. Sono stati realizzati i modelli e si è richiesta l'approvazione del committente. Di seguito si riportano i principali prototipi di interfacce utente.
+Il primo passo nella realizzazione dell'applicazione è stato quello della creazione dei mockup. Per disegnarli, si è utilizzato il software di progettazione Balsamiq. Sono stati realizzati i modelli e si è richiesta l'approvazione del committente. Di seguito si riportano i principali prototipi di interfacce utente.
+
+\newpage
 
 \subsection{Login e Registrazione}
-Nella fase di registrazione, l'utente deve inserire i dati obbligatori ed eventuali dati facoltativi. Una volta registrato, si potrà effettuare l'accesso mediante credenziali oppure mediante riconoscimento delle impronte digitali.
+Nella fase di registrazione, l'utente deve inserire i dati obbligatori ed eventuali dati facoltativi. Una volta registrato, si potrà effettuare l'accesso mediante credenziali oppure mediante riconoscimento delle impronte digitali. Vedi figura \ref{figura:r} e \ref{figura:l}.
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.30]{img_concettuale/RegistrazioneMobile.png}
 \caption{Prototipo activity di registrazione.}
+\label{figura:r}
 \end{figure}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.30]{img_concettuale/LoginMobile.png}
 \caption{Prototipo activity di login.}
+\label{figura:l}
 \end{figure}
 
 \subsection{Homepage}
-La schermata principale dell'applicativo si compone di una mappa in cui vengono raffigurati tutti gli avvistamenti con dei marker di colori diversi a seconda dell'animale che è stato individuato. A ciascun avvistamento corrisponde una card, nella quale sono presenti i dati più importanti della rilevazione, la foto dell'utente che l'ha eseguita e la possibilità di mettere nei preferiti l'avvistamento. In aggiunta, nella successiva schermata sono stati inseriti due menù: uno superiore e uno inferiore. Nel primo sono presenti il nome della pagina e la possibilità di filtrare i risultati per preferiti oppure per il tipo di animale avvistato. Invece il secondo permette la navigazione all'interno dell'applicazione (nello specifico: nella schermata delle impostazioni, statistiche e profilo) o tornare alla homepage. Infine, nella pagina è presente un FAB col simbolo del + per aggiungere un nuovo avvistamento.
+La schermata principale dell'applicativo, figura \ref{figura:homemobsinasd}, si compone di una mappa in cui vengono raffigurati tutti gli avvistamenti con dei marker di colori diversi a seconda dell'animale che è stato individuato. A ciascun avvistamento corrisponde una card, nella quale sono presenti i dati più importanti della rilevazione, la foto dell'utente che l'ha eseguita e la possibilità di mettere nei preferiti l'avvistamento. In aggiunta, nella successiva schermata sono stati inseriti due menù: uno superiore e uno inferiore. Nel primo sono presenti il nome della pagina e la possibilità di filtrare i risultati per preferiti oppure per il tipo di animale avvistato. Invece il secondo permette la navigazione all'interno dell'applicazione (nello specifico: nella schermata delle impostazioni, statistiche e profilo) o tornare alla homepage. Infine, nella pagina è presente un FAB col simbolo del + per aggiungere un nuovo avvistamento.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.40]{img_concettuale/Home_mob.png}
 \caption{Prototipo activity Homepage.}
+\label{figura:homemobsinasd}
 \end{figure}
 
 
 \subsection{Avvistamento}
-Per quanto riguarda l'avvistamento, si avrà la mappa con la posizione dell'avvistamento segnalata da un marker, tutte le informazioni e immagini relative all'avvistamento saranno modificabili solamente dall'utente che ha eseguito l'avvistamento, per tutti gli altri saranno visibili in sola lettura. È data la possibilità di avere maggiori informazioni sul tipo di specie a cui è riferito l'avvistamento grazie a un popup che comparirà in rilievo se l'utente preme il pulsante informazioni. Infine nel menù superiore è presente un pulsante per tornare alla schermata precedente.
+Per quanto riguarda l'avvistamento, figura \ref{figura:avvmobmock}, si avrà la mappa con la posizione dell'avvistamento segnalata da un marker, tutte le informazioni e immagini relative all'avvistamento saranno modificabili solamente dall'utente che ha eseguito l'avvistamento, per tutti gli altri saranno visibili in sola lettura. È data la possibilità di avere maggiori informazioni sul tipo di specie a cui è riferito l'avvistamento grazie a un popup che comparirà in rilievo se l'utente preme il pulsante informazioni. Infine nel menù superiore è presente un pulsante per tornare alla schermata precedente.
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/Avv_mob.png}
 \caption{Prototipo activity di visualizzazione dell'avvistamento per altri utenti non creatori.}
+\label{figura:avvmobmock}
 \end{figure}
 
 \subsection{Aggiungi avvistamento}
-Questa activity è uguale a quella della visione dell'avvistamento per chi ha creato l'avvistamento. Nella successiva schermata, sono presenti i campi per inserire i dati dell'avvistamento e un bottone per caricare foto fatte sul momento. In aggiunta, premendo il pulsante per le coordinate, esse vengono prese automaticamente e rese visibili all'utente utilizzando il GPS del dispositivo. Una volta completati i campi, in particolare quelli obbligatori, l'utente può caricare l'avvistamento attraverso l'apposito FAB situato a fianco.
+Questa activity, immagine \ref{figura:aggavvmock}, è uguale a quella della visione dell'avvistamento per chi ha creato l'avvistamento. Nella successiva schermata, sono presenti i campi per inserire i dati dell'avvistamento e un bottone per caricare foto fatte sul momento. In aggiunta, premendo il pulsante per le coordinate, esse vengono prese automaticamente e rese visibili all'utente utilizzando il GPS del dispositivo. Una volta completati i campi, in particolare quelli obbligatori, l'utente può caricare l'avvistamento attraverso l'apposito FAB situato a fianco.
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/Agg_avv_mob.png}
 \caption{Prototipo activity di aggiunta di un avvistamento.}
+\label{figura:aggavvmock}
 \end{figure}
 
 \subsection{Statistiche}
-Nell'applicativo mobile si è deciso di aggiungere un'ulteriore funzionalità rispetto all'applicativo web, cioè una Activity per le statistiche. Nella seguente pagina si vedono diverse statistiche, con relativi grafici degli avvistamenti, in particolare il numero degli avvistamenti, il numero di avvistamenti per ciascun animale o specie e il numero di avvistamenti in un determinato lasso temporale.
+Nell'applicativo mobile si è deciso di aggiungere un'ulteriore funzionalità rispetto all'applicativo web, cioè una Activity per le statistiche. Nella seguente pagina, figura \ref{figura:protstatapiat}, si vedono diverse statistiche, con relativi grafici degli avvistamenti, in particolare il numero degli avvistamenti, il numero di avvistamenti per ciascun animale o specie e il numero di avvistamenti in un determinato lasso temporale.
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.50]{img_concettuale/stat_mob.png}
 \caption{Prototipo activity di statistiche della piattaforma.}
+\label{figura:protstatapiat}
 \end{figure}
 
 \subsection{Impostazioni}
-Nella pagina delle impostazioni, si possono modificare le informazioni del proprio profilo, modificare la password e anche decidere se il tema dell'applicazione deve essere chiaro o scuro: tale preferenza viene salvata e memorizzata dall'app. Infine, nella barra superiore, compare il pulsante per effettuare il Logout o tornare alla schermata precedente.
+Nella pagina delle impostazioni, figura \ref{figura:mockimpsdc}, si possono modificare le informazioni del proprio profilo, modificare la password e anche decidere se il tema dell'applicazione deve essere chiaro o scuro, \ref{figura:mockimpsdc2}: tale preferenza viene salvata e memorizzata dall'app. Infine, nella barra superiore, compare il pulsante per effettuare il Logout o tornare alla schermata precedente.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.29]{img_concettuale/Imp_mob.png}
+\includegraphics[scale=0.28]{img_concettuale/Imp_mob.png}
 \caption{Prototipo activity delle impostazioni.}
+\label{figura:mockimpsdc}
 \end{figure}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.28]{img_concettuale/Imp_tema_mob.png}
 \caption{Prototipo activity delle impostazioni sul tema, con salvataggio.}
+\label{figura:mockimpsdc2}
 \end{figure}
-
 
 \section{Librerie esterne utilizzate}
-Nel progetto sono state utilizzate le seguenti librerie esterne:
-\begin{itemize}
-    \item \textbf{Datastore-Preferences:} implementazione di DataStore per la memorizzazione dei dati di preferenza.
-    \item \textbf{Leaflet:} libreria JavaScript per la visualizzazione di mappe interattive.
-    \item \textbf{Biometric:} supporto per l'autenticazione biometrica su Android.
-    \item \textbf{Play-services-location:} API di localizzazione di Google Play Services.
-    \item \textbf{Room:}  libreria di persistenza di dati locali basata su SQLite.
-    \item \textbf{Okhttp3:} libreria per richieste HTTPS su Android.
-    \item \textbf{Castle:} Libreria crittografica per Java.
-    \item \textbf{Gson:} libreria per la conversione di oggetti Java in formato JSON e viceversa.
-    \item \textbf{Coil:} libreria per il caricamento e la visualizzazione di immagini su Android.
-    \item \textbf{Tehras-charts:} libreria di grafici per Android.
-\end{itemize}
-
-\newpage
-
-\section{Schema di navigazione}
-In questa sezione si riporta lo schema di navigazione dell'applicazione:
-\begin{figure}[hbtp]
-\centering
-\includegraphics[scale=0.75]{img_concettuale/Schema_Navigation.png}
-\caption{Schema di navigazione dell'applicazione mobile.}
-\end{figure}
+Nel progetto sono state utilizzate le seguenti librerie esterne, tabella \ref{table:libestusateappmobile}:\\
+\begin{table}[hbtp]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+{\color[HTML]{000000} Nome Libreria}               & {\color[HTML]{000000} Utilizzo}                                                                \\ \hline
+{\color[HTML]{000000} Datastore-Preferences} &
+  {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Implementazione di DataStore per la memorizzazione\\  dei dati di preferenza\end{tabular}} \\ \hline
+{\color[HTML]{000000} Leaflet}                     & {\color[HTML]{000000} Libreria JavaScript per la visualizzazione di mappe interattive}         \\ \hline
+{\color[HTML]{000000} Biometric \cite{Biometric}}  & {\color[HTML]{000000} Supporto per l'autenticazione biometrica su Android}                     \\ \hline
+{\color[HTML]{000000} Play-services-location}      & {\color[HTML]{000000} API di localizzazione di Google Play Services}                           \\ \hline
+{\color[HTML]{000000} Room \cite{Room}}            & {\color[HTML]{000000} Libreria di persistenza di dati locali basata su SQLite}                 \\ \hline
+{\color[HTML]{000000} Okhttp3 \cite{Okhttp}}       & {\color[HTML]{000000} Libreria per richieste HTTPS su Android}                                 \\ \hline
+{\color[HTML]{000000} Castle \cite{Castle}}        & {\color[HTML]{000000} Libreria crittografica per Java}                                         \\ \hline
+{\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Gson \cite{Gson}\end{tabular}} &
+  {\color[HTML]{000000} \begin{tabular}[c]{@{}c@{}}Libreria per la conversione di oggetti Java\\ in formato JSON e viceversa\end{tabular}} \\ \hline
+{\color[HTML]{000000} Coil \cite{Coil}}            & {\color[HTML]{000000} Libreria per il caricamento e la visualizzazione di immagini su Android} \\ \hline
+{\color[HTML]{000000} Tehras-charts \cite{Tehras}} & {\color[HTML]{000000} Libreria di grafici per Android}                                         \\ \hline
+\end{tabular}%
+}
+\caption{Librerie esterne utilizzate nell'applicazione mobile.}
+\label{table:libestusateappmobile}
+\end{table}
 
 \newpage
 
@@ -966,24 +1106,27 @@ In questa sezione, vengono riportate e commentate le activity dell'applicazione 
 \centering
 \includegraphics[scale=0.20]{img_concettuale/accmob.jpg}
 \caption{Activity di login.}
+\label{figura:actlogin}
 \end{figure}
-Nella pagina di login, è possibile inserire l'email e la password negli appositi campi ed effettuare l'accesso attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita, oppure di creare un nuovo account. In aggiunta, al fine di facilitare la login all'utente, dopo il primo accesso, viene memorizzata l'email e, se il dispositivo è provvisto del sensore di impronte digitali, si avrà la possibilità di accedere senza l'utilizzo della password. 
+Nella pagina di login, figura \ref{figura:actlogin}, è possibile inserire l'email e la password negli appositi campi ed effettuare l'accesso attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita, oppure di creare un nuovo account. In aggiunta, al fine di facilitare il login all'utente, dopo il primo accesso viene memorizzata l'email e, se il dispositivo è provvisto del sensore di impronte digitali, si avrà la possibilità di accedere senza l'utilizzo della password. 
 
 \subsection{Registrazione}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.19]{img_concettuale/regmob.jpg}
 \caption{Activity di registrazione.}
+\label{figura:actreg}
 \end{figure}
-Nella pagina di registrazione, è possibile inserire le informazioni negli appositi campi ed effettuare la registrazione attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita in modo tale che possa controllarne la correttezza. Una volta che l'utente si è registrato, verrà portato nella pagina della login per effettuare l'accesso. Si ricorda che l'utente, prima di essere operativo, deve essere abilitato manualmente dagli amministratori, nel rispetto delle politiche di sicurezza sui dati.
+Nella pagina di registrazione, figura \ref{figura:actreg}, è possibile inserire le informazioni negli appositi campi ed effettuare la registrazione attraverso l'apposito pulsante. L'utente ha la possibilità di rendere visibile la password inserita in modo tale che possa controllarne la correttezza. Una volta che l'utente si è registrato, verrà portato nella pagina della login per effettuare l'accesso. Si ricorda che l'utente, prima di essere operativo, deve essere abilitato manualmente dagli amministratori, nel rispetto delle politiche di sicurezza sui dati.
 
 \subsection{Profilo}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.20]{img_concettuale/prmob.jpg}
 \caption{Activity del profilo.}
+\label{figura:actprof}
 \end{figure}
-Nella successiva schermata, si vede la foto dell'utente con le relative informazioni personali. In aggiunta, premendo il link della mail, si apre l'app di posta elettronica che consente di far comunicare i due utenti. Il FAB permette di andare nelle impostazioni per modificare le informazioni del profilo.
+Nella successiva schermata, figura \ref{figura:actprof}, si vede la foto dell'utente con le relative informazioni personali. In aggiunta, premendo il link della mail, si apre l'app di posta elettronica che consente di far comunicare i due utenti. Il FAB permette di andare nelle impostazioni per modificare le informazioni del profilo.
 
 \newpage
 
@@ -992,95 +1135,137 @@ Nella successiva schermata, si vede la foto dell'utente con le relative informaz
 \centering
 \includegraphics[scale=0.19]{img_concettuale/hommob.jpg}
 \caption{Activity della Homepage.}
+\label{figura:acthomepage}
 \end{figure}
-La pagina principale dell'applicazione è la più complessa. Nella parte centrale, è presente una mappa, con all'interno dei Marker che servono a segnalare la posizione degli avvistamenti. Si ha anche la possibilità di interagire con essa, ad esempio per modificare la zoom su una determinata area oppure vedere i dettagli di uno specifico avvistamento premendo il relativo Marker. Subito sotto, è presente una griglia di avvistamenti: essa comprende tutti gli avvistamenti, sia quelli presenti sul server remoto che quelli locali che verranno caricati in un secondo momento. Per differenziarli, si è deciso di rappresentare le Card con colori diversi tra loro, in modo tale che l'utente possa capire se sono presenti ancora degli avvistamenti locali. Per ciascun avvistamento, si ha anche la possibilità di aggiungerlo ai preferiti e di visualizzare il profilo dell'utente che lo ha eseguito premendo sull'immagine.
+La pagina principale dell'applicazione è la più complessa, figura \ref{figura:acthomepage}. Nella parte centrale, è presente una mappa, con all'interno dei Marker che servono a segnalare la posizione degli avvistamenti. Si ha anche la possibilità di interagire con essa, ad esempio per modificare lo zoom su una determinata area oppure vedere i dettagli di uno specifico avvistamento premendo il relativo Marker. Subito sotto è presente una griglia di avvistamenti: essa comprende tutti gli avvistamenti, sia quelli presenti sul server remoto che quelli locali che verranno caricati in un secondo momento. Per differenziarli, si è deciso di rappresentare le Card con colori diversi tra loro, in modo tale che l'utente possa capire se sono presenti ancora degli avvistamenti locali. Per ciascun avvistamento, si ha anche la possibilità di aggiungerlo ai preferiti e di visualizzare il profilo dell'utente che lo ha eseguito premendo sull'immagine.
 Nella barra in alto, oltre a visualizzare il titolo della pagina, si ha la possibilità di aprire una casella di dialogo al fine di selezionare dei filtri: esiste il filtro per selezionare solo gli avvistamenti preferiti oppure filtrare la lista di avvistamenti per animale.\\
 Nella parte bassa della schermata, è presente la barra di navigazione, che porta alle altre pagine dell'applicazione. Il pulsante centrale permette invece di aggiungere un nuovo avvistamento.
 
-\subsection{Aggiunta Avvistamento}
+\subsection{Aggiunta avvistamento}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.19]{img_concettuale/aggmob.jpg}
 \caption{Activity di aggiunta di un avvistamento.}
+\label{figura:aggMobAvv}
 \end{figure}
-Nella schermata seguente si ha la possibilità di aggiungere tutti i dati dell'avvistamento effettuato. Il campo posizione viene riempito in modo automatico una volta che si è premuto il pulsante del GPS, in questo modo viene utilizzato il sensore GPS del telefono per richiedere le coordinate. Una volta scelti l'animale e la specie, si ha la possibilità di richiedere delle informazioni dettagliate al fine di individuare al meglio la specie di appartenenza. In fondo alla schermata, è presente un pulsante per aggiungere delle immagini (massimo 5) all'avvistamento corrente. Ogni immagine verrà salvata nella galleria del dispositivo e l'utente avrà la possibilità di visualizzarla o di eliminarla. Una volta completato l'inserimento, si può premere il pulsante per caricare l'avvistamento: se è presente una connessione a internet viene caricato direttamente online, altrimenti viene salvato localmente e, quando sarà presente connessione, i dati verranno caricati online.
+Nella seguente schermata \ref{figura:aggMobAvv}
+ si ha la possibilità di aggiungere tutti i dati dell'avvistamento effettuato. Il campo posizione viene riempito in modo automatico una volta che si è premuto il pulsante del GPS, in questo modo viene utilizzato il sensore GPS del telefono per richiedere le coordinate. Una volta scelti l'animale e la specie, si ha la possibilità di richiedere delle informazioni dettagliate al fine di individuare al meglio la specie di appartenenza. In fondo alla schermata, è presente un pulsante per aggiungere delle immagini (massimo 5) all'avvistamento corrente. Ogni immagine verrà salvata nella galleria del dispositivo e l'utente avrà la possibilità di visualizzarla o di eliminarla. Una volta completato l'inserimento, si può premere il pulsante per caricare l'avvistamento: se è presente una connessione a internet viene caricato direttamente online, altrimenti viene salvato localmente e, quando sarà presente connessione, i dati verranno caricati online. Rappresentiamo il processo con un diagramma di attività \ref{figura:diagattvicaric}.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=1]{img_concettuale/dAtt.png}
+\caption{Diagramma di attività per il caricamento di un avvistamento.}
+\label{figura:diagattvicaric}
+\end{figure}
 
 \newpage
-\subsection{Visualizzazione Avvistamento}
+\subsection{Visualizzazione avvistamento}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.11]{img_concettuale/vimob.jpg}
 \caption{Activity di visualizzazione di un avvistamento.}
+\label{figura:visavvdallapag}
 \end{figure}
-La schermata seguente è differente a seconda dell'identità del creatore dell'avvistamento. Se il post è stato creato da un utente diverso da quello che lo sta visualizzando, tutti i campi compariranno in sola lettura come nell'immagine. Altrimenti, compare una schermata simile a quella dell'aggiunta di un avvistamento, in cui si ha la possibilità di aggiungere foto o modificare i dati. Questo è possibile sia per avvistamenti locali che per avvistamenti online, ma per poter modificare gli avvistamenti online è necessaria una connessione a internet. Oltre alla mappa che fornisce la posizione dell'avvistamento, si ha la possibilità per ogni utente di richiedere informazioni sulla specie, se essa è presente. Nella parte sottostante, si ha la possibilità di visualizzare tutte le immagini del relativo avvistamento. Attraverso un intent è possibile visualizzarle anche nella galleria.
+La seguente schermata \ref{figura:visavvdallapag} è differente a seconda dell'identità del creatore dell'avvistamento. Se il post è stato creato da un utente diverso da quello che lo sta visualizzando, tutti i campi compariranno in sola lettura come nell'immagine. Altrimenti compare una schermata simile a quella dell'aggiunta di un avvistamento, in cui si ha la possibilità di aggiungere foto o modificare i dati. Questo è possibile sia per avvistamenti locali che per avvistamenti online, ma per poter modificare gli avvistamenti online è necessaria una connessione a internet. Oltre alla mappa che fornisce la posizione dell'avvistamento, si ha la possibilità per ogni utente di richiedere informazioni sulla specie, se essa è presente. Nella parte sottostante, si ha la possibilità di visualizzare tutte le immagini del relativo avvistamento. Attraverso un intent è possibile visualizzarle anche nella galleria.
 
 \subsection{Impostazioni}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.20]{img_concettuale/impmob.jpg}
 \caption{Activity di impostazioni.}
+\label{figura:actimpost}
 \end{figure}
-La schermata è composta da tre bottoni, ognuno dei quali porta a una schermata diversa. Attraverso il bottone del profilo si possono modificare tutti i campi relativi alle informazioni personali dell'avvistatore, tra cui nome e cognome, ma anche la foto profilo. Col pulsante display, si ha possibilità di modificare la configurazione del display, ossia utilizzare il tema chiaro oppure scuro. All'inizio, l'app viene avviata nella modalità di configurazione del dispositivo, se l'utente invece cambia questa impostazione l'app mantiene in memoria la scelta fino a un successivo cambiamento. Infine, il pulsante sicurezza permette all'utente di modificare la propria password. In tutte le schermate delle impostazioni si ha la possibilità di eseguire il logout, che disconnette l'utente e lo riporta alla pagina di login.
+La schermata \ref{figura:actimpost} è composta da tre bottoni, ognuno dei quali porta a una schermata diversa. Attraverso il bottone del profilo si possono modificare tutti i campi relativi alle informazioni personali dell'avvistatore, tra cui nome e cognome, ma anche la foto profilo. Col pulsante display, si ha possibilità di modificare la configurazione del display, ossia utilizzare il tema chiaro oppure scuro. All'inizio, l'app viene avviata nella modalità di configurazione del dispositivo, se l'utente invece cambia questa impostazione l'app mantiene in memoria la scelta fino a un successivo cambiamento. Infine, il pulsante sicurezza permette all'utente di modificare la propria password. In tutte le schermate delle impostazioni si ha la possibilità di eseguire il logout, che disconnette l'utente e lo riporta alla pagina di login.
 
 \subsection{Notifiche}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.20]{img_concettuale/notmob.jpg}
 \caption{Activity delle notifiche.}
+\label{figura:actnotifiche}
 \end{figure}
-La schermata permette di visualizzare tutte le notifiche che vengono inviate da un apposito bottone nel sito web. Nella notifica vengono comunicate informazioni su cambiamenti avvenuti nei dati degli avvistamenti che l'utente ha caricato. Premendo la notifica, l'utente viene indirizzato al relativo avvistamento. Il pulsante rosso in alto permette di cancellare tutte le notifiche presenti. Quando ne arrivano delle nuove, nella barra sottostante si può notare il cambio dell'icona (da disattiva passa ad attiva).
+La schermata \ref{figura:actnotifiche} permette di visualizzare tutte le notifiche che vengono inviate da un apposito bottone nel sito web. Nella notifica vengono comunicate informazioni su cambiamenti avvenuti nei dati degli avvistamenti che l'utente ha caricato. Premendo la notifica, l'utente viene indirizzato al relativo avvistamento. Il pulsante rosso in alto permette di cancellare tutte le notifiche presenti. Quando ne arrivano delle nuove, nella barra sottostante si può notare il cambio dell'icona (da disattiva passa ad attiva).
 
 \subsection{Statistiche}
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.20]{img_concettuale/statmob.jpg}
 \caption{Activity delle Statistiche.}
+\label{figura:actstatsad}
 \end{figure}
-Nella successiva schermata, sono presenti diversi dati statistici, tra cui:
+Nella schermata \ref{figura:actstatsad}, sono presenti diversi dati statistici, tra cui:
 \begin{itemize}
     \item contatore del numero di avvistamenti
     \item contatore del numero di avvistatori.
     \item grafico con la distribuzione degli animali negli avvistamenti.
-    \item classifica di avvistatori, ordinati per il numero di avvistamenti .
+    \item classifica di avvistatori, ordinati per il numero di avvistamenti.
     \item grafico con la distribuzione dei delfini negli avvistamenti.
     \item grafico con il numero di avvistamenti negli ultimi giorni.
 \end{itemize}
 
 \section{Accessibilità e sicurezza}
-In tutto il progetto, si è data estrema importanza ad aspetti di sicurezza dell'app. Per ogni operazione considerata pericolosa da Android, vengono richiesti i permessi all'utente con apposite schermate di dialogo. In aggiunta si è cercato di aiutare nel modo migliore possibile l'utente in fatto di user experience e si è dato molto peso all'accessibilità dell'applicazione anche per persone con disabilità, attraverso appositi attributi delle componenti delle schermate.
+In tutto il progetto si è data estrema importanza ad aspetti di sicurezza dell'app. Per ogni operazione considerata pericolosa da Android vengono richiesti i permessi all'utente con apposite schermate di dialogo. In aggiunta si è cercato di aiutare nel modo migliore possibile l'utente in fatto di user experience e si è dato molto peso all'accessibilità dell'applicazione anche per persone con disabilità, attraverso appositi attributi delle componenti delle schermate.
 
 \section{Connessione ad internet}
 Visto che l'applicazione verrà spesso utilizzata quando il dispositivo non possiede una connessione ad internet, si è deciso di richiede all'utente di effettuare almeno il primo accesso con una connessione. Dopo il primo accesso, i dati più importanti verranno salvati localmente in memoria in modo tale da poter eseguire l'accesso al portale e di poter aggiungere nuovi avvistamenti quando ci si trova in modalità offline. I nuovi avvistamenti verranno caricati appena si avrà la possibilità di contattare il server.
 
 
-\chapter{Documentazione Algoritmo Di Riconoscimento}
+\chapter{Riconoscimento della specie}
 Nelle specifiche di progetto è stata chiesta la possibilità di riconoscere in modo automatico la specie di delfino rappresentata nelle immagini caricate dagli operatori. Per fare questo, si è utilizzato un algoritmo di visione artificiale che, attraverso la segmentazione delle pinne degli individui, permette di aiutare l'utente a individuare la specie.
 
 \section{Il problema}
 I ricercatori utilizzano tecniche come le impronte digitali e il riconoscimento facciale per identificare le persone, ma stanno anche esplorando metodi simili per gli animali marini. Ad esempio, gli scienziati identificano manualmente questi animali basandosi sulla forma e sui segni presenti sulla coda, sulle pinne dorsali, sulla testa e in altre parti del loro corpo. Questa tecnica, nota come "foto-identificazione", consistente nell'identificazione dei segni naturali tramite fotografie, è un importante strumento per la scienza dei mammiferi marini. Essa permette di monitorare singoli individui nel tempo e di valutare lo stato e le tendenze della popolazione.\\
 
-Grazie all'utilizzo di un algoritmo di foto-identificazione, i ricercatori possono ridurre i tempi di identificazione delle immagini di oltre il 99\%. Ciò può aprire la strada a nuovi studi su larga scala, altrimenti impossibili o difficili da realizzare. Attualmente la maggior parte degli istituti di ricerca si affida alla corrispondenza manuale con l'occhio umano, un processo che richiede molto tempo e che a volte può essere impreciso.\\
+Grazie all'utilizzo di un algoritmo di foto-identificazione, i ricercatori possono ridurre i tempi di identificazione delle immagini. Ciò può aprire la strada a nuovi studi su larga scala, altrimenti impossibili o difficili da realizzare. Attualmente la maggior parte degli istituti di ricerca si affida alla corrispondenza manuale con l'occhio umano, un processo che richiede molto tempo e che a volte può essere impreciso.\\
 
-L'obiettivo principale di questo algoritmo è quello di aumentare la comprensione e la cura degli ambienti marini a livello globale attraverso la scienza della conservazione e l'educazione di alta qualità. Essa sviluppa un modello per abbinare i singoli delfini al loro nome e alla loro specie, basandosi sulle loro uniche e spesso sottili marcature naturali, con particolare attenzione alle pinne dorsali e alle viste laterali del loro corpo, utilizzando un vasto set di dati creato da 28 istituti di ricerca.\\
+L'obiettivo principale di questo algoritmo è quello di aumentare la comprensione e la cura degli ambienti marini a livello globale attraverso la scienza della conservazione e l'educazione di alta qualità. Essa sviluppa un modello per abbinare i singoli delfini alla loro specie, basandosi sulle loro uniche e spesso sottili marcature naturali, con particolare attenzione alle pinne dorsali e alle viste laterali del loro corpo, utilizzando un vasto set di dati creato da 28 istituti di ricerca.\\
+
+\section{Modello}
+In questa sezione parleremo del modello utilizzato per la classificazione delle immagini con l'attribuzione della relativa etichetta.
+
+\subsection{Identificazione della specie}
+Per identificare la specie di delfino da un'immagine si è presa in considerazione la pinna dell'esemplare. L'algoritmo prima scansiona l'immagine e poi segmenta la parte della pinna, la quale gli permette di identificare la specie di appartenenza.
+Un esempio del funzionamento è descritto dall'immagine \ref{figura:sezpinna}:\\
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.70]{img_concettuale/pinnedelfini.jpg}
+\caption{Segmentazione pinna dell'esemplare. \cite{pinnaDelf}}
+\label{figura:sezpinna}
+\end{figure}
+\\Per eseguire questa operazione si è utilizzato il modello preaddestrato MobileNetV2.
+
+\subsection{MobileNetV2}
+MobileNetV2 \cite{mobileNet} è un modello di rete neurale convoluzionale progettato per l'elaborazione delle immagini. È stato sviluppato da Google ed è una versione migliorata del modello originale MobileNet.\\
+MobileNetV2 è noto per la sua efficienza computazionale e la sua capacità di eseguire l'elaborazione delle immagini in tempo reale su dispositivi con risorse limitate. Il modello sfrutta l'architettura di base dei blocchi di convoluzione profonda.\\
+Una delle caratteristiche chiave di MobileNetV2 è l'uso di un blocco di convoluzione chiamato \textit{bottleneck} che utilizza un'operazione di separazione dei canali. Questo significa che la convoluzione viene suddivisa in due fasi: una convoluzione 1x1 per ridurre la dimensionalità e una convoluzione 3x3 per acquisire le informazioni spaziali. Questa tecnica riduce il numero di parametri e la quantità di calcoli richiesti.\\
+Esso utilizza anche una tecnica chiamata \textit{skip connection} per facilitare il flusso di informazioni attraverso la rete. Le skip connection connettono alcune delle uscite dei livelli precedenti direttamente ai livelli successivi, consentendo il passaggio di informazioni a basso livello che altrimenti potrebbero essere perse durante la propagazione all'interno della rete.\\Il modello è stato addestrato su grandi set di dati di immagini, come ImageNet \cite{imageNet}, per apprendere una vasta gamma di caratteristiche visive. Può essere utilizzato per una varietà di compiti legati all'elaborazione delle immagini, come il riconoscimento degli oggetti, la classificazione delle immagini e la segmentazione semantica.
+
 
 \section{Dataset}
-Il dataset comprende immagini di  balene e di delfini che possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dei dorsi, delle teste e dei fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno individuabili. Inoltre, le caratteristiche individuali possono variare nel tempo. I dati che compongono il dataset contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte dalle 28 diverse organizzazioni di ricerca citate poc'anzi. Gli individui sono stati identificati manualmente e a loro è stato assegnato un ID-individuo dai ricercatori marini.
+Il dataset \cite{dataset} comprende immagini di  balene e di delfini che possono essere identificati attraverso le loro forme, le caratteristiche e le segnalazioni (alcune naturali, altre acquisite) delle loro pinne dorsali, dei dorsi, delle teste e dei fianchi. Alcune specie e alcuni individui hanno caratteristiche molto distinte, mentre altre sono molto meno individuabili. Inoltre, le caratteristiche individuali possono variare nel tempo. I dati che compongono il dataset contengono immagini di oltre 15.000 singoli mammiferi marini di 30 specie diverse, raccolte dalle 28 diverse organizzazioni di ricerca citate poc'anzi. Gli individui sono stati identificati manualmente e a loro è stato assegnato un ID-individuo dai ricercatori marini.
 
 \subsection{Specie presenti e quantità di immagini}
 Il dataset è stato suddiviso in cartelle in base alla specie a cui ogni animale appartiene con le seguenti quantità di immagini:
 
 \begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}}
+\caption{Numero di immagini per ogni specie.}
+\label{table:numeroimmagini} \\
 \toprule
 \textbf{Specie} & \textbf{Numero immagini} \\
 \midrule
 \endfirsthead
 %
+\multicolumn{2}{c}%
+{{\tablename\ \thetable{} -- Continuazione dalla pagina precedente}} \\
+\toprule
+\textbf{Specie} & \textbf{Numero immagini} \\
+\midrule
 \endhead
 %
 \bottomrule
-%\endfoot
+\multicolumn{2}{r}{{Continua nella pagina successiva}} \\
+\endfoot
 %
-%\bottomrule
+\bottomrule
 \endlastfoot
 %
 Tursiope & 10781 \\
@@ -1115,7 +1300,7 @@ Zifio3 & 7 \\
 Zifio2 & 6 \\
 \end{longtable}
 
-Da come si può notare dalla tabella, per ciascuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
+Come si può notare dalla tabella \ref{table:numeroimmagini}, per ciascuna specie c'è un diverso numero di immagini, quindi ci sarà un grado di accuratezza diverso per ciascuna categoria.
 
 \section{Algoritmo di riconoscimento}
 Per quanto riguarda l'algoritmo di riconoscimento, esso è diviso in due parti:
@@ -1123,11 +1308,11 @@ Per quanto riguarda l'algoritmo di riconoscimento, esso è diviso in due parti:
     \item Fase di training
     \item Fase di riconoscimento dell'immagine
 \end{itemize}
-Entrambe le fasi sono realizzate attraverso degli script in codice python. Tramite comandi bash, esse sono state integrate nel codice php del server web.
+Entrambe le fasi sono realizzate attraverso degli script in codice python. Tramite comandi bash, esse sono integrate nel codice php del server web.
 
 \subsection{Fase di training}
 La fase di training dell'algoritmo di visione artificiale è un processo cruciale che ha l'obiettivo di formare il modello sulla base dei dati forniti. Questo processo consente all'algoritmo di riconoscere ed elaborare correttamente i segnali visivi, in modo da eseguire compiti specifici come la classificazione, la rilevazione e la localizzazione di oggetti all'interno di un'immagine.\\
-Durante questa fase, l'algoritmo viene alimentato con un gran numero di dati di formazione, che consistono in immagini etichettate con informazioni sul loro contenuto. Questi dati vengono utilizzati per formare un modello matematico che descrive la relazione tra gli input visivi e le relative etichette.\\
+Durante questa fase, l'algoritmo viene alimentato con un gran numero di dati di formazione, che consistono in immagini etichettate con informazioni sul loro contenuto. Questi dati vengono utilizzati per formare un modello matematico che descrive la relazione tra gli input visivi e le relative etichette.
 Il modello viene quindi testato su un insieme di dati di prova, che non sono stati utilizzati durante il processo di formazione. Questi dati servono per valutare la precisione del modello, ovvero la sua capacità di prevedere correttamente le etichette associate agli input visivi. In base ai risultati ottenuti, il modello può essere raffinato e ripetere il processo di formazione fino a quando non si ottiene una precisione sufficientemente alta.\\
 L'algoritmo di visione artificiale può essere addestrato, utilizzando diverse tecniche di apprendimento automatico, come l'apprendimento profondo (deep learning), l'apprendimento supervisionato e l'apprendimento non supervisionato. Queste tecniche sono basate su diverse architetture di rete neurale, che utilizzano algoritmi matematici per elaborare i dati visivi e produrre output di alta qualità.\\
 Il codice che è stato utilizzato per realizzare questa funzionalità verrà scomposto in più parti in modo da descriverlo nel dettaglio.
@@ -1144,16 +1329,16 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix, classification_report
 \end{lstlisting}
-Descrizione delle librerie:
+Descrizione delle librerie usate nel codice \ref{lst:librerie_usate}:
 \begin{itemize}
-    \item \textbf{numpy}: è una libreria di alto livello per il calcolo scientifico in Python. Fornisce supporto per array multi-dimensionale, funzioni matematiche e altri strumenti utili per il calcolo numerico.
-    \item \textbf{matplotlib}: è una libreria per la creazione di visualizzazioni dati. Può essere utilizzata per creare grafici e altre forme di rappresentazione visiva dei dati.
-    \item \textbf{pathlib}: è una libreria per lavorare con file system e percorsi. Fornisce un modo semplice per creare, manipolare e lavorare con percorsi di file e directory.
+    \item \textbf{numpy \cite{numpy}}: è una libreria di alto livello per il calcolo scientifico in Python. Fornisce supporto per array multi-dimensionale, funzioni matematiche e altri strumenti utili per il calcolo numerico.
+    \item \textbf{matplotlib \cite{matplotlib}}: è una libreria per la creazione di visualizzazioni dati. Può essere utilizzata per creare grafici e altre forme di rappresentazione visiva dei dati.
+    \item \textbf{pathlib \cite{pathlib}}: è una libreria per lavorare con file system e percorsi. Fornisce un modo semplice per creare, manipolare e lavorare con percorsi di file e directory.
     \item \textbf{os.path}: è un modulo che fornisce funzioni per lavorare con i percorsi dei file in un sistema operativo.
-    \item \textbf{pandas}: è una libreria per l'analisi dei dati in Python. Fornisce strumenti per la manipolazione e l'elaborazione di dati strutturati in forma di tabelle.
-    \item \textbf{seaborn}: è una libreria di visualizzazione dei dati che si basa su matplotlib.
-    \item \textbf{tensorflow}: è una libreria open-source per il machine learning e il deep learning sviluppata da Google. Può essere utilizzata per costruire, addestrare e utilizzare modelli di machine learning e deep learning.
-    \item \textbf{scikit-learn}: è una libreria di machine learning che fornisce un insieme di algoritmi di apprendimento automatico. Le funzioni che vengono utilizzate della libreria sono:
+    \item \textbf{pandas \cite{pandas}}: è una libreria per l'analisi dei dati in Python. Fornisce strumenti per la manipolazione e l'elaborazione di dati strutturati in forma di tabelle.
+    \item \textbf{seaborn \cite{seaborn}}: è una libreria di visualizzazione dei dati che si basa su matplotlib.
+    \item \textbf{tensorflow \cite{tensorflow}}: è una libreria open-source per il machine learning e il deep learning sviluppata da Google. Può essere utilizzata per costruire, addestrare e utilizzare modelli di machine learning e deep learning.
+    \item \textbf{scikit-learn \cite{scikit}}: è una libreria di machine learning che fornisce un insieme di algoritmi di apprendimento automatico. Le funzioni che vengono utilizzate della libreria sono:
     \begin{itemize}
         \item \textbf{train\_test\_split}: viene utilizzata per suddividere i dati in un insieme di addestramento e di test.
         \item \textbf{confusion\_matrix}:  permette di creare una matrice di confusione che mostra le previsioni del modello confrontate con i valori effettivi.
@@ -1167,8 +1352,8 @@ Descrizione delle librerie:
 df = pd.read_csv('../dolphin/train.csv')
 df.head()
 \end{lstlisting}
-Il codice permette di caricare il file CSV denominato "train.csv" in un DataFrame, una struttura di dati tabulare a 2 dimensioni utilizzata per l'analisi dei dati. \\
-La funzione pd.read\_csv() legge i dati dal file CSV e li carica in un oggetto. La seconda riga, df.head(), mostra le prime cinque righe del DataFrame al fine di assicurarsi che tutti i dati siano stati caricati correttamente. Il risultato è il seguente:
+Il codice \ref{lst:Descrizioni_prese} permette di caricare il file CSV denominato "train.csv" in un DataFrame, una struttura di dati tabulare a 2 dimensioni utilizzata per l'analisi dei dati. \\
+La funzione pd.read\_csv() legge i dati dal file CSV e li carica in un oggetto. La seconda riga, df.head(), mostra le prime cinque righe del DataFrame al fine di assicurarsi che tutti i dati siano stati caricati correttamente. Il risultato è la tabella \ref{table:dataframecaricatostrutt}:
 \begin{table}[hbtp]
 \begin{center}
 \begin{tabular}{|
@@ -1185,6 +1370,8 @@ La funzione pd.read\_csv() legge i dati dal file CSV e li carica in un oggetto. 
 {\color[HTML]{000000} 4} & {\color[HTML]{000000} 00087baf5cef7a.jpg} & {\color[HTML]{000000} Balena\_blu} & {\color[HTML]{000000} 8e5253662392} \\ \hline
 \end{tabular}
 \end{center}
+\caption{Struttura del dataframe caricato per l'analisi dei dati.}
+\label{table:dataframecaricatostrutt}
 \end{table}
 \newpage
 \subsubsection{Controllo caricamento e distribuzione delle categorie}
@@ -1195,7 +1382,7 @@ df.species.value_counts().sort_index()
 plt.figure(figsize=(20, 10))
 df['species'].value_counts().sort_values(ascending=True).plot(kind='barh');
 \end{lstlisting}
-La prima riga permette di verificare che siano stati caricati nel DataFrame tutti i dati del file, nella seconda si verifica che il numero di specie (nomi unici) sia corretto. Invece la terza permette di visualizzare tutti i nomi delle specie col relativo numero di immagini ad esse associate.\\
+Nel codice \ref{lst:Controllo_caricamento_dati}, la prima riga permette di verificare che siano stati caricati nel DataFrame tutti i dati del file, nella seconda si verifica che il numero di specie (nomi unici) sia corretto. Invece la terza permette di visualizzare tutti i nomi delle specie col relativo numero di immagini ad esse associate.\\
 Le ultime due righe permettono di disegnare un grafico a barre orizzontali che mostra la distribuzione delle categorie della colonna "species" del DataFrame. In particolare:
 \begin{itemize}
     \item df['species'] seleziona la colonna "species" dal DataFrame.
@@ -1203,11 +1390,12 @@ Le ultime due righe permettono di disegnare un grafico a barre orizzontali che m
     \item sort\_values(ascending=True) ordina i valori in ordine crescente.
     \item plot() disegna il grafico.
 \end{itemize}
-Questo grafico aiuta a visualizzare la distribuzione delle categorie nella colonna species, che è utile per comprendere la quantità e la distribuzione delle diverse categorie presenti nei dati. Il risultato è il seguente:
+Questo grafico aiuta a visualizzare la distribuzione delle categorie nella colonna species, che è utile per comprendere la quantità e la distribuzione delle diverse categorie presenti nei dati. Il risultato è rappresentato nella figura \ref{figura:distribuzione}:
 \begin{figure}[hbtp]
 \centering
 \includegraphics[scale=0.26]{img_concettuale/numEsemp.png}
 \caption{Distribuzione delle categorie nella colonna species.}
+\label{figura:distribuzione}
 \end{figure}
 
 \subsubsection{Associazione immagine etichetta}
@@ -1220,15 +1408,15 @@ labels = pd.Series(labels, name='Label')
 image_df = pd.concat([filepaths, labels], axis=1)
 image_df
 \end{lstlisting}
-In queste righe di codice, si sta creando un DataFrame Pandas che associ a ciascun file immagine un'etichetta.In particolare:
+In queste righe di codice \ref{lst:Associazione_immagine_etichetta}, si sta creando un DataFrame Pandas che associ a ciascun file immagine un'etichetta. In particolare:
 \begin{itemize}
     \item \textbf{image\_dir}: è un oggetto che rappresenta il percorso della directory che contiene le immagini classificate per specie.
     \item \textbf{filepaths}: è una lista che contiene i percorsi completi di ogni file immagine nella directory. La funzione list(image\_dir.glob(r'**/*.jpg')) utilizza la funzione glob per trovare tutti i file con estensione ".jpg" nella directory.
     \item \textbf{labels}: è una lista che contiene le etichette associate a ciascuna immagine. La funzione map()  utilizza la funzione os.path.split() per estrarre il nome della cartella che contiene l'immagine, che viene utilizzato come etichetta per l'immagine.
     \item \textbf{filepaths e labels}: sono entrambi convertiti in oggetti Series di Pandas, che sono array unidimensionali etichettati.
-    \item Infine, i due oggetti sono concatenati insieme per creare un DataFrame.
+    \item Infine, gli oggetti sono concatenati insieme per creare un DataFrame.
 \end{itemize}
-Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei file immagine e l'altra contiene le etichette associate a ciascuna immagine. Questo DataFrame può essere utilizzato per lavorare con i dati delle immagini. Il risultato finale è il seguente:
+Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei file immagine e l'altra contiene le etichette associate a ciascuna immagine. Questo DataFrame può essere utilizzato per lavorare con i dati delle immagini. Il risultato finale è quello riportato in tabella \ref{table:2}:
 \begin{table}[hbtp]
 \begin{center}
 \begin{tabular}{|
@@ -1243,12 +1431,15 @@ Il risultato è un DataFrame che ha due colonne: una contiene i percorsi dei fil
 {\color[HTML]{000000} 51032} & {\color[HTML]{000000} ./train/img51032.jpg} & {\color[HTML]{000000} tursiope} \\ \hline
 \end{tabular}
 \end{center}
+\caption{DataFrame con associazione immagine-etichetta.}
+\label{table:2}
 \end{table}
+
 \subsubsection{Divisione del dataframe}
 \begin{lstlisting}[caption={Divisione del dataframe.}, label={lst:Divisione_dataframe}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 train_df, test_df = train_test_split(image_df, train_size=0.8, shuffle=True, random_state=1)
 \end{lstlisting}
-Nel codice sopra riportato,viene utilizzata la funzione train\_test\_split del pacchetto scikit-learn per dividere un dataframe image\_df in due parti, una chiamata train\_df e l'altra test\_df.\\
+Nel codice sopra riportato \ref{lst:Divisione_dataframe}, viene utilizzata la funzione train\_test\_split del pacchetto scikit-learn per dividere un dataframe image\_df in due parti, una chiamata train\_df e l'altra test\_df.\\
 La funzione train\_test\_split divide un insieme di dati in due parti, una parte di addestramento (train) e una parte di test (test). La dimensione della parte di addestramento è specificata dall'argomento train\_size e viene impostata su 0,8 in questo caso, il che significa che l'80\% dei dati verrà utilizzato per l'addestramento e il restante 20\% verrà utilizzato per i test.\\
 L'argomento shuffle viene impostato su True, il che significa che i dati verranno mescolati casualmente prima della divisione. Questo è importante per garantire una distribuzione casuale dei dati tra la parte di addestramento e quella di test.\\
 L'argomento random\_state viene impostato su 1, il che significa che verrà utilizzato un seme specifico per la generazione di numeri casuali. Questo garantisce che i dati vengano divisi allo stesso modo ogni volta che il codice viene eseguito con lo stesso seme.\\
@@ -1263,11 +1454,18 @@ test_generator = tf.keras.preprocessing.image.ImageDataGenerator(
     preprocessing_function=tf.keras.applications.mobilenet_v2.preprocess_input
 )
 \end{lstlisting}
-Questo codice crea due generatori di immagini, uno chiamato train\_generator e l'altro chiamato test\_generator. Entrambi i generatori sono istanziati dalla classe ImageDataGenerator del pacchetto tf.keras.preprocessing.image.\\
+Il codice \ref{lst:Istanziamento_generatori} crea due generatori di immagini, uno chiamato train\_generator e l'altro chiamato test\_generator. Entrambi i generatori sono istanziati dalla classe ImageDataGenerator del pacchetto tf.keras.preprocessing.image.\\
 La classe ImageDataGenerator viene utilizzata per pre-elaborare i dati delle immagini in modo che possano essere utilizzati come input per una rete neurale. In questo caso, la pre-elaborazione viene effettuata utilizzando la funzione preprocess\_input della libreria tf.keras.applications.mobilenet\_v2. Questa funzione si occupa di normalizzare i valori dei pixel delle immagini in modo che siano adatti per l'utilizzo con la rete neurale MobileNetV2.\\
 Da notare che la funzione preprocess\_input viene passata come argomento preprocessing\_function a entrambe le istanze di ImageDataGenerator. Questo garantisce che sia il generator di addestramento che quello di test vengano pre-elaborati allo stesso modo.\\
+In particolare, per il caso di MobileNetV2 i dati vengono normalizzati col seguente procedimento:
+\begin{enumerate}
+    \item \textbf{Regolazione della gamma dei valori dei pixel:} La funzione preprocess\_input si assicura che i valori dei pixel siano nella gamma corretta, ossia tra 0 e 255, che è il range comune per le immagini RGB con 8 bit per canale.
+    \item \textbf{Sottrazione della media dei pixel delle immagini di addestramento:} Calcola la media dei valori dei pixel per le immagini di addestramento utilizzate per allenare il modello. Successivamente, sottrae questa media da ogni valore del pixel dall'immagine in input. Con lo scopo di centrare i dati intorno a zero, in questo modo la rete neurale può apprendere i modelli in modo più efficace.
+    \item \textbf{Divisione per la deviazione standard dei pixel delle immagini di addestramento:} Calcola la deviazione standard dei valori dei pixel delle immagini di addestramento utilizzate per addestrare il modello. Quindi, ogni valore del pixel nell'immagine di input viene diviso per questa deviazione standard. Questo passaggio scala i dati in modo che abbiano una varianza unitaria, aiutando a ridurre le differenze di scala tra le diverse feature.
+\end{enumerate}
 
-\subsubsection{Creazione di un generatore di immagini da un dataframe}
+\newpage
+\subsubsection{Creazione generatore di immagini da un dataframe}
 \begin{lstlisting}[caption={Creazione del generatore di immagini da un dataframe di addestramento.}, label={lst:Generatore_di_immagini}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 train_images = train_generator.flow_from_dataframe(
     dataframe=train_df,
@@ -1282,7 +1480,7 @@ train_images = train_generator.flow_from_dataframe(
     subset='training'
 )
 \end{lstlisting}
-Questo codice utilizza la funzione flow\_from\_dataframe del generatore di addestramento (train\_generator) per creare un generatore di immagini da un dataframe di addestramento (train\_df). La funzione flow\_from\_dataframe legge le immagini dal file system e le trasforma in un formato utilizzabile per l'addestramento del modello di apprendimento automatico. Gli argomenti passati sono:
+Il codice \ref{lst:Generatore_di_immagini} utilizza la funzione flow\_from\_dataframe del generatore di addestramento (train\_generator) per creare un generatore di immagini da un dataframe di addestramento (train\_df). La funzione flow\_from\_dataframe legge le immagini dal file system e le trasforma in un formato utilizzabile per l'addestramento del modello di apprendimento automatico. Gli argomenti passati sono:
 \begin{itemize}
     \item \textbf{dataframe}: specifica il dataframe di origine per il generatore di immagini.
     \item \textbf{x\_col}: specifica la colonna che contiene il percorso del file per ciascuna immagine.
@@ -1290,13 +1488,13 @@ Questo codice utilizza la funzione flow\_from\_dataframe del generatore di addes
     \item \textbf{target\_size}: specifica le dimensioni delle immagini di destinazione e viene impostato su (224, 224).
     \item \textbf{color\_mode} viene impostato su rgb, il che significa che le immagini verranno lette come immagini a colori.
     \item \textbf{class\_mode}: viene impostato su categorical, il che significa che le etichette verranno restituite come matrici one-hot codificate. Esse sono una rappresentazione numerica delle categorie, ovvero un vettore di lunghezza pari al numero di categorie possibili, in cui solo un elemento è impostato su 1 e gli altri sono impostati su 0.
-    \item \textbf{batch\_size}: specifica il numero di immagini da restituire in un singolo batch (sottoinsieme di dati) e viene impostato in questo caso su 32 .
+    \item \textbf{batch\_size}: specifica il numero di immagini da restituire in un singolo batch (sottoinsieme di dati) e viene impostato in questo caso su 32.
     \item \textbf{seed}: viene impostato su 42, il che significa che verrà utilizzato un seme specifico per la generazione di numeri casuali durante la mescolatura delle immagini.
      \item \textbf{subset}: viene impostato su training, il che significa che il generatore di immagini verrà utilizzato solo per l'addestramento del modello.
 \end{itemize}
 
 \newpage
-\subsubsection{Creazione del generatore di immagini di test}
+\subsubsection{Creazione generatore di immagini di test}
 \begin{lstlisting}[caption={Creazione del generatore di immagini di test.}, label={lst:Generatore_di_immagini_di_test}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 test_images = test_generator.flow_from_dataframe(
     dataframe=test_df,
@@ -1309,9 +1507,9 @@ test_images = test_generator.flow_from_dataframe(
     shuffle=False
 )
 \end{lstlisting}
-Questo codice è quasi identico a quello descritto sopra e crea un generatore di immagini di test per un modello di apprendimento automatico, settando i relativi parametri. 
+Il codice \ref{lst:Generatore_di_immagini_di_test} è quasi identico a quello descritto sopra e crea un generatore di immagini di test per un modello di apprendimento automatico, settando i relativi parametri. 
 
-\subsubsection{Creazione di un modello pre-addestrato di MobileNetV2}
+\subsubsection{Creazione modello pre-addestrato di MobileNetV2}
 \begin{lstlisting}[caption={Modello pre-addestrato di MobileNetV2t.}, label={lst:modello_MobileNetV2}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 pretrained_model = tf.keras.applications.MobileNetV2(
     input_shape=(224, 224, 3),
@@ -1321,7 +1519,7 @@ pretrained_model = tf.keras.applications.MobileNetV2(
 )
 pretrained_model.trainable = False
 \end{lstlisting}
-Questo codice crea un modello pre-addestrato di MobileNetV2 con TensorFlow. Il modello viene creato utilizzando la funzione tf.keras.applications.MobileNetV2 e viene configurato con una forma di input di (224, 224, 3), che corrisponde alla dimensione delle immagini che verranno utilizzate. Per il modello vengono settate le seguenti proprietà:
+Il codice \ref{lst:modello_MobileNetV2} crea un modello pre-addestrato di MobileNetV2 con TensorFlow. Il modello viene creato utilizzando la funzione tf.keras.applications.MobileNetV2 e viene configurato con una forma di input di (224, 224, 3), che corrisponde alla dimensione delle immagini che verranno utilizzate. Per il modello vengono settate le seguenti proprietà:
 \begin{itemize}
     \item \textbf{include\_top}: viene impostata su False, il che significa che la parte superiore del modello, che include i livelli di classificazione, verrà esclusa.
     \item  \textbf{weights}: viene impostata su "imagenet", il che significa che il modello verrà inizializzato con i pesi pre-addestrati sulla base di ImageNet(vasto insieme di dati di immagini).
@@ -1339,11 +1537,11 @@ outputs = tf.keras.layers.Dense(30, activation='softmax')(x)
 model = tf.keras.Model(inputs, outputs)
 print(model.summary())
 \end{lstlisting}
-Il codice definisce un nuovo modello "model" che utilizza come input il modello pre-addestrato. Quindi vengono aggiunti due strati densi alla rete, ognuno con 128 unità e un'attivazione "relu". Gli strati densi sono strati di una rete neurale artificiale che hanno una grande quantità di pesi che sono connessi a ogni neurone dello strato. Questi strati sono utilizzati per elaborare le informazioni provenienti dai livelli precedenti della rete e per produrre un'uscita che rappresenta le caratteristiche più complesse delle immagini. In questo codice, i due strati densi con 128 unità e attivazione "relu" sono stati aggiunti alla rete per estrarre ulteriori informazioni sulle immagini. L'attivazione "relu" è un'attivazione non lineare utilizzata comunemente nei modelli di rete neurale. Questa attivazione restituisce il valore di ingresso se è positivo e restituisce zero se è negativo. Questo rende la rete più efficiente e capace di apprendere relazioni più complesse tra gli input e le relative uscite.\\
+Il codice \ref{lst:aggiunta_strati_densi} definisce un nuovo modello "model" che utilizza come input il modello pre-addestrato. Quindi vengono aggiunti due strati densi alla rete, ognuno con 128 unità e un'attivazione "relu". Gli strati densi sono strati di una rete neurale artificiale che hanno una grande quantità di pesi che sono connessi a ogni neurone dello strato. Questi strati sono utilizzati per elaborare le informazioni provenienti dai livelli precedenti della rete e per produrre un'uscita che rappresenta le caratteristiche più complesse delle immagini. In questo codice, i due strati densi con 128 unità e attivazione "relu" sono stati aggiunti alla rete per estrarre ulteriori informazioni sulle immagini. L'attivazione "relu" è un'attivazione non lineare utilizzata comunemente nei modelli di rete neurale. Questa attivazione restituisce il valore di ingresso se è positivo e restituisce zero se è negativo. Questo rende la rete più efficiente e capace di apprendere relazioni più complesse tra gli input e le relative uscite.\\
 Infine, viene aggiunto un ultimo strato denso con 30 unità e un'attivazione "softmax". Essa produce una distribuzione di probabilità delle classi. Questa attivazione è spesso utilizzata come ultimo strato di una rete neurale, poiché trasforma l'uscita della rete in una probabilità per ogni classe. In questo caso, l'attivazione softmax con 30 unità viene utilizzata come ultimo strato del modello per classificare le immagini in 30 categorie diverse.\\
 Infine, il codice stampa un riepilogo del modello, che fornisce informazioni sul numero di parametri del modello e sulle sue dimensioni.\\
 
-\subsubsection{Compilazione del modello di apprendimento automatico}
+\subsubsection{Compilazione modello di apprendimento automatico}
 \begin{lstlisting}[caption={Compilazione del modello di apprendimento automatico.}, label={lst:compilazione_modello}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 model.compile(
     optimizer='adam',
@@ -1351,31 +1549,31 @@ model.compile(
     metrics=['accuracy']
 )
 \end{lstlisting}
-Il codice è relativo alla compilazione del modello di apprendimento automatico. La compilazione è l'ultimo passo prima di addestrare il modello. Durante la compilazione, si specificano i seguenti parametri:
+Il codice \ref{lst:compilazione_modello} è relativo alla compilazione del modello di apprendimento automatico. La compilazione è l'ultimo passo prima di addestrare il modello. Durante la compilazione, si specificano i seguenti parametri:
 \begin{enumerate}
-    \item \textbf{Ottimizzatore}: 'adam' è un tipo di ottimizzatore che viene utilizzato per la formazione del modello. L'ottimizzatore "Adam" è un ottimizzatore di gradiente estensione della descensione del gradiente stocastico. La descensione del gradiente stocastico (SGD) è un algoritmo di addestramento della rete. Il processo consiste nel trovare i pesi ottimali del modello che minimizzano la funzione di perdita, che misura la differenza tra le previsioni del modello e i valori desiderati. Nella descensione del gradiente stocastico, viene calcolato il gradiente (una misura della pendenza) della funzione di perdita rispetto ai pesi del modello su un singolo esempio o su un piccolo gruppo di esempi (batch) alla volta. Questo gradiente viene quindi utilizzato per aggiornare i pesi del modello nella direzione opposta, in modo da minimizzare la funzione di perdita. Questo processo viene ripetuto più volte su diverse iterazioni fino a quando i pesi non convergono verso un valore ottimale. La descensione del gradiente stocastico è chiamata stocastica perché il gradiente viene calcolato su un singolo esempio o un piccolo gruppo di esempi, anziché sull'intero set di dati, il che rende il processo più efficiente rispetto alla descensione del gradiente batch. Inoltre, l'utilizzo di un singolo esempio o di un piccolo gruppo di esempi a ogni passo può aiutare a evitare di rimanere bloccati in un minimo locale durante il processo di addestramento.
-    \item \textbf{Funzione di perdita}: La funzione di perdita utilizzata è categorical\_crossentropy. Essa è una funzione di perdita utilizzata per la classificazione multi-classe che calcola la distanza tra la distribuzione di probabilità prevista e quella reale.
+    \item \textbf{Ottimizzatore}: 'adam' è un tipo di ottimizzatore che viene utilizzato per la formazione del modello. L'ottimizzatore "Adam" è un ottimizzatore di gradiente estensione della discesa del gradiente stocastico. La discesa del gradiente stocastico (SGD) è un algoritmo di addestramento della rete. Il processo consiste nel trovare i pesi ottimali del modello che minimizzano la loss function, che misura la differenza tra le previsioni del modello e i valori desiderati. Nella discesa del gradiente stocastico, viene calcolato il gradiente (una misura della pendenza) della loss function rispetto ai pesi del modello su un singolo esempio o su un piccolo gruppo di esempi (batch) alla volta. Questo gradiente viene quindi utilizzato per aggiornare i pesi del modello nella direzione opposta, in modo da minimizzare la loss function. Questo processo viene ripetuto più volte su diverse iterazioni fino a quando i pesi non convergono verso un valore ottimale. La discesa del gradiente stocastico è chiamata stocastica perché il gradiente viene calcolato su un singolo esempio o un piccolo gruppo di esempi, anziché sull'intero set di dati, il che rende il processo più efficiente rispetto alla discesa del gradiente batch. Inoltre, l'utilizzo di un singolo esempio o di un piccolo gruppo di esempi a ogni passo può aiutare a evitare di rimanere bloccati in un minimo locale durante il processo di addestramento.
+    \item \textbf{Loss function}: La loss function utilizzata è categorical\_crossentropy. Essa è una loss function utilizzata per la classificazione multi-classe che calcola la distanza tra la distribuzione di probabilità prevista e quella reale.
     \item \textbf{Metriche}: La metrica utilizzata per valutare il modello è 'accuracy', che misura la percentuale di previsioni corrette fatte dal modello.
 \end{enumerate}
 Possiamo dire che la compilazione del modello specifica come il modello dovrebbe essere addestrato, come la perdita dovrebbe essere calcolata e come dovrebbe essere valutato il modello.\\
 
 \newpage
-\subsubsection{Fase di allenamento del modello}
-\begin{lstlisting}[caption={Fase di allenamento del modello.}, label={lst:allenamento_modello}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+\subsubsection{Fase di training del modello}
+\begin{lstlisting}[caption={Fase di training del modello.}, label={lst:training_modello}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 r = model.fit(
     train_images,
     validation_data=test_images,
     epochs=5,
 )
 \end{lstlisting}
-Il codice rappresenta l'allenamento del modello. Il metodo fit accetta i dati di allenamento:
+Il codice \ref{lst:training_modello} rappresenta il training del modello. Il metodo fit accetta i dati di training:
 \begin{itemize}
     \item \textbf{train\_images}:  le immagini che si utilizzano per addestrare il modello.
-    \item \textbf{validation\_data}: fornisce i dati di convalida al modello durante l'allenamento.
-    \item  \textbf{epochs}: specifica il numero di volte che i dati di allenamento verranno presentati al modello durante l'allenamento.
+    \item \textbf{validation\_data}: fornisce i dati di convalida al modello durante il training.
+    \item  \textbf{epochs}: specifica il numero di volte che i dati di training verranno presentati al modello durante l'addestramento.
 \end{itemize}
-Il risultato dell'allenamento viene salvato nella variabile r.
-L'output dell'allenamento del modello, le informazioni sul suo progresso e la sua precisione nelle varie epoche vengono mostrate nella seguente tabella:
+Il risultato dell'addestramento viene salvato nella variabile r.
+L'output dell'addestramento del modello, le informazioni sul suo progresso e la sua precisione nelle varie epoche vengono mostrate nella tabella \ref{table:asdew}:
 
 \begin{table}[hbtp]
 \centering
@@ -1396,18 +1594,19 @@ L'output dell'allenamento del modello, le informazioni sul suo progresso e la su
 {\color[HTML]{374151} 5} & {\color[HTML]{374151} 151s} & {\color[HTML]{374151} 0.2480} & {\color[HTML]{374151} 0.9164} & {\color[HTML]{374151} 0.4433} & {\color[HTML]{374151} 0.8715} \\ \hline
 \end{tabular}%
 }
+\caption{Risultati sul training e sul validation set.}
+\label{table:asdew}
 \end{table}
+\newpage
 I valori che vengono rappresentati nella tabella sono:
 \begin{itemize}
     \item \textbf{Epoch}: Il numero di epoca a cui è arrivato. Un'epoca rappresenta l'elaborazione dell'intero dataset di addestramento. In genere, si eseguono molte epoche di addestramento su un modello di apprendimento automatico per aumentare la sua precisione.
-    \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di allenamento. Gli step di allenamento sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una.
-    \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante l'allenamento. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di allenamento. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione del Training Loss indica un miglioramento del modello e un' adattamento più preciso alle osservazioni di allenamento..
-    \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di allenamento. Viene calcolata come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di allenamento. Esso è utilizzato per valutare la performance del modello durante l'allenamento e per verificare che esso stia effettivamente imparando dai dati di allenamento. Tuttavia, essa non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di allenamento invece che generalizzare davvero le informazioni presenti in essi.
+    \item \textbf{Time}: Tempo totale che ci vuole per completare un singolo step di training. Gli step di training sono il numero di passaggi che il modello compie sull'intero set di dati di addestramento prima di terminare un'epoca. Ogni step di addestramento è costituito da un gruppo di esempi di addestramento chiamati batch. Il numero di step di addestramento per un'epoca è calcolato dividendo il numero totale di esempi di addestramento per il numero di esempi in un singolo batch. Questo significa che, per ogni epoca, il modello si eserciterà su ogni esempio di addestramento una volta e solo una.
+    \item \textbf{Training loss}: è una misura della quantità di errore nel modello durante il training. In altre parole, rappresenta la differenza tra le previsioni del modello e i valori effettivi per le osservazioni di training. Si utilizza come funzione di costo nell'ottimizzazione del modello, dove l'obiettivo è minimizzare questo valore. Una riduzione della Training Loss indica un miglioramento del modello e un adattamento più preciso alle osservazioni di training.
+    \item \textbf{Training accuracy}: è una metrica che misura l'accuratezza della previsione del modello sui dati di training. Viene calcolata come la percentuale di previsioni esatte rispetto al numero totale di previsioni effettuate dal modello sui dati di training. Esso è utilizzato per valutare la performance del modello durante il training e per verificare che esso stia effettivamente imparando dai dati di training. Tuttavia, essa non è un buon indicatore della performance del modello sui dati di test o sui dati nuovi, poiché c'è il rischio che il modello abbia imparato a memoria i dati di training invece che generalizzare davvero le informazioni presenti in essi.
     \item \textbf{Validation loss}: è una metrica utilizzata per valutare la performance del modello durante la validazione. Questa metrica rappresenta la quantità di errore che il modello commette quando prevede le classificazioni per i dati di validazione. Il valore di Validation loss viene calcolato come la media della funzione di costo tra le previsioni effettuate dal modello e le verità di etichetta per i dati di validazione. Più basso è il suo valore, migliore è la capacità del modello di generalizzare su dati nuovi.
     \item \textbf{Validation accuracy}: è una metrica utilizzata per valutare la precisione del modello. Si riferisce alla percentuale di previsioni corrette effettuate dal modello su un set di dati di validazione, che è separato dal set di dati di addestramento. Essa fornisce una misura dell'accuratezza del modello sui dati che non ha ancora visto e quindi fornisce una valutazione più equa della sua capacità di generalizzare su dati nuovi.
 \end{itemize}
-
-\newpage
 \subsubsection{Rappresentazione delle curve di perdita}
 \begin{lstlisting}[caption={Codice per il grafico delle curve di perdita.}, label={lst:curve_perdita}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 plt.plot(r.history['loss'], label='train loss')
@@ -1415,11 +1614,13 @@ plt.plot(r.history['val_loss'], label='val loss')
 plt.legend()
 plt.show()
 \end{lstlisting}
-Questo codice traccia due curve: una rappresenta la perdita(loss) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta la perdita ottenuta dal modello durante la validazione su un insieme di dati di validazione. Il grafico quindi mostra come la perdita del modello varia durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. La funzione plt.plot viene utilizzata per tracciare il grafico, mentre i dati sono forniti dal dizionario r.history che contiene la storia dell'addestramento e della validazione. Il risultato è il seguente:
+Il codice \ref{lst:curve_perdita} traccia due curve: una rappresenta la perdita (loss) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta la perdita ottenuta dal modello durante la validazione su un insieme di dati di validazione. Il grafico quindi mostra come la perdita del modello vari durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. La funzione plt.plot viene utilizzata per tracciare il grafico, mentre i dati sono forniti dal dizionario r.history che contiene la storia dell'addestramento e della validazione. Il risultato è rappresentato nella figura \ref{figura:ssadasdc}.
+\newpage
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.59]{img_concettuale/grpP.png}
-\caption{Perdita(loss) ottenuta dal modello durante l'addestramento (blu) e perdita ottenuta dal modello durante la validazione(arancio).}
+\includegraphics[scale=0.80]{img_concettuale/grpP.png}
+\caption{Perdita (loss) ottenuta dal modello durante l'addestramento (blu) e perdita ottenuta dal modello durante la validazione (arancione).}
+\label{figura:ssadasdc}
 \end{figure}
 
 \subsubsection{Rappresentazione delle curve di accuratezza}
@@ -1429,11 +1630,12 @@ plt.plot(r.history['val_accuracy'], label='val acc')
 plt.legend()
 plt.show()
 \end{lstlisting}
-Questo codice traccia due curve: una rappresenta l'accuratezza (accuracy) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta l'accuratezza ottenuta dal modello durante la validazione su un insieme di dati di validazione. Quindi il grafico mostra come l'accuratezza del modello vari durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. 
+Il codice \ref{lst:curve_accuratezza} traccia due curve: una rappresenta l'accuratezza (accuracy) ottenuta dal modello durante l'addestramento sui dati di training, l'altra rappresenta l'accuratezza ottenuta dal modello durante la validazione su un insieme di dati di validazione. Quindi il grafico, figura \ref{figura:azs}, mostra come l'accuratezza del modello vari durante l'addestramento e la validazione, fornendo informazioni utili per valutare l'andamento del processo di apprendimento e l'efficacia del modello. 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.70]{img_concettuale/grpPP.png}
-\caption{L'accuratezza ottenuta dal modello durante l'addestramento(blu) e l'accuratezza ottenuta dal modello durante la validazione(arancio).}
+\includegraphics[scale=0.80]{img_concettuale/grpPP.png}
+\caption{L'accuratezza ottenuta dal modello durante l'addestramento (blu) e l'accuratezza ottenuta dal modello durante la validazione (arancione).}
+\label{figura:azs}
 \end{figure}
 
 \subsubsection{Significato delle rappresentazioni}
@@ -1445,9 +1647,9 @@ il grafico che rappresenta la perdita, ovvero la misura della discrepanza tra i 
 results = model.evaluate(test_images, verbose=0)
 print("Test Accuracy: {:.2f}%".format(results[1] * 100))
 \end{lstlisting}
-Il codice valuta le prestazioni del modello sui dati di test, utilizzando il metodo \textit{evaluate} del modello. Esso viene invocato passando come input le immagini di test(test\_images) e restituisce una lista di valori, tra cui la perdita (loss) e l'accuratezza (accuracy) ottenute dal modello sui dati di test.
+Il codice \ref{lst:accuratezza_media} valuta le prestazioni del modello sui dati di test, utilizzando il metodo \textit{evaluate} del modello. Esso viene invocato passando come input le immagini di test(test\_images) e restituisce una lista di valori, tra cui la perdita (loss) e l'accuratezza (accuracy) ottenute dal modello sui dati di test.
 Successivamente, il codice stampa a video l'accuratezza ottenuta sul test set.
-Nel nostro caso l'accuratezza ottenuta è quella del 86.95\%.
+Nel nostro caso l'accuratezza ottenuta è del 86.95\%.
 
 
 \subsubsection{Matrice di confusione e report di classificazione}
@@ -1456,10 +1658,11 @@ predictions = np.argmax(model.predict(test_images), axis=1)
 cm = confusion_matrix(test_images.labels, predictions)
 clr = classification_report(test_images.labels, predictions, target_names=test_images.class_indices, zero_division=0)
 \end{lstlisting}
-Il codice prende in input le immagini di test e utilizza il modello addestrato per effettuare le predizioni. In particolare, utilizza il metodo predict del modello per ottenere le predizioni in forma di probabilità, e la funzione argmax di Numpy per ottenere la classe con la probabilità maggiore.\\
+Il codice \ref{lst:matrice_report} prende in input le immagini di test e utilizza il modello addestrato per effettuare le predizioni. In particolare, utilizza il metodo predict del modello per ottenere le predizioni in forma di probabilità, e la funzione argmax di Numpy per ottenere la classe con la probabilità maggiore.\\
 Successivamente, il codice utilizza la matrice di confusione per valutare le prestazioni del modello. La matrice di confusione è una tabella che mostra il numero di predizioni corrette e di predizioni errate del modello per ciascuna classe di appartenenza. In particolare, la variabile cm rappresenta la matrice ottenuta utilizzando le etichette di classe reali e le etichette di classe predette dal modello. La matrice di confusione è rappresentata come una matrice quadrata, in cui ogni riga rappresenta la classe reale e ogni colonna rappresenta la classe predetta. Gli elementi sulla diagonale principale rappresentano il numero di predizioni corrette, mentre gli elementi fuori dalla diagonale principale rappresentano il numero di predizioni errate.\\
 L'ultimo passo del codice utilizza la funzione classification\_report della libreria Scikit-learn per generare un report di classificazione.
-Il report di classificazione, è un resoconto dettagliato delle prestazioni del modello. In particolare, il report fornisce informazioni come l'accuratezza, la precisione, il recall e l'F1-score per ogni classe di appartenenza. L'accuratezza è il rapporto tra il numero di predizioni corrette e il numero totale di predizioni, mentre la precisione è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di predizioni per quella classe. Il recall invece, è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di esempi di quella classe nel dataset di test. Mentre l'F1-score è una media armonica di precisione e recall. Il report di classificazione è un'importante fonte di informazioni per valutare le prestazioni del modello e per identificare le classi in cui il modello presenta maggiori difficoltà. 
+Il report di classificazione, è un resoconto dettagliato delle prestazioni del modello. In particolare, il report fornisce informazioni come l'accuratezza, la precisione, la recall e l'F1-score per ogni classe di appartenenza. L'accuratezza è il rapporto tra il numero di predizioni corrette e il numero totale di predizioni, mentre la precisione è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di predizioni per quella classe. La recall invece è il rapporto tra il numero di predizioni corrette per una classe e il numero totale di esempi di quella classe nel dataset di test. Mentre l'F1-score è una media armonica di precisione e recall. Il report di classificazione è un'importante fonte di informazioni per valutare le prestazioni del modello e per identificare le classi con cui il modello presenta maggiori difficoltà. 
+\newpage
 
 \subsubsection{Visualizzazione della matrice di confusione}
 \begin{lstlisting}[caption={Codice per la visualizzazione della matrice di confusione.}, label={lst:matrice_vista}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1472,28 +1675,40 @@ plt.ylabel("Actual")
 plt.title("Confusion Matrix")
 plt.show()
 \end{lstlisting}
-Il codice disegna una heatmap(mappa di calore) della matrice di confusione, che visualizza graficamente le informazioni contenute nella matrice di confusione in modo più chiaro. In particolare, con l'utilizzo della libreria Seaborn per creare la heatmap, vengono specificati i seguenti parametri: il parametro annot=True per mostrare i numeri all'interno della heatmap, il parametro fmt='g' per formattare i numeri come interi, e il parametro vmin=0 per impostare il valore minimo del range di colori.
-Inoltre, il codice utilizza le funzioni xticks e yticks di Matplotlib per impostare le etichette degli assi x e y con i nomi delle classi di appartenenza, utilizzando il parametro labels e il dizionario test\_images.class\_indices per ottenere i nomi delle classi.
+Il codice \ref{lst:matrice_vista} disegna una heatmap (mappa di calore) della matrice di confusione, che visualizza graficamente le informazioni contenute nella matrice di confusione in modo più chiaro. In particolare, con l'utilizzo della libreria Seaborn per creare la heatmap, vengono specificati i seguenti parametri: il parametro annot=True per mostrare i numeri all'interno della heatmap, il parametro fmt='g' per formattare i numeri come interi, e il parametro vmin=0 per impostare il valore minimo del range di colori.\\
+Inoltre, il codice utilizza le funzioni xticks e yticks di Matplotlib per impostare le etichette degli assi x e y con i nomi delle classi di appartenenza, utilizzando il parametro labels e il dizionario test\_images.class\_indices per ottenere i nomi delle classi.\\
+La matrice di confusione così ottenuta è quella riportata nella figura \ref{figura:mapconf}.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.29]{img_concettuale/matConf.png}
+\includegraphics[scale=0.42]{img_concettuale/matConf.png}
 \caption{Matrice di confusione.}
+\label{figura:mapconf}
 \end{figure}
 
 \subsubsection{Visualizzazione della precisione per ogni specie}
-La precisione di ogni singola specie è riportata nella seguente tabella, in aggiunti sono presenti anche altri indici spiegati in precedenza:
+La precisione di ogni singola specie è riportata nella tabella \ref{table:risultati}, in aggiunta sono presenti anche altri indici spiegati in precedenza:
+
+
 \begin{longtable}{p{0.30\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.13\textwidth}p{0.10\textwidth}}
+\caption{Risultati delle misure di precisione, recall, F1-Score e support per ogni specie.}
+\label{table:risultati} \\
 \toprule
 \textbf{Specie} & \textbf{Precisione} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
 \midrule
 \endfirsthead
 %
+\multicolumn{5}{c}%
+{{\tablename\ \thetable{} -- Continuazione dalla pagina precedente}} \\
+\toprule
+\textbf{Specie} & \textbf{Precisione} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
 \endhead
 %
 \bottomrule
-%\endfoot
+\multicolumn{5}{r}{{Continua nella pagina successiva}} \\
+\endfoot
 %
-%\bottomrule
+\bottomrule
 \endlastfoot
 %
 balaenoptera edeni & 0.86 & 0.25 & 0.39 & 24 \\
@@ -1524,19 +1739,19 @@ steno & 1.00 & 0.08 & 0.15 & 12 \\
 tursiope & 0.82 & 0.94 & 0.87 & 2071 \\
 zifio & 0.65 & 0.46 & 0.54 & 70 \\
 zifio2 & 0.00 & 0.00 & 0.00 & 1 \\
-zifio3 & 0.00 & 0.00 & 0.00 & 2 \\
-zifio4 & 0.00 & 0.00 & 0.00 & 1 \\
 \end{longtable}
 
+Come si può vedere dalla tabella \ref{table:risultati} ci sono valori molto contrastanti tra loro. In particolare si può notare che quando si hanno pochi esempi di training di una determinata specie la precisione risulta estremamente bassa. Oppure potrebbe capitare che alcuni individui molto simili tra loro vengano scambiati, questo è possibile vederlo dalla matrice di confusione \label{figura:matconf}. Un ulteriore aspetto che bisogna tenere in considerazione è la qualità delle immagini, la quale non sempre è ottimale, e questo porta l'algoritmo ad una maggiore possibilità di errore.
+
 \subsection{Fase di riconoscimento dell'immagine}
-In questa fase esamineremo il codice al fine di identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stata implementata, la rete neurale viene addestrata periodicamente in caso di aggiunta di nuove immagini, invece ogni volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
+In questa fase esamineremo il codice per identificare una nuova immagine che passeremo all'algoritmo addestrato al fine di riconoscere la specie. Per come è stata implementata, la rete neurale viene addestrata periodicamente in caso di aggiunta di nuove immagini, invece ogni volta che si vuole utilizzare l'algoritmo bisogna caricare un file nel quale è presente l'addestramento della rete.
 
 \subsubsection{Librerie utilizzate}
-\begin{lstlisting}[caption={Librerie per il riconosciemtno dell'immagine.}, label={lst:librerie_riconoscimento}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
+\begin{lstlisting}[caption={Librerie per il riconoscimetno dell'immagine.}, label={lst:librerie_riconoscimento}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 from keras.models import load_model
 from keras.preprocessing.image import load_img,img_to_array
 \end{lstlisting}
-Queste librerie sono utilizzate per caricare un modello di rete neurale già addestrato (load\_model) e per caricare un'immagine come input per la rete neurale (load\_img,img\_to\_array). La libreria \textit{load\_img} consente di caricare un'immagine in memoria come oggetto PIL (Python Imaging Library), mentre la libreria \textit{img\_to\_array} converte l'oggetto PIL in un array NumPy che può essere utilizzato come input per la rete neurale.
+Le librerie del codice \ref{lst:librerie_riconoscimento} sono utilizzate per caricare un modello di rete neurale già addestrato (load\_model) e per caricare un'immagine come input per la rete neurale (load\_img,img\_to\_array). La libreria \textit{load\_img} consente di caricare un'immagine in memoria come oggetto PIL (Python Imaging Library), mentre la libreria \textit{img\_to\_array} converte l'oggetto PIL in un array NumPy che può essere utilizzato come input per la rete neurale.
 
 \subsubsection{Caricamento della rete neurale}
 \begin{lstlisting}[caption={Codice di caricamento della rete neurale.}, label={lst:caricamento_rete}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1544,7 +1759,7 @@ model1 = load_model('./WCvF.h5',compile=False)
 lab = train_images.class_indices
 lab={k:v for v,k in lab.items()}
 \end{lstlisting}
-Il codice carica il modello salvato precedentemente nel file WCvF.h5 (un file di dati binari che contiene un modello di rete neurale addestrato) e lo assegna ad una variabile model1. Successivamente, crea un dizionario lab che associa i valori numerici alle rispettive classi(in ordine alfabetico) estratte dal modello caricato. Il dizionario è stato creato invertendo la posizione di chiave e valore rispetto al dizionario originale train\_images.class\_indices. Col parametro compile uguale a False il modello non verrà compilato.
+Il codice \ref{lst:caricamento_rete} carica il modello salvato precedentemente nel file WCvF.h5 (un file di dati binari che contiene un modello di rete neurale addestrato) e lo assegna ad una variabile model1. Successivamente, crea un dizionario lab che associa i valori numerici alle rispettive classi (in ordine alfabetico) estratte dal modello caricato. Il dizionario è stato creato invertendo la posizione di chiave e valore rispetto al dizionario originale train\_images.class\_indices. Col parametro compile uguale a False il modello non verrà compilato.
 
 \subsubsection{Funzione di predizione}
 \begin{lstlisting}[caption={Codice della funzione di predizione.}, label={lst:funzione_predizione}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1560,7 +1775,7 @@ def output(location):
     res = lab[y]
     return res
 \end{lstlisting}
-La funzione prende in input la posizione di un'immagine, la carica, la converte in un array di numpy, normalizza i valori del pixel dell'immagine, aggiunge una dimensione per il batch e fa una previsione sulla classe dell'immagine usando un modello preaddestrato \textit{model1}. Attraverso l'utilizzo del dizionario \textit{lab} per mappare l'indice della classe al nome corrispondente viene restituita la sigla della specie predetta dell'immagine.
+La funzione del codice \ref{lst:funzione_predizione} prende in input la posizione di un'immagine, la carica, la converte in un array di numpy, normalizza i valori dei pixel dell'immagine, aggiunge una dimensione per il batch e fa una previsione sulla classe dell'immagine usando un modello preaddestrato \textit{model1}. Attraverso l'utilizzo del dizionario \textit{lab} per mappare l'indice della classe al nome corrispondente viene restituita la sigla della specie predetta dell'immagine.
 
 \subsubsection{Predizione delle immagini}
 \begin{lstlisting}[caption={Codice della predizione delle immagini.}, label={lst:Immagini_predizione}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
@@ -1578,12 +1793,12 @@ for arg in file_list:
     ris = ris + output(img) + "-"
 print(ris)
 \end{lstlisting}
-Le foto vengono passate dentro al contenitore Docker e inserite nella cartella relativa. Attraverso le funzioni di una libreria di sistema vengono catturate le immagini presenti e per ciascuna si elabora l'immagine utilizzando la funzione "output" che restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
+Dal codice \ref{lst:Immagini_predizione} si può notare che le foto vengono passate dentro al contenitore Docker e inserite nella cartella relativa. Attraverso le funzioni di una libreria di sistema vengono catturate le immagini presenti e per ciascuna si elabora l'immagine utilizzando la funzione "output" che restituisce una stringa con il nome della classe predetta per quell'immagine. Alla fine, la funzione restituisce una stringa che contiene i nomi delle classi predette per tutte le immagini passate come argomenti, separate da "-".
 
 \section{Integrazione algoritmo di riconoscimento}
 Il sistema che permette di identificare la specie in un avvistamento è stato integrato con un bottone nella pagina di ogni singolo avvistamento. Quando questo viene premuto, viene aperto un modale e inviate delle sottoimmagini dell'avvistamento. Per la precisione, se sono presenti solo delle foto senza nessuna sottoimmagine, vengono inviate le foto intere, ma questo non permetterà un'alta precisione visto che il sistema è addestrato solo con singole immagini. Se invece l'utente ha creato delle sottoimmagini dell'avvistamento, queste sottoimmagini verranno ritagliate e inviate singolarmente all'algoritmo. Esso processerà tutte le immagini che gli sono state inviate e risponderà con le possibili soluzioni. Se invece non sono presenti immagini il sistema darà un errore.\\
 Per utilizzare le librerie di machine learning citate sopra, il sistema è stato spostato su un server web dell'università con sistema operativo Linux, nel quale è stato installato Docker. Esso è una piattaforma open source che consente di creare e gestire applicazioni in modo indipendente dal sistema operativo sottostante. In pratica, Docker consente di creare degli ambienti virtuali isolati, che includono tutti i componenti necessari per far funzionare un'applicazione come librerie, dipendenze e configurazioni. Nel nostro caso, è stato scelto di utilizzare un container con all'interno un sistema operativo Linux Ubuntu 18.04. In esso è sono stati installati la versione specifica di Python 3.8, e i pacchetti necessari per eseguire un particolare progetto, senza influire sulle altre installazioni presenti sul sistema operativo.\\
-Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vene passato il nome della cartella contenente le immagini. Esso, a sua volta, attiverà il contenitore Docker passandogli i file e farà partire lo script.
+Quindi, all'apertura del modale attraverso l'esecuzione del comando \textit{exec} nel file PHP, viene aperto un terminale a cui vene passato il nome della cartella contenente le immagini. Esso, a sua volta, attiverà il contenitore Docker passandogli i file e farà partire lo script \ref{lst:script_bash}.
 \begin{lstlisting}[caption={Codice script bash.}, label={lst:script_bash}, breaklines, escapechar=`\%, frame=lines, basicstyle=\small\ttfamily, keepspaces=true, numbers=left]
 #!/bin/bash
 cd ../../../../ric
@@ -1592,7 +1807,7 @@ echo $percorso
 docker run -v ${percorso}:/Ric/foto --rm ric_sea
 \end{lstlisting}
 
-\chapter{Documentazione Test}
+\chapter{Test dell'applicazione}
 
 \section{Test con l'utente}
 Al fine di effettuare operazioni di test direttamente con l'utente, si è deciso di creare un prototipo per far interagire direttamente lui sull'intero sistema in beta-release.
@@ -1634,21 +1849,12 @@ I casi di testing in the large presi in considerazione sono:
 
 \subsection{Analisi}
 Analizzare il software consiste nel capire le caratteristiche e le funzionalità.
-L'approccio per l'analisi del software è stato il Code Inspection. In particolare si è posta molta attenzione all'analisi di flusso dei dati.
+L'approccio per l'analisi del software è stata la Code Inspection. In particolare si è posta molta attenzione all'analisi di flusso dei dati.
 Infatti l'evoluzione del valore associato alle variabili durante l'esecuzione del programma è estremamente dinamica. Quindi si è usata la tecnica di associare staticamente ad ogni comando il tipo di operazioni eseguite sulle variabili. In questo modo, si sono ottenute delle sequenze di comandi corrispondenti a possibili esecuzioni, che sono riconducibili staticamente a sequenze di tali operazioni. Queste ultime verranno analizzate al fine di individuare delle possibili anomalie nel programma.
 
 \subsection{Test}
 È stato eseguito sia l'alpha testing (cioè una procedura tramite la quale un software viene testato internamente dallo sviluppatore o dal team di sviluppo), sia il beta testing che invece si riferisce alla fase in cui il software viene testato esternamente dagli utenti prima della sua distribuzione pubblica. Nel primo caso, si è cercato di migliorare al massimo le funzionalità del programma e cercato di risolvere tutti gli eventuali problemi che si sono presentati. Invece nel secondo, il sistema, una volta installato, è stato testato direttamente dagli utenti finali, in modo da poter verificare che tutte le funzionalità fossero presenti e che fossero state implementate correttamente.
 
-\subsubsection{Algoritmo di riconoscimento}
-Per quanto riguarda l'algoritmo di riconoscimento, invece, si è testata la sua precisione con delle immagini prestabilite in modo da controllare che l'output fosse corretto.
-In più è stata verificata la precisione con la seguente formula:
-\begin{equation}
-MAP@5 = \frac{1}{U} \sum_{u=1}^{U} \sum_{k=1}^{min(n,5)} P(k) \times rel(k)
-\end{equation}
-Essa calcola la precisione media dell'elenco dei risultati previsti per un insieme di immagini. In particolare, viene utilizzata la metrica Mean Average Precision @5(MAP@5), che valuta la precisione media dei primi 5 risultati previsti per ogni immagine.
-Nello specifico, n indica il numero di immagini considerate, k indica il numero di previsioni per ogni immagine, e rel(i, j) è una funzione indicatrice che restituisce 1 se l'oggetto i-esimo al rango j è una label rilevante (corretta), altrimenti restituisce 0.
-La precisione alla posizione j per l'immagine i è definita come il numero di previsioni corrette tra le prime j previsioni, diviso j. La precisione media delle prime k previsioni per l'immagine i è quindi la media delle precisioni alle prime k posizioni.
 
 \chapter{Conclusioni}
 Alla fine del mio percorso di studi, ritengo che il progetto che ho appena completato sia stato uno dei più complessi e soddisfacenti tra quelli avviati negli anni. Inizialmente, si trattava solo di un piccolo progetto basato su un mini-server contenente il database e le pagine web. Tuttavia, ho avuto l'opportunità di espandere il progetto in modo significativo, fino a includere un sistema di riconoscimento tramite visione artificiale, librerie e codice per il server web, oltre ad una solida infrastruttura software. Alla fine, il sistema è stato spostato nei server web dell'università dove potrà essere utilizzato da tutti i ricercatori e dai pescatori al fine di documentare gli avvistamenti delle varie specie marine.\\
@@ -1662,11 +1868,51 @@ Il mio percorso universitario mi ha dato l'opportunità di imparare molte cose e
 
 
 \begin{thebibliography}{100}
-\bibitem{1} Khan, K. \& Yadav, A Literature Review on Software Testing Techniques, S. 2022.
-\bibitem{phoenixnap} Jason Potter, Featured Articles, www.liquidweb.com. March 3 2021
+\bibitem{LAMP} LAMP Applications, Ubuntu server, ubuntu.com
+\bibitem{Apache} Apache, Apache HTTP Server Documentation, httpd.apache.org/docs
+\bibitem{MySQL} MySQL, dev.mysql.com/doc/
+\bibitem{PHP} PHP, www.php.net/docs.php
+\bibitem{phoenixnap} Jason Potter, Featured Articles, www.liquidweb.com, March 3 2021
+\bibitem{HTML} HTML, HTML Tutorial, www.w3schools.com/html/default.asp
+\bibitem{Certbot} Certbot, eff-certbot.readthedocs.io/en/stable/
+\bibitem{Let's encrypt} Let's encrypt, letsencrypt.org/docs/
+\bibitem{CSS} CSS, CSS Tutorial, www.w3schools.com/css/default.asp
+\bibitem{Bootstrap} Bootstrap, Introduction, getbootstrap.com
+\bibitem{JavaScript} JavaScript, Introduction, getbootstrap.com
+\bibitem{JQUERY} jQuery, jQuery API, api.jquery.com
 \bibitem{javascript-coder} javascript-coder, Reintroduction To AJAX, www.javascript-coder.com.
+\bibitem{AJAX} AJAX, AJAX Introduction, www.w3schools.com/xml/ajax\_intro.asp
+\bibitem{JSON} JSON, Introducing JSON, www.json.org/json-en.html
+\bibitem{Mailer} PHPmailer, github.com/PHPMailer/PHPMailer
+\bibitem{Leaflet} Leaflet, leafletjs.com/reference.html
 \bibitem{okta} Jason Jung, Password Hashing and Salting, www.okta.com, May 7 2021
+\bibitem{W3C} W3C, W3C standards and drafts, www.w3.org/TR/
+\bibitem{WCAG} WCAG, The WCAG 2 Documents, www.w3.org/WAI/standards-guidelines/wcag/docs/
 \bibitem{antonio} Antonio Giovanni Schiavone, Accessibilità, www.antoniogiovannischiavone.it, 1 Settembre 2016.
+\bibitem{Android} Android, Guide per gli sviluppatori, developer.android.com/docs?hl=it
+\bibitem{Kotlin} Kotlin, Kotlin docs, kotlinlang.org/docs/home.html
+\bibitem{Compose} Jetpack Compose, m3.material.io/develop/android/jetpack-compose
+\bibitem{Material} Material Design, m3.material.io
+\bibitem{Java} Java, Java documentation, docs.oracle.com/en/java/
+\bibitem{Biometric} Biometric, developer.android.com/jetpack/androidx/releases/biometric
+\bibitem{Room} Room, developer.android.com/jetpack/androidx/releases/room
+\bibitem{Okhttp} Okhttp3, Package Okhttp3, javadoc.io/doc/com.squareup.okhttp3/okhttp/3.14.9/okhttp3/\\package-summary.html
+\bibitem{Castle} Castle, An Introduction to Castle, docs.castle.io/docs
+\bibitem{Gson} Gson, Class GSON, www.javadoc.io/doc/com.google.code.gson/gson/2.8.0/com/\\google/gson/Gson.html
+\bibitem{Coil} Coil, coil-kt.github.io/coil/
+\bibitem{Tehras} Tehras-charts, github.com/tehras/charts
+\bibitem{pinnaDelf} Renò, V.; Losapio, G.; Forenza, F.; Politi, T.; Stella, E.; Fanizza, C.; Hartman, K.; Carlucci, R.; Dimauro, G.; Maglietta, R. Combined Color Semantics and Deep Learning for the Automatic Detection of Dolphin Dorsal Fins. Electronics 2020, 9, 758. https://doi.org/10.3390/electronics9050758
+\bibitem{mobileNet} MobileNetV2, Google, TensorFlow, github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet
+\bibitem{imageNet} Deng, J., Dong, W., Socher, R., Li, L. J., Li, K., \& Fei-Fei, L. (2009). ImageNet: A large-scale hierarchical image database. Stanford University. image-net.org/
+\bibitem{dataset} Happywhale. (2022). Happywhale - Whale and Dolphin Identification. Kaggle. www.kaggle.com/competitions/happy-whale-and-dolphin/data
+\bibitem{numpy} NumPy, NumPy documentation, numpy.org/doc/
+\bibitem{matplotlib} Matplotlib, Matplotlib 3.7.1 documentation, matplotlib.org/stable/index.html
+\bibitem{pathlib} Pathlib, Pathlib 3.4 documentation, docs.python.org/3/library/pathlib.html
+\bibitem{pandas} pandas, pandas documentation, pandas.pydata.org/docs/
+\bibitem{seaborn} seaborn, seaborn: statistical data visualization, seaborn.pydata.org
+\bibitem{tensorflow} TensorFlow, API Documentation, www.tensorflow.org/api\_docs
+\bibitem{scikit} scikit-learn, scikit-learn.org/stable
+\bibitem{1} Khan, K. \& Yadav, A Literature Review on Software Testing Techniques, S. 2022.
 \end{thebibliography}
 
 \end{document} 
