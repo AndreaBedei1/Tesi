@@ -94,20 +94,20 @@ fun SightingScreen(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = {showFilterInfoSpecie=false}) {
-                            Text("Chiudi")
-                        }
-                    }
                 }
             },
-            confirmButton = {null}
+            confirmButton = {
+                Row(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = {showFilterInfoSpecie=false}) {
+                        Text("Chiudi")
+                    }
+                }
+            }
         )
     }
 

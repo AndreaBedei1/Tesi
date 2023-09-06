@@ -42,7 +42,8 @@ fun getSpecieFromAniaml(animal : String): List<Speci>{
     }else if(animal == "Foca"){
         return listOf<Speci>(
             Speci("",null),
-            Speci("Comune",null)
+            Speci("Comune",null),
+            Speci("Monaca","Monachus monachus")
 
         )
     }else if(animal == "Razza"){
@@ -84,7 +85,9 @@ fun getSpecieFromAniaml(animal : String): List<Speci>{
         return listOf<Speci>(
             Speci("",null),
             Speci("Pesce Luna","Mola mola"),
-            Speci("Capodoglio","Physeter macrocephalus")
+            Speci("Capodoglio","Physeter macrocephalus"),
+            Speci("Noce di mare","Mnemiopsis leidyi"),
+            Speci("Zifio","Ziphius cavirostris")
         )
     }
 }

@@ -200,7 +200,7 @@ fun SecuritySettings(
                 value = newPassword,
                 onValueChange = { newPassword = it },
                 singleLine = true,
-                label = { Text("Nuova assword") },
+                label = { Text("Nuova password") },
                 visualTransformation =
                 if (newPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
