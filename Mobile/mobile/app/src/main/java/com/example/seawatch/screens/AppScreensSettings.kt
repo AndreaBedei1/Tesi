@@ -3,8 +3,10 @@ package com.example.seawatch
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -408,69 +410,95 @@ fun ProfileSettings(
     var imagesList =(context as MainActivity).getAllSavedImages(currentDateTime)
 
     if(imagesList.isNotEmpty()){
-        val file = File(context.cacheDir, "image.jpg")
-        val outputStream = FileOutputStream(file)
-        lastImageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
-        // restituisci l'URI del file temporaneo
+        val image = Uri.parse(imagesList[0].toString())
+        try {
+            val bitmap: Bitmap =
+                BitmapFactory.decodeStream(
+                    context.contentResolver.openInputStream(
+                        image
+                    )
+                )
+            if(bitmap!=null) {
+                val file =
+                    File(context.cacheDir, "image.jpg")
+                val outputStream = FileOutputStream(file)
+                bitmap?.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    100,
+                    outputStream
+                )
+                outputStream.flush()
+                outputStream.close()
+                // restituisci l'URI del file temporaneo
+                if (file != null) {
+                    val requestUrl =
+                        "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php" // Sostituisci con l'URL del server
+                    val requestBody = MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("user", em)
+                        .addFormDataPart(
+                            "file",
+                            file.name,
+                            file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                        )
+                        .addFormDataPart("request", "addImageProfileMob")
+                        .build()
 
-        val requestUrl = "https://isi-seawatch.csr.unibo.it/Sito/sito/templates/single_sighting/single_api.php" // Sostituisci con l'URL del server
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("user", em)
-            .addFormDataPart(
-                "file",
-                file.name,
-                file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            )
-            .addFormDataPart("request", "addImageProfileMob")
-            .build()
+                    val request = Request.Builder()
+                        .url(requestUrl)
+                        .post(requestBody)
+                        .build()
 
-        val request = Request.Builder()
-            .url(requestUrl)
-            .post(requestBody)
-            .build()
+                    val client = OkHttpClient()
 
-        val client = OkHttpClient()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                errorMessage = e.toString()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val client = OkHttpClient()
-                val formBody = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("user", em)
-                    .addFormDataPart("request", "getUserInfoMob")
-                    .build()
-                val request = Request.Builder()
-                    .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
-                    .post(formBody)
-                    .build()
-
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val body = response.body?.string()
-                        val msg = JSONArray(body.toString())
-                        profilo = try {
-                            "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(0) as JSONObject).get(
-                                "Img"
-                            ).toString()
-                        } catch (e: Exception) {
-                            ""
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            errorMessage = e.toString()
                         }
-                        nome = (msg.get(0) as JSONObject).get("Nome").toString()
-                        cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
-                    }
-                })
+
+                        override fun onResponse(call: Call, response: Response) {
+
+                            val client = OkHttpClient()
+                            val formBody = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("user", em)
+                                .addFormDataPart("request", "getUserInfoMob")
+                                .build()
+                            val request = Request.Builder()
+                                .url("https://isi-seawatch.csr.unibo.it/Sito/sito/templates/main_settings/settings_api.php")
+                                .post(formBody)
+                                .build()
+
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+
+                                    val body = response.body?.string()
+                                    val msg = JSONArray(body.toString())
+                                    profilo = try {
+                                        "https://isi-seawatch.csr.unibo.it/Sito/img/profilo/" + (msg.get(
+                                            0
+                                        ) as JSONObject).get(
+                                            "Img"
+                                        ).toString()
+                                    } catch (e: Exception) {
+                                        ""
+                                    }
+                                    nome = (msg.get(0) as JSONObject).get("Nome").toString()
+                                    cognome = (msg.get(0) as JSONObject).get("Cognome").toString()
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    Log.e("KEYYY", "Errore: un'immagine è null!")
+                }
             }
-        })
+        }catch(e: Exception){
+            Log.e("KEYYY", "Eccezione immagini!")
+        }
         currentDateTime = System.currentTimeMillis().toString()
         imagesList = context.getAllSavedImages(currentDateTime)
     }
@@ -558,7 +586,7 @@ fun ProfileSettings(
                                 .scale(scale)
                         )
                         Spacer(modifier = Modifier.height(med-10.dp))
-                        /*Button(
+                        Button(
                             onClick = {
                                 if( isNetworkAvailable(context)){
                                     (context as MainActivity).requestCameraPermission(currentDateTime.toString())
@@ -570,7 +598,7 @@ fun ProfileSettings(
                             modifier = modifier.widthIn(min = 150.dp)
                         ) {
                             Text("CAMBIA FOTO")
-                        }*/
+                        }
                         Spacer(modifier = Modifier.height(med))
                     }
                 }
@@ -705,7 +733,7 @@ fun ProfileSettings(
                             .fillMaxSize()
                     )
                     Spacer(modifier = Modifier.height(min))
-                    /*Button(
+                    Button(
                         onClick = {
                             if( isNetworkAvailable(context)){
                                 context.requestCameraPermission(currentDateTime.toString())
@@ -718,7 +746,7 @@ fun ProfileSettings(
                         modifier = modifier.widthIn(min = 150.dp)
                     ) {
                         Text("CAMBIA FOTO")
-                    }*/
+                    }
                     Spacer(modifier = Modifier.height(med))
                     TextField(
                         value = nome,
